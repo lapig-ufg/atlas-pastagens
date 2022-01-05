@@ -1,0 +1,40 @@
+{
+	"upload_messages": {
+		"has_not_spatial_file": {
+			"pt": "Esta solicitação não possui um arquivo espacial!",
+			"en": "This request does not have a spatial file!"
+		},
+		"cant_read_file": {
+			"pt": "Não é possível ler seu arquivo!",
+			"en": "It's not possible to read your file!"
+		},
+		"no_spatial_file": {
+			"pt": "Este não é um arquivo espacial!",
+			"en": "This is not a spatial file!"
+		},
+		"cant_extract": {
+			"pt": "Seu arquivo não pôde ser extraído!",
+			"en": "Your file cannot be extracted!"
+		},
+		"cant_parse_file": {
+			"pt": "Não é possível analisar seu arquivo!",
+			"en": "Can't parse your file!"
+		},
+		"suported_files": {
+			"pt": "O upload de arquivo suporta apenas os seguintes tipos de arquivos (.kmz ou .zip).",
+			"en": "File upload only supports the following filetypes (.kmz or .zip)."
+		},
+		"only_one_shp": {
+			"pt": "Detectamos mais de 1 arquivo .shp no arquivo submetido. Por favor envie um arquivo com apenas um único arquivo .shp.",
+			"en": "We detected more than 1 .shp file in the submitted file. Please submit a file with a single .shp file."
+		},
+		"invalid_geojson": {
+			"pt": "O GeoJson enviado é inválido.",
+			"en": "Invalid GeoJson."
+		},
+		"spatial_relation_error": {
+			"pt": "Houve um problema com os cruzamentos especiais.",
+			"en": "There was a problem with the special intersections."
+		}
+	}
+}

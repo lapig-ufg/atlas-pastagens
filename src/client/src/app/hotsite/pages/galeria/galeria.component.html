@@ -1,0 +1,119 @@
+<app-site-base>
+  <!-- inner banner -->
+  <section class="gallery-banner">
+    <div class="w3l-breadcrumb py-5">
+      <div class="container py-xl-5 py-md-4 mt-5">
+        <h4 class="inner-text-title font-weight-bold mb-sm-2">{{'hotsite.gallery.page_title' | translate}}</h4>
+        <ul class="breadcrumbs-custom-path">
+          <li><a href="/">Home</a></li>
+          <li class="active"><i class='bx bx-chevron-right'></i> {{'hotsite.base.header.menu.gallery' | translate}}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- //inner banner -->
+
+  <!-- single post -->
+  <section class="blog-post-main">
+    <div class="blog-content-inf py-5">
+      <div class="container py-md-5 py-4">
+        <div class="blog-posthny-info mx-auto" >
+          <div class="style-title position-relative">
+            <h3 class="title-style mb-sm-3 mb-2">{{'hotsite.gallery.title' | translate}}</h3>
+          </div>
+          <div class="single-post-content">
+            <p class="mb-4">
+              {{'hotsite.gallery.p1' | translate}}
+            </p>
+            <p class="mb-4">
+              {{'hotsite.gallery.p2' | translate}}
+            </p>
+          </div>
+        </div>
+        <div class="mx-auto" >
+          <h5 class="mb-1">{{'hotsite.gallery.search_images.title' | translate}}</h5>
+          <p-multiSelect
+            style="'width: 100%'"
+            [options]="tagsGroup"
+            [(ngModel)]="selectedTags"
+            (ngModelChange)="searchImages($event)"
+            optionLabel="tag"
+            [group]="true"
+            [panelStyle]="{width: '100%'}"
+            defaultLabel="{{'hotsite.gallery.search_images.label' | translate}}"
+            display="chip">
+            <ng-template let-group pTemplate="group">
+              <div class="p-d-flex p-ai-center group-labels">
+                <i class='mr-2 bx bxs-tag-alt'></i>
+                <span><strong>{{group.label}}</strong></span>
+              </div>
+            </ng-template>
+          </p-multiSelect>
+          <div *ngIf="loading" class="loader-container">
+            <div class="loader"></div>
+          </div>
+          <div *ngIf="images.length > 0 && !loading" class="mt-4 mb-2">
+            <p-galleria
+              #galleria
+              [value]="images"
+              [(activeIndex)]="activeIndex"
+              [numVisible]="5"
+              [circular]="true"
+              [showItemNavigators]="true"
+              [responsiveOptions]="responsiveOptions"
+              [containerClass]="galleriaClass()"
+              [showThumbnails]="showThumbnails"
+            >
+              <ng-template pTemplate="item" let-item>
+                <img [src]="'/service/gallery/image/' + item.id +'/' +  + item.id + '.jpg'" [ngStyle]="{'width': !fullscreen ? '100%' : '77rem', 'height': !fullscreen ? '100%' : '54rem', 'display': !fullscreen ? 'block' : '' }"/>
+              </ng-template>
+              <ng-template pTemplate="thumbnail" let-item>
+                <div class="p-grid p-nogutter p-justify-center">
+                  <img [src]="'/service/gallery/thumb/' + item.id +'/' +  + item.id + '.jpg'"/>
+                </div>
+              </ng-template>
+              <ng-template pTemplate="footer" let-item>
+                <div class="custom-galleria-footer">
+                  <span *ngIf="images.length > 0" class="title-container">
+                     <button id="thumbnail" type="button" pButton icon="pi pi-list" (click)="onThumbnailButtonClick()"></button>
+                      <span>{{activeIndex + 1}}/{{images.length}}</span>
+                  </span>
+                  <div *ngIf="images.length > 0 && images[activeIndex]" >
+                    <div class="img-container">
+                      <div *ngIf="images[activeIndex].tag_1 || images[activeIndex].tag_2 || images[activeIndex].tag_3 || images[activeIndex].tag_4">
+                        <div class="img-title">Tags: </div>
+                        <div class="img-tags">
+                          <div *ngIf="images[activeIndex].tag_1" class="img-info-item">{{images[activeIndex].tag_1}}</div>
+                          <div *ngIf="images[activeIndex].tag_2" class="img-info-item"> {{images[activeIndex].tag_2}}</div>
+                          <div *ngIf="images[activeIndex].tag_3" class="img-info-item">{{images[activeIndex].tag_3}}</div>
+                          <div *ngIf="images[activeIndex].tag_4" class="img-info-item">{{images[activeIndex].tag_4}}</div>
+                        </div>
+                      </div>
+                      <div *ngIf="images[activeIndex].lat || images[activeIndex].lon || images[activeIndex].bioma || images[activeIndex].municipio || images[activeIndex].uf || images[activeIndex].data ">
+                        <div class="img-title">{{'hotsite.gallery.img_info.title' | translate}}: </div>
+                        <div class="img-location">
+                          <div *ngIf="images[activeIndex].data" class="img-info-item">{{'hotsite.gallery.img_info.date' | translate}}: {{images[activeIndex].data}}</div>
+                          <div *ngIf="images[activeIndex].lat" class="img-info-item">{{'hotsite.gallery.img_info.lat' | translate}}: {{images[activeIndex].lat}}</div>
+                          <div *ngIf="images[activeIndex].lon" class="img-info-item">{{'hotsite.gallery.img_info.lon' | translate}}: {{images[activeIndex].lon}}</div>
+                          <div *ngIf="images[activeIndex].bioma" class="img-info-item">{{'hotsite.gallery.img_info.biome' | translate}}: {{images[activeIndex].bioma}}</div>
+                          <div *ngIf="images[activeIndex].municipio" class="img-info-item">{{'hotsite.gallery.img_info.municipality' | translate}}: {{images[activeIndex].municipio}}</div>
+                          <div *ngIf="images[activeIndex].uf" class="img-info-item">{{'hotsite.gallery.img_info.uf' | translate}}: {{images[activeIndex].uf}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="images.length > 0" class="img-btn">
+                    <a [href]="'/service/gallery/image/' + images[activeIndex].id +'/' +  + images[activeIndex].id + '_' + images[activeIndex].tag_1.toLowerCase() + '.jpg'"><i class='bx bxs-download'></i></a>
+                    <button type="button" pButton [icon]="fullScreenIcon()" (click)="toggleFullScreen()" class="fullscreen-button"></button>
+                  </div>
+                </div>
+              </ng-template>
+            </p-galleria>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- //single post -->
+
+</app-site-base>

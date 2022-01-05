@@ -1,0 +1,95 @@
+<section id="hotsite">
+<!--header-->
+
+<header id="site-header" class="fixed-top">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg stroke">
+      <a class="navbar-brand" href="/">
+        <img src="../../../../assets/hotsite/images/logos/logo_branco.png" alt="Atlas das Pastagens"
+             title="Atlas das Pastagens Brasileiras"/>
+      </a>
+
+      <button class="navbar-toggler collapsed bg-gradient toggle-menu" type="button" data-toggle="collapse"
+              data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false"
+              aria-label="Toggle navigation">
+        <i class='bx bx-menu'></i>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav ml-lg-auto">
+          <li *ngFor="let itemMenu of menu" [class]="itemMenu.selected ? 'nav-item active' : 'nav-item'" >
+            <a class="nav-link" href="{{itemMenu.href}}">{{itemMenu.title}} <span *ngIf="itemMenu.selected" class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- toggle switch for light and dark theme -->
+<!--      <div class="cont-ser-position">-->
+<!--        <nav class="navigation">-->
+<!--          <div class="theme-switch-wrapper">-->
+<!--            <label class="theme-switch" for="checkbox">-->
+<!--              <input type="checkbox" id="checkbox" [(ngModel)]="checked" (click)="switchTheme($event)">-->
+<!--              <div class="mode-container">-->
+<!--                <i class="gg-sun"></i>-->
+<!--                <i class="gg-moon"></i>-->
+<!--              </div>-->
+<!--            </label>-->
+<!--          </div>-->
+<!--        </nav>-->
+<!--      </div>-->
+      <!-- //toggle switch for light and dark theme -->
+    </nav>
+  </div>
+</header>
+<!--//header-->
+
+<div class="lang">
+  <small class="label">{{'hotsite.lang_label' | translate}}</small>
+  <div (click)="handleLang('pt')" [class]="lang === 'pt' ? 'active': ''">PT</div>
+  <div (click)="handleLang('en')" [class]="lang === 'en' ? 'active': ''">EN</div>
+</div>
+
+<ng-content>
+
+</ng-content>
+
+<!-- footer -->
+<footer class="w3l-footer-22 py-3">
+  <div class="container py-md-4 py-2">
+    <div class="sub-contact mt-3 pt-lg-3">
+      <div class="row">
+        <div class="col-md-4 col-lg-4 footer-contact d-flex align-items-center">
+          <i class='bx bx-envelope' ></i>
+<!--          <span class="fas fa-envelope-open" aria-hidden="true"></span>-->
+          <div>
+            <div>{{'hotsite.base.footer.contact' | translate}}</div>
+            <a href="mailto:atlasdaspastagens.lapig@ufg.br">atlasdaspastagens.lapig@ufg.br</a>
+          </div>
+        </div>
+        <div class="col-md-8 col-lg-8 ">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1313.3249910556574!2d-49.26549190369225!3d-16.60209014884667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935ef34a60843b2b%3A0xf4289e70db9bf43!2sLaborat%C3%B3rio%20de%20Processamento%20de%20Imagens%20e%20Geoprocessamento%20(Lapig)!5e0!3m2!1spt-BR!2sbr!4v1626102136824!5m2!1spt-BR!2sbr"
+            width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- copyright -->
+  <div class=" pt-lg-3 pb-lg-3 copyright-footer text-center">
+    <div class="container">
+      <div class="columns">
+        <img src="../../../../assets/hotsite/images/logos/atlas_partners.png" alt="Atlas das Pastagens"
+             title="Atlas das Pastagens Brasileiras"/>
+        <div>© {{ year }} {{'hotsite.base.footer.copyright' | translate}}</div>
+      </div>
+    </div>
+  </div>
+  <!-- //copyright -->
+</footer>
+<!-- //footer -->
+
+<button onclick="topFunction()" id="movetop" title="Go to top">
+  <i class='bx bx-up-arrow-alt'></i>
+<!--  <span class="fas fa-arrow-up" aria-hidden="true"></span>-->
+</button>
+</section>

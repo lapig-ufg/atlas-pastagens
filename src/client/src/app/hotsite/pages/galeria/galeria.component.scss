@@ -1,0 +1,172 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+:host ::ng-deep .p-multiselect {
+  width: 100%;
+}
+
+:host ::ng-deep .p-galleria-item {
+  background: black;
+}
+
+:host ::ng-deep .p-checkbox .p-checkbox-box.p-highlight .p-checkbox-icon.pi-check:before {
+  top: 8px;
+  left: 2px;
+}
+
+:host ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight {
+  color: $primary;
+  background: rgba($primary, 0.20)
+}
+:host ::ng-deep .p-multiselect.p-multiselect-chip .p-multiselect-token {
+  color: $primary;
+  background: rgba($primary, 0.20)
+}
+
+
+:host ::ng-deep .p-galleria {
+    img{
+      max-width: 100%;
+      max-height: 100%;
+    }
+    &.fullscreen {
+      display: flex;
+      flex-direction: column;
+
+      .p-galleria-content {
+        flex-grow: 1;
+        justify-content: center;
+      }
+    }
+
+    .p-galleria-content {
+      position: relative;
+    }
+
+    .p-galleria-thumbnail-wrapper {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .p-galleria-thumbnail-items-container {
+      width: 100%;
+    }
+
+    .custom-galleria-footer {
+      display: flex;
+      align-items: center;
+      background-color: rgba(0, 0, 0, .9);
+      justify-content: space-between;
+      color: #ffffff;
+      padding: 10px;
+
+
+      button {
+        background-color: transparent;
+        color: #ffffff;
+        border: 0 none;
+        border-radius: 0;
+        margin: .2rem 0;
+
+        &.fullscreen-button {
+          margin-left: auto;
+        }
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+
+    .title-container {
+      span {
+        font-size: .9rem;
+        padding-left: .829rem;
+
+        &.title {
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+:host ::ng-deep .p-multiselect-panel .p-multiselect-items .p-multiselect-item {
+  padding: 0.6rem 0.6rem;
+}
+.group-labels{
+  font-size: 16px;
+  text-transform: uppercase;
+}
+.img-container{
+  font-size: 10px;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  padding: 15px;
+  flex-wrap: wrap;
+
+  .img-tags{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    .img-info-item{
+      padding: 5px;
+      margin-left: 2px;
+      margin-right: 2px;
+      border: 0.5px solid white;
+      border-radius: 3px;
+    }
+  }
+
+  .img-location{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    .img-info-item{
+      padding: 5px;
+      margin-left: 2px;
+      margin-right: 2px;
+      border: 0.5px solid white;
+      border-radius: 3px;
+    }
+  }
+
+  .img-tags-title{
+    margin-right: 5px;
+  }
+}
+.img-btn{
+  display: flex;
+  align-items: center;
+  a{
+    font-size: 20px;
+    margin-top: 6px;
+  }
+}
+
+.title-container{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+@include media('>=phone', '<=tablet') {
+  :host ::ng-deep .p-galleria {
+    .custom-galleria-footer {
+      justify-content: center;
+      flex-wrap: wrap;
+      .img-location{
+        justify-content: flex-start;
+        flex-wrap: wrap;
+      }
+      #thumbnail, .fullscreen-button{
+        display: none;
+      }
+    }
+  }
+}
+

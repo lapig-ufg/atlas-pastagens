@@ -1,0 +1,33 @@
+<div id="upload" class="upload-card">
+    <div class="upload-input">
+        <button pTooltip="{{tooltip}}" class="mat-elevation-z8 btn-upload" mat-fab color="warn" (click)="onClick()" type="button" *ngIf="ddarea" (drop)="dropHandler($event)" (dragover)="dragOverHandler($event)">
+      <mat-icon>cloud_upload</mat-icon>
+    </button>
+    </div>
+    <mat-card *ngIf="showCardError()" class="card-file card-error mat-elevation-z8" color="primary">
+        <div class="msg-error">{{response.msg}}</div>
+    </mat-card>
+
+    <mat-card *ngFor="let file of files" class="mat-elevation-z8" color="primary">
+        <mat-card-subtitle>
+            <div class="filename">
+                {{file.data.name}}
+            </div>
+
+            <div class="file-buttons">
+                <button mat-icon-button color="primary" aria-label="Retry" (click)="retryFile(file)" *ngIf="file.canRetry">
+          <mat-icon>refresh</mat-icon>
+        </button>
+
+                <button mat-icon-button color="primary" aria-label="Cancel" (click)="cancelFile(file)" *ngIf="file.canCancel">
+          <mat-icon>cancel</mat-icon>
+        </button>
+            </div>
+        </mat-card-subtitle>
+        <mat-progress-bar color="accent" *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+        <mat-card *ngIf="response.error" class="card-error mat-elevation-z6" color="primary">
+            <div class="msg-error" [innerHTML]="response.msg"></div>
+        </mat-card>
+    </mat-card>
+    <input type="file" id="fileUpload" name="shapefile" [multiple]="multiple" accept="{{accept}}" style="display:none;" />
+</div>

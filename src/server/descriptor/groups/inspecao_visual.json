@@ -1,0 +1,36 @@
+[
+    {
+        "idGroup": "inspecao_visual_general",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "mapbiomas_1985_2017",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "v_union_tvi_validacao_1985_2017",
+                "types": [
+                    "v_union_tvi_validacao_1985_2017"
+                ]
+            },
+            {
+                "idLayer": "mapbiomas_pontos_classes_raras_85k",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "pontos_classes_raras_85k_mapbiomas",
+                "types": [
+                    "pontos_classes_raras_85k_mapbiomas"
+                ]
+            },
+            {
+                "idLayer": "mapbiomas_col6_2020",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "pontos_validacao_pastagem_mapbiomas_col6",
+                "types": [
+                    "pontos_validacao_pastagem_mapbiomas_col6"
+                ]
+            }
+        ]
+    }
+]

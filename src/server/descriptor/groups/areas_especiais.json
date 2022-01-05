@@ -1,0 +1,64 @@
+[
+    {
+        "idGroup": "areas_especiais",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "terras_indigenas_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "limites_terras_indigenas",
+                "types": [
+                    "limites_terras_indigenas"
+                ]
+            },
+            {
+                "idLayer": "assentamentos_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "assentamentos",
+                "types": [
+                    "assentamentos"
+                ]
+            },
+            {
+                "idLayer": "quilombolas_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "areas_quilombolas",
+                "types": [
+                    "areas_quilombolas"
+                ]
+            },
+            {
+                "idLayer": "ucs_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "pa_br_unidades_conservacao_PI",
+                "types": [
+                    "pa_br_unidades_conservacao_PI",
+                    "pa_br_unidades_conservacao_US"
+                ]
+            },
+            {
+                "idLayer": "areas_militares_br_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "areas_militares_br",
+                "types": [
+                    "areas_militares_br"
+                ]
+            },
+            {
+                "idLayer": "areas_publicas_nao_destinadas_br_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "areas_publicas_nao_destinadas_br",
+                "types": [
+                    "areas_publicas_nao_destinadas_br"
+                ]
+            }
+        ]
+    }
+]

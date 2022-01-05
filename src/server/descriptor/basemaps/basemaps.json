@@ -1,0 +1,15 @@
+[
+    {
+        "idLayer": "basemaps",
+        "labelLayer": "Basemaps",
+        "visible": true,
+        "selectedType": "mapbox",
+        "types": [
+            "mapbox",
+            "mapbox-dark",
+            "google",
+            "roads",
+            "bing"
+        ]
+    }
+]

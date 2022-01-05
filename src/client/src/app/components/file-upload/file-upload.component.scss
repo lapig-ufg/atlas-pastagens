@@ -1,0 +1,86 @@
+@import "src/app/@core/styles/default_theme";
+
+#upload {
+  margin: 20px;
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .file-label {
+    display: inline-flex;
+    vertical-align: middle;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .file-label mat-icon {
+    font-size: 18px;
+    text-align: center;
+  }
+  .space {
+    flex: 1 1 auto;
+  }
+  .file-label a {
+    cursor: pointer;
+  }
+  .color-buttons {
+    background-color: #707070;
+    font-weight: 900;
+  }
+  #drop-zone {
+    width: 90%;
+    height: 100px;
+    border: 6px dashed dimgray;
+    opacity: 0.8;
+    margin: 20px;
+    margin-right: 25px;
+    cursor: pointer;
+    color: dimgray;
+    transition: 0.2s;
+  }
+  #drop-zone:hover {
+    border: 2px dashed $primary;
+    color: lighten($primary, 87%);
+    opacity: 1;
+  }
+  .upload-input {
+    margin: 10px;
+    text-align: center;
+  }
+  .card-file {
+    margin: 20px;
+  }
+  .mat-card-subtitle {
+    font-weight: bold;
+    font-size: 16px;
+    overflow-x: hidden !important;
+    white-space: pre-wrap !important;
+    display: flex;
+    word-break: break-all;
+  }
+  .upload-card {
+    margin: 30px;
+    margin-top: 20px;
+  }
+  .btn-upload {
+    background-color: $primary;
+    color: white;
+  }
+  .msg-error {
+    padding: 2px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    overflow-y: hidden;
+  }
+  .mat-card {
+    overflow: hidden;
+  }
+  .mat-progress-bar {
+    display: grid;
+  }
+  .card-error {
+    background-color: $danger;
+  }
+}

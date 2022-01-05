@@ -1,0 +1,434 @@
+@import "../right-side-bar.component.scss";
+
+@include media('>=phone' , '<=desktop') {
+.layer-card-header {
+    padding:10px;
+  }
+
+  :host ::ng-deep p-paginator .p-dropdown{
+    height:2rem;
+    width:70px;
+    top:-480px !important;
+    left:90px;
+    display:none !important;
+  }
+  .graphicTitle{
+    position:unset !important;
+  }
+  .details-inner{
+    display:inline !important;
+  }
+   .matButton{
+     display:none;
+   }
+   .hide{
+     display:none;
+   }
+  // :host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label{
+  //   font-size:9px;
+  //   margin:0;
+  //   padding:7px;
+  // }
+
+  // :host ::ng-deep .p-dropdown .p-inputtext, .p-dropdown .p-dropdown-trigger{
+  //   width:20px !important;
+  // }
+
+  // :host ::ng-deep .p-dropdown-panel .p-dropdown-items:not(.p-dropdown-virtualscroll) {
+  //   font-size:9px !important;
+  //   width:10px;
+  // }
+
+  // :host ::ng-deep .p-dropdown .p-dropdown-panel {
+  //   min-width:43px;
+  // }
+
+  .layer-merge{
+    margin-bottom:11px;margin-top:10px;margin-left:5px;margin-right:5px;
+  }
+
+  .layer-card-header {
+    background: lighten($primary, 60%);
+    border-radius:5px;
+    padding:0px;
+
+    h5 {
+
+      width: 100%;
+    }
+
+  }
+
+  .title {
+    padding-bottom: 8px;
+    padding-top: 8px;
+    transition: 0.6s ease all;
+    margin: 5px;
+    color: white;
+    text-align: center;
+    background: $primary;
+    border-radius: 5px;
+  }
+
+  .margin{
+    margin-bottom:15px;
+  }
+
+
+  .divReportButton{
+    display:inline;
+    width:90% !important;
+    text-align:center;
+  }
+
+
+  .reportButton{
+
+    font-size:19px;
+
+  }
+
+  .inline{
+    display:inline;
+  }
+  .myIcon{
+   position:absolute;
+   display:inline;
+   margin-top:-200px;
+  }
+
+  :host ::ng-deep .p-tabview-panels {
+    padding:5px;
+    margin:0px;
+  }
+
+  :host ::ng-deep .p-paginator {
+    //display:grid !important;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size:8px;
+  }
+
+  :host ::ng-deep p-paginator .p-dropdown{
+    height:2rem;
+  }
+
+  :host ::ng-deep .p-paginator .p-dropdown .p-dropdown-label{
+    font-size:14px;
+    margin:0;
+    padding:7px;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-last {
+    font-size:12px !important;
+  }
+
+
+  :host ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+    font-size:15px !important;
+    height: 2rem;
+    margin:1px !important;
+    min-width:4px !important;
+
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-next{
+    min-width:4px !important;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-prev{
+    min-width:4px !important;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-first{
+    min-width:4px !important;
+
+  }
+  :host ::ng-deep .p-paginator .p-paginator-last{
+    min-width:4px !important;
+  }
+
+  :host ::ng-deep .p-paginator-left-content {
+    display:none;
+  }
+
+  :host ::ng-deep .p-paginator-right-content{
+    display:none;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > td{
+
+    font-size:11px;
+  }
+
+  :host ::ng-deep .p-datatable .p-datatable-tbody > tr{
+
+    font-size:11px;
+  }
+
+  :host ::ng-deep .p-paginator .p-paginator-current{
+    height: 1.5rem;
+    font-size:13px;
+    width:100%;
+    margin: unset;
+    padding: unset;
+  }
+
+   :host ::ng-deep  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+     background: unset;
+     color: $primary;
+   }
+
+  :host ::ng-deep .p-datatable .p-datatable-thead > tr > th{
+    font-size:11px;
+  }
+
+  :host ::ng-deep .p-sidebar-right{
+    width:321px;
+    border: none;
+  }
+  .group-card {
+    position: relative;
+    margin-right: 6px;
+    margin-left: 6px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+    border-radius: 5px;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+    overflow: hidden;
+    perspective: 800px;
+    transform-style: preserve-3d;
+    transition: .6s ease all;
+  }
+
+  .abstract,
+  .details {
+    $bg: rgba(white, 1);
+    width: 100%;
+    position: relative;
+    background: $bg;
+
+    .group-card:hover & {
+      background: darken($bg, 2%);
+    }
+  }
+
+  .abstract {
+    z-index: 10;
+    transition: .6s ease all;
+    padding: 8px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+
+    .group-label {
+      font-size: 13px;
+      margin-left: 2px;
+    }
+
+    i {
+      color: black !important;
+      line-height: unset !important;
+      height: unset !important;
+      font-size: 18px !important;
+      min-width: unset !important;
+    }
+
+    span {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .details {
+    max-height: 0;
+    padding: 0;
+
+    overflow: hidden;
+    visibility: hidden;
+
+    transform: rotateX(-180deg);
+    transform-origin: top center;
+    backface-visibility: hidden;
+    transition: .6s ease all;
+
+    //&:before {
+    //  content: '';
+    //  display: block;
+    //  position: absolute;
+    //  top: 0;
+    //  left: 10%;
+    //  right: 10%;
+    //  height: 1px;
+    //  background: grey;
+    //}
+  }
+
+  .group-card-active {
+    transition: .6s ease all;
+    //border: 1px solid $primary;
+    transform: scale(1.0);
+    .details {
+      max-height: none;
+      overflow: visible;
+      visibility: visible;
+      transform: rotateX(0deg);
+    }
+  }
+
+  .details-inner{
+    padding: 8px;
+  }
+
+  .layer-card {
+    box-shadow: 0 .25rem .25rem rgba(0,0,0,0.2), 0 0 1rem rgba(0,0,0,0.2);
+    border-radius: 5px;
+    & * {
+      font-size: 0.9rem;
+    }
+  }
+
+  :host ::ng-deep .p-sidebar-header{
+   // background-color: $primary;
+  }
+  :host ::ng-deep .p-sidebar-content{
+   // background-color: $primary;
+  }
+  :host ::ng-deep .p-sidebar-close-icon{
+   // color:white;
+  }
+
+  //alterando posição botão close rightsidebar
+  :host ::ng-deep .p-sidebar-close {
+    position: absolute;
+    top:0px; right:0;
+}
+
+  //tamanho do scroll horizontal da tabela
+  :host ::ng-deep ::-webkit-scrollbar {
+    height:8px !important;
+  }
+
+  .chart-region {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    padding:10px;
+    color: #070606;
+  }
+
+  .title-region {
+    padding:10px;
+    width: 100%;
+
+    font-size: 36pt;
+    width: calc(100%);
+
+    text-align: center;
+    display: table;
+
+
+    font-size: 30pt;
+    background-color: $primary;
+    color: #f7f3f3;
+  }
+
+    .title-section{
+    font-size:30px;
+    font-family:Arial, Helvetica, sans-serif;
+    width:100%;
+    }
+    .legend{
+      position: fixed;
+      top: 45%;
+      right: -31px;
+      border: 0;
+      padding: 5px 12px;
+      font-size: 15px;
+      color: white;
+      background: $primary;
+      border-radius: 15px 15px 0 0;
+      z-index: 9;
+      transform: rotate(-90deg);
+      transition: all .5s ease;
+      cursor: pointer;
+      &:hover{
+        color: $primary;
+        background: white ;
+      }
+
+    }
+
+    //Legendas
+    .yellow {
+      background-color:yellow;
+    }
+    .green {
+      background-color: rgb(68, 238, 68);
+    }
+    .orange {
+      background-color: orange;
+    }
+    //Fim legendas
+
+    //Switchs Buttons
+    .inlineSwitchButton{
+      display: inline;
+    }
+    //End Switchs buttons
+
+
+    :host ::ng-deep .tabview-custom {
+      i, span {
+        vertical-align: middle;
+      }
+
+      span {
+        margin: 0 .5rem;
+      }
+    }
+
+
+    :host ::ng-deep .p-tabview-nav-link {
+      -moz-box-shadow: none !important;
+      -webkit-box-shadow: none !important;
+      box-shadow: none !important;
+
+      /* background: lighten($primary, 10%) !important;
+      color:white !important;
+      outline-color:white !important;*/
+
+    /*outline-color: transparent;
+      outline-style: none;
+      outline: 0 none !important;
+      outline-offset: 0 !important;
+      box-shadow: 0 0 0 0 !important;
+      border:none !important;
+      border-right: none !important; */
+    }
+
+
+    .toggle{
+      padding: 10px;
+    }
+
+
+
+/* :host ::ng-deep .p-tabview-nav {
+  background: lighten($primary, 10%) !important;
+}
+
+:host ::ng-deep .p-tabview-panels {
+  background: lighten($primary, 10%) !important;
+}
+*/
+  .resumo-container-mobile{
+    .resumo-card{
+      margin: 14px;
+    }
+  }
+}

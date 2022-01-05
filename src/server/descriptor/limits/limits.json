@@ -1,0 +1,14 @@
+[
+    {
+        "idLayer": "limits",
+        "labelLayer": "translate",
+        "visible": true,
+        "selectedType": "estados",
+        "types": [
+            "estados",
+            "municipios",
+            "biomas",
+            "limites_cartas_ibge"
+        ]
+    }
+]

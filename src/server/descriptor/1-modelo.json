@@ -1,0 +1,37 @@
+[
+    {
+        "id": "group_id",
+        "label": "Should be declared with property the same name used in 'group_id' in client/locales/pt-en.json inside descriptor_labels.groups.'group_id'.label_group",
+        "group_expanded": false,
+        "order": 1,
+        "layers": [
+            {
+                "id": "general_layer_id",
+                "label": "Should be declared with property the same name used in 'general_layer_id' in client/locales/pt-en.json inside descriptor_labels.groups.'group_id'.layers.'id'.label_layer",
+                "visible": true,
+                "selectedType": "Name of the selected layertype, should be the same of the Mapserver layer",
+                "types": [
+                    {
+                        "value_type": "Name of the layer in Mapserver",
+                        "type": "Declare type of group layer: 'layer', 'basemap' or 'limit'. Default: 'layer'",
+                        "typeLayer": "Declare type of Layer: vectorial or raster",
+                        "viewValueType": "Can be directly assigned (Ex. 'Planet'), or inform 'translate' which should be declared with property the same name used in 'value' in client/locales/pt-en.json inside descriptor_labels.groups.'group_id'.layers.'id'.label_layer.types.'value'.viewValueType. ",
+                        "typeLabel": "Label of Type in Layer. Values: 'type', 'quantity', 'source', 'area_planted', 'production'",
+                        "filterLabel": "Label of filter in Layer. Values: 'type', 'quantity', 'source', 'area_planted', 'production'",
+                        "columnsCSV": "List of csv Columns to export.",
+                        "filterSelected": "value of array of filters selected.",
+                        "filterHandler": "Should be 'msfilter' or 'layername'. Default is 'msfilter'",
+                        "filters": [
+                            {
+                                "value_filter": "filter applied in the layer. Ex 'year=2020'",
+                                "viewValueFilter": "Show direct value or inform 'translate' to search in labels.layertype[layer_value].filter[filter_value].Viewvalue"
+                            }
+                        ],
+                        "downloadSHP": true,
+                        "downloadCSV": false
+                    }
+                ]
+            }
+        ]
+    }
+]

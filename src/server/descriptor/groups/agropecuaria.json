@@ -1,0 +1,38 @@
+[
+    {
+        "idGroup": "agropecuaria",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "pecuaria_censitaria",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "lotacao_bovina_regions",
+                "types": [
+                    "lotacao_bovina_regions",
+                    "n_kbcs_regions"
+                ]
+            },
+            {
+                "idLayer": "floresta_plantada",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "floresta_plantada_mapbiomas",
+                "types": [
+                    "floresta_plantada_mapbiomas"
+                ]
+            },
+            {
+                "idLayer": "lavoura_mapbiomas",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "lavoura_perene_mapbiomas",
+                "types": [
+                    "lavoura_perene_mapbiomas",
+                    "lavoura_temporaria_mapbiomas"
+                ]
+            }
+        ]
+    }
+]

@@ -1,0 +1,36 @@
+[
+    {
+        "idGroup": "areas_declaradas",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "propriedades_rurais",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "geo_car_imovel",
+                "types": [
+                    "geo_car_imovel"
+                ]
+            },
+            {
+                "idLayer": "reserva_legal_br_layer",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "reserva_legal_br",
+                "types": [
+                    "reserva_legal_br"
+                ]
+            },
+            {
+                "idLayer": "planejamento_hidrico",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "unidades_planejamento_hidrico",
+                "types": [
+                    "unidades_planejamento_hidrico"
+                ]
+            }
+        ]
+    }
+]

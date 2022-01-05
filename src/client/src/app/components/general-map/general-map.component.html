@@ -1,0 +1,307 @@
+<section class="" [class]="openMenu ? 'open map-container' : 'map-container' ">
+  <div [class]="classes">
+    <ol-map [lat]="-16.6958288" [lon]="-49.4443537" [zoom]="4.6" [width]="'100%'" [height]="'100vh'" [loading]="loadingMap"
+      (onReady)="setMap($event)">
+
+      <ol-control class="mobileHide" control="FullScreen" [options]="{ source:'main'}">
+      </ol-control>
+      <ol-control control="ScaleLine" [options]="options">
+      </ol-control>
+      <ol-control control="mouseposition" [options]="mousePositionOptions">
+      </ol-control>
+      <ol-control control="Zoom">
+      </ol-control>
+
+      <!-- add layers-->
+      <ol-layer *ngFor="let layer of layers" [layer]="layer"></ol-layer>
+
+      <ol-map-marker *ngIf="!showFormPoint && lat && lon" [lat]="lat" [lon]="lon"
+        [text]="'Lat: ' + lat + '\nLon: ' + lon">
+      </ol-map-marker>
+
+      <div *ngIf="showFormPoint" class="search-point">
+        <div class="search-point-container">
+          <span class="p-float-label">
+            <input type="number" id="lat" pInputText [(ngModel)]="lat">
+            <label for="lat">Latitude</label>
+          </span>
+          <span class="p-float-label">
+            <input type="number" id="lon" pInputText [(ngModel)]="lon">
+            <label for="lat">Longitude</label>
+          </span>
+          <i (click)="searchPoint()" class='fg-location-on fg-lg'></i>
+        </div>
+      </div>
+      <div class="coordinates">
+        <div class="coordinates-container">
+          <i (click)="showFormPoint = !showFormPoint" tooltipPosition="left" [pTooltip]="'map.find_point' | translate"
+            class='fg-search-poi fg-lg'></i>
+          <div id="coordinates-label" class="mouse-position"></div>
+        </div>
+      </div>
+      <div *ngIf="this.selectedLayers.length > 0"  [class]="legendExpanded ? 'legends' : 'legends legends-expanded'">
+        <div class="legends-container">
+          <div class="legends-header">
+            <h5>{{'legend.title' | translate}}</h5>
+            <i  [pTooltip]="legendExpanded? localizationService.translate('minimize') : localizationService.translate('maximize')" (click)="legendExpanded = !legendExpanded" [class]="legendExpanded ? 'bx bx-collapse' : 'bx bx-expand'"></i>
+          </div>
+          <div class="legends-body" cdkDropList (cdkDropListDropped)="drop($event)">
+            <div *ngFor="let layer of selectedLayers" cdkDrag
+              [class]="layer.visible ? 'legend-card legend-card-active' :'legend-card'">
+              <div class="legend-card-content">
+                <div  class="abstract">
+                  <span>
+                    <i tooltipPosition="left" pTooltip="{{'legend.move' | translate}}" class='bx bx-move'></i>
+                    <div class="legend-label" tooltipPosition="left" pTooltip="{{layer.get('key') === 'planet' ? localizationService.translate('planet') : layer.get('label')}}">
+                      {{ layer.get('key') === 'planet' ? localizationService.translate('planet') : layer.get('label') }}
+                    </div>
+                    <div class="legend-tools">
+                      <i tooltipPosition="left" [pTooltip]="localizationService.translate('sld.title')" (click)="downloadSLD(layer.get('descriptorLayer'))" class="bx bxs-download"></i>
+                      <i (click)="layer.visible = !layer.visible" tooltipPosition="left" [pTooltip]="layer.visible? localizationService.translate('minimize') : localizationService.translate('maximize')" [class]="layer.visible  ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
+                    </div>
+                  </span>
+                </div>
+                <div class="details">
+                  <div *ngIf="layer.get('descriptorLayer').filterHandler === 'layername'; else noFilters" class="details-inner">
+                    <img
+                      src="{{env.OWS}}/ows?EXCEPTIONS=application%2Fvnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetLegendGraphic&layer={{layer.get('descriptorLayer').filterSelected}}&format=image%2Fpng"
+                      alt="{{layer.get('key')}}">
+                  </div>
+                  <ng-template #noFilters>
+                    <div class="details-inner">
+                      <img
+                        src="{{env.OWS}}/ows?EXCEPTIONS=application%2Fvnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetLegendGraphic&layer={{layer.get('key')}}&format=image%2Fpng"
+                        alt="{{layer.get('key')}}">
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="controls-container">
+          <i class="mobileHide" pRipple [pTooltip]="'controls.swipe' | translate"
+            [class]="mapControls.swipe ? 'fg-flip-h control-active' : 'fg-flip-h'"
+            (click)="onSwipe()"></i>
+          <i pRipple [pTooltip]="'controls.point' | translate"
+            [class]="mapControls.point ? 'fg-location-poi-o control-active' : 'fg-location-poi-o'"
+            (click)="onPoint()"></i>
+          <i pRipple [pTooltip]="'controls.draw' | translate"
+            [class]="mapControls.drawArea ? 'fg-polygon-pt control-active' : 'fg-polygon-pt'" (click)="onPolygon()"></i>
+          <i pRipple [pTooltip]="'controls.measure' | translate"
+            [class]="mapControls.measure ? 'fg-measure control-active' : 'fg-measure'" (click)="onRuler()"></i>
+          <i pRipple [pTooltip]="'controls.measureArea' | translate"
+            [class]="mapControls.measureArea ? 'fg-measure-area control-active' : 'fg-measure-area'"
+            (click)="onRulerArea()"></i>
+          <i pRipple [pTooltip]="'controls.reset_zoom' | translate" class="bx bx-x "
+             (click)="updateRegion(defaultRegion)"></i>
+          <i pRipple [pTooltip]="'controls.clear' | translate" class="bx bxs-trash"
+             (click)="onClearGeometries()"></i>
+<!--          <i pRipple [pTooltip]="'controls.print' | translate"-->
+<!--            [class]="mapControls.print ? 'bx bxs-file-pdf control-active' : 'bx bxs-file-pdf'"></i>-->
+        </div>
+      </div>
+      <div *ngIf="controlOptions" class="controls-details">
+        <div class="controls-details-header">
+          <h5>{{'controls.details.title' | translate}}</h5>
+          <i (click)="closeDetailsWindow()" class='bx bx-x-circle'></i>
+        </div>
+        <div class="controls-details-body">
+          <div *ngIf="mapControls.swipe" class="controls-details-card">
+            <div class="controls-details-card-title">{{'controls.swipe' | translate}}</div>
+            <div class="controls-details-card-body">
+              <span>
+                <p-autoComplete
+                  (onClear)="onClearSwipe()"
+                  [appendTo]="'body'"
+                  [placeholder]="'controls.details.swipe_placeholder' | translate"
+                  [(ngModel)]="valueSwipe"
+                  [suggestions]="swipeOptions"
+                  (onSelect)="onSwipeSelectedLayer($event)"
+                  (completeMethod)="search($event)"
+                  field="name"
+                >
+                  <ng-template let-layer pTemplate="item">
+                    <div class="autocomplete-option">{{layer.name}}</div>
+                  </ng-template>
+                </p-autoComplete>
+                <div class="controls-details-card-body-actions">
+                  <i *ngIf="valueSwipe" [pTooltip]="'controls.details.clear' | translate" class='bx bx-trash' (click)="onClearSwipe()"></i>
+                </div>
+              </span>
+              <div class="layer-card-body" *ngIf="swipeLayer.visible">
+                <div class="layer-card-content">
+                  <span *ngIf="swipeLayer.selectedTypeObject!.filters" class="p-float-label">
+                    <p-dropdown id="type-filters-{{swipeLayer.selectedTypeObject!.filterSelected}}" *ngIf="swipeLayer.selectedTypeObject!.filters" [options]="swipeLayer.selectedTypeObject!.filters"
+                                [(ngModel)]="swipeLayer.selectedTypeObject!.filterSelected" (onChange)="changeLayerVisibility({layer: swipeLayer.selectedTypeObject, updateSource: true})"
+                                optionLabel="viewValueFilter" optionValue="valueFilter"></p-dropdown>
+                    <label for="type-filters-{{swipeLayer.selectedTypeObject!.filterSelected}}">{{swipeLayer.selectedTypeObject!.filterLabel}}</label>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="mapControls.search" class="controls-details-card">
+            <div class="controls-details-card-title">{{'controls.search' | translate}}</div>
+            <div class="controls-details-card-body">
+              <div id="search-options" class="search-options">
+                <div class="search-options-title nf">
+                  {{'controls.filter_texts.search_lateral_title' | translate}}
+                </div>
+                <mat-button-toggle-group appearance="legacy" #group="matButtonToggleGroup"
+                  [(ngModel)]="selectedSearchOption" (change)="onChangeSearchOption()">
+                  <mat-button-toggle *ngFor="let option of searchOptions" value="{{option.value}}"
+                    aria-label="{{option.label}}">
+                    <mat-icon>{{option.icon}}</mat-icon> {{option.label}}
+                  </mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+              <span>
+                <p-autoComplete
+                  (onClear)="onClearFilter($event)"
+                  [appendTo]="'body'"
+                  [placeholder]="textsComponentesFilters.search_placeholder"
+                  [(ngModel)]="selectedAutoCompleteText"
+                  [suggestions]="listForAutoComplete"
+                  (completeMethod)="obtainSearchSuggestions($event)"
+                  (onSelect)="onSelectSuggestion($event)"
+                  [emptyMessage]="textsComponentesFilters.search_failed"
+                  [showEmptyMessage]="true"
+                  field="text" styleClass="wid100"
+                >
+                  <ng-template let-result pTemplate="item">
+                    <div class="autocomplete-option">{{result.text}}</div>
+                  </ng-template>
+                </p-autoComplete>
+                <i *ngIf="selectedAutoCompleteText?.text" [pTooltip]="'controls.details.clear' | translate"
+                  class='close bx bx-x-circle' (click)="updateRegion(defaultRegion)"></i>
+              </span>
+            </div>
+          </div>
+          <div *ngIf="(mapControls.drawArea || this.mapControls.point) && features.length > 0"
+            class="controls-details-card">
+            <div class="controls-details-card-title">{{'controls.draw_area.title' | translate}}</div>
+            <div class="controls-details-card-body">
+              <div class="features grid">
+                <div class="card-feature col-fixed" *ngFor="let feat of features; let i = index"
+                  (mouseenter)="onHoverFeature(feat)" (mouseleave)="onHoverFeature(feat, true)">
+                  <div class="card-feature-title">
+<!--                    <span>{{feat.get('id')}}</span>-->
+                    <span translate="controls.draw_area.feature.{{feat.getGeometry().getType().toLowerCase()}}"></span>
+                  </div>
+                  <div class="card-feature-actions">
+<!--                    <i class='bx bx-plus-medical' (click)="onAddPropertyFeature(i, feat)"></i>-->
+                    <i class='bx bx-trash remove' pTooltip="{{'controls.draw_area.feature.remove_feature' | translate}}" (click)="onRemoveFeature(i, feat)"></i>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="features.length > 0" class="features-actions">
+                <div pRipple class="btn-action btn-save" (click)="onSave()">
+                  <i class='bx bx-save'></i>
+                  <span>{{'controls.draw_area.save' | translate}}</span>
+                </div>
+                <div pRipple class="btn-action btn-cancel" (click)="onCancel()">
+                  <i class='bx bx-trash'></i>
+                  <span>{{'controls.draw_area.cancel' | translate}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="loadingMap" class="map-loading"></div>
+      <div [hidden]="popupRegion.coordinate.length == 0 && loadingMap" #wfsCard id="popup" class="ol-popup">
+        <div class="popup-header">
+          <h5>{{'popup-info.title' | translate | uppercase}}</h5>
+          <i id="popup-closer" [pTooltip]="localizationService.translate('popup-info.close')" (click)="closePopup()" class="bx bx-x bx-lg"></i>
+        </div>
+        <div class="popup-body" *ngIf="featureCollections.length > 0" >
+          <div *ngFor="let featureCollection of featureCollections"
+               [class]="featureCollection.expanded ? 'legend-card legend-card-active' :'legend-card'">
+            <div class="legend-card-content">
+              <div (click)="featureCollection.expanded = !featureCollection.expanded; $event.stopPropagation()" class="abstract">
+                  <span>
+                    <div class="legend-label">
+                      {{ featureCollection.layerType.viewValueType }}
+                    </div>
+                    <i tooltipPosition="left" [pTooltip]="featureCollection.expanded? localizationService.translate('minimize') : localizationService.translate('maximize')" [class]="featureCollection.expanded  ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
+                  </span>
+              </div>
+              <div class="details">
+                <div class="details-inner">
+                  <div class="details-row" *ngFor="let attribute of featureCollection.layerType.wfsMapCard.attributes">
+                    <div class="details-row-header">{{attribute.label}}: </div>
+                    <div class="details-row-content">{{getAttributeValue(attribute.columnType, featureCollection.features[0].properties[attribute.column]) }}</div>
+                  </div>
+                  <div *ngIf="gallery.length! > 0" class="gallery-btn">
+                    <button
+                      (click)="displayGallery = !displayGallery"
+                      pButton
+                      pRipple
+                      type="button"
+                      label="{{'gallery.btn' | translate}}"
+                      class="p-button-raised p-button-text p-button-plain ">
+                      <i class='bx bx-photo-album' ></i>
+                    </button>
+                  </div>
+                  <div>
+                    <p-dialog
+                      header="{{'gallery.dialog_title' | translate}}"
+                      [maximizable]="true"
+                      [draggable]="false"
+                      [resizable]="false"
+                      [appendTo]="'body'"
+                      [modal]="true"
+                      [style]="{width: isMobile ? '98vw' : '45vw'}"
+                      [(visible)]="displayGallery">
+                      <p-tabView  *ngIf="gallery.length! > 0">
+                        <p-tabPanel header="{{galeria.title}}" *ngFor="let galeria of gallery ; let i = index" [selected]="i == 0"
+                                    [disabled]="!galeria.show" [headerStyle]="{'font-size': 'small'}">
+                          <div *ngIf="galeria.items.length > 0">
+                            <p-galleria
+                              [value]="galeria.items"
+                              [(activeIndex)]="galeria.activeIndex"
+                              [responsiveOptions]="galleryResponsiveOptions"
+                              [showItemNavigators]="galeria.items.length > 1"
+                              [showThumbnails]="galeria.key !== 'videos_drone'"
+                              [containerStyle]="{'max-width': '100%'}"
+                              [numVisible]="5"
+                              (activeIndexChange)="loadVideo(galeria.key)"
+                            >
+                              <ng-template pTemplate="item" let-item>
+                                <img *ngIf="item.type === 'image'" [src]="item.url" style="width: 100%;" />
+                                <video #video *ngIf="item.type === 'video'" controls style="width:100%;">
+                                  <source [src]="item.url" type="video/mp4">
+                                  Your browser does not support the video tag.
+                                </video>
+                              </ng-template>
+                              <ng-template  pTemplate="thumbnail" let-item>
+                                <div *ngIf="item.type === 'image'" class="p-grid p-nogutter p-justify-center">
+                                  <img [src]="item.url" style="width: 60px; height: 60px;"  />
+                                </div>
+                              </ng-template>
+                            </p-galleria>
+                          </div>
+                        </p-tabPanel>
+                      </p-tabView>
+                    </p-dialog>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="popupRegion.coordinate.length > 0" class="popup-footer">
+          <span *ngFor="let attribute of popupRegion.attributes">
+            {{attribute.label}}: <strong>{{getAttributeValue(attribute.columnType, popupRegion.properties[attribute.column])}}</strong>
+          </span>
+          <span>{{'popup-info.lat' | translate}}: <strong>{{popupRegion.coordinate[1] | number:'1.0-4':'en-US'}}</strong></span>
+          <span>{{'popup-info.lon' | translate}}: <strong>{{popupRegion.coordinate[0] | number:'1.0-4':'en-US'}}</strong></span>
+        </div>
+      </div>
+    </ol-map>
+  </div>
+  <p-toast></p-toast>
+</section>

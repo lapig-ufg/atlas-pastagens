@@ -1,0 +1,19 @@
+[
+    {
+        "idGroup": "imagens",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "satelite",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "planet",
+                "types": [
+                    "planet",
+                    "sentinel"
+                ]
+            }
+        ]
+    }
+]
