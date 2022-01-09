@@ -397,6 +397,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       }
 
     ];
+    
     this.graticule = new Graticule({
       stepCoord: 1,
       margin: 5,
@@ -421,6 +422,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         return c.toFixed(1) + "°"
       }
     });
+
     this.compass = new Compass({
       className: "top",
       rotateWithView: true,

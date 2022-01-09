@@ -405,57 +405,6 @@ table tr{
     }
   }
 }
-
-//.ol-popup:after, .ol-popup:before {
-//  top: 100%;
-//  border: solid transparent;
-//  content: " ";
-//  height: 0;
-//  width: 0;
-//  position: absolute;
-//  pointer-events: none;
-//}
-
-//.ol-popup:after {
-//  border-top-color: rgba(22, 38, 35, 0.6);
-//  border-width: 10px;
-//  left: 48px;
-//  margin-left: -10px;
-//}
-
-//.ol-popup:before {
-//  border-top-color:rgba(22, 38, 35, 0.6);
-//  border-width: 11px;
-//  left: 48px;
-//  margin-left: -11px;
-//}
-
-//.ol-popup h2 {
-//  margin-top: 0;
-//}
-//
-//.ol-popup .latitude {
-//  margin-bottom: 0;
-//}
-//
-//.ol-popup-closer {
-//  text-decoration: none !important;
-//  position: absolute;
-//  top: 2px;
-//  right: 8px;
-//}
-//
-//.ol-popup-closer:after {
-//  content: "✖";
-//}
-
-//.ol-popup .ol-popup-info {
-//  background-color: #fff;
-//  opacity: 1;
-//  color: black;
-//  border: 1px solid #000;
-//}
-
 .map .ol-tooltip-measure:before,
 .map .ol-tooltip-static:before {
   border-top: 6px solid rgba(0, 0, 0, 0.5);

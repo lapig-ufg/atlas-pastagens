@@ -54,6 +54,7 @@ export class GaleriaComponent implements OnInit {
     private localizationService: LocalizationService,
   ) {
     this.displayBasic = true;
+    this.showThumbnails = true;
   }
 
   ngOnInit() {

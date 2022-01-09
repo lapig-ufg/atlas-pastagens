@@ -268,6 +268,7 @@ export class LeftSideBarComponent implements AfterViewInit {
     if (option.key === 'compass' && !option.checked) {
       option.showLines = false;
     }
+    this.map.updateSize();
   }
 
   createCompass(showLines: number): Compass {

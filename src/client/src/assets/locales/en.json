@@ -534,7 +534,8 @@
         "infrastructure_analyst": "Infrastructure Analyst",
         "development_analyst": "Systems Development Analyst",
         "database_analyst": "Database Analyst and Developer",
-        "coordinator": "Coordinator"
+        "coordinator": "Coordinator",
+        "statistician": "Statistician"
       },
       "differential": {
         "title": "Diferencial",
