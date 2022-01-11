@@ -1,7 +1,7 @@
 {
-    "name": "plataforms-base",
+    "name": "atlas-pastagens",
     "version": "0.1.0",
-    "description": "Plataforms base application",
+    "description": "Atlas das Pastagens Brasileiras",
     "main": "app.js",
     "dependencies": {
         "adm-zip": "^0.5.9",
