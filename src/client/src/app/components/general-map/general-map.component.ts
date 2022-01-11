@@ -30,13 +30,11 @@ import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
 import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
-import Text from "ol/style/Text";
 import { RulerAreaCtrl, RulerCtrl } from "../../@core/interactions/ruler";
 import { SelectItem, PrimeNGConfig, MessageService, Message } from 'primeng/api';
 import { LayerSwipe } from "../../@core/interfaces/swipe";
 import { AreaService } from '../services/area.service';
 import Swipe from 'ol-ext/control/Swipe';
-import Graticule from 'ol-ext/control/Graticule';
 import Compass from 'ol-ext/control/Compass';
 import { transformExtent, transform } from 'ol/proj';
 import pdfMake from 'pdfmake/build/pdfmake';
@@ -102,7 +100,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public layers = [] as any[];
   public selectedLayers = [] as any[];
   public limits = [] as any[];
-  public graticule: Graticule;
   public compass: Compass;
   public map: any;
   public _descriptor: Descriptor;
@@ -397,31 +394,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       }
 
     ];
-    
-    this.graticule = new Graticule({
-      stepCoord: 1,
-      margin: 5,
-      style: new Style({
-        fill: new Fill({
-          color: 'rgb(255,255,255)',
-        }),
-        stroke: new Stroke({
-          color: 'rgb(0,0,0)',
-          lineDash: [.1, 5],
-          width: 0.14,
-        }),
-        text: new Text({
-          font: 'bold 10px Montserrat',
-          offsetY: 20,
-          fill: new Fill({ color: 'rgb(0,0,0)' }),
-          stroke: new Stroke({ color: 'rgb(255,255,255)', width: 1 })
-        })
-      }),
-      projection: 'EPSG:4326',
-      formatCoord: function (c) {
-        return c.toFixed(1) + "°"
-      }
-    });
 
     this.compass = new Compass({
       className: "top",

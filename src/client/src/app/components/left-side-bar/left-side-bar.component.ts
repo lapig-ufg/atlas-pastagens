@@ -237,7 +237,6 @@ export class LeftSideBarComponent implements AfterViewInit {
       //   checked: false
       // }
     ];
-
     this.lang = this.localizationService.currentLang();
     this.innerHeigth = window.innerHeight - 180;
     this.cdRef.detectChanges();
@@ -260,15 +259,14 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   onChangeOption(option) {
+
     if (option.checked) {
       this.map.addControl(option.control);
     } else {
-      this.map.removeControl(option.control)
+      this.map.removeControl(option.control);
     }
-    if (option.key === 'compass' && !option.checked) {
-      option.showLines = false;
-    }
-    this.map.updateSize();
+
+    // this.map.updateSize();
   }
 
   createCompass(showLines: number): Compass {

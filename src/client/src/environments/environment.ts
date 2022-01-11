@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  APP_NAME: 'App Base',
+  APP_NAME: 'Atlas das Pastagens',
   production: false,
   GTAG: 'UA-215301850-1',
   OWS_API: 'https://ows.lapig.iesa.ufg.br/api',

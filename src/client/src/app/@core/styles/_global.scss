@@ -278,8 +278,6 @@ table tr{
   .ol-popup {
     min-width:260px;
   }
-
-
 }
 
 @include media('>=desktop') {
@@ -444,6 +442,12 @@ table tr{
     transition: unset;
     background: rgba($primary, 0.40);
     z-index: 1000;
+  }
+}
+
+.ol-viewport {
+  .ol-fixedoverlay {
+    all: inherit;
   }
 }
 
