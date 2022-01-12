@@ -1,0 +1,38 @@
+# Build initial image
+ARG IMAGE_NODE_ALPINE_VERSION=node:14-alpine3.15 
+
+FROM ${IMAGE_NODE_ALPINE_VERSION} as builder
+
+LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
+
+RUN /bin/sh -c "apk add --no-cache bash" && \
+    apk update && apk add curl wget git vim htop python3 py3-pip busybox-extras figlet && \
+    npm install -g @angular/cli@8 
+
+SHELL ["/bin/bash", "-c"]
+
+WORKDIR /APP
+
+# Build final image
+FROM ${IMAGE_NODE_ALPINE_VERSION} as runner
+
+LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
+
+COPY --from=builder  /usr/bin/ /usr/bin/
+COPY --from=builder  /usr/lib/ /usr/lib/
+COPY --from=builder  /usr/share/ /usr/share/
+
+RUN apk add git && /bin/sh -c "apk add --no-cache bash"
+
+SHELL ["/bin/bash", "-c"]
+
+WORKDIR /APP
+
+# Clone app and npm install on server
+ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
+ENV BRANCH="develop"
+
+RUN mkdir -p /APP && \
+    cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
+    cd /APP/atlas-pastagens/src/server && npm install && \ 
+    echo 'figlet -t "Lapig Docker App-Base"' >> ~/.bashrc 
