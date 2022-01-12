@@ -1,4 +1,4 @@
-FROM registry.lapig.iesa.ufg.br/lapig-images-homol/atlas-pastagens:latest
+FROM registry.lapig.iesa.ufg.br/lapig-images-homol/atlas-pastagens:base
 
 LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
 
