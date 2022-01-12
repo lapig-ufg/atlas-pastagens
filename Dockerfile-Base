@@ -22,17 +22,8 @@ COPY --from=builder  /usr/bin/ /usr/bin/
 COPY --from=builder  /usr/lib/ /usr/lib/
 COPY --from=builder  /usr/share/ /usr/share/
 
-RUN apk add git && /bin/sh -c "apk add --no-cache bash"
+RUN apk add git && /bin/sh -c "apk add --no-cache bash" && mkdir -p /APP
 
 SHELL ["/bin/bash", "-c"]
 
 WORKDIR /APP
-
-# Clone app and npm install on server
-ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
-ENV BRANCH="develop"
-
-RUN mkdir -p /APP && \
-    cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
-    cd /APP/atlas-pastagens/src/server && npm install && \ 
-    echo 'figlet -t "Lapig Docker App-Base"' >> ~/.bashrc 
