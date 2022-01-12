@@ -1,6 +1,6 @@
 # Build initial image
 ARG IMAGE_NODE_ALPINE_VERSION=node:14-alpine3.15 
-
+#teste
 FROM ${IMAGE_NODE_ALPINE_VERSION} as builder
 
 LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
