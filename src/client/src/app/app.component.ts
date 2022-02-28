@@ -7,7 +7,7 @@ import { environment } from "../environments/environment";
   styleUrls: []
 })
 export class AppComponent implements OnInit{
-  title = 'Base Application';
+  title = environment.APP_NAME;
   constructor(private primengConfig: PrimeNGConfig) {
     const head = document.getElementsByTagName('head')[0];
     let googleTagURL = document.createElement('script');

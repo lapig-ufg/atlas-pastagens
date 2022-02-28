@@ -64,7 +64,7 @@
         "zlib": "^1.0.5"
     },
     "scripts": {
-        "start": "NODE_ENV=dev always app-cluster.js",
+        "start-server": "ssh -f root@$IP_LASERV_PROD -L 5435:localhost:5432 -N -p 2522; ssh -p 2522 -f root@$IP_LASERV_PROD -L 27019:localhost:27017 -N; NODE_ENV=dev always app-cluster.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": "",

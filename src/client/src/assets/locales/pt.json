@@ -530,9 +530,11 @@
       },
       "team": {
         "title": "Equipe",
-        "researcher_analyst": "Pesquisador e Analista Socioambiantal",
+        "researcher_analyst": "Pesquisador(a) e Analista Socioambiental",
+        "research_assistant": "Pesquisadora Assistente",
         "project_manager": "Gestora de Projetos",
         "infrastructure_analyst": "Analista de Infraestrutura",
+        "devops_analyst": "Analista DevOps",
         "development_analyst": "Analista de Desenvolvimento de Sistemas",
         "database_analyst": "Analista de Banco de Dados e Desenvolvedor",
         "coordinator": "Coordenador",
@@ -615,7 +617,7 @@
       },
       "1": {
         "title": "Shaping the Brazilian landscape: a process driven by land occupation, large-scale deforestation, and rapid agricultural expansion.",
-        "abstract": "Neste estudo apresentamos, com base em um desenho amostral inédito e na interpretação de 85.152 pontos amostrais em imagens Landsat, as estimativas de área das principais classes de cobertura e uso da terra no Brasil, bem como suas transições anuais, de 1985 a 2018. Nossos resultados indicam que, dos 850 Mha que compõem o território nacional, 294,2 Mha ± 1,44% estavam antropizados em 2018, com ~34% dessa área convertida após 1985. Nesse período, houve uma perda de 98,2 Mha ± 2,27% de vegetação natural, e aumento de 55,1 Mha ± 0,64% nas áreas de pastagem e 28,2 Mha ± 0,29% nas áreas de lavouras anuais."
+        "abstract": "In this study we present, based on an unprecedented sample design and interpretation of 85,152 sample points in Landsat images, the area estimates of the main land cover and land use classes in Brazil, as wellas their annual transitions, from 1985 to 2018."
       },
       "2": {
         "title": "Biomassa seca estimada em áreas de pastagens com dados de sensoriamento remoto: Estudo de caso na bacia hidrográfica do Rio Vermelho.",
