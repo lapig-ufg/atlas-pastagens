@@ -14,7 +14,6 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { GoogleAnalyticsService } from "../components/services/google-analytics.service";
 import {FilterPipe} from "../@core/pipes";
-
 @NgModule({
   imports: [
     CommonModule,
