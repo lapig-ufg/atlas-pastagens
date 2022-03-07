@@ -24,9 +24,7 @@ app.database.client.init(function () {
 
     app.use((req, res, next) => {
         const options = {
-            "origin": [
-                "*"
-            ],
+            "origin": "*",
             "methods": "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
             "preflightContinue": false,
             "optionsSuccessStatus": 204
