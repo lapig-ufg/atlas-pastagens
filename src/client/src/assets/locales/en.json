@@ -554,10 +554,10 @@
       "p2": "Currently, the platform provides access to six databases: (1) mapping of lands used for pastures in Brazil; (2) mapping of quality of those pastures; (3) mapping of pastures carbon stocks in the Cerrado biome; (4) information on the Brazilian cattle herd analyzed from municipalities survey of livestock (IBGE); (5) time series of land use and land cover classification through visual inspection of Landsat satellites data; (6) ground truth data of pastures condition obtained through field campaigns carried out by Lapig’s teams."
     },
     "gallery": {
-      "page_title": "Galeria de imagens das Pastagens",
-      "title": "Imagens das Pastagens Brasileiras",
-      "p1": "O Atlas das Pastagens disponibiliza um diversificado e representativo acervo com fotos das pastagens brasileiras. São registros de pastos em diferentes níveis de qualidade ou degradação, respectivamente influenciados por condições de clima, solo, relevo e manejo.",
-      "p2": "Essa galeria é constituída do material fotográfico proveniente das várias atividades de campo realizadas pelo Laboratório de Processamento de Imagens e Geoprocessamento (LAPIG/UFG). Viagens realizadas com diferentes propósitos, mas com o objetivo comum de explorar e registrar as características e as particularidades encontradas nas distintas pastagens e paisagens do Brasil.",
+      "page_title": "Photo Gallery of Brazilian Pastures",
+      "title": "Photos of Brazilian Pastures",
+      "p1": "The Pastures Atlas provides a diversified and representative collection of photos of the Brazilian pastures. They are records of pastures at different quality or degradation levels, those being influenced by climate, soil, relief and management techniques.",
+      "p2": "This gallery is made up of photographic material from the various field activities carried out by the Image Processing and Geoprocessing Laboratory (LAPIG/UFG). Trips undertaken over different purposes, but with the common objective of exploring and recording the characteristics and particularities found in the different pastures and landscapes of Brazil.",
       "search_images": {
         "title": "Search Images",
         "label": "Select a tag to search the images"
@@ -656,7 +656,7 @@
       },
       "11": {
         "title": "Increasing importance of precipitation variability on global livestock grazing lands. Nature Climate Change",
-        "abstract": "***Neste estudo, avaliamos as ameaças climáticas às pastagens globais, com um foco específico nas mudanças na variabilidade da precipitação dentro e entre os anos (índice de concentração de precipitação (PCI) e coeficiente de variação de precipitação (CVP), respectivamente)."
+        "abstract": "In this study, we assess climate threats to global pastures, with focus on changes in precipitation variability within and between years (precipitation concentration index (PCI) and precipitation coefficient of variation (CVP), respectively)."
       },
       "12": {
         "title": "Monitoring the brazilian pasturelands: A new mapping approach based on the landsat 8 spectral and temporal domains",

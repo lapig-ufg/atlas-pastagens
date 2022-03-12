@@ -24,13 +24,12 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "ol/",
-              "/ol/format/MVT.js",
-              "geotiff/src/source/blockedsource.js",
-              "geotiff/src/geotiffimage.js",
               "geotiff",
               "@mapbox/geojson-extent",
-              "pdfmake/build/pdfmake"
+              "pdfmake/build/pdfmake",
+              "xml-utils/find-tags-by-name",
+              "lru-cache",
+              "pbf"
             ],
             "outputPath": "dist/client",
             "index": "src/index.html",
