@@ -1078,16 +1078,20 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const name = this.getFileName(parameters);
 
+    const zipCsvLayers = ['pasture_quality_col6_s100', 'pasture_col6_s100'];
+
+    const extension = zipCsvLayers.includes(layer.valueType) ? '.zip' : '.csv';
+
     this.downloadService.downloadRequest(parameters).toPromise()
       .then(blob => {
-        saveAs(blob, name + '.csv');
+        saveAs(blob, name + extension);
         layer.download.loading = false;
       }).catch(error => {
         this.messageService.add({
           life: 2000,
           severity: 'error',
           summary: this.localizationService.translate('left_sidebar.layer.down_error_title'),
-          detail: this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: name + '.csv' })
+          detail: this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: name + extension })
         });
         layer.download.loading = false;
       });
