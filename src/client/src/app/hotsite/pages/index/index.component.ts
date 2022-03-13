@@ -1,4 +1,6 @@
 import {Component, ElementRef, ViewChild,ChangeDetectorRef, AfterViewInit} from '@angular/core';
+import {LocalizationService} from "../../../@core/internationalization/localization.service";
+import {LangChangeEvent} from "@ngx-translate/core";
 
 declare var $;
 
@@ -18,11 +20,17 @@ export class IndexComponent implements  AfterViewInit {
   public scritps = [
     'https://www.youtube.com/iframe_api'
   ];
+  lang: string;
 
   @ViewChild('owl') owl: ElementRef;
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService) {
+    this.lang = this.localizationService.currentLang();
+  }
 
   ngAfterViewInit(): void {
+    this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.lang = langChangeEvent.lang;
+    });
 
     const currentTheme = localStorage.getItem('theme');
 
