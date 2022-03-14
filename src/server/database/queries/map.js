@@ -21,7 +21,13 @@ module.exports = function (app) {
         return [{
             source: 'general',
             id: 'search',
-            sql: "SELECT distinct concat_ws(' - ', text , uf) as text, value, type FROM regions_geom WHERE unaccent(text) ILIKE unaccent(${key}%) AND type NOT in ('country') LIMIT 10",
+            sql: "With priority_search AS ("
+                + " SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 1 AS priority FROM regions_geom "
+                + "WHERE unaccent(text) ILIKE unaccent(${key})  AND type NOT in ('country') "
+                + "UNION ALL "
+                + "SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 2 AS priority FROM regions_geom "
+                + "WHERE unaccent(text) ILIKE unaccent(${key}%) AND type NOT in ('country') )"
+                + "select * from priority_search order by priority asc limit 10",
             mantain: true
         }]
 
