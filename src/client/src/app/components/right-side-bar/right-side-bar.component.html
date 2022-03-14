@@ -31,13 +31,15 @@
               </div>
               <div class="resumo-card">
                 <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}}</div>
-                <div class="resumo-card-content">{{infoResumo.pasture.area | number:'1.2-3' }} ha ({{infoResumo.pasture.percentOfRegionArea}}
+                <div class="resumo-card-content">{{infoResumo.pasture.area | number:'1.2-3' }} ha
+                  ({{infoResumo.pasture.percentOfRegionArea}}
                   {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
               </div>
               <div class="resumo-card">
                 <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}}</div>
                 <div class="resumo-card-content">
-                  <div class="resumo-card-content" *ngFor="let cl of infoResumo.pasture_quality" [style]="'border-radius: 5px; margin: 5px; background: ' + cl.color">
+                  <div class="resumo-card-content" *ngFor="let cl of infoResumo.pasture_quality"
+                    [style]="'border-radius: 5px; margin: 5px; background: ' + cl.color">
                     <div class="resumo-card-title-content">{{cl.classe}}</div>
                     <div class="resumo-card-content">{{cl.value | number:'1.2-3'}} ha ({{cl.percentAreaPasture}}
                       {{'right_sidebar.resumo_card.complement_text_pasture_quality' | translate}} e
@@ -48,7 +50,8 @@
               </div>
               <div class="resumo-card">
                 <div class="resumo-card-title">Obs. </div>
-                <div class="resumo-card-content obs" [innerHTML]="'right_sidebar.resumo_card.obs_text' | translate"></div>
+                <div class="resumo-card-content obs" [innerHTML]="'right_sidebar.resumo_card.obs_text' | translate">
+                </div>
               </div>
             </div>
           </div>
@@ -69,7 +72,7 @@
             <div *ngIf="chartsArea1.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
-            <p-tabView  *ngIf="chartsArea1.length! > 0">
+            <p-tabView *ngIf="chartsArea1.length! > 0">
               <p-tabPanel header="{{chart.title}}" *ngFor="let chart of chartsArea1 ; let i = index" [selected]="i == 0"
                 [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
                 <div class="margin">
@@ -100,7 +103,7 @@
           <i [class]="expandGroups.area2 ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
         </div>
         <div class="details">
-          <div class="details-inner" >
+          <div class="details-inner">
             <div *ngIf="chartsArea2.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
@@ -135,7 +138,7 @@
           <i [class]="expandGroups.area3 ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
         </div>
         <div class="details">
-          <div class="details-inner" >
+          <div class="details-inner">
             <div *ngIf="chartsArea3.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
@@ -181,19 +184,14 @@
                       [autoLayout]="true"
                       currentPageReportTemplate="{{'right_sidebar.area_table_card_auxiliar.showing' | translate}} {first} {{'right_sidebar.area_table_card_auxiliar.to' | translate}} {last} {{'right_sidebar.area_table_card_auxiliar.of' | translate}} {totalRecords} {{'right_sidebar.area_table_card_auxiliar.entries' | translate}}"
                       [rowsPerPageOptions]="[10,25,50]">
-                      <!-- <ng-template pTemplate="caption">
+                      <ng-template pTemplate="caption">
                         <div class="p-d-flex">
-                          <button type="button" pButton pRipple icon="pi-file-o" (click)="dt.exportCSV()" class="p-mr-2"
-                            pTooltip="CSV" tooltipPosition="bottom"></button>
-                          <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
-                          class="p-button-success p-mr-2" pTooltip="XLS" tooltipPosition="bottom"></button>
-                        <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
-                          class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
-                          <button type="button" pButton pRipple icon="pi pi-filter"
-                            (click)="dt.exportCSV({selectionOnly:true})" class="p-button-info p-ml-auto"
-                            pTooltip="Selection Only" tooltipPosition="bottom"></button>
+                          <button type="button" pButton pRipple icon="pi pi-file-o" (click)="exportCSV(table)"
+                            class="p-button-success p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                          <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf(table)"
+                            class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
                         </div>
-                      </ng-template> -->
+                      </ng-template>
                       <ng-template pTemplate="header" let-columns>
                         <tr>
                           <th *ngFor="let col of columns">
@@ -203,9 +201,8 @@
                       </ng-template>
                       <ng-template pTemplate="body" let-rowData let-columns="columns">
                         <tr [pSelectableRow]="rowData">
-                          <!-- [pTooltip]="Aproximar" [tooltipPosition]="bottom" [life]="1500" -->
                           <td *ngFor="let col of columns" align="center">
-                            {{rowData[col.field]}}
+                            {{rowData[col.dataKey]}}
                           </td>
                         </tr>
                       </ng-template>

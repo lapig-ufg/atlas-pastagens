@@ -202,10 +202,10 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'municipios',
-                sql: "SELECT p.municipio as city, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value FROM pasture_col6 p "
+                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col6 p "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
-                    + " GROUP BY 1, 2 ORDER BY 3 DESC;",
+                    + " GROUP BY 1, 2, 3 ORDER BY 3 DESC;",
                 // + " LIMIT " + Number(amount) + ";",
                 mantain: true
             },

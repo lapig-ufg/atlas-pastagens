@@ -19,6 +19,11 @@ import Map from 'ol/Map';
 import { UIChart } from 'primeng/chart';
 import { GoogleAnalyticsService } from "../services/google-analytics.service";
 
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
+import { ExportToCsv } from 'export-to-csv';
+
+
 @Component({
   selector: 'app-right-side-bar',
   templateUrl: './right-side-bar.component.html',
@@ -372,7 +377,7 @@ export class RightSideBarComponent implements OnInit {
         let columnsTitle = tab.columnsTitle.split('?');
 
         for (let i = 0; i < rows_labels.length; i++) {
-          tab.exportCols.push({ field: rows_labels[i], header: columnsTitle[i] })
+          tab.exportCols.push({ dataKey: rows_labels[i], header: columnsTitle[i] })
         }
 
       }
@@ -396,12 +401,59 @@ export class RightSideBarComponent implements OnInit {
         }
       }
     }
+  }
+
+  exportCSV(table) {
+
+    const options = {
+      fieldSeparator: ';',
+      quoteStrings: '"',
+      decimalSeparator: 'locale',
+      showLabels: true,
+      showTitle: false,
+      filename: table.id,
+      title: table.text,
+      useTextFile: false,
+      useBom: true,
+      useKeysAsHeaders: true,
+      // headers:  //<-- Won't work with useKeysAsHeaders present!
+    };
+
+    let sortOrder = {}
+    let i = 1;
+    for (let el of table.exportCols) {
+      sortOrder[el.dataKey] = i
+      i++;
+    }
+    sortOrder['originalValue'] = i;
+    if (table.rows_labels.toLowerCase().includes("city")) {
+      sortOrder['cityCode'] = ++i;
+    }
+
+    const res = table.data.map(o => Object.assign({}, ...Object.keys(o).sort((a, b) => sortOrder[a] - sortOrder[b]).map(x => { return { [x]: o[x] } })))
+
+    const csvExporter = new ExportToCsv(options);
+
+    csvExporter.generateCsv(res);
 
   }
 
 
+  exportPdf(table) {
+
+    const doc = new jsPDF();
+
+    autoTable(doc, {
+      columnStyles: { 3: { halign: 'center' } },
+      columns: table.exportCols,
+      body: table.data
+
+    });
+
+    doc.save(table.title + '.pdf');
+
+
+  }
+
 
 }
-
-
-

@@ -122,6 +122,7 @@ module.exports = function (app) {
                 let queryInd = allQueriesResult[query.idOfQuery]
                 let index = 1;
                 for (let i = 0; i < queryInd.length; i++) {
+                    queryInd[i].originalValue = parseFloat(queryInd[i].value)
                     queryInd[i].index = index++ + 'º'
                     queryInd[i].value = String(Internal.numberFormat(parseFloat(queryInd[i].value)) + " ha")
                 }
