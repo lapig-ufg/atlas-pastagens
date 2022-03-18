@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
+import {LangChangeEvent} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-artigos',
@@ -13,7 +14,15 @@ export class ArtigosComponent implements OnInit {
   articles: Article[];
 
   constructor(private localizationService: LocalizationService) {
-    this.articles = [
+    this.articles =  [
+      {
+        id: 0,
+        title: this.localizationService.translate('hotsite.articles.0.title'),
+        image: "../../../../assets/hotsite/images/artigos/Assessing the Wall-to-Wall Spatial and Qualitative Dynamics of the Brazilian Pasturelands 2010–2018.jpeg",
+        doi: "https://doi.org/10.3390/rs14041024",
+        authors: "Santos et al., 2022",
+        abstract:this.localizationService.translate('hotsite.articles.0.abstract'),
+      },
       {
         id: 1,
         title: this.localizationService.translate('hotsite.articles.1.title'),
@@ -194,9 +203,16 @@ export class ArtigosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.articles.forEach(article =>{
+        article.title = this.localizationService.translate('hotsite.articles.'+article.id+'.title');
+        article.abstract =  this.localizationService.translate('hotsite.articles.'+article.id+'.abstract');
+      })
+    });
   }
-
 }
+
+
 
 export interface Article {
   id: number;

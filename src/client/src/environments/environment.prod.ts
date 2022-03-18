@@ -1,7 +1,7 @@
 export const environment = {
   APP_NAME: 'Atlas das Pastagens',
   production: true,
-  GTAG: 'UA-215301850-1',
+  GTAG: 'G-6MKZ8HZF31',
   OWS_API: 'https://ows.lapig.iesa.ufg.br/api',
   OWS: 'https://ows.lapig.iesa.ufg.br',
   OWS_O1: "https://o1.lapig.iesa.ufg.br/ows",

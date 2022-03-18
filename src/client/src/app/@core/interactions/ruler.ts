@@ -6,6 +6,7 @@ import {Geometry, LineString, Polygon} from 'ol/geom';
 import {unByKey} from 'ol/Observable';
 import { Ruler } from "../interfaces";
 import { DecimalPipe } from '@angular/common';
+import {calculateGeodesicArea, formatGeodesicArea} from "./calculateArea";
 
 abstract class RulerControl {
 
@@ -156,20 +157,20 @@ export class RulerCtrl extends RulerControl {
 }
 
 export function calculaArea(area: number): string {
-    let output: string;
-    const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
+  // let output: string;
+  // const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
+  //
+  // if (area > 100000) {
+  //     output = decimalPipe.transform( Math.round((area / 100000) * 100) / 100, '1.2-2')  + ' ' + 'km<sup>2</sup>';
+  // } else if (area >= 10) {
+  //     output = decimalPipe.transform( Math.round((area / 10) * 100) / 100, '1.2-2')  + ' ' + 'm<sup>2</sup>';
+  // } else {
+  //     output = decimalPipe.transform( Math.round(area * 100000) / 100, '1.2-2') + ' ' + 'cm<sup>2</sup>';
+  // }
+  //
+  // output += ' ou ' + decimalPipe.transform( Math.round((area / 100000) * 10000) / 100, '1.2-2') + ' ' + 'ha';
 
-    if (area > 100000) {
-        output = decimalPipe.transform( Math.round((area / 100000) * 100) / 100, '1.2-2')  + ' ' + 'km<sup>2</sup>';
-    } else if (area >= 10) {
-        output = decimalPipe.transform( Math.round((area / 10) * 100) / 100, '1.2-2')  + ' ' + 'm<sup>2</sup>';
-    } else {
-        output = decimalPipe.transform( Math.round(area * 100000) / 100, '1.2-2') + ' ' + 'cm<sup>2</sup>';
-    }
-
-    output += ' ou ' + decimalPipe.transform( Math.round((area / 100000) * 10000) / 100, '1.2-2') + ' ' + 'ha';
-
-    return output;
+  return formatGeodesicArea(area);
 }
 
 export class RulerAreaCtrl extends RulerControl {
@@ -178,9 +179,17 @@ export class RulerAreaCtrl extends RulerControl {
     }
 
     protected format(geometry: Geometry): string {
-        const area = getArea(geometry, {
-            projection: this.component.getMap().getView().getProjection()
-        });
-        return calculaArea(area);
+        // const area = getArea(geometry, {
+        //     projection: this.component.getMap().getView().getProjection()
+        // });
+        // return calculaArea(area);
+
+      const g = geometry.clone()
+      const geom = g.transform(this.component.getMap().getView().getProjection(), 'EPSG:4326');
+
+      // @ts-ignore
+      const area = calculateGeodesicArea(geom)
+
+      return calculaArea(area);
     }
 }

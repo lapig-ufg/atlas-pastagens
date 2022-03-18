@@ -16,8 +16,6 @@
   margin: unset;
 }
 
-
-
 ::-webkit-scrollbar {
     width: 6px !important;
     transition: all 0.5s ease;
@@ -35,7 +33,6 @@
     background: lighten($primary, 40%);
     border-radius: 20px;
 }
-
 
 ::-webkit-scrollbar-thumb:hover {
     background: lighten($primary, 30%);

@@ -614,6 +614,10 @@
         "title": "Search Articles",
         "placeholder": "Title, Abstract and Authors"
       },
+      "0": {
+        "title": "Assessing the Wall-to-Wall Spatial and Qualitative Dynamics of the Brazilian Pasturelands 2010–2018, Based on the Analysis of the Landsat Data Archive",
+        "abstract": "In this study, we mapped and evaluated the spatiotemporal dynamics of pasture quality in Brazil, between 2010 and 2018, considering three classes of degradation: Absent (D0), Intermediate (D1), and Severe (D2). There was no variation in the total area occupied by pastures in the evaluated period, in spite of the accentuated spatial dynamics. The percentage of non-degraded pastures increased by ~12%, due to the recovery of degraded areas and the emergence of new pasture areas."
+      },
       "1": {
         "title": "Shaping the Brazilian landscape: a process driven by land occupation, large-scale deforestation, and rapid agricultural expansion.",
         "abstract": "In this study we present, based on an unprecedented sample design and interpretation of 85,152 sample points in Landsat images, the area estimates of the main land cover and land use classes in Brazil, as wellas their annual transitions, from 1985 to 2018."

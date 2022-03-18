@@ -615,9 +615,13 @@
         "title": "Buscar Artigos",
         "placeholder": "Título, Resumo ou Autores"
       },
+      "0": {
+        "title": "Assessing the Wall-to-Wall Spatial and Qualitative Dynamics of the Brazilian Pasturelands 2010–2018, Based on the Analysis of the Landsat Data Archive",
+        "abstract": "Neste estudo, mapeamos e avaliamos a dinâmica espaço-temporal da qualidade das pastagens no Brasil, entre 2010 e 2018, considerando três classes de degradação: Ausente (D0), Intermediário (D1) e Grave (D2). Não houve variação na área total ocupada por pastagens no período avaliado, apesar da dinâmica espacial acentuada. O percentual de pastagens não degradadas aumentou ~12%, devido à recuperação de áreas degradadas e o surgimento de novas áreas de pastagem."
+      },
       "1": {
         "title": "Shaping the Brazilian landscape: a process driven by land occupation, large-scale deforestation, and rapid agricultural expansion.",
-        "abstract": "In this study we present, based on an unprecedented sample design and interpretation of 85,152 sample points in Landsat images, the area estimates of the main land cover and land use classes in Brazil, as wellas their annual transitions, from 1985 to 2018."
+        "abstract": "Neste estudo apresentamos, com base em um desenho amostral inédito e na interpretação de 85.152 pontos amostrais em imagens Landsat, as estimativas de área das principais classes de cobertura e uso da terra no Brasil, bem como suas transições anuais, de 1985 a 2018. Nossos resultados indicam que, dos 850 Mha que compõem o território nacional, 294,2 Mha ± 1,44% estavam antropizados em 2018, com ~34% dessa área convertida após 1985. Nesse período, houve uma perda de 98,2 Mha ± 2,27% de vegetação natural, e aumento de 55,1 Mha ± 0,64% nas áreas de pastagem e 28,2 Mha ± 0,29% nas áreas de lavouras anuais."
       },
       "2": {
         "title": "Biomassa seca estimada em áreas de pastagens com dados de sensoriamento remoto: Estudo de caso na bacia hidrográfica do Rio Vermelho.",
