@@ -104,7 +104,7 @@
         }
 
         stage ('Pull imagem on DEV') {
-        sshagent(credentials : ['DEV']) {
+        sshagent(credentials : ['KEY_FULL']) {
             sh "$SERVER_HOMOL_SSH 'docker pull $registryhomol/$application_name:latest'"
                 }
             
