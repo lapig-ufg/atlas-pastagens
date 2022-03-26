@@ -3,7 +3,7 @@
     load "$JENKINS_HOME/.envvars"
     def exists=fileExists "src/server/package-lock.json"
     def exists2=fileExists "src/client/package-lock.json"
-    def application_name= "atlas-pastagens"
+    def application_name= "app_atlas"
 
         stage('Checkout') {
             git branch: 'develop',
@@ -102,25 +102,23 @@
             sh "docker rmi $registryhomol/$application_name:latest"
         }
 
-        stage('Pull imagem on DEV') {
-
-                    def urlImage = "http://$SERVER_HOMOL/images/create?fromImage=$registryhomol/$application_name:latest";
-                    def response = httpRequest url:"${urlImage}", httpMode:'POST', acceptType: 'APPLICATION_JSON', validResponseCodes:"200"
-                    println("Status: " + response.status)
-                    def pretty_json = writeJSON( returnText: true, json: response.content)
-                    println pretty_json
-            } 
+        stage ('Pull imagem on DEV') {
+        sshagent(credentials : ['DEV']) {
+            sh "$SERVER_PROD_SSH 'docker pull $registryhomol/$application_name:latest'"
+                }
+            
+        }
 
         stage('Deploy container on DEV') {
 
-                        configFileProvider([configFile(fileId: "$File_Json_Id_Atlas", targetLocation: 'container-atlas.json')]) {
+                        configFileProvider([configFile(fileId: "$File_Json_Id_Atlas", targetLocation: 'container-atlas-deploy-homol.json')]) {
 
                             def url = "http://$SERVER_HOMOL/containers/$application_name?force=true"
                             def response = sh(script: "curl -v -X DELETE $url", returnStdout: true).trim()
                             echo response
 
                             url = "http://$SERVER_HOMOL/containers/create?name=$application_name"
-                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas.json -s $url", returnStdout: true).trim()
+                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas-deploy-homol.json -s $url", returnStdout: true).trim()
                             echo response
                         }
 
