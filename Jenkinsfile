@@ -31,7 +31,7 @@
                         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                         nvmIoJsOrgMirror: 'https://iojs.org/dist',
                         nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-                        version: $NODE_VERSION) {
+                        version: "$NODE_VERSION") {
                         //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
