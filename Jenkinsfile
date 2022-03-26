@@ -4,13 +4,14 @@
     def exists=fileExists "src/server/package-lock.json"
     def exists2=fileExists "src/client/package-lock.json"
     def application_name= "app_atlas"
+    def NODE_VERSION= "14.17.3"
 
         stage('Checkout') {
-            git branch: 'main',
+            git branch: 'develop',
             url: 'https://github.com/lapig-ufg/atlas-pastagens.git'
         }
         stage('Validate') {
-            sh 'git pull origin main'
+            sh 'git pull origin develop'
 
         }
         stage('SonarQube analysis') {
@@ -27,26 +28,26 @@
         }
         stage('Build') {
                         //INSTALL NVM BINARY AND INSTALL NODE VERSION AND USE NODE VERSION
-                        nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh',
+                        nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                         nvmIoJsOrgMirror: 'https://iojs.org/dist',
-                        nvmNodeJsOrgMirror: 'https://nodejs.org/dist',
-                        version: NODE_VERSION) {
-                        //BUILD APPLICATION
+                        nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
+                        version: "$NODE_VERSION") {
+                        //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
                         if (exists) {
                             echo 'Yes'
-                            sh "cd src/server && npm ci"
+                            sh "cd src/server && npm ci" 
                         } else {
                             echo 'No'
-                            sh "cd src/server && npm install"
+                            sh "cd src/server && npm install" 
                         }
                         if (exists2) {
                             echo 'Yes'
                             sh "cd src/client && npm ci"
                         } else {
                             echo 'No'
-                            sh "cd src/client && npm install"
+                            sh "cd src/client && npm install" 
                         }
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
@@ -81,12 +82,12 @@
                                     thumbnail: 'SUCCESS'.equals(currentBuild.currentResult) ? discordImageSuccess : discordImageError
                             autoCancelled = true
                             error('Aborting the build.')
-    }
+    }                               
 
                 }
         }
         stage('Building Image') {
-            dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER"
+            dockerImage = docker.build registryhomol + "/$application_name:$BUILD_NUMBER"
         }
         stage('Push Image to Registry') {
 
@@ -94,43 +95,43 @@
             dockerImage.push("${env.BUILD_NUMBER}")
             dockerImage.push("latest")
 
-                }
+                }   
 
             }
         stage('Removing image Locally') {
-            sh "docker rmi $registryprod/$application_name:$BUILD_NUMBER"
-            sh "docker rmi $registryprod/$application_name:latest"
+            sh "docker rmi $registryhomol/$application_name:$BUILD_NUMBER"
+            sh "docker rmi $registryhomol/$application_name:latest"
         }
 
-        stage ('Pull imagem on PROD') {
-        sshagent(credentials : ['PROD']) {
-            sh "$SERVER_PROD_SSH 'docker pull $registryprod/$application_name:latest'"
+        stage ('Pull imagem on DEV') {
+        sshagent(credentials : ['DEV']) {
+            sh "$SERVER_PROD_SSH 'docker pull $registryhomol/$application_name:latest'"
                 }
-
+            
         }
 
-        stage('Deploy container on PROD') {
+        stage('Deploy container on DEV') {
 
-                        configFileProvider([configFile(fileId: "$File_Json_Id_ATLAS_PROD", targetLocation: 'container-atlas-deploy-prod.json')]) {
+                        configFileProvider([configFile(fileId: "$File_Json_Id_Atlas", targetLocation: 'container-atlas-deploy-homol.json')]) {
 
-                            def url = "http://$SERVER_PROD/containers/$application_name?force=true"
+                            def url = "http://$SERVER_HOMOL/containers/$application_name?force=true"
                             def response = sh(script: "curl -v -X DELETE $url", returnStdout: true).trim()
                             echo response
 
-                            url = "http://$SERVER_PROD/containers/create?name=$application_name"
-                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas-deploy-prod.json -s $url", returnStdout: true).trim()
+                            url = "http://$SERVER_HOMOL/containers/create?name=$application_name"
+                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas-deploy-homol.json -s $url", returnStdout: true).trim()
                             echo response
                         }
 
-            }
-        stage('Start container on PROD') {
+            }            
+        stage('Start container on DEV') {
 
-                        final String url = "http://$SERVER_PROD/containers/$application_name/start"
+                        final String url = "http://$SERVER_HOMOL/containers/$application_name/start"
                         final String response = sh(script: "curl -v -X POST -s $url", returnStdout: true).trim()
-                        echo response
+                        echo response                    
 
 
-            }
+            }                      
         stage('Send message to Discord') {
 
                         //SEND DISCORD NOTIFICATION
@@ -157,9 +158,9 @@
                                 title: discordTitle,
                                 webhookURL: urlWebhook,
                                 successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'),
-                                thumbnail: 'SUCCESS'.equals(currentBuild.currentResult) ? discordImageSuccess : discordImageError
+                                thumbnail: 'SUCCESS'.equals(currentBuild.currentResult) ? discordImageSuccess : discordImageError              
 
-            }
+            }         
 
 
 
