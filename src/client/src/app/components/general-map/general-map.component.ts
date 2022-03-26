@@ -1433,7 +1433,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
         // this.source = this.regionsLimits.getSource();
         this.source.clear()
+        // @ts-ignore
         this.source.addFeature(features[0])
+        // @ts-ignore
         let extent = features[0].getGeometry().getExtent();
         map.getView().fit(extent, { duration: 1000 });
       })
