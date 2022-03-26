@@ -4,6 +4,7 @@
     def exists=fileExists "src/server/package-lock.json"
     def exists2=fileExists "src/client/package-lock.json"
     def application_name= "app_atlas"
+    def NODE_VERSION= "14.17.3"
 
         stage('Checkout') {
             git branch: 'develop',
@@ -30,7 +31,7 @@
                         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                         nvmIoJsOrgMirror: 'https://iojs.org/dist',
                         nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-                        version: NODE_VERSION) {
+                        version: $NODE_VERSION) {
                         //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
