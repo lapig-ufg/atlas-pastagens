@@ -26,7 +26,7 @@ module.exports = function (app) {
                 + "WHERE unaccent(text) ILIKE unaccent(${key})  AND type NOT in ('country') "
                 + "UNION ALL "
                 + "SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 2 AS priority FROM regions_geom "
-                + "WHERE unaccent(text) ILIKE unaccent(${key}%) AND type NOT in ('country') )"
+                + "WHERE unaccent(text) ILIKE unaccent(${key}%) AND type NOT in ('country') ) "
                 + "select * from priority_search order by priority asc limit 10",
             mantain: true
         }]

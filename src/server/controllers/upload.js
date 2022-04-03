@@ -412,315 +412,6 @@ module.exports = function (app) {
         }
     }
 
-    Uploader.queimadas = function (request, response) {
-
-        try {
-            var queryResult = request.queryResult['queimadas']
-
-            var queimadasByYear = []
-            queryResult.forEach(function (row) {
-
-                var year = Number(row['year'])
-                var area = Number(row['area_queimada'])
-
-                queimadasByYear.push({
-                    'area_queimada': area,
-                    'year': year
-                })
-            });
-
-            // var queryResult = request.queryResult['pastagem']
-
-            // var pastagemByYear = []
-            // queryResult.forEach(function (row) {
-
-            // 	var year = Number(row['year'])
-            // 	var area = Number(row['area_pastagem'])
-
-            // 	queimadasByYear.push({
-            // 		'area_pastagem': area,
-            // 		'year': year
-            // 	})
-            // });
-
-
-            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
-                [key]: value,
-                ...rest
-            }) => ({
-                ...hash,
-                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
-                    [key]: value,
-                    ...rest
-                })
-            }), {})
-
-            // Group by color as key to the person array
-            const areasGroupedByYear = groupByKey(queimadasByYear, 'year', { omitKey: true });
-            // const areasGroupedByYear = groupBy(queimadasByYear, 'year');
-            let arrayAreasGrouped = []
-            for (let key of Object.keys(areasGroupedByYear)) {
-                arrayAreasGrouped.push({
-                    year: key,
-                    // area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
-                    area_queimada: areasGroupedByYear[key][0].hasOwnProperty('area_queimada') ? areasGroupedByYear[key][0]['area_queimada'] : null
-                })
-            }
-
-            let graphQueimadasPastagem = {
-                "title": "Dados",
-                "type": "line",
-                "pointStyle": 'rect',
-                "options": {
-                    title: {
-                        display: false,
-                    },
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            fontColor: "#85560c"
-                        },
-                        position: "bottom"
-                    },
-                    tooltips: {}
-                },
-                "data": {
-                    labels: arrayAreasGrouped.map(e => e.year),
-                    datasets: [
-                        // {
-                        // 	data: arrayAreasGrouped.map(e => e.area_pastagem),
-                        // 	borderColor: 'rgb(231, 187, 2)',
-                        // 	fill: false,
-                        // 	label: "Area de Pastagem"
-                        // },
-                        {
-                            data: arrayAreasGrouped.map(e => e.area_queimada),
-                            borderColor: 'rgb(110, 101, 101)',
-                            fill: false,
-                            label: "Area Queimada"
-                        }
-                    ]
-                }
-            }
-
-            let res = {
-                chart_pastagem_queimadas_peryear: graphQueimadasPastagem,
-                table_pastagem_queimadas_peryear: arrayAreasGrouped,
-            }
-
-            response.status(200).send(res);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-
-
-    };
-
-    Uploader.terraclass = function (request, response) {
-
-        try {
-
-            queryResult = request.queryResult['terraclass']
-            var terraclass = []
-
-            queryResult.forEach(function (row) {
-
-                var color = (row['color'])
-                var lulc = (row['lulc'])
-                var area = Number(row['area_lulc'])
-
-                terraclass.push({
-                    'color': color,
-                    'lulc': lulc,
-                    'area_lulc': area
-                })
-            });
-
-            let graphTerraclass = {
-                "title": "Terraclass",
-                "type": "pie",
-                "pointStyle": 'rect',
-                "options": {
-                    title: {
-                        display: false,
-                    },
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            fontColor: "#85560c"
-                        },
-                        position: "bottom"
-                    },
-                    tooltips: {}
-                },
-                "data": {
-                    labels: terraclass.map(e => e.lulc),
-                    datasets: [{
-                        data: terraclass.map(e => e.area_lulc),
-                        backgroundColor: terraclass.map(element => element.color),
-                        hoverBackgroundColor: terraclass.map(element => element.color)
-                    }]
-                }
-            }
-
-            let res = {
-                terraclass: graphTerraclass,
-            }
-
-            response.status(200).send(res);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-    };
-
-    Uploader.mapbiomas = function (request, response) {
-
-        try {
-
-            queryResult = request.queryResult['mapbiomas']
-            var mapbiomas = []
-
-            queryResult.forEach(function (row) {
-
-                var color = (row['color'])
-                var lulc = (row['lulc'])
-                var area = Number(row['area_lulc'])
-
-                mapbiomas.push({
-                    'color': color,
-                    'lulc': lulc,
-                    'area_lulc': area
-                })
-            });
-
-            let graphMapbiomas = {
-                "title": "Mapbiomas",
-                "type": "pie",
-                "pointStyle": 'rect',
-                "options": {
-                    title: {
-                        display: false,
-                    },
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            fontColor: "#85560c"
-                        },
-                        position: "bottom"
-                    },
-                    tooltips: {}
-                },
-                "data": {
-                    labels: mapbiomas.map(e => e.lulc),
-                    datasets: [{
-                        data: mapbiomas.map(e => e.area_lulc),
-                        backgroundColor: mapbiomas.map(element => element.color),
-                        hoverBackgroundColor: mapbiomas.map(element => element.color)
-                    }]
-                }
-            }
-
-            let res = {
-                mapbiomas: graphMapbiomas,
-            }
-
-            response.status(200).send(res);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-    };
-
-    Uploader.pastagem = function (request, response) {
-
-        try {
-
-            var queryResult = request.queryResult['pastagem']
-
-            var pastagemByYear = []
-            queryResult.forEach(function (row) {
-
-                var year = Number(row['year'])
-                var area = Number(row['area_pastagem'])
-
-                pastagemByYear.push({
-                    'area_pastagem': area,
-                    'year': year
-                })
-            });
-
-
-            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
-                [key]: value,
-                ...rest
-            }) => ({
-                ...hash,
-                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
-                    [key]: value,
-                    ...rest
-                })
-            }), {})
-
-            // Group by color as key to the person array
-            const areasGroupedByYear = groupByKey(pastagemByYear, 'year', { omitKey: true });
-            let arrayAreasGrouped = []
-
-            for (let key of Object.keys(areasGroupedByYear)) {
-                arrayAreasGrouped.push({
-                    year: key,
-                    area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
-                })
-            }
-
-            let graphQueimadasPastagem = {
-                "title": "Dados",
-                "type": "line",
-                "pointStyle": 'rect',
-                "options": {
-                    title: {
-                        display: false,
-                    },
-                    legend: {
-                        labels: {
-                            usePointStyle: true,
-                            fontColor: "#85560c"
-                        },
-                        position: "bottom"
-                    },
-                    tooltips: {}
-                },
-                "data": {
-                    labels: arrayAreasGrouped.map(e => e.year),
-                    datasets: [{
-                        data: arrayAreasGrouped.map(e => e.area_pastagem),
-                        borderColor: 'rgb(231, 187, 2)',
-                        fill: false,
-                        label: "Area de Pastagem"
-                    },]
-                }
-            }
-
-            let res = {
-                chart_pastagem_peryear: graphQueimadasPastagem,
-                table_pastagem_peryear: arrayAreasGrouped,
-            }
-
-            response.status(200).send(res);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-    };
 
     Uploader.analysisarea = function (request, response) {
 
@@ -899,45 +590,6 @@ module.exports = function (app) {
         }
     };
 
-    Uploader.prodes = function (request, response) {
-
-        try {
-            var queryResult = request.queryResult['prodes']
-
-            var resultByYear = []
-            queryResult.forEach(function (row) {
-
-                var year = Number(row['year'])
-                var area = Number(row['area_desmat'])
-
-                resultByYear.push({
-                    'area_desmat': area,
-                    'year': year
-                })
-            });
-
-            // Accepts the array and key
-            const groupBy = (array, key) => {
-                // Return the end result
-                return array.reduce((result, currentValue) => {
-                    // If an array already present for key, push it to the array. Else create an array and push the object
-                    (result[currentValue[key]] = result[currentValue[key]] || []).push(
-                        currentValue
-                    );
-                    // Return the current iteration `result` value, this will be taken as next iteration `result` value and accumulate
-                    return result;
-                }, {}); // empty object is the initial value for result object
-            };
-
-            response.status(200).send(resultByYear);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-
-    };
 
     Uploader.getAnalysis = function (request, response) {
         try {
@@ -966,7 +618,239 @@ module.exports = function (app) {
         response.end()
     };
 
+    Uploader.pasture = function (request, response) {
 
+        try {
+
+            var queryResult = request.queryResult['pastagem']
+
+            var pastagemByYear = []
+            queryResult.forEach(function (row) {
+
+                var year = Number(row['year'])
+                var area = Number(row['area_pastagem'])
+
+                pastagemByYear.push({
+                    'area_pastagem': area,
+                    'year': year
+                })
+            });
+
+
+            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
+                [key]: value,
+                ...rest
+            }) => ({
+                ...hash,
+                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
+                    [key]: value,
+                    ...rest
+                })
+            }), {})
+
+            // Group by color as key to the person array
+            const areasGroupedByYear = groupByKey(pastagemByYear, 'year', { omitKey: true });
+            let arrayAreasGrouped = []
+
+            for (let key of Object.keys(areasGroupedByYear)) {
+                arrayAreasGrouped.push({
+                    year: key,
+                    area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
+                })
+            }
+
+            let graphPastagem = {
+                "title": "Dados",
+                "type": "line",
+                "pointStyle": 'rect',
+                "options": {
+                    title: {
+                        display: false,
+                    },
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            fontColor: "#85560c"
+                        },
+                        position: "bottom"
+                    },
+                    tooltips: {}
+                },
+                "data": {
+                    labels: arrayAreasGrouped.map(e => e.year),
+                    datasets: [{
+                        data: arrayAreasGrouped.map(e => e.area_pastagem),
+                        borderColor: 'rgb(231, 187, 2)',
+                        fill: false,
+                        label: "Area de Pastagem"
+                    }]
+                }
+            }
+
+            let res = {
+                table_peryear: arrayAreasGrouped,
+                chart_peryear: graphPastagem,
+            }
+
+            response.status(200).send(res);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    };
+
+    Uploader.pasturequality = function (request, response) {
+
+        try {
+
+            var queryResult = request.queryResult['pasture_quality']
+
+            var pastagemByYear = []
+            queryResult.forEach(function (row) {
+
+                var year = Number(row['year'])
+                var area = Number(row['area_pastagem'])
+
+                pastagemByYear.push({
+                    'area_pastagem': area,
+                    'year': year,
+                    'classe': row['classe'],
+                    'color': row['color']
+                })
+            });
+
+            console.log("PASTAGEM BY YEAR \n", pastagemByYear)
+
+
+
+            let graphPastagem = {
+                "title": {
+                    display: false
+                },
+                "type": "pie",
+                "pointStyle": 'rect',
+                "options": {
+                    title: {
+                        display: false,
+                    },
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            fontColor: "#495057"
+                        },
+                        position: "bottom"
+                    },
+                    tooltips: {}
+                },
+                "data": {
+                    labels: pastagemByYear.map(e => e.classe),
+                    datasets: [{
+                        data: pastagemByYear.map(e => parseFloat(e.area_pastagem)),
+                        backgroundColor: pastagemByYear.map(element => element.color),
+                        hoverBackgroundColor: pastagemByYear.map(element => element.color),
+                        label: "Area de Pastagem"
+                    }]
+                }
+            }
+
+            let res = {
+                table_peryear: pastagemByYear,
+                chart_peryear: graphPastagem,
+            }
+
+            response.status(200).send(res);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    };
+
+    Uploader.carbonstock = function (request, response) {
+
+        try {
+
+            var queryResult = request.queryResult['pastagem']
+
+            var pastagemByYear = []
+            queryResult.forEach(function (row) {
+
+                var year = Number(row['year'])
+                var area = Number(row['area_pastagem'])
+
+                pastagemByYear.push({
+                    'area_pastagem': area,
+                    'year': year
+                })
+            });
+
+
+            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
+                [key]: value,
+                ...rest
+            }) => ({
+                ...hash,
+                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
+                    [key]: value,
+                    ...rest
+                })
+            }), {})
+
+            // Group by color as key to the person array
+            const areasGroupedByYear = groupByKey(pastagemByYear, 'year', { omitKey: true });
+            let arrayAreasGrouped = []
+
+            for (let key of Object.keys(areasGroupedByYear)) {
+                arrayAreasGrouped.push({
+                    year: key,
+                    area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
+                })
+            }
+
+            let graphQueimadasPastagem = {
+                "title": "Dados",
+                "type": "line",
+                "pointStyle": 'rect',
+                "options": {
+                    title: {
+                        display: false,
+                    },
+                    legend: {
+                        labels: {
+                            usePointStyle: true,
+                            fontColor: "#85560c"
+                        },
+                        position: "bottom"
+                    },
+                    tooltips: {}
+                },
+                "data": {
+                    labels: arrayAreasGrouped.map(e => e.year),
+                    datasets: [{
+                        data: arrayAreasGrouped.map(e => e.area_pastagem),
+                        borderColor: 'rgb(231, 187, 2)',
+                        fill: false,
+                        label: "Area de Pastagem"
+                    },]
+                }
+            }
+
+            let res = {
+                chart_pastagem_peryear: graphQueimadasPastagem,
+                table_pastagem_peryear: arrayAreasGrouped,
+            }
+
+            response.status(200).send(res);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    };
 
     return Uploader;
 };

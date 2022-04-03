@@ -6,7 +6,7 @@ module.exports = function (app) {
     const appProducao = env.APP_PRODUCAO;
 
     let config = {
-        "appName": "Plataform Base",
+        "appName": "Atlas das Pastagens",
         "appRoot": appRoot,
         "clientDir": appRoot + env.CLIENT_DIR,
         "langDir": appRoot + env.LANG_DIR,

@@ -68,30 +68,15 @@ module.exports = function (app) {
         ]
     };
 
-    /**Other methods to copy later */
 
-
-    Query.queimadas = function (params) {
-
-        var token = params['token']
-        return [{
-            source: 'lapig',
-            id: 'queimadas',
-            sql: "SELECT p.year, SUM((ST_AREA(ST_Intersection(ST_MAKEVALID(p.geom),up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_queimada FROM bi_ce_queimadas_250_lapig p " +
-                " INNER JOIN upload_shapes up on ST_INTERSECTS(p.geom, up.geom) where p.year IS NOT NULL and up.token= ${token} GROUP BY 1 order by 1 desc",
-            mantain: true
-        }
-        ]
-    }
-
-    Query.pastagem = function (params) {
+    Query.pasture = function (params) {
 
         var token = params['token']
         var year = params['year']
         return [{
             source: 'lapig',
             id: 'pastagem',
-            sql: "SELECT p.year, SUM((ST_AREA(ST_Intersection(st_multi(st_collectionextract(ST_MAKEVALID(ST_TRANSFORM(p.geom,4674)),3)),up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
+            sql: "SELECT p.year, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
                 "FROM pasture_col6 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
                 (year ? "AND year = ${year}" : "") +
                 "and up.token= ${token} GROUP BY 1 order by 1 desc",
@@ -114,47 +99,40 @@ module.exports = function (app) {
         // ;
     }
 
-    Query.prodes = function (params) {
+    Query.pasturequality = function (params) {
+
         var token = params['token']
+        var year = params['year']
         return [{
             source: 'lapig',
-            id: 'prodes',
-            sql: "SELECT p.year, SUM((ST_AREA(ST_Intersection(p.geom,up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_desmat FROM desmatamento_prodes p INNER JOIN upload_shapes up on ST_INTERSECTS(p.geom, up.geom) where p.year IS NOT NULL and up.token= ${token} GROUP BY 1 order by 1 desc",
-            mantain: true,
+            id: 'pasture_quality',
+            sql: "SELECT p.year, b.name as classe, b.color, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) AS area_pastagem "
+                + " FROM pasture_quality_col6 p "
+                + " INNER JOIN graphic_colors as b on cast(p.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
+                + " INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom)  where p.year IS NOT NULL "
+                + (year ? "AND year = ${year}" : "")
+                + " AND up.token= ${token} GROUP BY 1,2,3 order by 1 desc ",
+            mantain: true
         }
-
         ]
-    }
+    };
 
-    Query.terraclass = function (params) {
+    Query.carbonstock = function (params) {
 
         var token = params['token']
+        var year = params['year']
         return [{
             source: 'lapig',
-            id: 'terraclass',
-            sql: "SELECT b.name as lulc, b.color as color, SUM((ST_AREA(safe_intersection(ST_MAKEVALID(p.geom),up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_lulc FROM uso_solo_terraclass p INNER JOIN graphic_colors b on unaccent(b.name) ilike unaccent(p.classe) AND b.table_rel = 'uso_solo_terraclass' " +
-                " INNER JOIN upload_shapes up on ST_INTERSECTS(p.geom, up.geom) " +
-                " where up.token= ${token}" +
-                " GROUP BY 1,2 ORDER BY 3 DESC",
+            id: 'pastagem',
+            sql: "SELECT p.year, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
+                "FROM pasture_col6 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
+                (year ? "AND year = ${year}" : "") +
+                "and up.token= ${token} GROUP BY 1 order by 1 desc",
             mantain: true
         }
         ]
     }
 
-    Query.mapbiomas = function (params) {
-
-        var token = params['token']
-        return [{
-            source: 'lapig',
-            id: 'mapbiomas',
-            sql: "SELECT b.name as lulc, b.color as color, SUM((ST_AREA(safe_intersection(st_multi(st_collectionextract(ST_MAKEVALID(ST_TRANSFORM(p.wkb_geometry,4674)),3)),up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_lulc FROM uso_solo_mapbiomas p INNER JOIN graphic_colors b on unaccent(b.name) ilike unaccent(p.classe) AND b.table_rel = 'uso_solo_mapbiomas' " +
-                " INNER JOIN upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.wkb_geometry,4674), up.geom) " +
-                " where p.year = 2018 and up.token= ${token} " +
-                " GROUP BY 1,2 ORDER BY 3 DESC",
-            mantain: true
-        }
-        ]
-    }
 
 
     return Query;
