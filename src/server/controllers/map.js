@@ -67,7 +67,6 @@ module.exports = function (app) {
             iniResults.push(row)
         })
 
-        console.log(iniResults)
         let result = [...new Map(iniResults.map(item => [item['value'], item])).values()]
 
         response.send(result)
