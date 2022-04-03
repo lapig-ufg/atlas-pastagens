@@ -117,6 +117,54 @@ module.exports = function (app) {
         ]
     };
 
+    Query.pastureforjob = function (params) {
+
+        var token = params['token']
+        var year = params['year']
+        return [{
+            source: 'lapig',
+            id: 'pastagem',
+            sql: "SELECT p.year, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
+                "FROM pasture_col6 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
+                (year ? "AND year = ${year}" : "") +
+                "and up.token= ${token} GROUP BY 1 order by 1 desc",
+            mantain: true
+        }
+        ]
+        // SELECT up.token,
+        // 		p.year,
+        //        p.intersect_area
+        // FROM fdw_general.upload_shapes up
+        // CROSS JOIN LATERAL (
+        //   SELECT pas.year,
+        //          SUM((ST_Area(safe_intersection(st_transform(pas.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) AS intersect_area
+        //   FROM   pasture_col6 pas
+        //   WHERE  up.token= '1642272820293' and pas.year = 2020 and ST_Intersects(st_transform(pas.geom,4674), up.geom)
+        //   group by 1
+        //   ORDER BY
+        //          2 DESC
+        // ) AS p
+        // ;
+    }
+
+    Query.pasturequalityforjob = function (params) {
+
+        var token = params['token']
+        var year = params['year']
+        return [{
+            source: 'lapig',
+            id: 'pasture_quality',
+            sql: "SELECT p.year, b.name as classe, b.color, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) AS area_pastagem "
+                + " FROM pasture_quality_col6 p "
+                + " INNER JOIN graphic_colors as b on cast(p.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
+                + " INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom)  where p.year IS NOT NULL "
+                + (year ? "AND year = ${year}" : "")
+                + " AND up.token= ${token} GROUP BY 1,2,3 order by 1 desc ",
+            mantain: true
+        }
+        ]
+    };
+
     Query.carbonstock = function (params) {
 
         var token = params['token']

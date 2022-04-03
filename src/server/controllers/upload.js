@@ -871,5 +871,84 @@ module.exports = function (app) {
         }
     }
 
+    Uploader.pastureForJob = function (request, response) {
+
+        try {
+
+            var queryResult = request.queryResult['pastagem']
+
+            var pastagemByYear = []
+            queryResult.forEach(function (row) {
+
+                var year = Number(row['year'])
+                var area = Number(row['area_pastagem'])
+
+                pastagemByYear.push({
+                    'area_pastagem': area,
+                    'year': year
+                })
+            });
+
+
+            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
+                [key]: value,
+                ...rest
+            }) => ({
+                ...hash,
+                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
+                    [key]: value,
+                    ...rest
+                })
+            }), {})
+
+            const areasGroupedByYear = groupByKey(pastagemByYear, 'year', { omitKey: true });
+            let arrayAreasGrouped = []
+
+            for (let key of Object.keys(areasGroupedByYear)) {
+                arrayAreasGrouped.push({
+                    year: key,
+                    area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
+                })
+            }
+
+            response.status(200).send(arrayAreasGrouped);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    };
+
+    Uploader.pasturequalityForJob = function (request, response) {
+
+        try {
+
+            var queryResult = request.queryResult['pasture_quality']
+
+            var pastagemByYear = []
+            queryResult.forEach(function (row) {
+
+                var year = Number(row['year'])
+                var area = Number(row['area_pastagem'])
+
+                pastagemByYear.push({
+                    'area_pastagem': area,
+                    'year': year,
+                    'classe': row['classe'],
+                    'color': row['color']
+                })
+            });
+
+
+            response.status(200).send(pastagemByYear);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    };
+
     return Uploader;
 };
