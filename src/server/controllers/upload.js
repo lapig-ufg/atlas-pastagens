@@ -955,6 +955,10 @@ module.exports = function (app) {
                 return elem;
             });
 
+            // Ascending sort
+            res.pasture.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
+            res.pasture_quality.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
+
             const chartResult = [
                 {
                     "id": "pasture",
