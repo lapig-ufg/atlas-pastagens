@@ -611,7 +611,6 @@ module.exports = function (app) {
 
     Uploader.saveAnalysis = function (request, response) {
 
-
         let token = request.queryResult['store'];
 
         response.send(token);
@@ -868,46 +867,36 @@ module.exports = function (app) {
     }
 
     Uploader.pastureForJob = function (request, response) {
+        const { year } = request.query;
 
         try {
 
             var queryResult = request.queryResult['pastagem']
 
-            var pastagemByYear = []
-            queryResult.forEach(function (row) {
+            var pastagemByYear;
+            if (queryResult.length > 1) {
+                pastagemByYear = []
+                queryResult.forEach(function (row) {
 
-                var year = Number(row['year'])
-                var area = Number(row['area_pastagem'])
+                    var year = Number(row['year'])
+                    var area = Number(row['area_pastagem'])
 
-                pastagemByYear.push({
-                    'area_pastagem': area,
-                    'year': year
-                })
-            });
-
-
-            const groupByKey = (list, key, { omitKey = false }) => list.reduce((hash, {
-                [key]: value,
-                ...rest
-            }) => ({
-                ...hash,
-                [value]: (hash[value] || []).concat(omitKey ? { ...rest } : {
-                    [key]: value,
-                    ...rest
-                })
-            }), {})
-
-            const areasGroupedByYear = groupByKey(pastagemByYear, 'year', { omitKey: true });
-            let arrayAreasGrouped = []
-
-            for (let key of Object.keys(areasGroupedByYear)) {
-                arrayAreasGrouped.push({
-                    year: key,
-                    area_pastagem: areasGroupedByYear[key][0].hasOwnProperty('area_pastagem') ? areasGroupedByYear[key][0]['area_pastagem'] : areasGroupedByYear[key][1]['area_pastagem'],
-                })
+                    pastagemByYear.push({
+                        'area_pastagem': area,
+                        'year': year
+                    })
+                });
+            }
+            else {
+                pastagemByYear = {
+                    year: Number(queryResult[0]['year']),
+                    area_pastagem: Number(queryResult[0]['area_pastagem'])
+                }
             }
 
-            response.status(200).send(arrayAreasGrouped);
+
+
+            response.status(200).send(pastagemByYear);
             response.end()
 
         } catch (err) {
@@ -923,6 +912,8 @@ module.exports = function (app) {
             var queryResult = request.queryResult['pasture_quality']
 
             var pastagemByYear = []
+
+
             queryResult.forEach(function (row) {
 
                 var year = Number(row['year'])
