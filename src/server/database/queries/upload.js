@@ -62,7 +62,7 @@ module.exports = function (app) {
         return [{
             source: 'general',
             id: 'store',
-            sql: "INSERT INTO area_analysis(token, analysis, date, origin) VALUES ('" + params['token'] + "', '" + params['analysis'] + "', NOW(), '" + params['origin'] + ") RETURNING token;",
+            sql: "INSERT INTO area_analysis(token, analysis, date, origin) VALUES ('" + params['token'] + "', '" + params['analysis'] + "', NOW(), '" + params['origin'] + "') RETURNING token;",
             mantain: true
         }
         ]
