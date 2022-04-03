@@ -852,5 +852,24 @@ module.exports = function (app) {
         }
     };
 
+    Uploader.getPastureYears = function (request, response) {
+        try {
+
+            queryResult = request.queryResult['pasture']
+
+            let yearsObjects = {
+                pasture: request.queryResult['pasture'].map(e => Number(e.year)),
+                pasture_quality: request.queryResult['pasture_quality'].map(e => Number(e.year))
+            };
+
+            response.status(200).send(yearsObjects);
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    }
+
     return Uploader;
 };

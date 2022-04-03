@@ -14,4 +14,5 @@ module.exports = function (app) {
 	app.get('/service/upload/pasture', dataInjector, uploader.pasture);
 	app.get('/service/upload/pasturequality', dataInjector, uploader.pasturequality);
 	app.get('/service/upload/carbonstock', dataInjector, uploader.carbonstock);
+	app.get('/service/upload/getpastureyears', dataInjector, uploader.getPastureYears);
 }
