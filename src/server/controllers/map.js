@@ -69,7 +69,7 @@ module.exports = function (app) {
 
         let result = [...new Map(iniResults.map(item => [item['value'], item])).values()]
 
-        response.send(result)
+        response.send({ search: result })
         response.end()
     }
 

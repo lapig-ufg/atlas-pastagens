@@ -721,10 +721,6 @@ module.exports = function (app) {
                 })
             });
 
-            console.log("PASTAGEM BY YEAR \n", pastagemByYear)
-
-
-
             let graphPastagem = {
                 "title": {
                     display: false
