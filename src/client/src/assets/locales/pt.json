@@ -86,6 +86,8 @@
     "analyzed_area_total_area": "Área total submetida: ",
     "analyzed_area_table_city_title": "Municípios que intersectam com a área submetida",
     "analyzed_area_table_state_title": "Estados que intersectam com a área submetida",
+    "analyzed_area_pasture_text": "De acordo com o LAPIG, a área de Pastagem (em hectares) na área submetida foi de:",
+    "analyzed_area_pasture_quality_text": "De acordo com o LAPIG, ao longo dos anos, a área submetida possui uma área de Pastagem (ha) distribuída entre as seguintes classes de degradação de Pastagem: ",
     "search_tooltip": "Consultar área por token.",
     "drawed_tooltip": "Analisar área desenhada no Mapa.",
     "save_message_success": {

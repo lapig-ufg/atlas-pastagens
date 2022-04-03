@@ -9,6 +9,8 @@ var epsg = require('epsg');
 const repro = require("reproject")
 const moment = require("moment");
 
+const UtilsLang = require('../utils/language');
+
 const { Pool, Client } = require('pg')
 const pool = new Pool(config['pg_general'])
 
@@ -591,23 +593,6 @@ module.exports = function (app) {
     };
 
 
-    Uploader.getAnalysis = function (request, response) {
-        try {
-
-            queryResult = request.queryResult['return_analysis']
-            let res = false
-            if (queryResult.length > 0) {
-                res = JSON.parse(Buffer.from(queryResult[0].analysis, 'base64'));
-            }
-
-            response.status(200).send(res);
-            response.end()
-
-        } catch (err) {
-            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
-            response.end()
-        }
-    }
 
     Uploader.saveAnalysis = function (request, response) {
 
@@ -936,6 +921,204 @@ module.exports = function (app) {
             response.end()
         }
     };
+
+    Uploader.getAnalysis = function (request, response) {
+        const { lang, token, origin } = request.query;
+
+        const language = lang;
+
+        Internal.languageOb = UtilsLang().getLang(language).right_sidebar;
+        const auxLang = UtilsLang().getLang(language).area
+
+        try {
+
+            queryResult = request.queryResult['return_analysis']
+            let res = false
+            if (queryResult.length > 0) {
+                res = JSON.parse(Buffer.from(queryResult[0].analysis, 'base64'));
+            }
+
+            res.pasture = res.pasture.map(elem => {
+                elem.value = elem.area_pastagem;
+                delete elem.area_pastagem;
+                elem.label = elem.year;
+                delete elem.year;
+                elem.color = 'rgb(231, 187, 2)'
+                return elem;
+            });
+
+            res.pasture_quality = res.pasture_quality.map(elem => {
+                elem.value = elem.area_pastagem;
+                delete elem.area_pastagem;
+                elem.label = elem.year;
+                delete elem.year;
+                return elem;
+            });
+
+            const chartResult = [
+                {
+                    "id": "pasture",
+                    "idsOfQueriesExecuted": [
+                        { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
+                    ],
+                    "title": Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].title,
+                    "getText": function () {
+                        const text = auxLang.analyzed_area_pasture_text
+                        return text
+                    },
+                    "type": 'line',
+                    "options": {
+                        legend: {
+                            display: false
+                        }
+                    }
+                },
+                {
+                    "id": "pasture_quality",
+                    "idsOfQueriesExecuted": [
+                        { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["area1_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
+                        // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
+                    ],
+                    "title": Internal.languageOb["area1_card"]["pastureQuality"].title,
+                    "getText": function () {
+                        const text = auxLang.analyzed_area_pasture_quality_text
+                        return text
+                    },
+                    "type": 'line',
+                    "options": {
+                        legend: {
+                            display: false
+                        }
+                    }
+                },
+            ]
+
+            for (let chart of chartResult) {
+
+                chart['data'] = Internal.buildGraphResult(res[chart.id], chart)
+                chart['show'] = false
+
+                if (chart['data']) {
+                    chart['show'] = true
+                    chart['text'] = chart.getText()
+                } else {
+                    chart['data'] = {};
+                    chart['show'] = false;
+                    chart['text'] = "erro."
+                }
+            }
+
+
+
+            let finalObject = {
+                regions_intersected: res.regions_intersected,
+                shape_upload: res.shape_upload,
+                pasture: chartResult.filter(e => e.id == 'pasture'),
+                pasture_quality: chartResult.filter(e => e.id == 'pasture_quality')
+            }
+
+            if (typeof res === 'object' && res !== null)
+                response.status(200).send(finalObject);
+            else {
+                response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            }
+            response.end()
+
+        } catch (err) {
+            response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
+            response.end()
+        }
+    }
+
+
+    Internal.buildGraphResult = function (queryInd, chartDescription) {
+        var dataInfo = {}
+
+        try {
+            let arrayLabels = []
+            let arrayData = []
+
+            arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
+            let colors = [...new Set(queryInd.map(a => a.color))]
+            for (let query of chartDescription.idsOfQueriesExecuted) {
+                if (chartDescription.type == 'line') {
+
+                    if (typeof query.labelOfQuery === 'string') {
+                        arrayData.push({
+                            label: query.labelOfQuery,
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                            fill: false,
+                            borderColor: [...new Set(queryInd.map(a => a.color))],
+                            tension: .4
+                        })
+                    }
+                    else {
+                        for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
+                            arrayData.push({
+                                label: valueLabelQuery,
+                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                                fill: false,
+                                borderColor: [...new Set(queryInd.filter(a => a.classe == keyLabelQuery).map(ob => ob.color))],
+                                tension: .4
+                            })
+                        }
+                    }
+                }
+                else if (chartDescription.type == 'pie' || chartDescription.type == 'doughnut') {
+                    if (typeof query.labelOfQuery === 'string') {
+                        arrayData.push({
+                            label: query.labelOfQuery,
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                            backgroundColor: [...new Set(queryInd.map(element => element.color))],
+                            hoverBackgroundColor: [...new Set(queryInd.map(element => element.color))],
+                        })
+                    }
+                    else {
+                        arrayData.push({
+                            label: query.idOfQuery,
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                            backgroundColor: [...new Set(queryInd.map(element => element.color))],
+                            hoverBackgroundColor: [...new Set(queryInd.map(element => element.color))],
+                        })
+                    }
+
+                }
+                else if (chartDescription.type == 'bar' || chartDescription.type == 'horizontalBar') {
+                    if (typeof query.labelOfQuery === 'string') {
+                        arrayData.push({
+                            label: query.labelOfQuery,
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                            backgroundColor: [...new Set(queryInd.map(a => a.color))],
+                        })
+                    }
+                    else {
+                        for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
+                            arrayData.push({
+                                label: valueLabelQuery,
+                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                                backgroundColor: [...new Set(queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => a.color))],
+                            })
+                        }
+                    }
+                }
+            }
+
+            dataInfo = {
+                labels: [...new Set(arrayLabels)],
+                datasets: [...arrayData]
+            }
+
+            // chart['indicators'] = queryInd.filter(val => {
+            //     return parseFloat(val.value) > 10
+            // })
+        }
+        catch (e) {
+            dataInfo = null
+        }
+
+        return dataInfo;
+    };
+
 
     return Uploader;
 };
