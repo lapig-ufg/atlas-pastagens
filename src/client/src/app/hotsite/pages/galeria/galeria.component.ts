@@ -12,7 +12,7 @@ import {LangChangeEvent} from "@ngx-translate/core";
 })
 export class GaleriaComponent implements OnInit {
   tagsGroup: TagsGroup[];
-  selectedTags: Tag[] = [];
+  selectedTags: Tag[] = [{tag: "Pastagem", column: 'tag_1'}];
 
   images: any[] = [];
 
@@ -27,7 +27,7 @@ export class GaleriaComponent implements OnInit {
   displayBasic: boolean;
   displayCustom: boolean;
 
-  defaultTags: Tag[] = [{tag: "Pastagem", column: 'tag_1'}, {tag: "Degradada", column: 'tag_2'}];
+  defaultTags: Tag[] = [{tag: "Pastagem", column: 'tag_1'}];
 
   responsiveOptions: any[] = [
     {

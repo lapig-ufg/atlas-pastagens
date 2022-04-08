@@ -1209,6 +1209,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   initVectorLayerInteraction() {
     this.vector = new VectorLayer({
+      zIndex: 100000,
       source: this.source,
       style: this.defaultStyle
     });
@@ -1523,7 +1524,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   obtainSearchSuggestions(event) {
-
     let query = event.query;
     if (this.selectedSearchOption.toLowerCase() == 'region') {
 
@@ -1542,11 +1542,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   onSelectSuggestion(event) {
-    if (this.selectedSearchOption.toLowerCase() == 'region') {
-      this.updateRegion(event)
-    } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
-      this.updateAreaOnMap(event)
+    if(event.type != 'biome'){
+      if (this.selectedSearchOption.toLowerCase() == 'region') {
+        this.updateRegion(event)
+      } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
+        this.updateAreaOnMap(event)
+      }
+    } else {
+      this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
     }
+
   }
 
   onChangeSearchOption() {

@@ -53,7 +53,9 @@
   },
   "map": {
     "coordinates": "Coordinates",
-    "find_point": "Find point"
+    "find_point": "Find point",
+    "msg_warning_biome_title": "Warning",
+    "msg_warning_biome": "Biome data is currently being processed. They will soon be available on the platform."
   },
   "menu": {
     "layers": "Layers",
@@ -530,10 +532,14 @@
       "team": {
         "title": "Team",
         "researcher_analyst": "Researcher and Social and Environmental Analyst",
+        "researcher_analyst_f": "Researcher and Social and Environmental Analyst",
         "research_assistant": "Research Assistant",
         "project_manager": "Project Manager",
         "infrastructure_analyst": "Infrastructure Analyst",
         "devops_analyst": "DevOps Analyst",
+        "systems_analyst": "Systems Development Analyst",
+        "phd_animal_science": "PhD in Animal Science",
+        "phd_ecology": "PhD in Ecology",
         "development_analyst": "Systems Development Analyst",
         "database_analyst": "Database Analyst and Developer",
         "coordinator": "Coordinator",

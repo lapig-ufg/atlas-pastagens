@@ -53,7 +53,9 @@
   },
   "map": {
     "coordinates": "Coordenadas",
-    "find_point": "Localizar ponto"
+    "find_point": "Localizar ponto",
+    "msg_warning_biome_title": "Atenção",
+    "msg_warning_biome": "Os dados dos biomas estão em processamento. Em breve estarão disponíveis na plataforma."
   },
   "menu": {
     "layers": "Camadas",
@@ -530,11 +532,15 @@
       },
       "team": {
         "title": "Equipe",
-        "researcher_analyst": "Pesquisador(a) e Analista Socioambiental",
+        "researcher_analyst": "Pesquisador e Analista Socioambiental",
+        "researcher_analyst_f": "Pesquisadora e Analista Socioambiental",
         "research_assistant": "Pesquisadora Assistente",
         "project_manager": "Gestora de Projetos",
         "infrastructure_analyst": "Analista de Infraestrutura",
         "devops_analyst": "Analista DevOps",
+        "systems_analyst": "Analista de Desenvolvimento de Sistemas",
+        "phd_animal_science": "Doutor em Zootecnia",
+        "phd_ecology": "Doutor Ecologia",
         "development_analyst": "Analista de Desenvolvimento de Sistemas",
         "database_analyst": "Analista de Banco de Dados e Desenvolvedor",
         "coordinator": "Coordenador",

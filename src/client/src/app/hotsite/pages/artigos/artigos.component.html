@@ -33,8 +33,8 @@
         <div class="row m-3" *ngFor="let article of articles | filter:search">
           <div class="col-lg-12">
             <div class="bg-clr-white hover-box">
-              <div class="row align-items-center">
-                <div class="col-sm-4 pl-5 position-relative">
+              <div class="row">
+                <div class="col-sm-4 pl-5 pt-4 position-relative">
                   <a [href]="article.doi" target="_blank">
                     <img class="img-fluid d-block artigo-img"
                          [src]="article.image"

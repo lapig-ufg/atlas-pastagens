@@ -229,7 +229,9 @@
   <p *ngIf="objectFullScreenChart.text">
     {{ objectFullScreenChart.text }}
   </p>
-  <p-chart *ngIf="objectFullScreenChart.type" [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
-    [options]="objectFullScreenChart.options">
-  </p-chart>
+  <div class="chart">
+    <p-chart *ngIf="objectFullScreenChart.type" [responsive]="true"  [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
+      [options]="objectFullScreenChart.options">
+    </p-chart>
+  </div>
 </p-dialog>

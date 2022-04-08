@@ -26,6 +26,7 @@ import Text from "ol/style/Text";
 import Graticule from 'ol-ext/control/Graticule';
 import Compass from 'ol-ext/control/Compass';
 import { GoogleAnalyticsService } from "../services/google-analytics.service";
+import {loadFeaturesXhr} from "ol/featureloader";
 
 @Component({
   selector: 'app-left-side-bar',
@@ -253,7 +254,7 @@ export class LeftSideBarComponent implements AfterViewInit {
 
   onChangeLimit(limit) {
     this.limits.map((l) => {
-      l.checked = limit.key === l.key;
+      l.checked = limit.get('key') === l.get('key');
     });
     this.onChangeLimits.emit({ layer: { layer: limit }, updateSource: false });
   }
