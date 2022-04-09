@@ -853,19 +853,14 @@ module.exports = function (app) {
 
     Uploader.pastureForJob = function (request, response) {
         const { year } = request.query;
-
         try {
-
-            var queryResult = request.queryResult['pastagem']
-
-            var pastagemByYear;
+            let queryResult = request.queryResult['pastagem'];
+            let pastagemByYear;
             if (queryResult.length > 1) {
                 pastagemByYear = []
                 queryResult.forEach(function (row) {
-
-                    var year = Number(row['year'])
-                    var area = Number(row['area_pastagem'])
-
+                    const year = Number(row['year'])
+                    const area = Number(row['area_pastagem'])
                     pastagemByYear.push({
                         'area_pastagem': area,
                         'year': year
@@ -873,13 +868,16 @@ module.exports = function (app) {
                 });
             }
             else {
-                pastagemByYear = {
-                    year: Number(queryResult[0]['year']),
-                    area_pastagem: Number(queryResult[0]['area_pastagem'])
-                }
+                // pastagemByYear = {
+                //     year: Number(queryResult[0]['year']),
+                //     area_pastagem: Number(queryResult[0]['area_pastagem'])
+                // }
+
+                pastagemByYear.push( {
+                    year: null,
+                    area_pastagem: null
+                })
             }
-
-
 
             response.status(200).send(pastagemByYear);
             response.end()
@@ -894,26 +892,36 @@ module.exports = function (app) {
 
         try {
 
-            var queryResult = request.queryResult['pasture_quality']
+            let queryResult = request.queryResult['pasture_quality']
+            let pastureQualityByYear = []
 
-            var pastagemByYear = []
+            if (queryResult.length > 1) {
+                queryResult.forEach(function (row) {
+                    const year = Number(row['year'])
+                    const area = Number(row['area_pastagem'])
 
-
-            queryResult.forEach(function (row) {
-
-                var year = Number(row['year'])
-                var area = Number(row['area_pastagem'])
-
-                pastagemByYear.push({
-                    'area_pastagem': area,
-                    'year': year,
-                    'classe': row['classe'],
-                    'color': row['color']
+                    pastureQualityByYear.push({
+                        'area_pastagem': area,
+                        'year': year,
+                        'classe': row['classe'],
+                        'color': row['color']
+                    })
+                });
+            }
+            else {
+                // pastureQualityByYear = {
+                //     year: Number(queryResult[0]['year']),
+                //     area_pastagem: Number(queryResult[0]['area_pastagem'])
+                // }
+                pastureQualityByYear.push({
+                    'area_pastagem': null,
+                    'year': null,
+                    'classe': null,
+                    'color': null
                 })
-            });
+            }
 
-
-            response.status(200).send(pastagemByYear);
+            response.status(200).send(pastureQualityByYear);
             response.end()
 
         } catch (err) {
