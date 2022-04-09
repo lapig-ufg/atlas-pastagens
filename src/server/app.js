@@ -48,7 +48,7 @@ app.database.client.init(function () {
     app.set('view engine', 'ejs');
 
     app.use(requestTimeout({
-        'timeout': 2000 * 60 * 60,
+        'timeout': 2000 * 60 * 30 * 24,
         'callback': function (err, options) {
             let response = options.res;
             if (err) {

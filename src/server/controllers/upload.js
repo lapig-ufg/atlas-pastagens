@@ -855,7 +855,7 @@ module.exports = function (app) {
         const { year } = request.query;
         try {
             let queryResult = request.queryResult['pastagem'];
-            let pastagemByYear;
+            let pastagemByYear = [];
             if (queryResult.length > 1) {
                 pastagemByYear = []
                 queryResult.forEach(function (row) {
@@ -866,23 +866,21 @@ module.exports = function (app) {
                         'year': year
                     })
                 });
-            }
-            else {
+            } else {
                 // pastagemByYear = {
                 //     year: Number(queryResult[0]['year']),
                 //     area_pastagem: Number(queryResult[0]['area_pastagem'])
                 // }
-
                 pastagemByYear.push( {
                     year: null,
                     area_pastagem: null
                 })
             }
-
             response.status(200).send(pastagemByYear);
             response.end()
 
         } catch (err) {
+            console.error(err)
             response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
             response.end()
         }
@@ -925,6 +923,7 @@ module.exports = function (app) {
             response.end()
 
         } catch (err) {
+            console.error(err)
             response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
             response.end()
         }

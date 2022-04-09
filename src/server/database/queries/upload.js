@@ -160,7 +160,6 @@ module.exports = function (app) {
             + " INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom)  where p.year IS NOT NULL "
             + (year ? "AND year = ${year}" : "")
             + " AND up.token= ${token} GROUP BY 1,2,3 order by 1 desc "
-        console.log(sql)
         return [{
             source: 'lapig',
             id: 'pasture_quality',
