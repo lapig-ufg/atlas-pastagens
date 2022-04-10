@@ -304,4 +304,31 @@
     </ol-map>
   </div>
   <p-toast></p-toast>
+  <p-dialog
+    header="{{'map.job.title' | translate}}"
+    [maximizable]="false"
+    [draggable]="false"
+    [resizable]="false"
+    [appendTo]="'body'"
+    [modal]="true"
+    [style]="{width: '50%'}"
+    [(visible)]="displayFormJob">
+    <div class="form-jobs">
+      <span class="p-float-label">
+        <input type="text" id="name" pInputText [(ngModel)]="job.name">
+        <label for="name">{{'map.job.input_name' | translate}}</label>
+      </span>
+      <span class="p-float-label" >
+        <input type="email" id="email" [ngClass]="emailValid ? '' : 'ng-invalid ng-dirty'" pInputText [(ngModel)]="job.email" (blur)="validateEmail()">
+        <label for="email">{{'map.job.input_email' | translate}}</label>
+      </span>
+      <div class="job-controls">
+        <span class="terms">
+          <p-inputSwitch [(ngModel)]="job.acceptTerms" ariaLabel="Aceita Termos de Uso?"></p-inputSwitch>
+          <small>{{'map.job.acceptTerms' | translate}}</small>
+        </span>
+        <p-button *ngIf="job.acceptTerms && emailValid && job.email != '' && job.name != ''" icon="pi pi-check" (click)="sendRequestJob()" label="{{'map.job.btn' | translate}}" styleClass="p-button-success"></p-button>
+      </div>
+    </div>
+  </p-dialog>
 </section>

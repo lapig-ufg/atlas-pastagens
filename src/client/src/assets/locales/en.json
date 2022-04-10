@@ -41,6 +41,7 @@
   "left_sidebar": {
     "title": "Menu",
     "opacity": "Opacity",
+    "tutorial_title": "Tutorial Of Analysis Area",
     "layer": {
       "metadata": "Layer Metadata",
       "down_shp": "Download SHP",
@@ -55,7 +56,14 @@
     "coordinates": "Coordinates",
     "find_point": "Find point",
     "msg_warning_biome_title": "Warning",
-    "msg_warning_biome": "Biome data is currently being processed. They will soon be available on the platform."
+    "msg_warning_biome": "Biome data is currently being processed. They will soon be available on the platform.",
+    "job":{
+      "title": "Geometry Analysis Request",
+      "input_name": "Name",
+      "input_email": "E-mail",
+      "acceptTerms": "Accept Terms of Use",
+      "btn": "Send request"
+    }
   },
   "menu": {
     "layers": "Layers",

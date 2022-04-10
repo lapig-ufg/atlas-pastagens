@@ -941,30 +941,39 @@ module.exports = function (app) {
 
             queryResult = request.queryResult['return_analysis']
             let res = false
+
             if (queryResult.length > 0) {
                 res = JSON.parse(Buffer.from(queryResult[0].analysis, 'base64'));
             }
 
-            res.pasture = res.pasture.map(elem => {
-                elem.value = elem.area_pastagem;
-                delete elem.area_pastagem;
-                elem.label = elem.year;
-                delete elem.year;
-                elem.color = 'rgb(231, 187, 2)'
-                return elem;
-            });
+            if(res.pasture.length > 0){
+                res.pasture = res.pasture.map(elem => {
+                    elem.value = elem.area_pastagem;
+                    delete elem.area_pastagem;
+                    elem.label = elem.year;
+                    delete elem.year;
+                    elem.color = 'rgb(231, 187, 2)'
+                    return elem;
+                });
+            }
 
-            res.pasture_quality = res.pasture_quality.map(elem => {
-                elem.value = elem.area_pastagem;
-                delete elem.area_pastagem;
-                elem.label = elem.year;
-                delete elem.year;
-                return elem;
-            });
+            if(res.pasture_quality.length > 0){
+                res.pasture_quality = res.pasture_quality.map(elem => {
+                    elem.value = elem.area_pastagem;
+                    delete elem.area_pastagem;
+                    elem.label = elem.year;
+                    delete elem.year;
+                    return elem;
+                });
+            }
 
             // Ascending sort
-            res.pasture.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
-            res.pasture_quality.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
+            if(res.pasture.length > 0){
+                res.pasture.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
+            }
+            if(res.pasture_quality.length > 0){
+                res.pasture_quality.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
+            }
 
             const chartResult = [
                 {
@@ -1006,7 +1015,12 @@ module.exports = function (app) {
 
             for (let chart of chartResult) {
 
-                chart['data'] = Internal.buildGraphResult(res[chart.id], chart)
+                if(res[chart.id].length > 0){
+                    chart['data'] = Internal.buildGraphResult(res[chart.id], chart)
+                }else{
+                    chart['data'] = null
+                }
+
                 chart['show'] = false
 
                 if (chart['data']) {
@@ -1018,8 +1032,6 @@ module.exports = function (app) {
                     chart['text'] = "erro."
                 }
             }
-
-
 
             let finalObject = {
                 regions_intersected: res.regions_intersected,
@@ -1036,6 +1048,7 @@ module.exports = function (app) {
             response.end()
 
         } catch (err) {
+            console.error(err);
             response.status(400).send(languageJson['upload_messages']['spatial_relation_error'][Internal.language]);
             response.end()
         }

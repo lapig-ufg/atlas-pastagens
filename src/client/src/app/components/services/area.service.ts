@@ -3,6 +3,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from "rxjs/operators";
+import {Job} from "../../@core/interfaces/job";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -62,12 +64,17 @@ export class AreaService {
       .pipe(catchError(this.errorHandler));
   }
 
+  saveJob(job: Job): Observable<any> {
+    return this.httpClient.post<any>(environment.LAPIG_JOBS + '/service/job/create', {job: job}, this.httpOptions)
+      .pipe(catchError(this.errorHandler));
+  }
+
   errorHandler(error) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
     } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      errorMessage = `Message: ${error.message}`;
     }
     return throwError(errorMessage);
   }

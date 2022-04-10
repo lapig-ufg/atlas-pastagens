@@ -614,4 +614,34 @@
   video{
     border-radius: 10px;
   }
+  .form-jobs{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    input{
+      width: 100%;
+    }
+    span {
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    .job-controls {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .p-button {
+        width: 180px !important;
+      }
+      .terms{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        small{
+          margin-left: 10px;
+        }
+      }
+    }
+  }
 }

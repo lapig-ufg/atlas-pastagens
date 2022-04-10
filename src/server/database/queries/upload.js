@@ -46,13 +46,13 @@ module.exports = function (app) {
     }
 
     Query.getanalysis = function (params) {
-
-        return [{
-            source: 'general',
-            id: 'return_analysis',
-            sql: "SELECT gid, token, analysis, TO_CHAR(date,'DD/MM/YYYY HH:mm:ss') as data FROM area_analysis WHERE token = ${token} and unaccent(origin) ilike unaccent(${origin}) order by date desc limit 1;",
-            mantain: true
-        }
+        return [
+            {
+                source: 'general',
+                id: 'return_analysis',
+                sql: "SELECT gid, token, analysis, TO_CHAR(date,'DD/MM/YYYY HH:mm:ss') as data FROM area_analysis WHERE token = ${token} and unaccent(origin) ilike unaccent(${origin}) order by date desc limit 1;",
+                mantain: true
+            }
         ]
     }
 
