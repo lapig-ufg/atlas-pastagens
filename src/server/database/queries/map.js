@@ -52,10 +52,16 @@ module.exports = function (app) {
     }
 
     Query.cars = function () {
+        // return [{
+        //     source: 'general',
+        //     id: 'search',
+        //     sql: "SELECT car_code as text, area_ha, ST_AsGeoJSON(geom) as geojson FROM car_brasil WHERE unaccent(car_code) ILIKE unaccent(${key}%) order by area_ha DESC LIMIT 10",
+        //     mantain: true
+        // }]
         return [{
-            source: 'general',
+            source: 'lapig',
             id: 'search',
-            sql: "SELECT car_code as text, area_ha, ST_AsGeoJSON(geom) geojson FROM car_brasil WHERE unaccent(car_code) ILIKE unaccent(${key}%) order by area_ha DESC LIMIT 10",
+            sql: "SELECT cod_car as text, area_ha, ST_AsGeoJSON(geom) as geojson FROM geo_car_imovel WHERE unaccent(cod_car) ILIKE unaccent(${key}%) order by area_ha DESC LIMIT 10",
             mantain: true
         }]
     }
@@ -65,7 +71,7 @@ module.exports = function (app) {
         return [{
             source: 'general',
             id: 'search',
-            sql: "SELECT nome || ' - ' || uf as text, uf, cd_geocmu, ST_AsGeoJSON(geom) geojson FROM ucs WHERE unaccent(nome) ILIKE unaccent('%" + key + "%') order by nome ASC LIMIT 10",
+            sql: "SELECT nome || ' - ' || uf as text, uf, cd_geocmu, ST_AsGeoJSON(geom) as geojson FROM ucs WHERE unaccent(nome) ILIKE unaccent('%" + key + "%') order by nome ASC LIMIT 10",
             mantain: true
         }]
     }

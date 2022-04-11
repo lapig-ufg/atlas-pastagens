@@ -37,6 +37,8 @@ export class AreaComponent implements OnInit {
   public job: Job;
   public emailValid: boolean = true;
   public data: any = {};
+  public objectFullScreenChart: any = {};
+  public chartsArea = [] as any;
   /** Variables for upload shapdefiles **/
   public layerFromUpload: any = {
     label: null,
@@ -379,11 +381,13 @@ export class AreaComponent implements OnInit {
     params.push('token=' + this.layerFromConsulta.token)
     params.push('origin=ATLAS')
     params.push('lang=' + this.localizationService.currentLang())
-
+    this.chartsArea = [];
     try {
       let result = await this.areaService.getSavedAnalysis(params.join('&')).toPromise()
 
       if (typeof result === 'object' && result !== null) {
+        console.log(result)
+        this.chartsArea = [...result.pasture, ...result.pasture_quality]
         this.layerFromConsulta.analyzedArea = result;
       }
       else {
@@ -514,7 +518,6 @@ export class AreaComponent implements OnInit {
           featureProjection: 'EPSG:3857'
         })
       });
-
       this.layerFromUpload.layer = new VectorLayer({
         zIndex: 100000,
         source: vectorSource,
@@ -549,4 +552,15 @@ export class AreaComponent implements OnInit {
     this.emailValid = pattern.test(this.job.email)
   }
 
+  openCharts(chart) {
+    let obj = {
+      title: chart.title,
+      text: chart.text,
+      type: chart.type,
+      data: chart.data,
+      options: chart.options,
+      fullScreen: true
+    }
+    this.objectFullScreenChart = obj;
+  }
 }

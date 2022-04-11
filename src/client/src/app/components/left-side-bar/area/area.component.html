@@ -69,6 +69,25 @@
               ha </strong>
           </div>
 
+          <div class="card-upload-analysed-table">
+            <p-tabView *ngIf="chartsArea.length! > 0">
+              <p-tabPanel header="{{chart.title}}" *ngFor="let chart of chartsArea ; let i = index" [selected]="i == 0"
+                          [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
+                <div class="margin card-header-chart-area">
+                  <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
+                    <mat-icon>aspect_ratio</mat-icon>
+                  </button>
+                  <h4 class="graphicTitle"> {{chart.text}} </h4>
+                </div>
+                <div *ngIf="chart.hasOwnProperty('type')">
+                  <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data"
+                           [options]="chart.options">
+                  </p-chart>
+                </div>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+
           <div *ngIf="layerFromConsulta.analyzedArea.regions_intersected.hasOwnProperty('city')"
                class="card-upload-analysed-table">
             <h6 class="card-upload-analysed-table-title">
@@ -86,10 +105,6 @@
             <p>
               {{getStatesAnalyzedArea(true)}}
             </p>
-          </div>
-
-
-          <div class="card-upload-analysed-table">
           </div>
         </div>
       </div>
@@ -189,6 +204,7 @@
       </div>
 
     </mat-tab>
+
   </mat-tab-group>
   <p-dialog
     header="{{'left_sidebar.tutorial_title' | translate}}"
@@ -228,5 +244,18 @@
       </div>
     </div>
   </p-dialog>
+
+  <p-dialog [appendTo]="'body'" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
+            [header]="objectFullScreenChart.title" [(visible)]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
+    <p *ngIf="objectFullScreenChart.text">
+      {{ objectFullScreenChart.text }}
+    </p>
+    <div class="chart">
+      <p-chart *ngIf="objectFullScreenChart.type" [responsive]="true"  [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
+               [options]="objectFullScreenChart.options">
+      </p-chart>
+    </div>
+  </p-dialog>
+
 
 </section>

@@ -30,12 +30,10 @@ module.exports = function (app) {
             for (let query of chartDescription.idsOfQueriesExecuted) {
 
                 let queryInd = allQueriesResult[query.idOfQuery]
-
                 arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
                 let colors = [...new Set(queryInd.map(a => a.color))]
 
                 if (chartDescription.type == 'line') {
-
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
@@ -100,7 +98,6 @@ module.exports = function (app) {
                 labels: [...new Set(arrayLabels)],
                 datasets: [...arrayData]
             }
-
             // chart['indicators'] = queryInd.filter(val => {
             //     return parseFloat(val.value) > 10
             // })

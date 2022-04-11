@@ -697,6 +697,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   private createVectorLayer(features, strokeColor, width) {
     return new VectorLayer({
+      zIndex: 100000000,
       source: new VectorSource({ features }),
       style: [
         new Style({
@@ -1603,6 +1604,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     });
 
     this.otherLayerFromFilters.layer = new VectorLayer({
+      zIndex: 10000000,
       source: vectorSource,
       style: [
         new Style({
@@ -2016,7 +2018,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
                 key: 'popup-vector',
               },
               visible: true,
-              zIndex: 100000
+              zIndex: 100000000
             });
             this.map.addLayer(vectorLayer);
           }
