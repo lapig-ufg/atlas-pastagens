@@ -48,7 +48,9 @@
     (onHide)="hideSidebar()"
     (visibleChange)="onSideBarToggle.emit(layersSideBar)"
   >
-    <h4 *ngIf="currentMenu?.key !== 'statistics'" class="title">{{ layersTitle }}</h4>
+    <h4 *ngIf="currentMenu?.key !== 'statistics'" class="title">
+      {{ layersTitle }}
+    </h4>
     <div *ngIf="currentMenu?.key !== 'statistics'" class="content"
       [style]="{width: '100%', height: innerHeigth + 'px'}">
       <div class="menu-item" *ngIf="currentMenu?.key == 'layers'">

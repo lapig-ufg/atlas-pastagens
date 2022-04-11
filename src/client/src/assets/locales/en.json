@@ -41,6 +41,7 @@
   "left_sidebar": {
     "title": "Menu",
     "opacity": "Opacity",
+    "tutorial_title": "Tutorial Of Analysis Area",
     "layer": {
       "metadata": "Layer Metadata",
       "down_shp": "Download SHP",
@@ -53,7 +54,16 @@
   },
   "map": {
     "coordinates": "Coordinates",
-    "find_point": "Find point"
+    "find_point": "Find point",
+    "msg_warning_biome_title": "Warning",
+    "msg_warning_biome": "Biome data is currently being processed. They will soon be available on the platform.",
+    "job":{
+      "title": "Geometry Analysis Request",
+      "input_name": "Name",
+      "input_email": "E-mail",
+      "acceptTerms": "Accept Terms of Use",
+      "btn": "Send request"
+    }
   },
   "menu": {
     "layers": "Layers",
@@ -85,6 +95,8 @@
     "analyzed_area_total_area": "Total area submitted: ",
     "analyzed_area_table_city_title": "Municipalities that intersect with the submitted area",
     "analyzed_area_table_state_title": "States that intersect with the submitted area",
+    "analyzed_area_pasture_text": "According to LAPIG, the Pasture area (in hectares) in the submitted area was: ",
+    "analyzed_area_pasture_quality_text": "According to LAPIG, over the years, the submitted area has a Pasture area (ha) distributed among the following Grassland degradation classes: ",
     "search_tooltip": "Search area using a token.",
     "drawed_tooltip": "Analyze drawed area on Map.",
     "save_message_success": {
@@ -530,10 +542,14 @@
       "team": {
         "title": "Team",
         "researcher_analyst": "Researcher and Social and Environmental Analyst",
+        "researcher_analyst_f": "Researcher and Social and Environmental Analyst",
         "research_assistant": "Research Assistant",
         "project_manager": "Project Manager",
         "infrastructure_analyst": "Infrastructure Analyst",
         "devops_analyst": "DevOps Analyst",
+        "systems_analyst": "Systems Development Analyst",
+        "phd_animal_science": "PhD in Animal Science",
+        "phd_ecology": "PhD in Ecology",
         "development_analyst": "Systems Development Analyst",
         "database_analyst": "Database Analyst and Developer",
         "coordinator": "Coordinator",

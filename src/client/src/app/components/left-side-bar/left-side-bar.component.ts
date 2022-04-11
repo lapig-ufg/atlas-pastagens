@@ -26,6 +26,8 @@ import Text from "ol/style/Text";
 import Graticule from 'ol-ext/control/Graticule';
 import Compass from 'ol-ext/control/Compass';
 import { GoogleAnalyticsService } from "../services/google-analytics.service";
+import {loadFeaturesXhr} from "ol/featureloader";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-left-side-bar',
@@ -93,6 +95,8 @@ export class LeftSideBarComponent implements AfterViewInit {
     protected renderer: Renderer2,
     protected messageService: MessageService,
     protected cdRef: ChangeDetectorRef,
+    public router: Router,
+    public route: ActivatedRoute,
     protected googleAnalyticsService: GoogleAnalyticsService,
   ) {
     this.metadata = { header: { title: '', description: '' }, data: [] };
@@ -239,6 +243,14 @@ export class LeftSideBarComponent implements AfterViewInit {
     ];
     this.lang = this.localizationService.currentLang();
     this.innerHeigth = window.innerHeight - 180;
+    const self = this;
+    this.route.paramMap.subscribe(function (params) {
+      const token = params.get('token');
+      if(token){
+        self.setTokenGeometryToSearch(parseInt(token))
+
+      }
+    });
     this.cdRef.detectChanges();
   }
 
@@ -253,8 +265,9 @@ export class LeftSideBarComponent implements AfterViewInit {
 
   onChangeLimit(limit) {
     this.limits.map((l) => {
-      l.checked = limit.key === l.key;
+      l.checked = limit.get('key') === l.get('key');
     });
+    limit.setVisible(!limit.checked);
     this.onChangeLimits.emit({ layer: { layer: limit }, updateSource: false });
   }
 

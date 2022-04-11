@@ -8,5 +8,6 @@ export const environment = {
   OWS_O2: "https://o6.lapig.iesa.ufg.br/ows",
   OWS_O3: "https://o7.lapig.iesa.ufg.br/ows",
   OWS_O4: "https://o8.lapig.iesa.ufg.br/ows",
-  APP_URL: 'https://atlas-homolog.lapig.iesa.ufg.br'
+  APP_URL: 'https://atlas-homolog.lapig.iesa.ufg.br',
+  LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br'
 };

@@ -1,58 +1,60 @@
 import {
+  AfterContentChecked,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
-  Output,
   OnInit,
-  AfterContentChecked, ElementRef, ViewChild
+  Output,
+  ViewChild
 } from '@angular/core';
 import TileLayer from "ol/layer/Tile";
 import Map from 'ol/Map';
 import * as OlExtent from 'ol/extent.js';
 import * as Proj from 'ol/proj';
-import { LocalizationService } from "../../@core/internationalization/localization.service";
+import {toLonLat, transform, transformExtent} from 'ol/proj';
+import {LocalizationService} from "../../@core/internationalization/localization.service";
 import TileGrid from "ol/tilegrid/TileGrid";
-import { Descriptor, Control, Ruler, TextFilter, DescriptorType, DescriptorLayer } from "../../@core/interfaces";
-import { DownloadService, MapService } from "../services";
-import { saveAs } from 'file-saver';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Coordinate, createStringXY } from "ol/coordinate";
-import { toLonLat } from "ol/proj";
-import { Overlay } from "ol";
-import { BingMaps, XYZ } from "ol/source";
-import { Fill, Stroke, Style } from "ol/style";
-import { Geometry, LinearRing, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon } from 'ol/geom';
-import { Feature } from "ol";
-import { Draw, Interaction, Modify, Snap } from "ol/interaction";
+import {Control, Descriptor, DescriptorLayer, DescriptorType, Ruler, TextFilter} from "../../@core/interfaces";
+import {DownloadService, MapService} from "../services";
+import {saveAs} from 'file-saver';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {Coordinate, createStringXY} from "ol/coordinate";
+import {Feature, Overlay} from "ol";
+import {BingMaps, XYZ} from "ol/source";
+import {Fill, Stroke, Style} from "ol/style";
+import {Geometry, LinearRing, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon} from 'ol/geom';
+import {Draw, Interaction, Modify, Snap} from "ol/interaction";
 import VectorSource from "ol/source/Vector";
-import { GeoJSON } from "ol/format";
+import {GeoJSON} from "ol/format";
 import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
-import { RulerAreaCtrl, RulerCtrl } from "../../@core/interactions/ruler";
-import { SelectItem, PrimeNGConfig, MessageService, Message } from 'primeng/api';
-import { LayerSwipe } from "../../@core/interfaces/swipe";
-import { AreaService } from '../services/area.service';
+import {RulerAreaCtrl, RulerCtrl} from "../../@core/interactions/ruler";
+import {Message, MessageService, PrimeNGConfig, SelectItem} from 'primeng/api';
+import {LayerSwipe} from "../../@core/interfaces/swipe";
+import {AreaService} from '../services/area.service';
 import Swipe from 'ol-ext/control/Swipe';
 import Compass from 'ol-ext/control/Compass';
-import { transformExtent, transform } from 'ol/proj';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { Pixel } from "ol/pixel";
-import { WmtsService } from "../services/wmts.service";
-import WMTS, { Options, optionsFromCapabilities } from 'ol/source/WMTS';
-import { HttpService } from "../services/http.service";
-import { DecimalPipe } from "@angular/common";
+import {Pixel} from "ol/pixel";
+import {WmtsService} from "../services/wmts.service";
+import WMTS, {Options, optionsFromCapabilities} from 'ol/source/WMTS';
+import {HttpService} from "../services/http.service";
+import {DecimalPipe} from "@angular/common";
 import * as moment from 'moment';
 import buffer from "@turf/buffer";
 import turfDistance from "@turf/distance";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import * as turfHelper from "@turf/helpers";
 import turfCentroid from "@turf/centroid";
-import { environment } from "../../../environments/environment";
-import { GoogleAnalyticsService } from "../services/google-analytics.service";
-import { GalleryService } from '../services/gallery.service';
+import {environment} from "../../../environments/environment";
+import {GoogleAnalyticsService} from "../services/google-analytics.service";
+import {GalleryService} from '../services/gallery.service';
+import {Job, JobStatus} from "../../@core/interfaces/job";
+
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
@@ -186,6 +188,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public legendExpanded: boolean;
   public isMobile: boolean;
 
+  public displayFormJob: boolean;
+  public job: Job;
+  public emailValid: boolean = true;
+
   constructor(
     public  localizationService: LocalizationService,
     private downloadService: DownloadService,
@@ -206,7 +212,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.loadingDown = false;
     this.legendExpanded = true;
     this.displayGallery = false;
-
+    this.displayFormJob = false;
+    this.clearJob();
     //IF para identificar quando o caso é mobile.
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.legendExpanded = false;
@@ -560,6 +567,19 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.cdRef.detectChanges();
   }
 
+  clearJob(){
+    this.job = {
+      name: '',
+      email: '',
+      status: JobStatus.pending,
+      token: '',
+      lang: this.localizationService.currentLang(),
+      acceptTerms: true,
+      application: 'ATLAS',
+      datetime: new Date(),
+    }
+  }
+
   changeVisibilityBasemap(ev) {
     let { bmap } = ev;
     this.map.getLayers().forEach(layer => {
@@ -677,6 +697,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   private createVectorLayer(features, strokeColor, width) {
     return new VectorLayer({
+      zIndex: 100000000,
       source: new VectorSource({ features }),
       style: [
         new Style({
@@ -891,11 +912,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   updateObjectMapLayers(){
-
   }
 
   changeLayerVisibility(ev) {
-
     let { layer, updateSource } = ev;
 
     const layerType: DescriptorType = layer;
@@ -1209,6 +1228,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   initVectorLayerInteraction() {
     this.vector = new VectorLayer({
+      zIndex: 100000,
       source: this.source,
       style: this.defaultStyle
     });
@@ -1523,7 +1543,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   obtainSearchSuggestions(event) {
-
     let query = event.query;
     if (this.selectedSearchOption.toLowerCase() == 'region') {
 
@@ -1542,11 +1561,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   onSelectSuggestion(event) {
-    if (this.selectedSearchOption.toLowerCase() == 'region') {
-      this.updateRegion(event)
-    } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
-      this.updateAreaOnMap(event)
+    if(event.type != 'biome'){
+      if (this.selectedSearchOption.toLowerCase() == 'region') {
+        this.updateRegion(event)
+      } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
+        this.updateAreaOnMap(event)
+      }
+    } else {
+      this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
     }
+
   }
 
   onChangeSearchOption() {
@@ -1578,6 +1602,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     });
 
     this.otherLayerFromFilters.layer = new VectorLayer({
+      zIndex: 10000000,
       source: vectorSource,
       style: [
         new Style({
@@ -1627,29 +1652,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   onSave() {
     //IF para identificar quando o caso é mobile.
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
-      this.areaService.saveDrawedGeometry(drawData)
-        .subscribe(data => {
-          this.onSearchDrawnGeometryMobile.emit(data.token);
-          this.printRegionsIdentification(data.token);
-          this.onCancel();
-          this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
-        }, error => {
-          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
-        })
-    } else {
-      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
-      this.areaService.saveDrawedGeometry(drawData)
-        .subscribe(data => {
-          this.onSearchDrawnGeometry.emit(data.token);
-          this.printRegionsIdentification(data.token);
-          this.onCancel();
-          this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
-        }, error => {
-          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
-        })
-    }
+    this.displayFormJob = true;
   }
 
   printRegionsIdentification(token) {
@@ -1719,7 +1722,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     dd.content.push({ text: token, alignment: 'center', style: 'token', margin: [20, 20, 20, 10] });
 
     // @ts-ignore
-    dd.content.push({ qr: token.toString(), fit: '200', alignment: 'center' });
+    dd.content.push({ qr: 'https://atlasdaspastagens.ufg.br/map/' + token.toString(), fit: '200', alignment: 'center' });
 
     const filename = this.localizationService.translate('area.token.title') + ' - ' + token + '.pdf'
     // const win = window.open('', '_blank');
@@ -2013,7 +2016,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
                 key: 'popup-vector',
               },
               visible: true,
-              zIndex: 100000
+              zIndex: 100000000
             });
             this.map.addLayer(vectorLayer);
           }
@@ -2118,4 +2121,55 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.controlOptions = !this.controlOptions;
     this.onCloseDetailsWindow.emit(this.controlOptions);
   }
+
+  sendRequestJob(){
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
+      this.areaService.saveDrawedGeometry(drawData)
+        .subscribe(data => {
+          this.job.token = data.token;
+          this.areaService.saveJob(this.job).subscribe(result => {
+            // this.onSearchDrawnGeometryMobile.emit(data.token);
+            this.printRegionsIdentification(data.token);
+            this.onCancel();
+            this.displayFormJob = false;
+            this.clearJob()
+            this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
+          }, error => {
+            this.displayFormJob = false;
+            this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+          })
+        }, error => {
+          this.displayFormJob = false;
+          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+        })
+    } else {
+      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
+      this.areaService.saveDrawedGeometry(drawData)
+        .subscribe(data => {
+          this.job.token = data.token;
+          this.areaService.saveJob(this.job).subscribe(result => {
+            this.printRegionsIdentification(data.token);
+            this.onCancel();
+            this.displayFormJob = false;
+            this.clearJob()
+            this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
+          }, error => {
+            console.log('areaService', error)
+            this.displayFormJob = false;
+            this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+          })
+        }, error => {
+          console.log('saveDrawedGeometry', error)
+          this.displayFormJob = false;
+          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+        })
+    }
+  }
+
+  validateEmail() {
+    const pattern = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$');
+    this.emailValid = pattern.test(this.job.email)
+  }
+
 }

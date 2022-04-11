@@ -13295,7 +13295,8 @@ $primary_hotiste: #ffc845;
   .bg-clr-white.hover-box {
     background: var(--bg-color);
     box-shadow: 0px 0px 46px 0px var(--box-shadow-color);
-    border: 1px solid var(--border-color-light);
+    border: 1px solid black;
+    border-radius: 10px;
   }
 
   .w3l-homeblock2 a.blog-desc {

@@ -30,16 +30,14 @@ module.exports = function (app) {
             for (let query of chartDescription.idsOfQueriesExecuted) {
 
                 let queryInd = allQueriesResult[query.idOfQuery]
-
-                arrayLabels.push(...queryInd.map(a => String(a.label)))
+                arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
                 let colors = [...new Set(queryInd.map(a => a.color))]
 
                 if (chartDescription.type == 'line') {
-
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
-                            data: [...queryInd.map(a => parseFloat(a.value))],
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                             fill: false,
                             borderColor: [...new Set(queryInd.map(a => a.color))],
                             tension: .4
@@ -49,7 +47,7 @@ module.exports = function (app) {
                         for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
                             arrayData.push({
                                 label: valueLabelQuery,
-                                data: [...queryInd.filter(a => a.classe == keyLabelQuery).map(ob => parseFloat(ob.value))],
+                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                                 fill: false,
                                 borderColor: [...new Set(queryInd.filter(a => a.classe == keyLabelQuery).map(ob => ob.color))],
                                 tension: .4
@@ -61,7 +59,7 @@ module.exports = function (app) {
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
-                            data: [...queryInd.map(a => parseFloat(a.value))],
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                             backgroundColor: [...new Set(queryInd.map(element => element.color))],
                             hoverBackgroundColor: [...new Set(queryInd.map(element => element.color))],
                         })
@@ -69,7 +67,7 @@ module.exports = function (app) {
                     else {
                         arrayData.push({
                             label: query.idOfQuery,
-                            data: [...queryInd.map(a => parseFloat(a.value))],
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                             backgroundColor: [...new Set(queryInd.map(element => element.color))],
                             hoverBackgroundColor: [...new Set(queryInd.map(element => element.color))],
                         })
@@ -80,7 +78,7 @@ module.exports = function (app) {
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
-                            data: [...queryInd.map(a => parseFloat(a.value))],
+                            data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                             backgroundColor: [...new Set(queryInd.map(a => a.color))],
                         })
                     }
@@ -88,7 +86,7 @@ module.exports = function (app) {
                         for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
                             arrayData.push({
                                 label: valueLabelQuery,
-                                data: [...queryInd.filter(a => a.classe == keyLabelQuery).map(ob => parseFloat(ob.value))],
+                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                                 backgroundColor: [...new Set(queryInd.filter(a => a.classe == keyLabelQuery).map(ob => ob.color))],
                             })
                         }
@@ -100,7 +98,6 @@ module.exports = function (app) {
                 labels: [...new Set(arrayLabels)],
                 datasets: [...arrayData]
             }
-
             // chart['indicators'] = queryInd.filter(val => {
             //     return parseFloat(val.value) > 10
             // })

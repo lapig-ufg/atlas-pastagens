@@ -447,5 +447,18 @@ table tr{
   }
 }
 
+.job-controls {
+  .p-button {
+    width: 180px !important;
+  }
+}
+
+#area{
+  .p-tabview {
+    .p-tabview-panels {
+      padding: 1px;
+    }
+  }
+}
 
 

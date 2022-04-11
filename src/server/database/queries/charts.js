@@ -98,7 +98,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  a.year as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
+                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE " + regionFilter + ") as area_mun "
                     + " FROM pasture_col6 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
                     + " WHERE " + regionFilter
@@ -109,7 +109,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'lotacao_bovina_regions',
-                sql: " SELECT  a.year as label, b.color, b.name as classe, sum(a.ua) as value,  (SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
+                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.ua) as value,  (SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
                     " FROM lotacao_bovina_regions a " + "INNER JOIN graphic_colors as b on b.table_rel = 'rebanho_bovino' " +
                     "WHERE " + regionFilter +
                     // " AND " + yearFilter +
@@ -119,7 +119,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: " SELECT a.year as label,b.color, b.name as classe, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
+                sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
                     " FROM pasture_quality_col6 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
                     "WHERE " + regionFilter +
                     // " AND " + yearFilter +

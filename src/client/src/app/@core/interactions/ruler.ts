@@ -32,16 +32,16 @@ abstract class RulerControl {
                 color: 'rgba(255, 255, 255, 0.2)',
               }),
               stroke: new Stroke({
-                color: '#ffcc33',
+                color: '#4d4519',
                 width: 2,
               }),
               image: new CircleStyle({
                 radius: 7,
                 stroke: new Stroke({
-                  color: '#ffcc33',
+                  color: '#4d4519',
                 }),
                 fill: new Fill({
-                  color: '#ffcc33',
+                  color: '#4d4519',
                 }),
               })
             }),
@@ -80,16 +80,16 @@ abstract class RulerControl {
                     color: 'rgba(255, 255, 255, 0.2)',
                 }),
                 stroke: new Stroke({
-                    color: '#ffcc33',
+                    color: '#4d4519',
                     width: 2,
                 }),
                 image: new CircleStyle({
                     radius: 7,
                     stroke: new Stroke({
-                      color: '#ffcc33',
+                      color: '#4d4519',
                     }),
                     fill: new Fill({
-                        color: '#ffcc33',
+                        color: '#4d4519',
                     }),
                 })
             }));

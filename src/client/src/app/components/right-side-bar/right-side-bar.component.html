@@ -185,11 +185,11 @@
                       currentPageReportTemplate="{{'right_sidebar.area_table_card_auxiliar.showing' | translate}} {first} {{'right_sidebar.area_table_card_auxiliar.to' | translate}} {last} {{'right_sidebar.area_table_card_auxiliar.of' | translate}} {totalRecords} {{'right_sidebar.area_table_card_auxiliar.entries' | translate}}"
                       [rowsPerPageOptions]="[10,25,50]">
                       <ng-template pTemplate="caption">
-                        <div class="p-d-flex">
+                        <div class="p-d-flex btn-exports">
                           <button type="button" pButton pRipple icon="pi pi-file-o" (click)="exportCSV(table)"
-                            class="p-button-success p-mr-2" pTooltip="CSV" tooltipPosition="bottom"></button>
+                            class="p-button-success" pTooltip="CSV" tooltipPosition="bottom"></button>
                           <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf(table)"
-                            class="p-button-warning p-mr-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+                            class="p-button-warning" pTooltip="PDF" tooltipPosition="bottom"></button>
                         </div>
                       </ng-template>
                       <ng-template pTemplate="header" let-columns>
@@ -229,7 +229,9 @@
   <p *ngIf="objectFullScreenChart.text">
     {{ objectFullScreenChart.text }}
   </p>
-  <p-chart *ngIf="objectFullScreenChart.type" [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
-    [options]="objectFullScreenChart.options">
-  </p-chart>
+  <div class="chart">
+    <p-chart *ngIf="objectFullScreenChart.type" [responsive]="true"  [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
+      [options]="objectFullScreenChart.options">
+    </p-chart>
+  </div>
 </p-dialog>

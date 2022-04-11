@@ -1,22 +1,22 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import Map from 'ol/Map';
-
-import { MenuItem } from 'primeng/api';
-
-import * as OlProj from 'ol/proj';
-import TileGrid from 'ol/tilegrid/TileGrid';
-import * as OlExtent from 'ol/extent.js';
+import { MessageService} from 'primeng/api';
 import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from 'ol/layer/Vector';
 import Style from 'ol/style/Style';
 import VectorSource from 'ol/source/Vector';
 import Stroke from 'ol/style/Stroke';
 
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { AreaService } from '../../services/area.service';
-import { Descriptor } from "../../../@core/interfaces";
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-
+import {LocalizationService} from "../../../@core/internationalization/localization.service";
+import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
+import {Job, JobStatus} from "../../../@core/interfaces/job";
+import {ActivatedRoute} from "@angular/router";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-leftsidebar-area',
@@ -30,11 +30,26 @@ export class AreaComponent implements OnInit {
     if (value) {
       this.layerFromConsulta.token = value;
     }
+    const self = this;
+    this.route.paramMap.subscribe(function (params) {
+      const token = params.get('token');
+      if(token){
+        self.searchUploadShape();
+        self.decideConsultaShape();
+      }
+    });
   }
 
 
-  httpOptions: any;
-
+  public httpOptions: any;
+  public displayTutorial: boolean = false;
+  public tutorialUrl: SafeResourceUrl;
+  public displayFormJob: boolean;
+  public job: Job;
+  public emailValid: boolean = true;
+  public data: any = {};
+  public objectFullScreenChart: any = {};
+  public chartsArea = [] as any;
   /** Variables for upload shapdefiles **/
   public layerFromUpload: any = {
     label: null,
@@ -83,22 +98,43 @@ export class AreaComponent implements OnInit {
 
   selectedIndexUpload: number;
 
-  constructor(private areaService: AreaService, private googleAnalyticsService: GoogleAnalyticsService) {
+  constructor(
+    private areaService: AreaService,
+    private googleAnalyticsService: GoogleAnalyticsService,
+    public localizationService: LocalizationService,
+    private sanitizer: DomSanitizer,
+    private messageService: MessageService,
+    public route: ActivatedRoute,
+  ) {
+    this.displayFormJob = false;
+    this.clearJob();
     this.httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-
+    this.tutorialUrl = this.sanitizer.bypassSecurityTrustResourceUrl('src/assets/documents/' + this.localizationService.currentLang() + '/tutorial.pdf')
   }
 
   ngOnInit(): void {
 
   }
 
+  clearJob(){
+    this.job = {
+      name: '',
+      email: '',
+      status: JobStatus.pending,
+      token: '',
+      lang: this.localizationService.currentLang(),
+      acceptTerms: true,
+      application: 'ATLAS',
+      datetime: new Date(),
+    }
+  }
+
 
   public onFileComplete(data: any) {
 
     let map = this.map;
-
     this.layerFromUpload.checked = false;
     this.layerFromUpload.error = false;
 
@@ -108,62 +144,8 @@ export class AreaComponent implements OnInit {
     if (!data.hasOwnProperty('features')) {
       return;
     }
-
-    if (data.features.length > 1) {
-      this.layerFromUpload.loading = false;
-
-      this.layerFromUpload.visible = false;
-      this.layerFromUpload.label = data.name;
-      this.layerFromUpload.layer = data;
-      this.layerFromUpload.token = data.token;
-
-    } else {
-      this.layerFromUpload.loading = false;
-
-      if (data.features[0].hasOwnProperty('properties')) {
-
-        let auxlabel = Object.keys(data.features[0].properties)[0];
-        this.layerFromUpload.visible = false;
-        this.layerFromUpload.label = data.features[0].properties[auxlabel];
-        this.layerFromUpload.layer = data;
-        this.layerFromUpload.token = data.token;
-
-      } else {
-        this.layerFromUpload.visible = false;
-        this.layerFromUpload.label = data.name;
-        this.layerFromUpload.layer = data;
-        this.layerFromUpload.token = data.token;
-      }
-    }
-
-    this.layerFromUpload.visible = true;
-    let vectorSource = new VectorSource({
-      features: (new GeoJSON()).readFeatures(data, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: 'EPSG:3857'
-      })
-    });
-
-    this.layerFromUpload.layer = new VectorLayer({
-      source: vectorSource,
-      style: [
-        new Style({
-          stroke: new Stroke({
-            color: this.layerFromUpload.strokeColor,
-            width: 4
-          })
-        }),
-        new Style({
-          stroke: new Stroke({
-            color: this.layerFromUpload.strokeColor,
-            width: 4,
-            lineCap: 'round',
-          })
-        })
-      ]
-    });
-
-    this.googleAnalyticsService.eventEmitter("UploadLayer", "Upload", "Submit_Token");
+    this.data = data;
+    this.displayFormJob = true;
   }
 
   changeTextUpload($e) {
@@ -202,7 +184,81 @@ export class AreaComponent implements OnInit {
   }
 
   async printRegionsIdentification(token) {
-    console.log("TO DO")
+
+    let dd = {
+      pageSize: { width: 400, height: 400 },
+
+      // by default we use portrait, you can change it to landscape if you wish
+      pageOrientation: 'portrait',
+
+      content: [],
+      styles: {
+        titleReport: {
+          fontSize: 16,
+          bold: true
+        },
+        textFooter: {
+          fontSize: 9
+        },
+        textImglegend: {
+          fontSize: 9
+        },
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        data: {
+          bold: true,
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        codCar: {
+          fontSize: 11,
+          bold: true,
+        },
+        textObs: {
+          fontSize: 11,
+        },
+        tableDpat: {
+          margin: [0, 5, 0, 15],
+          fontSize: 11,
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
+        },
+        token: {
+          bold: true,
+          fontSize: 16,
+        },
+        metadata: {
+          background: '#0b4e26',
+          color: '#fff'
+        }
+      }
+    }
+
+    // @ts-ignore
+    dd.content.push({ image: this.localizationService.translate('area.token.logo'), width: 90, alignment: 'center' });
+    // @ts-ignore
+    dd.content.push({ text: this.localizationService.translate('area.token.description'), alignment: 'center', margin: [10, 10, 20, 0] });
+    // @ts-ignore
+    dd.content.push({ text: token, alignment: 'center', style: 'token', margin: [20, 20, 20, 10] });
+
+    // @ts-ignore
+    dd.content.push({ qr: 'https://atlasdaspastagens.ufg.br/map/' + token.toString(), fit: '200', alignment: 'center' });
+
+    const filename = this.localizationService.translate('area.token.title') + ' - ' + token + '.pdf'
+    // const win = window.open('', '_blank');
+    // pdfMake.createPdf(dd).open({}, win);
+    pdfMake.createPdf(dd).download(filename);
+
+    this.googleAnalyticsService.eventEmitter("Print-Report-Analyzed-Upload", "Upload", this.layerFromConsulta.token);
   }
 
   analyzeUploadShape(fromConsulta = false) {
@@ -409,12 +465,14 @@ export class AreaComponent implements OnInit {
 
     let params: string[] = []
     params.push('token=' + this.layerFromConsulta.token)
-
-
+    params.push('origin=ATLAS')
+    params.push('lang=' + this.localizationService.currentLang())
+    this.chartsArea = [];
     try {
       let result = await this.areaService.getSavedAnalysis(params.join('&')).toPromise()
 
       if (typeof result === 'object' && result !== null) {
+        this.chartsArea = [...result.pasture, ...result.pasture_quality]
         this.layerFromConsulta.analyzedArea = result;
       }
       else {
@@ -429,10 +487,6 @@ export class AreaComponent implements OnInit {
   }
 
   async printAnalyzedAreaReport(fromConsulta = false) {
-    this.loadingPrintReport = true;
-    this.loadingPrintReport = false;
-
-    this.googleAnalyticsService.eventEmitter("Print-Report-Analyzed-Upload", "Upload", this.layerFromConsulta.token);
   }
 
   async searchUploadShape() {
@@ -473,6 +527,7 @@ export class AreaComponent implements OnInit {
       })
     });
     this.layerFromConsulta.layer = new VectorLayer({
+      zIndex: 1000000,
       source: vectorSource,
       style: [
         new Style({
@@ -496,9 +551,98 @@ export class AreaComponent implements OnInit {
 
   }
 
+  openTutorial() {
+    this.tutorialUrl = this.sanitizer.bypassSecurityTrustResourceUrl('assets/documents/' + this.localizationService.currentLang() + '/tutorial.pdf');
+    this.displayTutorial = !this.displayTutorial
+  }
+
   validationMobile() {
     return !(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent));
   }
 
+  sendRequestJob(){
+    let data = this.data;
+    this.job.token = data.token;
+    this.areaService.saveJob(this.job).subscribe(result => {
+      console.log(result)
+      this.displayFormJob = false;
+      if (data.features.length > 1) {
+        this.layerFromUpload.loading = false;
 
+        this.layerFromUpload.visible = false;
+        this.layerFromUpload.label = data.name;
+        this.layerFromUpload.layer = data;
+        this.layerFromUpload.token = data.token;
+
+      } else {
+        this.layerFromUpload.loading = false;
+
+        if (data.features[0].hasOwnProperty('properties')) {
+
+          let auxlabel = Object.keys(data.features[0].properties)[0];
+          this.layerFromUpload.visible = false;
+          this.layerFromUpload.label = data.features[0].properties[auxlabel];
+          this.layerFromUpload.layer = data;
+          this.layerFromUpload.token = data.token;
+
+        } else {
+          this.layerFromUpload.visible = false;
+          this.layerFromUpload.label = data.name;
+          this.layerFromUpload.layer = data;
+          this.layerFromUpload.token = data.token;
+        }
+      }
+
+      this.layerFromUpload.visible = true;
+      let vectorSource = new VectorSource({
+        features: (new GeoJSON()).readFeatures(data, {
+          dataProjection: 'EPSG:4326',
+          featureProjection: 'EPSG:3857'
+        })
+      });
+      this.layerFromUpload.layer = new VectorLayer({
+        zIndex: 100000,
+        source: vectorSource,
+        style: [
+          new Style({
+            stroke: new Stroke({
+              color: this.layerFromUpload.strokeColor,
+              width: 4
+            })
+          }),
+          new Style({
+            stroke: new Stroke({
+              color: this.layerFromUpload.strokeColor,
+              width: 4,
+              lineCap: 'round',
+            })
+          })
+        ]
+      });
+      this.googleAnalyticsService.eventEmitter("UploadLayer", "Upload", "Submit_Token");
+      this.clearJob()
+      this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
+    }, error => {
+      this.clearJob()
+      this.displayFormJob = false;
+      this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+    })
+  }
+
+  validateEmail() {
+    const pattern = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$');
+    this.emailValid = pattern.test(this.job.email)
+  }
+
+  openCharts(chart) {
+    let obj = {
+      title: chart.title,
+      text: chart.text,
+      type: chart.type,
+      data: chart.data,
+      options: chart.options,
+      fullScreen: true
+    }
+    this.objectFullScreenChart = obj;
+  }
 }

@@ -2,11 +2,8 @@ const appRoot = require('app-root-path');
 const env = process.env;
 
 module.exports = function (app) {
-
-    const appProducao = env.APP_PRODUCAO;
-
     let config = {
-        "appName": "Plataform Base",
+        "appName": "Atlas das Pastagens",
         "appRoot": appRoot,
         "clientDir": appRoot + env.CLIENT_DIR,
         "langDir": appRoot + env.LANG_DIR,
@@ -39,8 +36,7 @@ module.exports = function (app) {
             "connectionTimeoutMillis": 0,
         },
         "port": env.PORT,
-        "ows_host": env.OWS_HOST,
-        "lapig-maps": env.LAPIG_MAPS
+        "ows_host": env.OWS_HOST
     };
 
     if (env.NODE_ENV === 'prod') {

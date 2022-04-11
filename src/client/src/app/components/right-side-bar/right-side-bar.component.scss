@@ -30,6 +30,10 @@
   background: $primary;
   border-radius: 5px;
 }
+.chart{
+  max-width: 60%;
+  margin: 0 auto;
+}
 
 .margin {
   margin-bottom: 15px;
@@ -495,5 +499,11 @@
 
 .loader:after {
   left: 1.5em;
+}
+
+.btn-exports{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 

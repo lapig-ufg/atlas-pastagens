@@ -41,6 +41,7 @@
   "left_sidebar": {
     "title": "Menu",
     "opacity": "Opacidade",
+    "tutorial_title": "Tutorial das Análises de Áreas",
     "layer": {
       "metadata": "Metadados da Camada",
       "down_shp": "Download SHP",
@@ -53,7 +54,16 @@
   },
   "map": {
     "coordinates": "Coordenadas",
-    "find_point": "Localizar ponto"
+    "find_point": "Localizar ponto",
+    "msg_warning_biome_title": "Atenção",
+    "msg_warning_biome": "Os dados dos biomas estão em processamento. Em breve estarão disponíveis na plataforma.",
+    "job":{
+      "title": "Solicitação de Análise da Geometria",
+      "input_name": "Nome",
+      "input_email": "E-mail",
+      "acceptTerms": "Aceitar Termos de Uso",
+      "btn": "Enviar Solicitação"
+    }
   },
   "menu": {
     "layers": "Camadas",
@@ -86,6 +96,8 @@
     "analyzed_area_total_area": "Área total submetida: ",
     "analyzed_area_table_city_title": "Municípios que intersectam com a área submetida",
     "analyzed_area_table_state_title": "Estados que intersectam com a área submetida",
+    "analyzed_area_pasture_text": "De acordo com o LAPIG, a área de Pastagem (em hectares) na área submetida foi de:",
+    "analyzed_area_pasture_quality_text": "De acordo com o LAPIG, ao longo dos anos, a área submetida possui uma área de Pastagem (ha) distribuída entre as seguintes classes de degradação de Pastagem: ",
     "search_tooltip": "Consultar área por token.",
     "drawed_tooltip": "Analisar área desenhada no Mapa.",
     "save_message_success": {
@@ -530,11 +542,15 @@
       },
       "team": {
         "title": "Equipe",
-        "researcher_analyst": "Pesquisador(a) e Analista Socioambiental",
+        "researcher_analyst": "Pesquisador e Analista Socioambiental",
+        "researcher_analyst_f": "Pesquisadora e Analista Socioambiental",
         "research_assistant": "Pesquisadora Assistente",
         "project_manager": "Gestora de Projetos",
         "infrastructure_analyst": "Analista de Infraestrutura",
         "devops_analyst": "Analista DevOps",
+        "systems_analyst": "Analista de Desenvolvimento de Sistemas",
+        "phd_animal_science": "Doutor em Zootecnia",
+        "phd_ecology": "Doutor Ecologia",
         "development_analyst": "Analista de Desenvolvimento de Sistemas",
         "database_analyst": "Analista de Banco de Dados e Desenvolvedor",
         "coordinator": "Coordenador",
