@@ -912,11 +912,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   updateObjectMapLayers(){
-
   }
 
   changeLayerVisibility(ev) {
-
     let { layer, updateSource } = ev;
 
     const layerType: DescriptorType = layer;
@@ -1724,7 +1722,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     dd.content.push({ text: token, alignment: 'center', style: 'token', margin: [20, 20, 20, 10] });
 
     // @ts-ignore
-    dd.content.push({ qr: token.toString(), fit: '200', alignment: 'center' });
+    dd.content.push({ qr: 'https://atlasdaspastagens.ufg.br/map/' + token.toString(), fit: '200', alignment: 'center' });
 
     const filename = this.localizationService.translate('area.token.title') + ' - ' + token + '.pdf'
     // const win = window.open('', '_blank');

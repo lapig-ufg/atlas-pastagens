@@ -13,7 +13,10 @@ import { GoogleAnalyticsService } from '../../services/google-analytics.service'
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
 import {DomSanitizer, SafeResourceUrl} from "@angular/platform-browser";
 import {Job, JobStatus} from "../../../@core/interfaces/job";
-
+import {ActivatedRoute} from "@angular/router";
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-leftsidebar-area',
@@ -27,6 +30,14 @@ export class AreaComponent implements OnInit {
     if (value) {
       this.layerFromConsulta.token = value;
     }
+    const self = this;
+    this.route.paramMap.subscribe(function (params) {
+      const token = params.get('token');
+      if(token){
+        self.searchUploadShape();
+        self.decideConsultaShape();
+      }
+    });
   }
 
 
@@ -92,7 +103,8 @@ export class AreaComponent implements OnInit {
     private googleAnalyticsService: GoogleAnalyticsService,
     public localizationService: LocalizationService,
     private sanitizer: DomSanitizer,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public route: ActivatedRoute,
   ) {
     this.displayFormJob = false;
     this.clearJob();
@@ -172,7 +184,81 @@ export class AreaComponent implements OnInit {
   }
 
   async printRegionsIdentification(token) {
-    console.log("TO DO")
+
+    let dd = {
+      pageSize: { width: 400, height: 400 },
+
+      // by default we use portrait, you can change it to landscape if you wish
+      pageOrientation: 'portrait',
+
+      content: [],
+      styles: {
+        titleReport: {
+          fontSize: 16,
+          bold: true
+        },
+        textFooter: {
+          fontSize: 9
+        },
+        textImglegend: {
+          fontSize: 9
+        },
+        header: {
+          fontSize: 18,
+          bold: true,
+          margin: [0, 0, 0, 10]
+        },
+        data: {
+          bold: true,
+        },
+        subheader: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 10, 0, 5]
+        },
+        codCar: {
+          fontSize: 11,
+          bold: true,
+        },
+        textObs: {
+          fontSize: 11,
+        },
+        tableDpat: {
+          margin: [0, 5, 0, 15],
+          fontSize: 11,
+        },
+        tableHeader: {
+          bold: true,
+          fontSize: 13,
+          color: 'black'
+        },
+        token: {
+          bold: true,
+          fontSize: 16,
+        },
+        metadata: {
+          background: '#0b4e26',
+          color: '#fff'
+        }
+      }
+    }
+
+    // @ts-ignore
+    dd.content.push({ image: this.localizationService.translate('area.token.logo'), width: 90, alignment: 'center' });
+    // @ts-ignore
+    dd.content.push({ text: this.localizationService.translate('area.token.description'), alignment: 'center', margin: [10, 10, 20, 0] });
+    // @ts-ignore
+    dd.content.push({ text: token, alignment: 'center', style: 'token', margin: [20, 20, 20, 10] });
+
+    // @ts-ignore
+    dd.content.push({ qr: 'https://atlasdaspastagens.ufg.br/map/' + token.toString(), fit: '200', alignment: 'center' });
+
+    const filename = this.localizationService.translate('area.token.title') + ' - ' + token + '.pdf'
+    // const win = window.open('', '_blank');
+    // pdfMake.createPdf(dd).open({}, win);
+    pdfMake.createPdf(dd).download(filename);
+
+    this.googleAnalyticsService.eventEmitter("Print-Report-Analyzed-Upload", "Upload", this.layerFromConsulta.token);
   }
 
   analyzeUploadShape(fromConsulta = false) {
@@ -386,7 +472,6 @@ export class AreaComponent implements OnInit {
       let result = await this.areaService.getSavedAnalysis(params.join('&')).toPromise()
 
       if (typeof result === 'object' && result !== null) {
-        console.log(result)
         this.chartsArea = [...result.pasture, ...result.pasture_quality]
         this.layerFromConsulta.analyzedArea = result;
       }
@@ -402,10 +487,6 @@ export class AreaComponent implements OnInit {
   }
 
   async printAnalyzedAreaReport(fromConsulta = false) {
-    this.loadingPrintReport = true;
-    this.loadingPrintReport = false;
-
-    this.googleAnalyticsService.eventEmitter("Print-Report-Analyzed-Upload", "Upload", this.layerFromConsulta.token);
   }
 
   async searchUploadShape() {
@@ -483,6 +564,7 @@ export class AreaComponent implements OnInit {
     let data = this.data;
     this.job.token = data.token;
     this.areaService.saveJob(this.job).subscribe(result => {
+      console.log(result)
       this.displayFormJob = false;
       if (data.features.length > 1) {
         this.layerFromUpload.loading = false;

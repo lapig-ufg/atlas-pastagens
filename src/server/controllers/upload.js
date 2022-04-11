@@ -25,7 +25,7 @@ module.exports = function (app) {
 
     /**
     Directory where the code will to put tmp files**/
-    Internal.dirUpload = config.uploadDataDir;
+    Internal.dirUpload = config.uploadDir;
 
     Internal.targetFilesName = null;
     Internal.dirTarget = null;
@@ -71,8 +71,10 @@ module.exports = function (app) {
     };
 
     Internal.toGeoJson = function (shapfile, callback) {
-        let geojson = ogr2ogr(shapfile).timeout(300000); // 5 minutes
-
+        console.log(ogr2ogr)
+        let geojson = ogr2ogr(shapfile,  {
+            options: ["-t_srs", "EPSG:4326"],
+        })
         geojson.exec(function (er, data) {
             if (er) {
                 Internal.response
@@ -199,7 +201,6 @@ module.exports = function (app) {
 
     Internal.finish = function (finished, geoJson) {
         if (finished) {
-
             geoJson = repro.toWgs84(geoJson, undefined, epsg);
 
             let token = Internal.saveToPostGis(geoJson);
