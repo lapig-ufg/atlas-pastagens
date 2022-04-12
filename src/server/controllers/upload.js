@@ -71,7 +71,6 @@ module.exports = function (app) {
     };
 
     Internal.toGeoJson = function (shapfile, callback) {
-        console.log(ogr2ogr)
         let geojson = ogr2ogr(shapfile,  {
             options: ["-t_srs", "EPSG:4326"],
         })
@@ -929,7 +928,7 @@ module.exports = function (app) {
 
         Internal.languageOb = UtilsLang().getLang(language).right_sidebar;
         const auxLang = UtilsLang().getLang(language).area
-
+        let tempPastureQuality = [];
         try {
 
             queryResult = request.queryResult['return_analysis']
@@ -952,18 +951,32 @@ module.exports = function (app) {
 
             if(res.pasture_quality.length > 0){
                 res.pasture_quality = res.pasture_quality.map(elem => {
-                    elem.value = elem.area_pastagem;
-                    delete elem.area_pastagem;
-                    elem.label = elem.year;
-                    delete elem.year;
-                    return elem;
+                    return elem.map(item => {
+                        item.value = item.area_pastagem;
+                        delete item.area_pastagem;
+                        item.label = item.year;
+                        delete item.year;
+                        tempPastureQuality.push(item)
+                        return item
+                    });
                 });
+                res.pasture_quality = [
+                    ...tempPastureQuality.filter(item => {
+                        return item.classe === 'Ausente'
+                    }),
+                    ...tempPastureQuality.filter(item => {
+                        return item.classe === 'Intermediário'
+                    }),
+                    ...tempPastureQuality.filter(item => {
+                        return item.classe === 'Severa'
+                    })
+                ];
             }
-
             // Ascending sort
             if(res.pasture.length > 0){
                 res.pasture.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
             }
+
             if(res.pasture_quality.length > 0){
                 res.pasture_quality.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));
             }
@@ -1007,7 +1020,6 @@ module.exports = function (app) {
             ]
 
             for (let chart of chartResult) {
-
                 if(res[chart.id].length > 0){
                     chart['data'] = Internal.buildGraphResult(res[chart.id], chart)
                 }else{
@@ -1071,9 +1083,17 @@ module.exports = function (app) {
                     }
                     else {
                         for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
+
                             arrayData.push({
                                 label: valueLabelQuery,
-                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                                data: [
+                                    ...queryInd.filter(ob => {
+                                        return  ob.classe == keyLabelQuery
+                                    }).map(a =>  {
+                                            return (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value))
+                                        }
+                                    )
+                                ],
                                 fill: false,
                                 borderColor: [...new Set(queryInd.filter(a => a.classe == keyLabelQuery).map(ob => ob.color))],
                                 tension: .4
@@ -1119,7 +1139,6 @@ module.exports = function (app) {
                     }
                 }
             }
-
             dataInfo = {
                 labels: [...new Set(arrayLabels)],
                 datasets: [...arrayData]

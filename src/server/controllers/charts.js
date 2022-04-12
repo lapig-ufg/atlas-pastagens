@@ -93,7 +93,6 @@ module.exports = function (app) {
                     }
                 }
             }
-
             dataInfo = {
                 labels: [...new Set(arrayLabels)],
                 datasets: [...arrayData]
@@ -229,7 +228,7 @@ module.exports = function (app) {
 
         let chartFinal = []
         for (let chart of chartResult) {
-
+            // console.log(request.queryResult)
             chart['data'] = Internal.buildGraphResult(request.queryResult, chart)
             chart['show'] = false
 
@@ -244,7 +243,6 @@ module.exports = function (app) {
 
             chartFinal.push(chart);
         }
-
         response.send(chartFinal)
         response.end();
 
@@ -324,7 +322,6 @@ module.exports = function (app) {
 
         let chartFinal = []
         for (let chart of chartResult) {
-
             chart['data'] = Internal.buildGraphResult(request.queryResult, chart)
             chart['show'] = false
 

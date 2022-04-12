@@ -473,6 +473,7 @@ export class AreaComponent implements OnInit {
       let result = await this.areaService.getSavedAnalysis(params.join('&')).toPromise()
 
       if (typeof result === 'object' && result !== null) {
+        console.log('result ', result)
         this.chartsArea = [...result.pasture, ...result.pasture_quality]
         this.layerFromConsulta.analyzedArea = result;
       }
