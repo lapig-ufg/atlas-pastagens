@@ -17,7 +17,7 @@ export class BaseComponent implements  AfterViewInit {
   public lang: string;
 
 
-  constructor(private cdr: ChangeDetectorRef, private router: Router,   private localizationService: LocalizationService, ) {
+  constructor(private cdr: ChangeDetectorRef, private router: Router, private localizationService: LocalizationService) {
     this.initMenu();
   }
   initMenu(){

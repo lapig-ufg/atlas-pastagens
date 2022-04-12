@@ -102,17 +102,31 @@
         margin: 10px;
         margin-left: -3px;
     }
+
     .title-file-card {
         position: absolute;
-        //top: 0;
         font-size: 11px;
         font-weight: bolder;
         text-align: center;
-        width: 93%;
+        width: 100%;
+        padding: 7px;
         color: white;
         border-top-right-radius: 4px;
         border-top-left-radius: 4px;
         background-color: $primary;
+    }
+
+    .title-file-card-search{
+      position: absolute;
+      font-size: 11px;
+      font-weight: bolder;
+      text-align: center;
+      width: 94%;
+      padding: 7px;
+      color: white;
+      border-top-right-radius: 4px;
+      border-top-left-radius: 4px;
+      background-color: $primary;
     }
     .map-snack-bar {
         text-align: center;

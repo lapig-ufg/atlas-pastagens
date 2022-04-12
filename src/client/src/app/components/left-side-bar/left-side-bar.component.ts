@@ -161,21 +161,18 @@ export class LeftSideBarComponent implements AfterViewInit {
       }
 
     ];
-
     this.currentMenu = {
       index: 0,
       key: 'layers',
       icon: 'fg-layers',
       show: false
     }
-
     this.optionsGroups = {
       basemaps: false,
       limits: false,
       settings: false,
       options: false
     };
-
     this.expendGroup = false;
     this.expendGroup2 = false;
   }
@@ -243,14 +240,17 @@ export class LeftSideBarComponent implements AfterViewInit {
     ];
     this.lang = this.localizationService.currentLang();
     this.innerHeigth = window.innerHeight - 180;
-    const self = this;
-    this.route.paramMap.subscribe(function (params) {
-      const token = params.get('token');
-      if(token){
-        self.setTokenGeometryToSearch(parseInt(token))
 
-      }
-    });
+    const self = this;
+    if(!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent))){
+      this.route.paramMap.subscribe(function (params) {
+        const token = params.get('token');
+        if(token){
+          self.setTokenGeometryToSearch(parseInt(token))
+        }
+      });
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -382,7 +382,6 @@ export class LeftSideBarComponent implements AfterViewInit {
     }
 
     if (mobile) {
-
       this.layersSideBarMobile = true;
       if (menu.key == 'statistics') {
         this.onNavBarToggle.emit(this.layersSideBarMobile);
