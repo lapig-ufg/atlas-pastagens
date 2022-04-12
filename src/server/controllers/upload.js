@@ -931,7 +931,8 @@ module.exports = function (app) {
         let tempPastureQuality = [];
         try {
 
-            queryResult = request.queryResult['return_analysis']
+            queryResult = request.queryResult['return_analysis'];
+
             let res = false
 
             if (queryResult.length > 0) {
@@ -972,6 +973,7 @@ module.exports = function (app) {
                     })
                 ];
             }
+
             // Ascending sort
             if(res.pasture.length > 0){
                 res.pasture.sort((a, b) => (typeof a.label === 'string' || a.label instanceof String ? parseFloat(a.label) : Number(a.label)) - (typeof b.label === 'string' || b.label instanceof String ? parseFloat(b.label) : Number(b.label)));

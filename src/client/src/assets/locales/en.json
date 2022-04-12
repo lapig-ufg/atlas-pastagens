@@ -532,7 +532,7 @@
         },
         "pasture_quality": {
           "title": "Pastures quality",
-          "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2010 to 2018."
+          "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2000 to 2020."
         },
         "carbon_stock": {
           "title": "Carbon stocks",
@@ -557,7 +557,7 @@
       },
       "differential": {
         "title": "Differential",
-        "p1": "On the platform, the user can, geographically and on a spatialized way, visualize areas occupied by pastures during the period from 1985 to 2019, and graphically observe the evolution of pastures (~121 million hectares in 1985 to ~171 million in 2019), and the evolution of the cattle herd (~98 million livestock units in 1985 to ~158 million in 2019)",
+        "p1": "On the platform, the user can, geographically and on a spatialized way, visualize areas occupied by pastures during the period from 1985 to 2020, and graphically observe the evolution of pastures (~121 million hectares in 1985 to ~161 million in 2020), and the evolution of the cattle herd (~98 million livestock units in 1985 to ~158 million in 2019)",
         "p2": "For the years of 2000 to 2020, the user can visualize and compare, per year, Brazilian pastures quality, which were classified into three classes according to their condition: (a) severe degradation; (b) intermediate degradation; and (c) no degradation or pastures in good condition.",
         "p3": "In addition to visualization of all databases accessible in the platform, the data are also available for download on geospatial file extension (shapefile) or sheets (cvs), being the open data one of the platform differentials."
       }
@@ -603,7 +603,7 @@
       },
       "pasture_quality": {
         "title": "Pastures quality",
-        "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2010 to 2018."
+        "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2000 to 2020."
       },
       "carbon_stock": {
         "title": "Carbon stocks",
@@ -611,7 +611,7 @@
       },
       "herd_cattle": {
         "title": "Cattle herd",
-        "text": "Time series of cattle herd per municipalities, covering the period from 1985 to 2019. Available as livestock units (LSU), calculated from the reported cattle herd on each county."
+        "text": "Time series of cattle herd per municipalities, covering the period from 1985 to 2020. Available as livestock units (LSU), calculated from the reported cattle herd on each county."
       },
       "inspected_points": {
         "title": "Visually inspected areas",
