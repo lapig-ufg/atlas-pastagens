@@ -1,6 +1,5 @@
-<section id="area">
-  <mat-tab-group [(selectedIndex)]="selectedIndexUpload" class="layersConteudo container-upload" mat-stretch-tabs
-                 dynamicHeight>
+<section #area id="area">
+  <mat-tab-group [(selectedIndex)]="selectedIndexUpload" class="layersConteudo container-upload" mat-stretch-tabs dynamicHeight>
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>search</mat-icon>
@@ -14,20 +13,17 @@
         <input type="number" min="0" matInput [(ngModel)]="layerFromConsulta.token" (input)="changeTextUpload($event)">
         <!-- <input id="input" type="text" pInputText [(ngModel)]="layerFromConsulta.token" appOnlynumber> &nbsp; -->
       </mat-form-field>
-      <i pTooltip="{{'left_sidebar.tutorial_title' | translate}}" class='bx bxs-info-circle btn-help'
+      <i *ngIf="!isMobile" pTooltip="{{'left_sidebar.tutorial_title' | translate}}" class='bx bxs-info-circle btn-help'
          (click)="openTutorial()"></i>
-
-
       <mat-card *ngIf="layerFromConsulta.visible" class="card-checkbox-upload mat-elevation-z8" color="primary">
-        <div class="title-file-card">
+        <div class="title-file-card-search">
           {{'area.upload_title_file' | translate | uppercase}}</div>
       </mat-card>
       <div class="buttons-analyze">
-        <button class="color-buttons"
-                *ngIf="layerFromConsulta.token != ''  && !layerFromConsulta.analyzedArea.hasOwnProperty('geojson')"
-                (click)="searchUploadShape()" mat-raised-button color="primary">
+        <button class="color-buttons" *ngIf="layerFromConsulta.token != ''  && !layerFromConsulta.analyzedArea.hasOwnProperty('geojson')" (click)="searchUploadShape()" mat-raised-button color="primary">
           <div>
-            {{'area.btn_search' | translate | uppercase}}</div>
+            {{'area.btn_search' | translate | uppercase}}
+          </div>
         </button>
         <button class="color-buttons"
                 *ngIf="layerFromConsulta.token != '' && layerFromConsulta.analyzedArea.hasOwnProperty('geojson')"
@@ -50,11 +46,9 @@
       <div *ngIf="layerFromConsulta.analyzedAreaLoading" class="info-header"
            [innerHTML]="'area.upload_warning' | translate">
       </div>
-
       <div *ngIf="layerFromConsulta.error" class="info-error" [innerHTML]="'area.upload_not_found' | translate"></div>
-
       <div *ngIf="layerFromConsulta.analyzedArea.hasOwnProperty('shape_upload')" class="card card-upload-analysed">
-        <h5 class="title-file-card ">
+        <h5 class="title-file-card-search ">
           {{'area.analyzed_area_title' | translate | uppercase}}</h5>
         <div class="card-upload-analysed-content">
           <div class="upload-token">
@@ -204,14 +198,13 @@
       </div>
 
     </mat-tab>
-
   </mat-tab-group>
   <p-dialog
     header="{{'left_sidebar.tutorial_title' | translate}}"
     [maximizable]="true"
     [draggable]="false"
     [resizable]="false"
-    [appendTo]="'body'"
+    [appendTo]="isMobile ? area : 'body'"
     [modal]="true"
     [style]="{width: '80%', height: '90%'}"
     [(visible)]="displayTutorial">
@@ -222,9 +215,9 @@
     [maximizable]="false"
     [draggable]="false"
     [resizable]="false"
-    [appendTo]="'body'"
+    [appendTo]="isMobile ? area : 'body'"
     [modal]="true"
-    [style]="{width: '50%'}"
+    [style]="{width: isMobile ? '98%': '50%'}"
     [(visible)]="displayFormJob">
     <div class="form-jobs">
       <span class="p-float-label">
@@ -244,9 +237,8 @@
       </div>
     </div>
   </p-dialog>
-
-  <p-dialog [appendTo]="'body'" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
-            [header]="objectFullScreenChart.title" [(visible)]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
+  <p-dialog [appendTo]="isMobile ? area : 'body'" [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
+            [header]="objectFullScreenChart.title" [(visible)]="objectFullScreenChart.fullScreen" [style]="{width: isMobile ? '98%': '50%'}">
     <p *ngIf="objectFullScreenChart.text">
       {{ objectFullScreenChart.text }}
     </p>
@@ -256,6 +248,4 @@
       </p-chart>
     </div>
   </p-dialog>
-
-
 </section>

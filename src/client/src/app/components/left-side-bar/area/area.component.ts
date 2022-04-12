@@ -50,6 +50,7 @@ export class AreaComponent implements OnInit {
   public data: any = {};
   public objectFullScreenChart: any = {};
   public chartsArea = [] as any;
+  public isMobile: boolean = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent));
   /** Variables for upload shapdefiles **/
   public layerFromUpload: any = {
     label: null,

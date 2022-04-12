@@ -1,12 +1,7 @@
 import { Component, AfterViewInit } from '@angular/core';
 import { LeftSideBarComponent } from '../left-side-bar.component';
-import {
-  HostListener,
-} from '@angular/core';
-
-
+import { HostListener } from '@angular/core';
 import { MessageService } from "primeng/api";
-
 
 @Component({
   selector: 'left-side-bar-mobile',
@@ -21,6 +16,19 @@ export class MobileComponent extends LeftSideBarComponent implements AfterViewIn
   ngAfterViewInit(): void {
     super.ngAfterViewInit();
     this.innerHeigthMobile = window.innerHeight - 250;
+    const self = this;
+    this.route.paramMap.subscribe(function (params) {
+      const token = params.get('token');
+      if(token){
+        self.token = parseInt(token);
+        self.handleMenuMobile({
+          index: 2,
+          key: 'area',
+          icon: 'fg-polygon-hole-pt',
+          show: true
+        }, true)
+      }
+    });
   }
 
   public innerHeigthMobile: number;
@@ -42,7 +50,6 @@ export class MobileComponent extends LeftSideBarComponent implements AfterViewIn
 
 
   handleMenuMobile(menu, mobile = false) {
-
     this.menu.map(m => {
       return m.show = false
     });
