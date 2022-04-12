@@ -855,9 +855,9 @@ module.exports = function (app) {
     Uploader.pastureForJob = function (request, response) {
         const { year } = request.query;
         try {
-            let queryResult = request.queryResult['pastagem'];
+            let queryResult = request.queryResult['pastureforjob'];
             let pastagemByYear = [];
-            if (queryResult.length > 1) {
+            if (queryResult.length > 0) {
                 pastagemByYear = []
                 queryResult.forEach(function (row) {
                     const year = Number(row['year'])
@@ -868,10 +868,6 @@ module.exports = function (app) {
                     })
                 });
             } else {
-                // pastagemByYear = {
-                //     year: Number(queryResult[0]['year']),
-                //     area_pastagem: Number(queryResult[0]['area_pastagem'])
-                // }
                 pastagemByYear.push( {
                     year: null,
                     area_pastagem: null
@@ -891,10 +887,10 @@ module.exports = function (app) {
 
         try {
 
-            let queryResult = request.queryResult['pasture_quality']
+            let queryResult = request.queryResult['pasturequalityforjob']
             let pastureQualityByYear = []
 
-            if (queryResult.length > 1) {
+            if (queryResult.length > 0) {
                 queryResult.forEach(function (row) {
                     const year = Number(row['year'])
                     const area = Number(row['area_pastagem'])
@@ -908,10 +904,6 @@ module.exports = function (app) {
                 });
             }
             else {
-                // pastureQualityByYear = {
-                //     year: Number(queryResult[0]['year']),
-                //     area_pastagem: Number(queryResult[0]['area_pastagem'])
-                // }
                 pastureQualityByYear.push({
                     'area_pastagem': null,
                     'year': null,

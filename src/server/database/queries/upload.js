@@ -76,7 +76,7 @@ module.exports = function (app) {
         const sql = "SELECT p.year as label, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as value " +
             "FROM pasture_col6 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
             (year ? "AND year = ${year}" : "") +
-            "and up.token= ${token} GROUP BY 1 order by 1 desc";
+            "and up.token = ${token} GROUP BY 1 order by 1 desc";
         return [
             {
                 source: 'lapig',
@@ -129,7 +129,7 @@ module.exports = function (app) {
             "and up.token = ${token} GROUP BY 1 order by 1 desc";
         return [{
             source: 'lapig',
-            id: 'pastagem',
+            id: 'pastureforjob',
             sql: sql,
             mantain: true
         }
@@ -162,7 +162,7 @@ module.exports = function (app) {
             + " AND up.token= ${token} GROUP BY 1,2,3 order by 1 desc "
         return [{
             source: 'lapig',
-            id: 'pasture_quality',
+            id: 'pasturequalityforjob',
             sql: sql,
             mantain: true
         }
