@@ -26,7 +26,7 @@ ENV BRANCH="develop"
 
 WORKDIR /APP
 
-RUN apk add git vim figlet && /bin/sh -c "apk add --no-cache bash" && echo 'figlet -t "Lapig Docker Atlas"' >> ~/.bashrc && \
+RUN apk add git vim figlet && /bin/sh -c "apk add --no-cache bash" && echo 'figlet -t "Lapig Docker Atlas Dev"' >> ~/.bashrc && \
     mkdir -p /APP && cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
     cd /APP/atlas-pastagens/src/server && npm install && \ 
     cd /APP/atlas-pastagens/src/client && npm install 
