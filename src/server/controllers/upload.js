@@ -1,7 +1,8 @@
 const unzipper = require("unzipper"),
     fs = require("fs"),
     path = require('path'),
-    ogr2ogr = require("ogr2ogr");
+    ogr2ogr = require("ogr2ogr"),
+    geojsonArea = require('@mapbox/geojson-area');
 
 var config = require('../config.js')()
 const gjv = require("geojson-validation");
@@ -70,6 +71,63 @@ module.exports = function (app) {
         // });
     };
 
+
+
+    Internal.validGeometry = function(geometry){
+        geoJson = false
+        if(geometry.length !== undefined){
+            geometry = JSON.parse(geometry)
+            geoJson = true
+        }
+        // TODO checked shapfile length and type feature
+        if (geometry.features.length !== 1){
+             
+            Internal.response
+            .status(400)
+            .send(languageJson['upload_messages']['features_length_error'][Internal.language]);
+
+        }
+        if (geometry.features[0]['geometry'].type !== "Polygon" ){
+             
+            Internal.response
+            .status(400)
+            .send(languageJson['upload_messages']['is_polygon_error'][Internal.language]);
+
+        
+           
+            
+            
+        }else{
+             //console.log(JSON.stringify(geometry.features[0]['geometry']))
+            
+             if(geoJson === false){
+                const jsonWgs84 = repro.toWgs84(geometry, undefined, epsg);
+                var area = geojsonArea.geometry(jsonWgs84.features[0]['geometry']);
+            }else{
+                
+                var area = geojsonArea.geometry(geometry.features[0]['geometry']);
+                console.log('geojson')
+            }
+            // area in Km²
+            const MAX_AREA = 200
+            if(parseInt(area/1000000) <= MAX_AREA){
+                console.log(parseInt(area/1000000))
+                return true
+            }else{
+                Internal.response
+                .status(400)
+                .send(eval(languageJson['upload_messages']['very_large_area_error'][Internal.language]));
+                return false
+            }
+           
+
+        }
+        return false
+        
+    }
+
+
+
     Internal.toGeoJson = function (shapfile, callback) {
         let geojson = ogr2ogr(shapfile,  {
             options: ["-t_srs", "EPSG:4326"],
@@ -83,7 +141,11 @@ module.exports = function (app) {
                 fs.unlinkSync(Internal.tmpPath);
                 return;
             } else {
-                callback(data, Internal.finish);
+                if(Internal.validGeometry(data)){
+                    callback(data, Internal.finish);
+                }
+                
+                
             }
         });
     };
@@ -178,20 +240,22 @@ module.exports = function (app) {
                     console.error("FILE: ", Internal.targetFilesName, " | ERROR: ", err);
                     return;
                 }
-                let geoJson = JSON.parse(data)
-
-                let token = Internal.saveToPostGis(geoJson);
-                geoJson.token = token;
-
-                if (gjv.valid(geoJson)) {
-                    Internal.response.status(200).send(JSON.stringify(geoJson));
-                    fs.unlinkSync(Internal.tmpPath);
-                } else {
-                    Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
-                    fs.unlinkSync(Internal.tmpPath);
-                    console.error("FILE: ", Internal.targetFilesName, " | ERROR: ");
+                if(Internal.validGeometry(data)){
+                    let geoJson = JSON.parse(data)
+               
+                
+                    let token = Internal.saveToPostGis(geoJson);
+                    geoJson.token = token;
+                    
+                    if (gjv.valid(geoJson)) {
+                        Internal.response.status(200).send(JSON.stringify(geoJson));
+                        fs.unlinkSync(Internal.tmpPath);
+                    } else {
+                        Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
+                        fs.unlinkSync(Internal.tmpPath);
+                        console.error("FILE: ", Internal.targetFilesName, " | ERROR: ");
+                    }
                 }
-
             });
         } else {
             callback(Internal.targetFilesName, Internal.clearCache);

@@ -35,6 +35,19 @@
 		"spatial_relation_error": {
 			"pt": "Houve um problema com os cruzamentos especiais.",
 			"en": "There was a problem with the special intersections."
+		},
+		"very_large_area_error":{
+			"en": "`Polygon area is larger than supported area, please submit a polygon smaller than ${MAX_AREA}km²`",
+			"pt": "`A área do polígono é maior que a área suportada. Envie um polígono menor que ${MAX_AREA}km²`"
+		},
+		"features_length_error":{
+			"en": "The file contains many polygons, please send only one polygon per file",
+			"pt": "O arquivo contem muitos polígonos, por favor mande somente um poligono por arquivo"
+		},
+		"is_polygon_error":{
+			"en": "The geometry submitted is not a Polygon",
+			"pt": "A geometria enviada não é um Polígono"
 		}
+	
 	}
 }
