@@ -81,22 +81,15 @@ module.exports = function (app) {
         }
         // TODO checked shapfile length and type feature
         if (geometry.features.length !== 1){
-             
             Internal.response
             .status(400)
             .send(languageJson['upload_messages']['features_length_error'][Internal.language]);
-
         }
-        if (geometry.features[0]['geometry'].type !== "Polygon" ){
-             
+        else if (geometry.features[0]['geometry'].type !== "Polygon" ){
             Internal.response
             .status(400)
             .send(languageJson['upload_messages']['is_polygon_error'][Internal.language]);
 
-        
-           
-            
-            
         }else{
              //console.log(JSON.stringify(geometry.features[0]['geometry']))
             
@@ -106,12 +99,13 @@ module.exports = function (app) {
             }else{
                 
                 var area = geojsonArea.geometry(geometry.features[0]['geometry']);
-                console.log('geojson')
+                
             }
             // area in Km²
-            const MAX_AREA = 200
+            const MAX_AREA = 5000
+            console.log(`Area enviada: ${parseInt(area/1000000)}`)
             if(parseInt(area/1000000) <= MAX_AREA){
-                console.log(parseInt(area/1000000))
+                
                 return true
             }else{
                 Internal.response
@@ -129,9 +123,11 @@ module.exports = function (app) {
 
 
     Internal.toGeoJson = function (shapfile, callback) {
+        console.log('toGeoJson',shapfile)
         let geojson = ogr2ogr(shapfile,  {
             options: ["-t_srs", "EPSG:4326"],
         })
+        
         geojson.exec(function (er, data) {
             if (er) {
                 Internal.response
@@ -372,17 +368,21 @@ module.exports = function (app) {
     Uploader.saveDrawedGeom = function (request, response) {
         let { geometry, app_origin } = request.body;
         Internal.app_origin = app_origin;
+        Internal.response = response
+        if(Internal.validGeometry(geometry)){
+            let geoJson = JSON.parse(geometry)
 
-        let geoJson = JSON.parse(geometry)
+            if (gjv.valid(geoJson)) {
 
-        if (gjv.valid(geoJson)) {
-            let token = Internal.saveToPostGis(geoJson)
-            geoJson.token = token;
-            response.status(200).send(geoJson);
-            response.end()
-        } else {
-            Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
+                let token = Internal.saveToPostGis(geoJson)
+                geoJson.token = token;
+                response.status(200).send(geoJson);
+                response.end()
+            } else {
+                Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
+            }
         }
+
     };
 
     Uploader.areainfo = function (request, response) {

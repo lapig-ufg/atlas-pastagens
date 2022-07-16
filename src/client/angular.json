@@ -47,7 +47,8 @@
               "core-js/modules/web.dom-collections.iterator.js",
               "raf",
               "export-to-csv",
-              "jspdf-autotable"
+              "jspdf-autotable",
+              "xml-utils/find-tags-by-name.js"
             ],
             "outputPath": "dist/client",
             "index": "src/index.html",
