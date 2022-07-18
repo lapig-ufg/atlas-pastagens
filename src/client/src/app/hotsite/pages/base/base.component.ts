@@ -51,6 +51,12 @@ export class BaseComponent implements  AfterViewInit {
         title: this.localizationService.translate('hotsite.base.header.menu.gallery'),
         href: "/galeria",
         selected: false
+      },
+      {
+        key: "contact",
+        title: this.localizationService.translate('hotsite.base.header.menu.contact'),
+        href: "/contato",
+        selected: false
       }
     ];
   }

@@ -508,7 +508,8 @@
           "about": "Sobre",
           "methods": "Métodos",
           "articles": "Artigos",
-          "gallery": "Galeria"
+          "gallery": "Galeria",
+          "contact": "Contato"
         }
       },
       "footer": {
@@ -727,6 +728,17 @@
     "error": {
       "msg": "Página não encontrada",
       "btn_back_to_home": "Voltar para home"
+    },
+    "contact": {
+      "title": "Entre em Contato",
+      "sub-title": "Mande Mensgem",
+      "location": "Nos Visite:",
+      "email": "Email:",
+      "user-name": "Seu Nome",
+      "user-email": "Seu Email",
+      "user-subject": "Assunto",
+      "user-message": "Escreve uma Menssagem",
+      "submit": "Submeter"
     }
   },
   "gallery": {
