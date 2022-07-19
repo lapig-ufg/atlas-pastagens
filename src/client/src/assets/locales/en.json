@@ -737,7 +737,16 @@
       "user-email": "Your Email",
       "user-subject": "Subject",
       "user-message": "Write Message",
-      "submit": "Submit Form"
+      "submit": "Submit Form",
+      "form-validation": {
+        "email": {
+          "required": "Email is required.",
+          "invalid": "Email is not valid."
+        },
+        "name": "Name is required.",
+        "subject": "Subject is required.",
+        "message": "Message is required."
+      }
     }
   },
   "gallery": {

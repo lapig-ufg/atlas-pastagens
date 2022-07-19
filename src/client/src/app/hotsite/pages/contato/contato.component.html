@@ -27,51 +27,43 @@
                 <div class="row main-cont-sec">
                     <div class="col-md-6 left-cont-contact">
                         <div class="form-group mb-3">
-                            <label for="w3lName">{{'hotsite.contact.user-name' | translate}}</label>
+                            <label for="w3lName" class="block">{{'hotsite.contact.user-name' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="name.invalid && (name.dirty || name.touched)" class="alert">
-                                <div *ngIf="name.errors?.['required']">
-                                    Name is required.
-                                </div>
+                            <div *ngIf="name.invalid && (name.dirty || name.touched)">
+                                <small *ngIf="name.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.name' | translate}}</small>
                             </div>
                             <!--End valdiation-->
-                            <input class="form-control" type="text" name="name" placeholder="" ngModel required #name="ngModel">
+                            <input class="ng-invalid ng-dirty" type="text" name="name" placeholder="" ngModel required #name="ngModel" pInputText>
                         </div>
                         <div class="form-group mb-3">
                             <label for="w3lSender">{{'hotsite.contact.user-email' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert">
-                                <div *ngIf="email.errors?.['required']">
-                                    Email is required.
-                                    {{email.errors}}
-                                </div>
+                            <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                                <small *ngIf="email.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.email.required' | translate}}</small>
+                                <small *ngIf="email.errors?.['email']" class="p-error block contact-error">{{'hotsite.contact.form-validation.email.invalid' | translate}}</small>
                             </div>
                             <!--End_validation-->
-                            <input class="form-control" type="email" email name="email" placeholder="" ngModel required #email="ngModel">
+                            <input class="ng-invalid ng-dirty" type="email" email name="email" placeholder="" ngModel required #email="ngModel" pInputText>
                         </div>
                         <div class="form-group mb-3">
                             <label for="w3lSubject">{{'hotsite.contact.user-subject' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="subject.invalid && (subject.dirty || subject.touched)" class="alert">
-                                <div *ngIf="subject.errors?.['required']">
-                                    Subject is required.
-                                </div>
+                            <div *ngIf="subject.invalid && (subject.dirty || subject.touched)">
+                                <small *ngIf="subject.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.subject' | translate}}</small>
                             </div>
                             <!--End_validation-->
-                            <input class="form-control" type="text" name="subject" ngModel required #subject="ngModel">
+                            <input class="ng-invalid ng-dirty" type="text" name="subject" ngModel required #subject="ngModel" pInputText>
                         </div>
                     </div>
                     <div class="col-md-6 right-cont-contact">
                         <div class="form-group">
                             <label for="w3lSubject">{{'hotsite.contact.user-message' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="message.invalid && (message.dirty || message.touched)" class="alert">
-                                <div *ngIf="message.errors?.['required']">
-                                    Message is required.
-                                </div>
+                            <div *ngIf="message.invalid && (message.dirty || message.touched)">
+                                <small *ngIf="message.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.message' | translate}}</small>
                             </div>
                             <!--End_validation-->
-                            <textarea class="form-control" name="message" placeholder="" ngModel required #message="ngModel"></textarea>
+                            <textarea class="form-control" name="message" placeholder="" ngModel required #message="ngModel" pInputTextarea></textarea>
                         </div>
                     </div>
                 </div>

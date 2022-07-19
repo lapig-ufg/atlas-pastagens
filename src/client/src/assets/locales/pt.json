@@ -738,7 +738,16 @@
       "user-email": "Seu Email",
       "user-subject": "Assunto",
       "user-message": "Escreve uma Menssagem",
-      "submit": "Submeter"
+      "submit": "Submeter",
+      "form-validation": {
+        "email": {
+          "required": "Email é requerido.",
+          "invalid": "Email é inválido."
+        },
+        "name": "Nome é requerido.",
+        "subject": "Assunto é requerido.",
+        "message": "Menssagem é requerido."
+      }
     }
   },
   "gallery": {

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import {InputTextModule} from 'primeng/inputtext';
+import {InputTextareaModule} from 'primeng/inputtextarea';
 
 @Component({
   selector: 'app-contato',
@@ -26,5 +28,9 @@ export class ContatoComponent implements OnInit {
           }
         );*/
     }
+  }
+
+  toJson(myObject: any) {
+    console.log(myObject);
   }
 }
