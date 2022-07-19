@@ -102,11 +102,10 @@ module.exports = function (app) {
                 
             }
             // area in Km²
-            const MAX_AREA = 5000
-            console.log(`Area enviada: ${parseInt(area/1000000)}`)
-            if(parseInt(area/1000000) <= MAX_AREA){
-                
-                return true
+            const MAX_AREA = process.env.MAX_AREA || 5000
+            console.log(`: ${parseInt(area)}`)
+            if(area <= (MAX_AREA * 1000000)){
+                return area
             }else{
                 Internal.response
                 .status(400)
@@ -137,11 +136,7 @@ module.exports = function (app) {
                 fs.unlinkSync(Internal.tmpPath);
                 return;
             } else {
-                if(Internal.validGeometry(data)){
-                    callback(data, Internal.finish);
-                }
-                
-                
+                callback(data, Internal.finish);
             }
         });
     };
@@ -236,13 +231,12 @@ module.exports = function (app) {
                     console.error("FILE: ", Internal.targetFilesName, " | ERROR: ", err);
                     return;
                 }
-                if(Internal.validGeometry(data)){
+                let area = Internal.validGeometry(geometry)
+                if(area){
                     let geoJson = JSON.parse(data)
-               
-                
                     let token = Internal.saveToPostGis(geoJson);
                     geoJson.token = token;
-                    
+                    geoJson.area = area;
                     if (gjv.valid(geoJson)) {
                         Internal.response.status(200).send(JSON.stringify(geoJson));
                         fs.unlinkSync(Internal.tmpPath);
@@ -260,19 +254,25 @@ module.exports = function (app) {
 
     Internal.finish = function (finished, geoJson) {
         if (finished) {
-            geoJson = repro.toWgs84(geoJson, undefined, epsg);
+            let area = Internal.validGeometry(geoJson);
 
-            let token = Internal.saveToPostGis(geoJson);
-            geoJson.token = token;
+            if(area){
+                geoJson = repro.toWgs84(geoJson, undefined, epsg);
 
-            if (gjv.valid(geoJson)) {
-                Internal.response.status(200).send(JSON.stringify(geoJson));
-                fs.unlinkSync(Internal.tmpPath);
-            } else {
-                Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
-                fs.unlinkSync(Internal.tmpPath);
-                console.error("ERROR: ");
+                let token = Internal.saveToPostGis(geoJson);
+                geoJson.token = token;
+                geoJson.area = area;
+                if (gjv.valid(geoJson)) {
+                    Internal.response.status(200).send(JSON.stringify(geoJson));
+                    fs.unlinkSync(Internal.tmpPath);
+                } else {
+                    Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
+                    fs.unlinkSync(Internal.tmpPath);
+                    console.error("ERROR: ");
+                }
+
             }
+            
         }
     };
 
@@ -369,12 +369,12 @@ module.exports = function (app) {
         let { geometry, app_origin } = request.body;
         Internal.app_origin = app_origin;
         Internal.response = response
-        if(Internal.validGeometry(geometry)){
+        let area = Internal.validGeometry(geometry)
+        if(area){
             let geoJson = JSON.parse(geometry)
-
             if (gjv.valid(geoJson)) {
-
                 let token = Internal.saveToPostGis(geoJson)
+                geoJson.area = area
                 geoJson.token = token;
                 response.status(200).send(geoJson);
                 response.end()
