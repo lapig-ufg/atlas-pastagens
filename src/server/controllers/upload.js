@@ -102,9 +102,9 @@ module.exports = function (app) {
                 
             }
             // area in Km²
-            const MAX_AREA = process.env.MAX_AREA || 5000
+            const MAX_AREA = process.env.MAX_AREA
             console.log(`: ${parseInt(area)}`)
-            if(area <= (MAX_AREA * 1000000)){
+            if(area <= (MAX_AREA * 10000)){
                 return area
             }else{
                 Internal.response
