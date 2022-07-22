@@ -1,5 +1,5 @@
 <app-site-base>
-
+<p-toast key="contact-message" ></p-toast>
   <!-- inner banner -->
   <section class="inner-banner">
     <div class="w3l-breadcrumb py-5">
@@ -44,6 +44,15 @@
                             </div>
                             <!--End_validation-->
                             <input class="ng-invalid ng-dirty" type="email" email name="email" placeholder="" ngModel required #email="ngModel" pInputText>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="w3lInstitution" class="block">{{'hotsite.contact.user-institution' | translate}}</label>
+                            <!--Validation-->
+                            <div *ngIf="institution.invalid && (institution.dirty || institution.touched)">
+                                <small *ngIf="institution.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.institution' | translate}}</small>
+                            </div>
+                            <!--End valdiation-->
+                            <input class="ng-invalid ng-dirty" type="text" name="institution" placeholder="" ngModel required #institution="ngModel" pInputText>
                         </div>
                         <div class="form-group mb-3">
                             <label for="w3lSubject">{{'hotsite.contact.user-subject' | translate}}</label>

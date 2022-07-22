@@ -15,6 +15,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { GoogleAnalyticsService } from "../components/services/google-analytics.service";
 import {FilterPipe} from "../@core/pipes";
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,6 +25,7 @@ import {FilterPipe} from "../@core/pipes";
     MultiSelectModule,
     GalleriaModule,
     ButtonModule,
+    ToastModule,
   ],
   declarations: [
     IndexComponent,
@@ -40,6 +42,7 @@ import {FilterPipe} from "../@core/pipes";
     DatePipe,
     DecimalPipe,
     GoogleAnalyticsService,
+    ToastModule
   ]
 })
 export class HotsiteModule  {

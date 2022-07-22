@@ -736,6 +736,7 @@
       "user-name": "Your Name",
       "user-email": "Your Email",
       "user-subject": "Subject",
+      "user-institution": "Institution",
       "user-message": "Write Message",
       "submit": "Submit Form",
       "form-validation": {
@@ -745,6 +746,7 @@
         },
         "name": "Name is required.",
         "subject": "Subject is required.",
+        "institution": "Institution is required",
         "message": "Message is required."
       }
     }
