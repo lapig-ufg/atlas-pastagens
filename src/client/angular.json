@@ -69,8 +69,7 @@
               "node_modules/ol/ol.css",
               "node_modules/ol-ext/dist/ol-ext.css",
               "node_modules/primeflex/primeflex.css",
-              "src/app/@core/styles/styles.scss",
-              "node_modules/ol/ol.css"
+              "src/app/@core/styles/styles.scss"
             ],
             "scripts": [
               "src/assets/hotsite/js/jquery-3.3.1.min.js",
