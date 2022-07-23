@@ -35,19 +35,9 @@
                         //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
-                        if (exists) {
-                            echo 'Yes'
-                            sh "cd src/server && npm ci" 
-                        } else {
-                            echo 'No'
-                            sh "cd src/server && npm install" 
-                        }
-                        if (exists2) {
-                            echo 'Yes'
-                            sh "cd src/client && npm ci"
-                        } else {
-                            echo 'No'
-                            sh "cd src/client && npm install" 
+                        sh "cd src/server && npm install" 
+                        sh "cd src/client && npm install" 
+                        
                         }
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
