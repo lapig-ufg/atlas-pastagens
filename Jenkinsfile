@@ -38,7 +38,7 @@
                         sh "cd src/server && npm install" 
                         sh "cd src/client && npm install" 
                         
-                        }
+                        
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
                         sh "export NODE_OPTIONS=--max-old-space-size=8096"
