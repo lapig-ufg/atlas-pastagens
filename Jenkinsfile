@@ -104,30 +104,30 @@
             sh "docker rmi $registryhomol/$application_name:latest"
         }
 
-        stage ('Pull imagem on DEV') {
+        stage ('Pull imagem on PROD') {
         sshagent(credentials : ['KEY_FULL']) {
-            sh "$SERVER_HOMOL_SSH 'docker pull $registryhomol/$application_name:latest'"
+            sh "$SERVER_PROD_SSH 'docker pull $registryhomol/$application_name:latest'"
                 }
             
         }
 
-        stage('Deploy container on DEV') {
+        stage('Deploy container on PROD') {
 
-                        configFileProvider([configFile(fileId: "$File_Json_Id_ATLAS_HOMOL", targetLocation: 'container-atlas-deploy-homol.json')]) {
+                        configFileProvider([configFile(fileId: "$File_Json_Id_ATLAS_PROD", targetLocation: 'container-atlas-deploy-prod.json')]) {
 
-                            def url = "http://$SERVER_HOMOL/containers/$application_name?force=true"
+                            def url = "http://$SERVER_PROD/containers/$application_name?force=true"
                             def response = sh(script: "curl -v -X DELETE $url", returnStdout: true).trim()
                             echo response
 
-                            url = "http://$SERVER_HOMOL/containers/create?name=$application_name"
-                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas-deploy-homol.json -s $url", returnStdout: true).trim()
+                            url = "http://$SERVER_PROD/containers/create?name=$application_name"
+                            response = sh(script: "curl -v -X POST -H 'Content-Type: application/json' -d @container-atlas-deploy-prod.json -s $url", returnStdout: true).trim()
                             echo response
                         }
 
             }            
-        stage('Start container on DEV') {
+        stage('Start container on PROD') {
 
-                        final String url = "http://$SERVER_HOMOL/containers/$application_name/start"
+                        final String url = "http://$SERVER_PROD/containers/$application_name/start"
                         final String response = sh(script: "curl -v -X POST -s $url", returnStdout: true).trim()
                         echo response                    
 
