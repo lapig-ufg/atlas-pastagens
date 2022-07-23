@@ -7,11 +7,12 @@
     def NODE_VERSION= "14.17.3"
 
         stage('Checkout') {
-            git branch: 'develop',
+            git branch: 'main',
             url: 'https://github.com/lapig-ufg/atlas-pastagens.git'
         }
         stage('Validate') {
-            sh 'git pull origin develop'
+	    sh 'git stash'		
+            sh 'git pull origin main'
 
         }
         stage('SonarQube analysis') {
