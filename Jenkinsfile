@@ -1,18 +1,14 @@
  node {
 
     load "$JENKINS_HOME/.envvars"
-    def exists=fileExists "src/server/package-lock.json"
-    def exists2=fileExists "src/client/package-lock.json"
     def application_name= "app_atlas"
-    def NODE_VERSION= "14.17.3"
 
         stage('Checkout') {
-            git branch: 'main',
+            git branch: 'develop',
             url: 'https://github.com/lapig-ufg/atlas-pastagens.git'
         }
         stage('Validate') {
-	    sh 'git stash'		
-            sh 'git pull origin main'
+            sh 'git pull origin develop'
 
         }
         stage('SonarQube analysis') {
@@ -38,7 +34,6 @@
                         sh "npm set progress=false"
                         sh "cd src/server && npm install" 
                         sh "cd src/client && npm install" 
-                        
                         
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
@@ -88,7 +83,7 @@
                 }
         }
         stage('Building Image') {
-            dockerImage = docker.build registryhomol + "/$application_name:$BUILD_NUMBER"
+            dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER", "--build-arg  --no-cache -f Dockerfile ."
         }
         stage('Push Image to Registry') {
 
