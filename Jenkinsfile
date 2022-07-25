@@ -1,17 +1,13 @@
  node {
 
     load "$JENKINS_HOME/.envvars"
-    def exists=fileExists "src/server/package-lock.json"
-    def exists2=fileExists "src/client/package-lock.json"
     def application_name= "app_atlas"
-    def NODE_VERSION= "14.17.3"
 
         stage('Checkout') {
             git branch: 'main',
             url: 'https://github.com/lapig-ufg/atlas-pastagens.git'
         }
         stage('Validate') {
-	    sh 'git stash'		
             sh 'git pull origin main'
 
         }
@@ -32,13 +28,12 @@
                         nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                         nvmIoJsOrgMirror: 'https://iojs.org/dist',
                         nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-                        version: "$NODE_VERSION") {
+                        version: NODE_VERSION) {
                         //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
                         sh "cd src/server && npm install" 
                         sh "cd src/client && npm install" 
-                        
                         
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
@@ -80,7 +75,7 @@
                                 title: discordTitle,
                                 webhookURL: urlWebhook,
                                 successful: currentBuild.resultIsBetterOrEqualTo('SUCCESS'),
-                                thumbnail: 'SUCCESS'.equals(currentBuild.currentResult) ? discordImageSuccess : discordImageError
+                                thumbnail: 'SUCCESS'.equals(currentBuild.currentResult) ? discordImageSuccess : discordImageError              
                             autoCancelled = true
                             error('Aborting the build.')
     }                               
@@ -88,7 +83,7 @@
                 }
         }
         stage('Building Image') {
-            dockerImage = docker.build registryhomol + "/$application_name:$BUILD_NUMBER"
+            dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER", "--build-arg  --no-cache -f Dockerfile ."
         }
         stage('Push Image to Registry') {
 
@@ -100,13 +95,13 @@
 
             }
         stage('Removing image Locally') {
-            sh "docker rmi $registryhomol/$application_name:$BUILD_NUMBER"
-            sh "docker rmi $registryhomol/$application_name:latest"
+            sh "docker rmi $registryprod/$application_name:$BUILD_NUMBER"
+            sh "docker rmi $registryprod/$application_name:latest"
         }
 
         stage ('Pull imagem on PROD') {
         sshagent(credentials : ['KEY_FULL']) {
-            sh "$SERVER_PROD_SSH 'docker pull $registryhomol/$application_name:latest'"
+            sh "$SERVER_PROD_SSH 'docker pull $registryprod/$application_name:latest'"
                 }
             
         }
@@ -191,4 +186,4 @@
                             }
         }
 
-        }
+}
