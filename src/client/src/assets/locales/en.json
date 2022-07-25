@@ -748,6 +748,10 @@
         "subject": "Subject is required.",
         "institution": "Institution is required",
         "message": "Message is required."
+      },
+      "submit-message": {
+        "success": "Your message has been sent successfully ",
+        "fail": "Your submition has been failed"
       }
     }
   },

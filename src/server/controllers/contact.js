@@ -3,11 +3,9 @@ module.exports = function (app) {
     var Internal = {}
 
     Controller.create = function (request, response) {
-        console.log(request.queryResult);
-
         // var rows = request.queryResult['create'];
 
-        // response.send({ rows });
+        response.status(201).send({ message: "sucess" });
         response.end();
 
     }

@@ -30,11 +30,12 @@ export class ContatoComponent implements OnInit {
       const contact = contactForm.value;
       contact.status = "RECEIVED";
       this.contatoService.saveContact(contactForm.value).subscribe((result) => {
-        this.messageService.add({key: "contact-message", life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title'), detail: this.localizationService.translate('area.save_message_success.msg') })
-        console.log(result);
+        if(result.message === "sucess") {
+          contactForm.reset();
+          this.messageService.add({key: "contact-message", life: 2000, severity: 'success', summary: this.localizationService.translate('hotsite.contact.submit-message.success'), detail: this.localizationService.translate('hotsite.contact.submit-message.success') })
+        }
       }, (error)=>{ 
-        this.messageService.add({key: "contact-message", life: 2000, severity: 'error', summary: this.localizationService.translate('area.save_message_success.title'), detail: this.localizationService.translate('area.save_message_success.msg') })
-        console.log(error);
+        this.messageService.add({key: "contact-message", life: 2000, severity: 'error', summary: this.localizationService.translate('hotsite.contact.submit-message.fail'), detail: this.localizationService.translate('hotsite.contact.submit-message.fail') })
       });
     }
   }

@@ -749,6 +749,10 @@
         "subject": "Assunto é requerido.",
         "institution": "Instituição é requerido",
         "message": "Menssagem é requerido."
+      },
+      "submit-message": {
+        "success": "Sua mensagem foi enviada com sucesso",
+        "fail": "Seu envio falhou"
       }
     }
   },

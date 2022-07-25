@@ -8,7 +8,6 @@ module.exports = function(app) {
     Query.create = function(params) {
 
         const { name, email, subject, institution, message, status } = params['contact'];
-        console.log( name, email, subject, institution, message, status)
 
         return [{
                 source: 'lapig',
