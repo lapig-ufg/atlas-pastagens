@@ -565,6 +565,7 @@ export class AreaComponent implements OnInit {
   sendRequestJob(){
     let data = this.data;
     this.job.token = data.token;
+    this.job.area = data.area;
     this.areaService.saveJob(this.job).subscribe(result => {
       console.log(result)
       this.displayFormJob = false;

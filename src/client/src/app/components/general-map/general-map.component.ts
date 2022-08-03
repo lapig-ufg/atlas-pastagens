@@ -2128,6 +2128,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       this.areaService.saveDrawedGeometry(drawData)
         .subscribe(data => {
           this.job.token = data.token;
+          this.job.area = data.area;
           this.areaService.saveJob(this.job).subscribe(result => {
             // this.onSearchDrawnGeometryMobile.emit(data.token);
             this.printRegionsIdentification(data.token);
@@ -2148,6 +2149,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       this.areaService.saveDrawedGeometry(drawData)
         .subscribe(data => {
           this.job.token = data.token;
+          this.job.area = data.area;
           this.areaService.saveJob(this.job).subscribe(result => {
             this.printRegionsIdentification(data.token);
             this.onCancel();

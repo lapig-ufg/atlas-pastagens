@@ -3,6 +3,7 @@ export interface Job {
   name: string;
   lang: string;
   application: string;
+  area?:number;
   token: string;
   email: string;
   datetime: Date;

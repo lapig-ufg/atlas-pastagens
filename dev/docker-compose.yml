@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+
+  atlas-lapig:
+    build: .
+    hostname: atlas-lapig
+    container_name: atlas-lapig
+    restart: always
+    ports:
+      - '4200:4200'
+    expose:
+      - '4200'
+    command: /bin/bash
+    stdin_open: true
+    tty: true
