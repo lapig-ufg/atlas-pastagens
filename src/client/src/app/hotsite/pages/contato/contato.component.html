@@ -29,7 +29,7 @@
                         <div class="form-group mb-3">
                             <label for="w3lName" class="block">{{'hotsite.contact.user-name' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="name.invalid && (name.dirty || name.touched)">
+                            <div *ngIf="name.invalid && (name.dirty || name.touched || getErroForm())">
                                 <small *ngIf="name.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.name' | translate}}</small>
                             </div>
                             <!--End valdiation-->
@@ -38,7 +38,7 @@
                         <div class="form-group mb-3">
                             <label for="w3lSender">{{'hotsite.contact.user-email' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="email.invalid && (email.dirty || email.touched)">
+                            <div *ngIf="email.invalid && (email.dirty || email.touched || getErroForm())">
                                 <small *ngIf="email.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.email.required' | translate}}</small>
                                 <small *ngIf="email.errors?.['email']" class="p-error block contact-error">{{'hotsite.contact.form-validation.email.invalid' | translate}}</small>
                             </div>
@@ -48,7 +48,7 @@
                         <div class="form-group mb-3">
                             <label for="w3lInstitution" class="block">{{'hotsite.contact.user-institution' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="institution.invalid && (institution.dirty || institution.touched)">
+                            <div *ngIf="institution.invalid && (institution.dirty || institution.touched || getErroForm())">
                                 <small *ngIf="institution.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.institution' | translate}}</small>
                             </div>
                             <!--End valdiation-->
@@ -57,7 +57,7 @@
                         <div class="form-group mb-3">
                             <label for="w3lSubject">{{'hotsite.contact.user-subject' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="subject.invalid && (subject.dirty || subject.touched)">
+                            <div *ngIf="subject.invalid && (subject.dirty || subject.touched || getErroForm())">
                                 <small *ngIf="subject.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.subject' | translate}}</small>
                             </div>
                             <!--End_validation-->
@@ -68,7 +68,7 @@
                         <div class="form-group">
                             <label for="w3lSubject">{{'hotsite.contact.user-message' | translate}}</label>
                             <!--Validation-->
-                            <div *ngIf="message.invalid && (message.dirty || message.touched)">
+                            <div *ngIf="message.invalid && (message.dirty || message.touched || getErroForm())">
                                 <small *ngIf="message.errors?.['required']" class="p-error block contact-error">{{'hotsite.contact.form-validation.message' | translate}}</small>
                             </div>
                             <!--End_validation-->
