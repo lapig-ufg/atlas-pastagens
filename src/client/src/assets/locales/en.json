@@ -507,7 +507,8 @@
           "about": "About",
           "methods": "Methodology",
           "articles": "Articles",
-          "gallery": "Gallery"
+          "gallery": "Gallery",
+          "contact": "Contact"
         }
       },
       "footer": {
@@ -726,6 +727,32 @@
     "error": {
       "msg": "Page not found",
       "btn_back_to_home": "Back to home"
+    },
+    "contact": {
+      "title": "Get in touch",
+      "sub-title": "Write Message",
+      "location": "Visit Us:",
+      "email": "Mail Us:",
+      "user-name": "Your Name",
+      "user-email": "Your Email",
+      "user-subject": "Subject",
+      "user-institution": "Institution",
+      "user-message": "Write Message",
+      "submit": "Submit Form",
+      "form-validation": {
+        "email": {
+          "required": "Email is required.",
+          "invalid": "Email is not valid."
+        },
+        "name": "Name is required.",
+        "subject": "Subject is required.",
+        "institution": "Institution is required",
+        "message": "Message is required."
+      },
+      "submit-message": {
+        "success": "Your message has been sent successfully ",
+        "fail": "Your submition has been failed"
+      }
     }
   },
   "gallery": {
