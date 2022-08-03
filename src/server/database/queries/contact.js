@@ -12,16 +12,11 @@ module.exports = function(app) {
         return [{
                 source: 'lapig',
                 id: 'create',
-                sql: `INSERT INTO public.contato_atlas ("name", email, subject, message, institution, status) VALUES('${name}', '${email}', '${subject}', '${institution}', '${message}', '${status}');`,
+                sql: `INSERT INTO public.contato_atlas ("name", email, subject, message, institution, status) VALUES('${name}', '${email}', '${subject}', '${message}', '${institution}', '${status}');`,
                 mantain: true
             }
         ]
     }
-
-
-
-
-
 
     return Query;
 
