@@ -8,12 +8,14 @@ import { SobreComponent } from './pages/sobre/sobre.component';
 import { ArtigosComponent } from './pages/artigos/artigos.component';
 import { MetodosComponent } from './pages/metodos/metodos.component';
 import { GaleriaComponent } from "./pages/galeria/galeria.component";
+import { ContatoComponent } from './pages/contato/contato.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { MultiSelectModule } from "primeng/multiselect";
 import { GalleriaModule } from 'primeng/galleria';
 import { ButtonModule } from 'primeng/button';
 import { GoogleAnalyticsService } from "../components/services/google-analytics.service";
 import {FilterPipe} from "../@core/pipes";
+import { ToastModule } from 'primeng/toast';
 @NgModule({
   imports: [
     CommonModule,
@@ -23,6 +25,7 @@ import {FilterPipe} from "../@core/pipes";
     MultiSelectModule,
     GalleriaModule,
     ButtonModule,
+    ToastModule,
   ],
   declarations: [
     IndexComponent,
@@ -31,6 +34,7 @@ import {FilterPipe} from "../@core/pipes";
     ArtigosComponent,
     MetodosComponent,
     GaleriaComponent,
+    ContatoComponent,
     FilterPipe
   ],
   providers: [
@@ -38,6 +42,7 @@ import {FilterPipe} from "../@core/pipes";
     DatePipe,
     DecimalPipe,
     GoogleAnalyticsService,
+    ToastModule
   ]
 })
 export class HotsiteModule  {

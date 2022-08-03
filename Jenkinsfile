@@ -1,6 +1,8 @@
  node {
 
     load "$JENKINS_HOME/.envvars"
+    def exists=fileExists "src/server/package-lock.json"
+    def exists2=fileExists "src/client/package-lock.json"
     def application_name= "app_atlas"
 
         stage('Checkout') {
@@ -32,9 +34,20 @@
                         //BUILD APPLICATION 
                         echo "Build main site distribution"
                         sh "npm set progress=false"
-                        sh "cd src/server && npm install" 
-                        sh "cd src/client && npm install" 
-                        
+                        if (exists) {
+                            echo 'Yes'
+                            sh "cd src/server && npm ci" 
+                        } else {
+                            echo 'No'
+                            sh "cd src/server && npm install" 
+                        }
+                        if (exists2) {
+                            echo 'Yes'
+                            sh "cd src/client && npm ci"
+                        } else {
+                            echo 'No'
+                            sh "cd src/client && npm install" 
+                        }
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
                         sh "export NODE_OPTIONS=--max-old-space-size=8096"
@@ -83,7 +96,7 @@
                 }
         }
         stage('Building Image') {
-            dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER", "--build-arg  --no-cache -f Dockerfile ."
+            dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER"
         }
         stage('Push Image to Registry') {
 
