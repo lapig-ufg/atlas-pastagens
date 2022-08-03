@@ -4,6 +4,7 @@
     "description": "Atlas das Pastagens Brasileiras",
     "main": "app.js",
     "dependencies": {
+        "@mapbox/geojson-area": "^0.2.2",
         "adm-zip": "^0.5.9",
         "always": "^2.2.0",
         "app-root-path": "^3.0.0",
