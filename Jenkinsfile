@@ -1,5 +1,4 @@
  node {
-
     load "$JENKINS_HOME/.envvars"
     def exists=fileExists "src/server/package-lock.json"
     def exists2=fileExists "src/client/package-lock.json"
