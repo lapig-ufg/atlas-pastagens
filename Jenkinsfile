@@ -1,5 +1,4 @@
  node {
-
     load "$JENKINS_HOME/.envvars"
     def application_name= "app_atlas"
 
