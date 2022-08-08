@@ -44,7 +44,3 @@ node_modules/*
 /src/server/download_plataform/*
 src/server/STORAGE
 src/server/plataforms_files/*
-
-# Freeze File Jenkinsfile
-freeze = update-index --assume-unchanged
-git freeze Jenkinsfile
