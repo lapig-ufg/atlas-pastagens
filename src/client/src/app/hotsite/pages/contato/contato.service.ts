@@ -5,7 +5,6 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { map } from "rxjs/operators";
 import { Contact } from 'src/app/@core/interfaces/contact';
 
-
 @Injectable({
   providedIn: 'root'
 })
