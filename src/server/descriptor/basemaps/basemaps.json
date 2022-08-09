@@ -8,6 +8,7 @@
             "mapbox",
             "mapbox-dark",
             "google",
+            "googleHybrid",
             "roads",
             "bing"
         ]

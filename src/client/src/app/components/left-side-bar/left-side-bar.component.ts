@@ -196,6 +196,12 @@ export class LeftSideBarComponent implements AfterViewInit {
         key: 'google',
         type: 'bmap',
         checked: false
+      },
+      {
+        name: this.localizationService.translate('basemaps.googleHybrid'),
+        key: 'googleHybrid',
+        type: 'bmap',
+        checked: false
       }
     ];
     this.options = [
@@ -491,8 +497,10 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   setBasemaps(bmaps) {
+    console.log(bmaps);
     this.basesmaps.forEach(bmap => {
       const layerBasemap = bmaps.find(map => { return map.layer.get('key') === bmap.key });
+      
       bmap['layer'] = layerBasemap
       bmap['name'] = layerBasemap.layer.get('label')
     });
