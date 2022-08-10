@@ -34,7 +34,7 @@ module.exports = function (app) {
                 basemaps: DescriptorBuilder().getBasemapsOrLimitsLayers(lang, 'basemaps', basemapsTypes),
                 limits: DescriptorBuilder().getBasemapsOrLimitsLayers(lang, 'limits', limitsTypes),
             }
-
+            
             response.send(result);
             response.end();
         } catch (e) {
