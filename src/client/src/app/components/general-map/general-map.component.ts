@@ -357,7 +357,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       {
         layer: new TileLayer({
           properties: {
-            key: 'googleHybrid',
+            key: 'google-hybrid',
             type: 'bmap',
             visible: false,
           },
