@@ -72,6 +72,8 @@
             <div *ngIf="chartsArea1.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
+
+            <!--table view municipio-->
             <p-tabView *ngIf="chartsArea1.length! > 0">
               <p-tabPanel header="{{chart.title}}" *ngFor="let chart of chartsArea1 ; let i = index" [selected]="i == 0"
                 [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
@@ -89,6 +91,8 @@
                 </div>
               </p-tabPanel>
             </p-tabView>
+            <!--table view municipio-->
+
           </div>
         </div>
       </div>
@@ -142,6 +146,8 @@
             <div *ngIf="chartsArea3.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
+
+            <!--começo do trabalho-->
             <p-tabView *ngIf="chartsArea3.length! > 0">
               <p-tabPanel header="{{chart.title}}" *ngFor="let chart of chartsArea3 ; let i = index" [selected]="i == 0"
                 [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
@@ -194,8 +200,9 @@
                       </ng-template>
                       <ng-template pTemplate="header" let-columns>
                         <tr>
-                          <th *ngFor="let col of columns">
+                          <th *ngFor="let col of columns" [pSortableColumn]="col.dataKey">
                             {{col.header}}
+                            <i class="pi pi-sort lapig-sortIcon"></i>
                           </th>
                         </tr>
                       </ng-template>
