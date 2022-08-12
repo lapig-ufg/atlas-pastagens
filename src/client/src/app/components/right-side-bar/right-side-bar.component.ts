@@ -233,7 +233,6 @@ export class RightSideBarComponent implements OnInit {
 
       return 0;
     })
-
   }
 
   openDashboard() {
