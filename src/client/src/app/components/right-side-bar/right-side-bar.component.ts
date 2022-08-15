@@ -209,9 +209,9 @@ export class RightSideBarComponent implements OnInit {
         let data1 = parseInt(value1[event.field? event.field:""].replace("º", ""));
         let data2 = parseInt(value2[event.field? event.field:""].replace("º", ""));
 
-        result = (data1 > data2) ? -1 : (data1 < data2) ? 1 : 0;
+        result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
-        if(typeof event.order !== 'undefined') return Number(event.order) * result;
+        return Number(event.order) * result;
         
       } else if(event.field === 'value') {
 
@@ -220,7 +220,7 @@ export class RightSideBarComponent implements OnInit {
 
         result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
-        if(typeof event.order !== 'undefined') return Number(event.order) * result;
+        return Number(event.order) * result;
 
       } else {
         let data1 = value1[event.field? event.field:""];
@@ -228,10 +228,8 @@ export class RightSideBarComponent implements OnInit {
 
         result = data1.localeCompare(data2);
 
-        if(typeof event.order !== 'undefined') return Number(event.order) * result;
+        return Number(event.order) * result;
       }
-
-      return 0;
     })
   }
 

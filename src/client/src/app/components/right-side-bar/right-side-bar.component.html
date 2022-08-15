@@ -202,7 +202,8 @@
                       <ng-template pTemplate="header" let-columns>
                         <tr>
                           <th *ngFor="let col of columns" [pSortableColumn]="col.dataKey">
-                            {{col.header}} <i class="pi pi-sort lapig-sortIcon"></i>
+                            <p>{{col.header}}</p> 
+                            <p-sortIcon [field]="col.dataKey"></p-sortIcon>
                           </th>
                         </tr>
                       </ng-template>
