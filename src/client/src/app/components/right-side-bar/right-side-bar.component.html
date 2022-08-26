@@ -186,6 +186,7 @@
                   [selected]="i == 0" [disabled]="!table.show" [headerStyle]="{'font-size': 'small'}">
                   <div *ngIf="table.show">
                     <p-table #dt [columns]="table.exportCols" styleClass="p-datatable-sm" [value]="table.data"
+                      (sortFunction)="customSort($event)" [customSort]="true"
                       [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
                       [autoLayout]="true"
                       currentPageReportTemplate="{{'right_sidebar.area_table_card_auxiliar.showing' | translate}} {first} {{'right_sidebar.area_table_card_auxiliar.to' | translate}} {last} {{'right_sidebar.area_table_card_auxiliar.of' | translate}} {totalRecords} {{'right_sidebar.area_table_card_auxiliar.entries' | translate}}"
@@ -201,8 +202,10 @@
                       <ng-template pTemplate="header" let-columns>
                         <tr>
                           <th *ngFor="let col of columns" [pSortableColumn]="col.dataKey">
-                            {{col.header}}
-                            <i class="pi pi-sort lapig-sortIcon"></i>
+                            <div class="sorted-columns">
+                              <p>{{col.header}}</p>
+                              <p-sortIcon [field]="col.dataKey"></p-sortIcon>
+                            </div>
                           </th>
                         </tr>
                       </ng-template>

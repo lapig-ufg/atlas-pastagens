@@ -514,3 +514,15 @@
 .lapig-sortIcon {
   font-size: 12px !important;
 }
+
+.sorted-columns{
+  display: flex;
+  ::ng-deep {
+    i {
+      font-size: 0.6rem!important;
+    }
+    p {
+      margin: unset;
+    }
+  }
+}
