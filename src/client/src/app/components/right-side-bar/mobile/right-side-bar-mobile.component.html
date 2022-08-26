@@ -194,8 +194,10 @@
                     <ng-template pTemplate="header" let-columns>
                       <tr>
                         <th *ngFor="let col of columns" [pSortableColumn]="col.dataKey">
-                          <p>{{col.header}}</p> 
-                          <p-sortIcon [field]="col.dataKey"></p-sortIcon>
+                          <div class="sorted-columns">
+                            <p>{{col.header}}</p>
+                            <p-sortIcon [field]="col.dataKey"></p-sortIcon>
+                          </div>
                         </th>
                       </tr>
                     </ng-template>
