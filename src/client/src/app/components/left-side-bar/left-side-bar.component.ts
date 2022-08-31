@@ -269,11 +269,12 @@ export class LeftSideBarComponent implements AfterViewInit {
     this.onChangeMap.emit({ layer: this.basemap.layer, updateSource: false });
   }
 
-  onChangeLimit(limit) {
+  onChangeLimit(limit, event) {
     this.limits.map((l) => {
       l.checked = limit.get('key') === l.get('key');
     });
-    limit.setVisible(!limit.checked);
+
+    limit.state_.visible = event.checked;
     this.onChangeLimits.emit({ layer: { layer: limit }, updateSource: false });
   }
 

@@ -154,7 +154,7 @@
             <div class="details-inner">
               <div class="toggle" *ngFor="let limit of limits">
                 <p-inputSwitch [(ngModel)]="limit.checked" styleClass="inputSwitchClass"
-                               (onChange)="onChangeLimit(limit)"></p-inputSwitch>
+                               (onChange)="onChangeLimit(limit, $event)"></p-inputSwitch>
                 <p class="inlineSwitchButton"> {{limit.get('label')}} </p>
                 <br><br>
               </div>

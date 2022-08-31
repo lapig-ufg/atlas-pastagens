@@ -986,7 +986,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             }
           });
           const lay = this.map.getLayers().getArray().find(l => l.get('key') === layer.layer.get('key'));
-          lay.setVisible(true);
+          lay.setVisible(ev.layer.layer.state_.visible);
         }
       }
     }
