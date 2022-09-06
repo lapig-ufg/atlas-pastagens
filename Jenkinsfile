@@ -38,7 +38,7 @@
 
                         //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
                         sh "export NODE_OPTIONS=--max-old-space-size=8096"
-                        def status = sh(returnStatus: true, script: "cd src/client && ng build --stats-json --source-map=false --no-progress")
+                        def status = sh(returnStatus: true, script: "cd src/client && ng build -c homolog --stats-json --source-map=false --no-progress")
                         if (status != 0) {
                             echo "FAILED BUILD!"
                             currentBuild.result = 'FAILED'
