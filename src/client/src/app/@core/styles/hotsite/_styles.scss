@@ -13950,7 +13950,18 @@ $primary_hotiste: #ffc845;
   }
 
   .gallery-banner{
-    background: url(../../../../assets/hotsite/images/galeria.png) no-repeat top;
+    background: url(../../../../assets/hotsite/images/new_gallery.jpg) no-repeat top;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    -ms-background-size: cover;
+    position: relative;
+    z-index: 0;
+  }
+
+  .contact-banner{
+    background: url(../../../../assets/hotsite/images/new_contact.jpg) no-repeat top;
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
