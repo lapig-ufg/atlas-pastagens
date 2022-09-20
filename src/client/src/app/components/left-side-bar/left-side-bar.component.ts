@@ -267,7 +267,6 @@ export class LeftSideBarComponent implements AfterViewInit {
 
     this.basemap = this.basesmaps.find(b => bmap.key === b.key);
     this.basemap.layer.layer.state_.visible = event.checked;
-    console.log(this.basemap.layer);
     this.onChangeMap.emit({ layer: this.basemap.layer, updateSource: false });
   }
 
@@ -502,7 +501,7 @@ export class LeftSideBarComponent implements AfterViewInit {
   setBasemaps(bmaps) {
     this.basesmaps.forEach(bmap => {
       const layerBasemap = bmaps.find(map => { return map.layer.get('key') === bmap.key });
-      
+
       bmap['layer'] = layerBasemap
       bmap['name'] = layerBasemap.layer.get('label')
     });
