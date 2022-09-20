@@ -2,6 +2,7 @@
 
     load "$JENKINS_HOME/.envvars"
     def application_name= "app_atlas"
+    def NODE_VERSION="v14.20.0"
 
         stage('Checkout') {
             git branch: 'develop',
