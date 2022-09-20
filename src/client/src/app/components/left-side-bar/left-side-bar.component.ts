@@ -260,12 +260,14 @@ export class LeftSideBarComponent implements AfterViewInit {
     this.cdRef.detectChanges();
   }
 
-  onChangeBaseMap(bmap) {
+  onChangeBaseMap(bmap, event) {
     this.basesmaps.map((b) => {
       b.checked = bmap.key === b.key;
     });
 
     this.basemap = this.basesmaps.find(b => bmap.key === b.key);
+    this.basemap.layer.layer.state_.visible = event.checked;
+    console.log(this.basemap.layer);
     this.onChangeMap.emit({ layer: this.basemap.layer, updateSource: false });
   }
 

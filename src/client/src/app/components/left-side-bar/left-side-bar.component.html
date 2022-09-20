@@ -172,7 +172,7 @@
           <div class="details">
             <div class="details-inner">
               <div class="toggle" *ngFor="let bmap of basesmaps">
-                <p-inputSwitch styleClass="inputSwitchClass" (onChange)="onChangeBaseMap(bmap)"
+                <p-inputSwitch styleClass="inputSwitchClass" (onChange)="onChangeBaseMap(bmap, $event)"
                   [(ngModel)]="bmap.checked"></p-inputSwitch>
                   <p class="inlineSwitchButton"> {{bmap.name}} </p>
                 <br><br>
