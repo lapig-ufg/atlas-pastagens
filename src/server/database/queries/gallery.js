@@ -20,16 +20,16 @@ module.exports = function (app) {
 
         if(Array.isArray(filters)){
             filters.forEach((filter, index) => {
-                if(index === filters.length - 1){
-                    condition += filter.column + " ilike '%" +  filter.tag + "%'";
-                }else{
-                    condition += filter.column + " ilike '%" +  filter.tag + "%' AND ";
-                }
-                // if(index === filters.length - 1){
-                //     condition += filter.column + " = '" +  filter.tag + "'";
-                // }else{
-                //     condition += filter.column + " = '" +  filter.tag + "' AND ";
+                //if(index === filters.length - 1){
+                //    condition += filter.column + " ilike '%" +  filter.tag + "%'";
+                //}else{
+                //    condition += filter.column + " ilike '%" +  filter.tag + "%' AND ";
                 // }
+                if(index === filters.length - 1){
+                    condition += filter.column + " = '" +  filter.tag + "'";
+                }else{
+                    condition += filter.column + " = '" +  filter.tag + "' AND ";
+                }
             })
         } else {
             condition += "tag_1 = 'Pastagem'";
