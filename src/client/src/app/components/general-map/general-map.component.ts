@@ -1518,6 +1518,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     else if (this.selectRegion.type == 'state') {
       this.msFilterRegion = "uf ilike '" + this.selectRegion.value + "'"
     }
+    else if (this.selectRegion.type == 'region') {
+      this.msFilterRegion = "regiao = '" + this.selectRegion.value + "'"
+    }
     else if (this.selectRegion.type == 'biome') {
       this.msFilterRegion = "unaccent(bioma) ilike unaccent('" + this.selectRegion.value + "')"
     }
@@ -1584,7 +1587,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     } else {
       this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
     }
-
   }
 
   onChangeSearchOption() {

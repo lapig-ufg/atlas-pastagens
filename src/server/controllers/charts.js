@@ -254,7 +254,7 @@ module.exports = function (app) {
 
         let varYear = year
         if (!varYear) {
-            varYear = 2020
+            varYear = 2021
         }
 
         Internal.languageOb = UtilsLang().getLang(language).right_sidebar;
