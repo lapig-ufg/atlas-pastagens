@@ -365,6 +365,7 @@
     "region_types": {
       "city": "Município",
       "state": "Estado",
+      "region": "Regiões Político-administrativas",
       "biome": "Bioma",
       "country": "País",
       "fronteira": "Região de Fronteira"

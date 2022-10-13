@@ -779,8 +779,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (layerType!.regionFilter)
         filters.push(layerType!.regionFilter)
 
-      if (layerType!.regionFilter && this.msFilterRegion)
-        filters.push(this.msFilterRegion)
+      if (layerType!.regionFilter && this.msFilterRegion){
+        /**
+         * TODO remover quando o problema de bimoas do dados de qualidade.
+         */
+        if(layerType!.valueType !== 'pasture_quality_col6_s100'){
+          filters.push(this.msFilterRegion)
+        }
+      }
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
@@ -1578,15 +1584,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   onSelectSuggestion(event) {
-    if(event.type != 'biome'){
-      if (this.selectedSearchOption.toLowerCase() == 'region') {
-        this.updateRegion(event)
-      } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
-        this.updateAreaOnMap(event)
-      }
-    } else {
-      this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
+    if (this.selectedSearchOption.toLowerCase() == 'region') {
+      this.updateRegion(event)
+    } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
+      this.updateAreaOnMap(event)
     }
+    // if(event.type != 'biome'){
+    //
+    // } else {
+    //   this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
+    // }
   }
 
   onChangeSearchOption() {

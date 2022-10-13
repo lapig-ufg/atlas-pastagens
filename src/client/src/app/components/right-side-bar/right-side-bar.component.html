@@ -97,7 +97,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="cardsToDisplay.area2 && chartsArea2[0].data.labels.length > 0">
+    <div *ngIf="cardsToDisplay.area2">
       <div [class]="expandGroups.area2 ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.area2 = !expandGroups.area2" class="abstract">
           <span>
