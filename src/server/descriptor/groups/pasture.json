@@ -35,10 +35,7 @@
                 "visible": false,
                 "selectedType": "pasture_carbon_aglivc",
                 "types": [
-                    "pasture_carbon_aglivc",
-                    "pasture_carbon_stdeadc",
-                    "pasture_carbon_somsc",
-                    "pasture_carbon_bglivs"
+                    "pasture_carbon_somsc"
                 ]
             }
         ]
