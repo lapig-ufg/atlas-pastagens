@@ -33,7 +33,7 @@
                 "idLayer": "biomassa",
                 "labelLayer": "translate",
                 "visible": false,
-                "selectedType": "pasture_carbon_aglivc",
+                "selectedType": "pasture_carbon_somsc",
                 "types": [
                     "pasture_carbon_somsc"
                 ]
