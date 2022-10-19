@@ -739,7 +739,7 @@
       "user-email": "Seu Email",
       "user-subject": "Assunto",
       "user-institution": "Instituição",
-      "user-message": "Escreve uma Menssagem",
+      "user-message": "Escreve uma Mensagem",
       "submit": "Submeter",
       "form-validation": {
         "email": {
@@ -749,7 +749,7 @@
         "name": "Nome é requerido.",
         "subject": "Assunto é requerido.",
         "institution": "Instituição é requerido",
-        "message": "Menssagem é requerido."
+        "message": "Mensagem é requerido."
       },
       "submit-message": {
         "success": "Sua mensagem foi enviada com sucesso",
