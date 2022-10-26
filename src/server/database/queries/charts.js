@@ -17,6 +17,8 @@ module.exports = function (app) {
                 regionsFilter += "cd_geocmu = '" + key + "'"
             else if (type == 'state')
                 regionsFilter += "uf = '" + key + "'"
+            else if (type == 'region')
+                regionsFilter += "regiao = '" + key + "'"
             else if (type == 'biome')
                 regionsFilter += "bioma = '" + key.toUpperCase() + "'"
             else if (type == 'fronteira') {

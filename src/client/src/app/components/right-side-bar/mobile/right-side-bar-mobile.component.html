@@ -33,7 +33,7 @@
                 ({{infoResumo.pasture.percentOfRegionArea}}
                 {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
             </div>
-            <div class="resumo-card">
+            <div class="resumo-card" *ngIf="infoResumo.pasture_quality.length > 0">
               <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}}</div>
               <div class="resumo-card-content">
                 <div class="resumo-card-content" *ngFor="let cl of infoResumo.pasture_quality"

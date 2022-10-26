@@ -12,7 +12,6 @@ import { LocalizationService } from "../../@core/internationalization/localizati
 import { ChartService } from '../services/charts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from '../services/customer.service';
-import { Customer } from 'src/app/@core/interfaces/customer';
 import { Descriptor, Layer, Legend, Menu } from "../../@core/interfaces";
 import Map from 'ol/Map';
 

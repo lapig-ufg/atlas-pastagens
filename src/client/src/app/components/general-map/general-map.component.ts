@@ -779,8 +779,15 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (layerType!.regionFilter)
         filters.push(layerType!.regionFilter)
 
-      if (layerType!.regionFilter && this.msFilterRegion)
-        filters.push(this.msFilterRegion)
+      if (layerType!.regionFilter && this.msFilterRegion){
+        /**
+         * TODO remover quando o problema de bimoas do dados de qualidade.
+         */
+        if(layerType!.valueType !== 'pasture_quality_col6_s100'){
+          console.log(this.msFilterRegion);
+          filters.push(this.msFilterRegion)
+        }
+      }
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
