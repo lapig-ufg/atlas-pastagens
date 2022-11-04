@@ -538,7 +538,7 @@
         },
         "carbon_stock": {
           "title": "Carbon stocks",
-          "text": "This dataset is part of an experiment for evaluation of models, based on biogeochemical cycling, used for pastures carbon stocks estimatives, on a large scale. It contains estimatives of soil, roots and above-ground biomass carbon stocks in pastures in the Cerrado biome."
+          "text": "Estimates of carbon stock in soil organic matter from ecosystem modeling in areas occupied by pastures in Brazil. This dataset comprises a time series of maps of carbon stock in the surface layer of soil (0 to 20 cm), covering the period from 1985 to 2021."
         }
       },
       "team": {
@@ -609,7 +609,7 @@
       },
       "carbon_stock": {
         "title": "Carbon stocks",
-        "text": "This dataset is part of an experiment for evaluation of models, based on biogeochemical cycling, used for pastures carbon stocks estimatives, on a large scale. It contains estimatives of soil, roots and above-ground biomass carbon stocks in pastures in the Cerrado biome."
+        "text": "Estimates of carbon stock in soil organic matter from ecosystem modeling in areas occupied by pastures in Brazil. This dataset comprises a time series of maps of carbon stock in the surface layer of soil (0 to 20 cm), covering the period from 1985 to 2021."
       },
       "herd_cattle": {
         "title": "Cattle herd",
