@@ -211,7 +211,7 @@ export class RightSideBarComponent implements OnInit {
         result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
         return Number(event.order) * result;
-        
+
       } else if(event.field === 'value') {
 
         let data1 = value1["originalValue"];
