@@ -8,16 +8,19 @@ import { catchError, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class DownloadService {
-
+  
   private apiURL = `${environment.OWS}/api/download`;
   private apiS3 = `${environment.LAPIG_DOWNLOAD_API}/api/download/`;
-  constructor(private httpClient: HttpClient) {}
+
+  constructor(
+    private httpClient: HttpClient
+    ) {}
 
   
   downloadFromS3(parameters): Observable<any>{
     return this.httpClient.post<any>(this.apiS3, parameters)
       .pipe(map(response => response))
-      .pipe(catchError(this.errorHandler));
+      .pipe(catchError(this.errorHandlerS3));
   }
 
   downloadRequest(parameters): Observable<Blob> {
@@ -45,7 +48,19 @@ export class DownloadService {
     })
   }
 
+  errorHandlerS3(error) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      errorMessage = error.error.message;
+    } else if(error.error.message==='file_empty'){
 
+      errorMessage = 'left_sidebar.layer.s3_file_empty'
+    } 
+    else{
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  }
 
   errorHandler(error) {
     let errorMessage = '';
