@@ -787,7 +787,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             filters.push(this.msFilterRegion)
           }
         }
-        
+
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
 
