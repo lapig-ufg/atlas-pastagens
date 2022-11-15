@@ -10,7 +10,7 @@ import { catchError, map } from 'rxjs/operators';
 export class DownloadService {
 
   private apiURL = `${environment.OWS}/api/download`;
-  private apiS3 = `${environment.LAPIG_DOWNLOAD_API}/api/download`;
+  private apiS3 = `${environment.LAPIG_DOWNLOAD_API}/api/download/`;
   constructor(private httpClient: HttpClient) {}
 
   
