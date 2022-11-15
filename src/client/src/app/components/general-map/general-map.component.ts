@@ -1236,10 +1236,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     };
 
     this.downloadService.downloadFromS3(parameters).subscribe((response) =>{
-
-      console.log(response.url)
-      window.open(response.url,'_blank')
-        layer.download.loading = false;
+      if (response){
+        window.open(response.url,'_blank')
+      } 
+      layer.download.loading = false;
     }, (error) => {
       let name = ''
       if (error === 'left_sidebar.layer.s3_file_empty'){
