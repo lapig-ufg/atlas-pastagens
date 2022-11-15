@@ -779,9 +779,15 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (layerType!.regionFilter)
         filters.push(layerType!.regionFilter)
 
-      if (layerType!.regionFilter && this.msFilterRegion)
-        filters.push(this.msFilterRegion)
-
+        if (layerType!.regionFilter && this.msFilterRegion){
+          /**
+           * TODO remover quando o problema de bimoas do dados de qualidade.
+           */
+          if(layerType!.valueType !== 'pasture_quality_col6_s100'){
+            filters.push(this.msFilterRegion)
+          }
+        }
+        
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
 
@@ -1074,6 +1080,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   downloadSHP(layer, format) {
+
+    // Todo mover para cima
     layer.download.loading = true;
     let parameters = {
       "layer": layer,
@@ -1218,21 +1226,29 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         this.googleAnalyticsService.eventEmitter("DownloadLayer", "Layer", register_event, 1);
       }
     }
+    layer.download.loading = true;
 
-    switch (tipo) {
-      case 'csv':
-        this.downloadCSV(layer, tipo);
-        break;
-      case 'gpkg':
-        this.downloadGPKG(layer, tipo);
-        break;
-      case 'raster':
-        this.downloadRaster(layer, tipo);
-        break;
-      case 'shp':
-        this.downloadSHP(layer, tipo);
-        break;
-    }
+    let parameters = {
+      "layer": layer,
+      "region": this.selectRegion,
+      "filter": this.selectedFilterFromLayerType(layer.valueType),
+      "typeDownload": tipo
+    };
+
+    this.downloadService.downloadFromS3(parameters).subscribe((response) =>{
+
+      console.log(response.url)
+      window.open(response.url,'_blank')
+        layer.download.loading = false;
+    }, (error) => {
+      this.messageService.add({
+           life: 2000,
+            severity: 'error',
+            summary: this.localizationService.translate('left_sidebar.layer.down_error_title'),
+            detail: this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: error })
+          });
+          layer.download.loading = false;
+    });
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -1518,6 +1534,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     else if (this.selectRegion.type == 'state') {
       this.msFilterRegion = "uf ilike '" + this.selectRegion.value + "'"
     }
+    else if (this.selectRegion.type == 'region') {
+      this.msFilterRegion = "regiao = '" + this.selectRegion.value + "'"
+    }
     else if (this.selectRegion.type == 'biome') {
       this.msFilterRegion = "unaccent(bioma) ilike unaccent('" + this.selectRegion.value + "')"
     }
@@ -1575,16 +1594,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   onSelectSuggestion(event) {
-    if(event.type != 'biome'){
-      if (this.selectedSearchOption.toLowerCase() == 'region') {
-        this.updateRegion(event)
-      } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
-        this.updateAreaOnMap(event)
-      }
-    } else {
-      this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
+    if (this.selectedSearchOption.toLowerCase() == 'region') {
+      this.updateRegion(event)
+    } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
+      this.updateAreaOnMap(event)
     }
-
+    // if(event.type != 'biome'){
+    //
+    // } else {
+    //   this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
+    // }
   }
 
   onChangeSearchOption() {

@@ -16,7 +16,7 @@ module.exports = function (app) {
             return res;
 
         } catch (error) {
-            console.log(error.response.body);
+            console.log(error);
             //=> 'Internal server error ...'
         }
     }

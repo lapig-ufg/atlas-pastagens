@@ -12,7 +12,6 @@ import { LocalizationService } from "../../@core/internationalization/localizati
 import { ChartService } from '../services/charts.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CustomerService } from '../services/customer.service';
-import { Customer } from 'src/app/@core/interfaces/customer';
 import { Descriptor, Layer, Legend, Menu } from "../../@core/interfaces";
 import Map from 'ol/Map';
 
@@ -124,7 +123,7 @@ export class RightSideBarComponent implements OnInit {
 
     this.selectRegion = this.defaultRegion;
 
-    this.filterSelectedOnLayersForStatistics = "year=2020"
+    this.filterSelectedOnLayersForStatistics = "year=2021"
 
 
     this.lang = this.localizationService.currentLang();
@@ -290,13 +289,14 @@ export class RightSideBarComponent implements OnInit {
   }
 
   updateStatistics(region?) {
-
     if (region) {
+      if(region.type === 'country' && region.text == ''){
+        region.text = 'BRASIL'
+      }
       this.selectRegion = region;
     } else {
       this.selectRegion = this.defaultRegion;
     }
-
 
     if (this.cardsToDisplay.resumo) {
       this.updateResumo();
@@ -330,8 +330,6 @@ export class RightSideBarComponent implements OnInit {
     this.chartsArea2 = []
 
     this.chartService.getResumo(textParam).subscribe(tempResumo => {
-
-
       this.infoResumo = tempResumo;
     }, error => {
       console.error(error)
@@ -374,8 +372,13 @@ export class RightSideBarComponent implements OnInit {
     this.chartsArea2 = []
 
     this.chartService.getArea2(textParam).subscribe(tempChartsArea2 => {
-
-
+      if(Array.isArray(tempChartsArea2)){
+        if(tempChartsArea2.hasOwnProperty('data')) {
+          this.cardsToDisplay.area2 = true
+        } else {
+          this.cardsToDisplay.area2 = false
+        }
+      }
       this.chartsArea2 = tempChartsArea2;
     }, error => {
       console.error(error)
@@ -434,7 +437,6 @@ export class RightSideBarComponent implements OnInit {
   }
 
   receiveFilterLayer(selectedLayers) {
-
     for (const [key, value] of Object.entries(this.filterSelectedOnLayersForStatistics)) {
       let result = selectedLayers.find(x => x.valueType.includes('pasture'));
 

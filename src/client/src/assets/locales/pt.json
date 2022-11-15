@@ -365,6 +365,7 @@
     "region_types": {
       "city": "Município",
       "state": "Estado",
+      "region": "Regiões Político-administrativas",
       "biome": "Bioma",
       "country": "País",
       "fronteira": "Região de Fronteira"
@@ -538,7 +539,7 @@
         },
         "carbon_stock": {
           "title": "Estoque de carbono",
-          "text": "Esse conjunto de dados é parte de um experimento para avaliação do uso de modelos baseados em ciclagem biogeoquímica na estimativas do estoque de carbono em pastagens em larga escala. Contendo estimativas do estoque de carbono no solo, nas raízes e na biomassa aérea das pastagens do bioma Cerrado."
+          "text": "Estimativas de estoque de carbono na matéria orgânica do solo a partir de modelagem ecossistêmica, em áreas ocupadas por pastagens no Brasil. Esse conjunto de dados compreende uma série temporal de mapas de estoque de carbono na camada superficial de solo (0 a 20 cm), abrangendo o período de 1985 a 2021."
         }
       },
       "team": {
@@ -609,7 +610,7 @@
       },
       "carbon_stock": {
         "title": "Estoque de carbono nas pastagens",
-        "text": "Esse conjunto de dados é parte de um experimento para avaliação do uso de modelos baseados em ciclagem biogeoquímica na estimativas do estoque de carbono em pastagens em larga escala. Contendo estimativas do estoque de carbono no solo, nas raízes e na biomassa aérea das pastagens do bioma Cerrado."
+        "text": "Estimativas de estoque de carbono na matéria orgânica do solo a partir de modelagem ecossistêmica, em áreas ocupadas por pastagens no Brasil. Esse conjunto de dados compreende uma série temporal de mapas de estoque de carbono na camada superficial de solo (0 a 20 cm), abrangendo o período de 1985 a 2021."
       },
       "herd_cattle": {
         "title": "Rebanho Bovino",
@@ -738,7 +739,7 @@
       "user-email": "Seu Email",
       "user-subject": "Assunto",
       "user-institution": "Instituição",
-      "user-message": "Escreve uma Menssagem",
+      "user-message": "Escreve uma Mensagem",
       "submit": "Submeter",
       "form-validation": {
         "email": {
@@ -748,7 +749,7 @@
         "name": "Nome é requerido.",
         "subject": "Assunto é requerido.",
         "institution": "Instituição é requerido",
-        "message": "Menssagem é requerido."
+        "message": "Mensagem é requerido."
       },
       "submit-message": {
         "success": "Sua mensagem foi enviada com sucesso",

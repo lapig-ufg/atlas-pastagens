@@ -13,7 +13,8 @@ export const environment = {
   OWS_O3: "https://o3.lapig.iesa.ufg.br/ows",
   OWS_O4: "https://o4.lapig.iesa.ufg.br/ows",
   APP_URL: 'https://atlas-homolog.lapig.iesa.ufg.br',
-  LAPIG_JOBS: 'http://localhost:3030'
+  LAPIG_JOBS: 'http://localhost:3030',
+  LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br'
 };
 
 /*
