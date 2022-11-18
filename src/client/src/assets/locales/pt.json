@@ -50,7 +50,9 @@
       "down_raster": "Download TIFF",
       "down_error_title": "Erro",
       "down_error_msg": "Não foi possível baixar o arquivo {{name}}, por favor tente novamente.",
-      "s3_file_empty":"Não existe dados para o filtro selecionado."
+      "s3_file_empty":"Não existe dados para o filtro selecionado.",
+      "s3_unable_filter_layer":"Esta camada não é possível de ser filtrada.",
+      "s3_file_not_found":"Por favor tente mais tarde, estamos processando este arquivo."
     }
   },
   "map": {

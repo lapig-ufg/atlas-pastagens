@@ -52,9 +52,9 @@ export class DownloadService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
-    } else if(error.error.message==='file_empty'){
+    } else if(["unable_filter_layer", 'file_empty',"file_not_found"].includes(error.error.message)){
 
-      errorMessage = 'left_sidebar.layer.s3_file_empty'
+      errorMessage = 'left_sidebar.layer.s3_'+error.error.message
     } 
     else{
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;

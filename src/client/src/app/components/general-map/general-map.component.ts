@@ -1242,17 +1242,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       layer.download.loading = false;
     }, (error) => {
       let name = ''
-      if (error === 'left_sidebar.layer.s3_file_empty'){
-        name = this.localizationService.translate('left_sidebar.layer.s3_file_empty')
+      const pre_fix = 'left_sidebar.layer.'
+      if (error.includes(pre_fix)){
+        name = this.localizationService.translate(error)
       }else{
-        name = error
+        name = this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: error })
       }
 
       this.messageService.add({
            life: 2000,
             severity: 'error',
             summary: this.localizationService.translate('left_sidebar.layer.down_error_title'),
-            detail:this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: name })
+            detail:name
           });
           layer.download.loading = false;
     });
