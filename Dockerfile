@@ -1,15 +1,14 @@
-FROM registry.lapig.iesa.ufg.br/lapig-images-homol/app_atlas:base
+FROM registry.lapig.iesa.ufg.br/lapig-images-homol/app-base:latest
 
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
-ENV BRANCH="main"
+ENV BRANCH="develop"
 
 LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
 
-RUN if [ -d "/APP/atlas-pastagens" ]; then rm -Rf /APP/atlas-pastagens; fi  && \
-    cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB}
+RUN cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB} && \
+    cd /APP/atlas-pastagens/src/server && npm install
     
-ADD ./src/server/node_modules /APP/atlas-pastagens/src/server/node_modules  
 ADD ./src/client/dist/client /APP/atlas-pastagens/src/client/dist/client
 
 CMD [ "/bin/bash", "-c", "/APP/src/server/prod-start.sh; tail -f /dev/null"]
