@@ -2,7 +2,6 @@
 
     load "$JENKINS_HOME/.envvars"
     def application_name= "app_atlas"
-    def application_name= "app_teste"	 
 
         stage('Checkout') {
             git branch: 'develop',
