@@ -77,6 +77,9 @@
                   </div>
                   <div class="layer-card-body" *ngIf="layer.visible">
                     <div class="layer-card-content">
+                      <div class="layer-alert" *ngIf="layer.selectedTypeObject?.alertMessage" >
+                        <span>{{layer.selectedTypeObject?.alertMessage}}</span>
+                      </div>
                       <div *ngIf="layer.types.length > 1">
                         <span class="p-float-label">
                             <p-dropdown

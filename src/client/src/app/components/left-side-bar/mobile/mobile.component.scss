@@ -323,5 +323,22 @@
   }
 }
 
+.layer-alert{
+  padding: 7px;
+  border-radius: 5px;
+  margin-bottom: 9px;
+  width: 95%;
+  background: #f7d4a7;
+  border: solid #cc8925;
+  border-width: 0 0 0 6px;
+  color: #121210;
+  text-align: center;
+  span{
+    font-size: 11px;
+    text-align: center;
+  }
+}
+
+
 
 

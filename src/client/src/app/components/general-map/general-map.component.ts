@@ -780,12 +780,13 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         filters.push(layerType!.regionFilter)
 
         if (layerType!.regionFilter && this.msFilterRegion){
-          /**
-           * TODO remover quando o problema de bimoas do dados de qualidade.
-           */
-          if(layerType!.valueType !== 'pasture_quality_col6_s100'){
-            filters.push(this.msFilterRegion)
-          }
+          // /**
+          //  * TODO remover quando o problema de bimoas do dados de qualidade.
+          //  */
+          // if(layerType!.valueType !== 'pasture_quality_col6_s100'){
+          //   filters.push(this.msFilterRegion)
+          // }
+          filters.push(this.msFilterRegion)
         }
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
@@ -1238,7 +1239,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.downloadService.downloadFromS3(parameters).subscribe((response) =>{
       if (response){
         window.open(response.url,'_blank')
-      } 
+      }
       layer.download.loading = false;
     }, (error) => {
       let name = ''

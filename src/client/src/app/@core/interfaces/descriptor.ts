@@ -36,6 +36,7 @@ export interface DescriptorDownload {
 }
 
 export interface DescriptorType {
+  alertMessage?: string;
   download: DescriptorDownload;
   filterHandler?: string;
   filterLabel?: string;

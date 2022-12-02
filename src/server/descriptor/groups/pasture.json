@@ -17,9 +17,9 @@
                 "idLayer": "pasture_quality",
                 "labelLayer": "translate",
                 "visible": false,
-                "selectedType": "pasture_quality_col6_s100",
+                "selectedType": "pasture_quality_col7_s100",
                 "types": [
-                    "pasture_quality_col6_s100"
+                    "pasture_quality_col7_s100"
                 ]
             }
         ]
