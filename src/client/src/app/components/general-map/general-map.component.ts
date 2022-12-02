@@ -2199,12 +2199,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.clearJob()
             this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
           }, error => {
-            console.log('areaService', error)
             this.displayFormJob = false;
             this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
           })
         }, error => {
-          console.log('saveDrawedGeometry', error)
           this.displayFormJob = false;
           this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
         })
@@ -2214,6 +2212,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   validateEmail() {
     const pattern = new RegExp('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$');
     this.emailValid = pattern.test(this.job.email)
+  }
+
+  onMapLoading(evt): void{
+    this.loadingMap = evt;
   }
 
 }

@@ -1,7 +1,7 @@
 <section class="" [class]="openMenu ? 'open map-container' : 'map-container' ">
   <div [class]="classes">
-    <ol-map [lat]="-16.6958288" [lon]="-49.4443537" [zoom]="4.6" [width]="'100%'" [height]="'100vh'" [loading]="loadingMap"
-      (onReady)="setMap($event)">
+    <ol-map [lat]="-16.6958288" [lon]="-49.4443537" [zoom]="4.6" [width]="'100%'" [height]="'100vh'"
+      (onReady)="setMap($event)" (loading)="onMapLoading($event)">
 
       <ol-control class="mobileHide" control="FullScreen" [options]="{ source:'main'}">
       </ol-control>

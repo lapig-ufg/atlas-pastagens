@@ -14,11 +14,8 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import { defaults as defaultInteractions } from 'ol/interaction';
 import * as Proj from 'ol/proj';
-import {
-  defaults as defaultControls,
-  Control, MousePosition
-} from 'ol/control';
-import { log2 } from "ol/math";
+import {defaults as defaultControls} from 'ol/control';
+
 
 export const DEFAULT_HEIGHT = '500px';
 export const DEFAULT_WIDTH = '500px';
@@ -35,11 +32,11 @@ export class OlMapComponent implements OnInit, AfterViewInit {
 
   @Input() lat: number = DEFAULT_LAT;
   @Input() lon: number = DEFAULT_LON;
-  @Input() loading: boolean = false;
   @Input() zoom: number;
   @Input() width: string | number = DEFAULT_WIDTH;
   @Input() height: string | number = DEFAULT_HEIGHT;
   @Output() onReady = new EventEmitter<any>();
+  @Output() loading = new EventEmitter<boolean>();
 
   public target: string = 'map-' + Math.random().toString(36).substring(2);
   map: Map;
@@ -73,8 +70,11 @@ export class OlMapComponent implements OnInit, AfterViewInit {
       this.onReady.emit(this.map);
     });
 
-    this.map.on('postrender', function () {
-      self.loading = false;
+    this.map.on('loadstart', () => {
+      self.loading.emit(true);
+    });
+    this.map.on('loadend', () => {
+      self.loading.emit(false);
     });
 
     this.cdRef.detectChanges();
