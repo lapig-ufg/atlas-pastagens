@@ -67,7 +67,7 @@ module.exports = function (app) {
                 source: 'lapig',
                 id: 'pasture_quality',
                 sql: " SELECT b.name as classe, b.color, CAST(sum(a.area_ha) as double precision) as value "
-                    + " FROM pasture_quality_col6 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'"
+                    + " FROM pasture_quality_col7 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'"
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1,2;",
@@ -122,7 +122,7 @@ module.exports = function (app) {
                 source: 'lapig',
                 id: 'pasture_quality',
                 sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
-                    " FROM pasture_quality_col6 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
+                    " FROM pasture_quality_col7 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
                     "WHERE " + regionFilter +
                     // " AND " + yearFilter +
                     " GROUP BY 1,2,3 ORDER BY 1 ASC;",
@@ -160,7 +160,7 @@ module.exports = function (app) {
                 id: 'pasture_quality',
                 sql: "SELECT b.name as label, b.color, sum(a.area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun "
-                    + "FROM pasture_quality_col6 as A "
+                    + "FROM pasture_quality_col7 as A "
                     + "INNER JOIN graphic_colors as B on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
