@@ -2160,6 +2160,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   closeDetailsWindow(){
+    Object.keys(this.mapControls).forEach(key => {
+      this.mapControls[key] = false;
+    });
+
     this.controlOptions = !this.controlOptions;
     this.onCloseDetailsWindow.emit(this.controlOptions);
   }
