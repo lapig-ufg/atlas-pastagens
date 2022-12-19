@@ -192,6 +192,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public job: Job;
   public emailValid: boolean = true;
 
+
   constructor(
     public  localizationService: LocalizationService,
     private downloadService: DownloadService,
@@ -924,7 +925,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       this.onLimitsReady.emit(limitsLayers);
 
-      this.getSwipeLayers();
       this.updateZIndex();
       this.loadingMap = false;
 
@@ -1285,7 +1285,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     return false;
   }
-
+  
   onSwipe() {
     this.getSwipeLayers();
     this.controlOptions = true;
