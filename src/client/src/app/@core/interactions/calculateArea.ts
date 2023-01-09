@@ -52,14 +52,14 @@ export function formatGeodesicArea(area: number): string {
     const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
 
     if (area > 1000000) {
-        output = decimalPipe.transform( (area / 1000000), '1.2-2') + ' ' + 'km<sup>2</sup>';
+        output = decimalPipe.transform( Math.abs((area / 1000000)), '1.2-2') + ' ' + 'km<sup>2</sup>';
     } else if (area >= 10) {
-        output = decimalPipe.transform( area, '1.2-2') + ' ' + 'm<sup>2</sup>';
+        output = decimalPipe.transform( Math.abs(area), '1.2-2') + ' ' + 'm<sup>2</sup>';
     } else {
-        output = decimalPipe.transform( (area * 10000), '1.2-2') + ' ' + 'cm<sup>2</sup>';
+        output = decimalPipe.transform( Math.abs((area * 10000)), '1.2-2') + ' ' + 'cm<sup>2</sup>';
     }
 
-    output += ' ou ' +  decimalPipe.transform(  (area / 10000), '1.2-2') + ' ' + 'ha';
+    output += ' ou ' +  decimalPipe.transform( Math.abs((area / 10000)), '1.2-2') + ' ' + 'ha';
 
     return output;
 }
