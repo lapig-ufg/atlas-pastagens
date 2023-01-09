@@ -268,7 +268,7 @@ module.exports = function (app) {
                 } else {
                     Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
                     fs.unlinkSync(Internal.tmpPath);
-                    console.error("ERROR: ");
+                    console.error("ERROR: ")
                 }
 
             }
@@ -369,6 +369,8 @@ module.exports = function (app) {
         let { geometry, app_origin } = request.body;
         Internal.app_origin = app_origin;
         Internal.response = response
+        const MAX_AREA = process.env.MAX_AREA
+        Internal.language = request.param("lang");
         let area = Internal.validGeometry(geometry)
         if(area){
             let geoJson = JSON.parse(geometry)
@@ -379,7 +381,7 @@ module.exports = function (app) {
                 response.status(200).send(geoJson);
                 response.end()
             } else {
-                Internal.response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
+                response.status(400).send(languageJson['upload_messages']['invalid_geojson'][Internal.language]);
             }
         }
 
