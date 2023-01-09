@@ -2179,15 +2179,17 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.clearJob()
             this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
           }, error => {
+            console.log(error)
             this.displayFormJob = false;
             this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
           })
         }, error => {
           this.displayFormJob = false;
+          console.log(error)
           this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
         })
     } else {
-      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
+      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME ,lang:this.localizationService.currentLang(),}
       this.areaService.saveDrawedGeometry(drawData)
         .subscribe(data => {
           this.job.token = data.token;
@@ -2199,12 +2201,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.clearJob()
             this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
           }, error => {
+            console.log(error)
             this.displayFormJob = false;
             this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
           })
         }, error => {
+          const fall = error
           this.displayFormJob = false;
-          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.msg'), detail: fall });
         })
     }
   }
