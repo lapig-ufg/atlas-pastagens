@@ -102,6 +102,7 @@
     "analyzed_area_pasture_quality_text": "According to LAPIG, over the years, the submitted area has a Pasture area (ha) distributed among the following Grassland degradation classes: ",
     "search_tooltip": "Search area using a token.",
     "drawed_tooltip": "Analyze drawed area on Map.",
+    "polygon_size": " very large polygon",
     "save_message_success": {
       "title": "Token of geometries: {{token}}",
       "msg": "Successfully saved geometries."

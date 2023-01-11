@@ -1439,12 +1439,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   addDrawInteraction(name: string): void {
     this.drawing = true;
+    // 
     if (name !== 'None') {
-      this.draw = new Draw({
-        source: this.source,
-        type: name
-      });
-      this.addInteraction(this.draw, name, true);
+      if( name === 'Polygon') {
+        this.addInteraction(new RulerAreaCtrl(this,true, this.localizationService.translate('area.polygon_size')).getDraw(), name, true);
+      }else{
+        this.draw = new Draw({
+          source: this.source,
+          type: name
+        });
+        this.addInteraction(this.draw, name, true);
+      }
+      
     }
   }
 
