@@ -5,6 +5,7 @@ const unzipper = require("unzipper"),
     geojsonArea = require('@mapbox/geojson-area');
 
 var config = require('../config.js')()
+const GeographicLib = require('geographiclib');
 const gjv = require("geojson-validation");
 var epsg = require('epsg');
 const repro = require("reproject")
@@ -14,6 +15,36 @@ const UtilsLang = require('../utils/language');
 
 const { Pool, Client } = require('pg')
 const pool = new Pool(config['pg_general'])
+
+/**
+ * Definição do elipsoide da projeção EPSG:4674 - SIRGAS 2000
+ * GEOGCS["SIRGAS 2000",
+ *   DATUM["Sistema_de_Referencia_Geocentrico_para_las_AmericaS_2000",
+ *       SPHEROID["GRS 1980",6378137,298.257222101,
+ *           AUTHORITY["EPSG","7019"]],
+ *       TOWGS84[0,0,0,0,0,0,0],
+ *       AUTHORITY["EPSG","6674"]],
+ *   PRIMEM["Greenwich",0,
+ *      AUTHORITY["EPSG","8901"]],
+ *   UNIT["degree",0.0174532925199433,
+ *       AUTHORITY["EPSG","9122"]],
+ *   AUTHORITY["EPSG","4674"]]
+ */
+const geod = new GeographicLib.Geodesic.Geodesic(6378137, 1/298.257222101);
+
+
+/**
+ * @name calculateGeodesicArea
+ *
+ * Calcula a area geodésica de um polígono.
+ *
+ * @author Tharles de Sousa Andrade
+ * Source: https://geographiclib.sourceforge.io/1.52/js/tutorial-3-examples.html
+ * @param polygon
+ * @returns number - Area em m^2
+ */
+
+
 
 module.exports = function (app) {
     const config = app.config;
@@ -35,6 +66,23 @@ module.exports = function (app) {
     Internal.response = {};
     Internal.geojson = {}
     Internal.app_origin = ''
+
+    Internal.calculateGeodesicArea =function(polygon) {
+        const coords = polygon.features[0]['geometry']['coordinates'];
+        const coordinates = coords[0];
+    
+        let poly = geod.Polygon(false)
+    
+        for (let i = 0; i < coordinates.length; ++i){
+            poly.AddPoint(coordinates[i][1], coordinates[i][0]);
+        }
+    
+        poly = poly.Compute(false, true);
+    
+        return Math.abs(poly.area);
+    }
+
+
 
     Internal.acceptedFiles = [
         "dbf",
@@ -95,10 +143,11 @@ module.exports = function (app) {
             
              if(geoJson === false){
                 const jsonWgs84 = repro.toWgs84(geometry, undefined, epsg);
-                var area = geojsonArea.geometry(jsonWgs84.features[0]['geometry']);
+                var area = Internal.calculateGeodesicArea(jsonWgs84)
+                //var area = geojsonArea.geometry(jsonWgs84.features[0]['geometry']);
             }else{
-                
-                var area = geojsonArea.geometry(geometry.features[0]['geometry']);
+                var area = Internal.calculateGeodesicArea(geometry)
+                //var area = geojsonArea.geometry(geometry.features[0]['geometry']);
                 
             }
             // area in Km²

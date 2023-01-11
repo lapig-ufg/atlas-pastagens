@@ -32,6 +32,7 @@
         "fresh": "^0.5.2",
         "fs": "0.0.1-security",
         "generic-pool": "~3.8.2",
+        "geographiclib": "^1.52.2",
         "geojson-validation": "^1.0.2",
         "got": "^11.8.3",
         "hawk": "^9.0.0",
