@@ -2,7 +2,7 @@ declare const require: any;
 const GeographicLib = require('geographiclib');
 import {Polygon} from 'ol/geom';
 import { DecimalPipe } from '@angular/common';
-
+import { environment } from "../../../environments/environment";
 export type Position = number[];
 
 /**
@@ -44,23 +44,30 @@ export function calculateGeodesicArea(polygon: Polygon) {
 
     poly = poly.Compute(false, true);
 
-    return poly.area;
+    return Math.abs(poly.area);
 }
 
-export function formatGeodesicArea(area: number): string {
+export function formatGeodesicArea(area: number, onlyHa: boolean = false): string {
     let output;
     const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
-
-    if (area > 1000000) {
-        output = decimalPipe.transform( (area / 1000000), '1.2-2') + ' ' + 'km<sup>2</sup>';
-    } else if (area >= 10) {
-        output = decimalPipe.transform( area, '1.2-2') + ' ' + 'm<sup>2</sup>';
-    } else {
-        output = decimalPipe.transform( (area * 10000), '1.2-2') + ' ' + 'cm<sup>2</sup>';
+  
+    if(onlyHa){
+        output = decimalPipe.transform( (area / 10000), '1.2-2') + ' ' + 'ha ';
+        
+    }else{
+        if (area > 1000000) {
+            output = decimalPipe.transform( (area / 1000000), '1.2-2') + ' ' + 'km<sup>2</sup>';
+        } else if (area >= 10) {
+            output = decimalPipe.transform( area, '1.2-2')+ ' ' + 'm<sup>2</sup>';
+        } else {
+            output = decimalPipe.transform( (area * 10000), '1.2-2') + ' ' + 'cm<sup>2</sup>';
+        }
+        output += ' ou ' +  decimalPipe.transform( (area / 10000), '1.2-2') + ' ' + 'ha';
     }
 
-    output += ' ou ' +  decimalPipe.transform(  (area / 10000), '1.2-2') + ' ' + 'ha';
 
     return output;
 }
+
+
 

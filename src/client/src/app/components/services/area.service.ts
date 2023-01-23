@@ -73,7 +73,10 @@ export class AreaService {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {
       errorMessage = error.error.message;
-    } else {
+    } else if(typeof error.error == 'string'){
+      errorMessage = error.error
+    }
+    else {
       errorMessage = `Message: ${error.message}`;
     }
     return throwError(errorMessage);

@@ -102,6 +102,7 @@
     "analyzed_area_pasture_quality_text": "According to LAPIG, over the years, the submitted area has a Pasture area (ha) distributed among the following Grassland degradation classes: ",
     "search_tooltip": "Search area using a token.",
     "drawed_tooltip": "Analyze drawed area on Map.",
+    "polygon_size": " very large polygon",
     "save_message_success": {
       "title": "Token of geometries: {{token}}",
       "msg": "Successfully saved geometries."
@@ -726,7 +727,12 @@
       "22": {
         "title": "Technology and degradation of pastures in livestock in the brazilian Cerrado",
         "abstract": "The present study aims to identify and analyze the relationships between the technological level of cattle production and the degradation of pastures in the Rio Vermelho drainage basin in Goiás, central Brazil."
+      },
+      "23": {
+        "title": "Monitoring of Carbon Stocks in Pastures in the Savannas of Brasil through Ecosystem Modeling on a Regional Scale",
+        "abstract": "Considering that pastures represent the primary land use in the country, occupying approximately 20% of the territory, the mapping and monitoring of C stocks in these areas is essential to determine their contribution to national emissions. In this study, based on the integrated use of the CENTURY model, georeferenced databases, and the R environment, we mapped and analyzed, for the first time, the C stocks dynamics associated with the pasture areas of the Cerrado biome between 2000 and 2019. The average C stocks in the soil (0–20 cm) and in the aboveground biomass estimated by modeling were ~31 MgC·ha<sup>−1</sup> and ~4 MgC·ha<sup>−1</sup>, respectively, values close to those observed in the literature for the region."
       }
+
     },
     "error": {
       "msg": "Page not found",

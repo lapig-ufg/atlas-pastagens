@@ -10,5 +10,6 @@ export const environment = {
   OWS_O4: "https://o8.lapig.iesa.ufg.br/ows",
   APP_URL: 'https://atlasdev.lapig.iesa.ufg.br',
   LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br',
-  LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br'
+  LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',
+  MAX_AREA: 9500
 };

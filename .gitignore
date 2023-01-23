@@ -4,6 +4,9 @@
 # Log file
 *.log
 
+src/server/app.out
+src/server/boot.png
+
 # BlueJ files
 *.ctxt
 

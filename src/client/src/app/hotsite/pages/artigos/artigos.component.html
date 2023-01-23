@@ -46,8 +46,8 @@
                     <a [href]="article.doi" target="_blank" class="blog-desc">
                       {{article.title}}
                     </a>
-                    <p>
-                      {{article.abstract}}
+                    <p [innerHTML]="article.abstract">
+                     
                     </p>
                     <div class="d-flex align-items-center justify-content-between mt-lg-4 mt-5">
                       <h5 class="text-blog-e">{{'hotsite.articles.authors' | translate}} {{article.authors}}</h5>
