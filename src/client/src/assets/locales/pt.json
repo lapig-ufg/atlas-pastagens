@@ -728,6 +728,10 @@
       "22": {
         "title": "Tecnologia e degradação de pastagens na pecuária no Cerrado brasileiro",
         "abstract": "Esta pesquisa teve por objetivo analisar a relação entre nível tecnológico de produção de bovinos e de degradação de pastagens, considerando como área de estudo a Bacia Hidrográfica do Rio Vermelho, em Goiás - Brasil."
+      },
+      "23": {
+        "title": "Monitoring of Carbon Stocks in Pastures in the Savannas of Brasil through Ecosystem Modeling on a Regional Scale",
+        "abstract": "Considerando que as pastagens representam o principal uso da terra no país, ocupando aproximadamente 20% do território, o mapeamento e monitoramento dos estoques de C nessas áreas é fundamental para determinar sua contribuição nas emissões nacionais. Neste estudo, com base no uso integrado do modelo CENTURY, bancos de dados georreferenciados e ambiente R, mapeamos e analisamos, pela primeira vez, a dinâmica dos estoques de C associados às áreas de pastagem do bioma Cerrado entre os anos de 2000 e 2019. Os estoques médios de C no solo (0–20 cm) e na biomassa aérea estimados pelo modelo foram de ~31 MgC·ha<sup>−1</sup> e ~4 MgC·ha<sup>−1</sup>, respectivamente, valores próximos aos observados na literatura para o região."
       }
     },
     "error": {

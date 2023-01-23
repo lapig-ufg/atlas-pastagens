@@ -199,6 +199,14 @@ export class ArtigosComponent implements OnInit {
         authors: "Oliveira et al., 2020",
         abstract: this.localizationService.translate('hotsite.articles.22.abstract'),
       },
+      {
+        id: 23,
+        title: this.localizationService.translate('hotsite.articles.23.title'),
+        image: "../../../../assets/hotsite/images/artigos/Monitoring of Carbon Stocks in Pastures in the Savannas of Brasil through Ecosystem Modeling on a Regional Scale.png",
+        doi: "https://doi.org/10.3390/land12010060",
+        authors: "Santos et al., 2023",
+        abstract: this.localizationService.translate('hotsite.articles.23.abstract'),
+      },
     ];
   }
 
