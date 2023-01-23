@@ -160,7 +160,7 @@ export class RulerCtrl extends RulerControl {
     }
 }
 
-export function calculaArea(area: number, onlyHa:boolean, msg:string): string {
+export function calculaArea(area: number, onlyHa:boolean): string {
   // let output: string;
   // const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
   //
@@ -174,17 +174,16 @@ export function calculaArea(area: number, onlyHa:boolean, msg:string): string {
   //
   // output += ' ou ' + decimalPipe.transform( Math.round((area / 100000) * 10000) / 100, '1.2-2') + ' ' + 'ha';
 
-  return formatGeodesicArea(area,onlyHa,msg);
+  return formatGeodesicArea(area,onlyHa);
 }
 
 export class RulerAreaCtrl extends RulerControl {
 
     private onlyHa: boolean
-    private msg: string
-    constructor(component: Ruler, onlyHa:boolean = false, msg:string = '') {
+    constructor(component: Ruler, onlyHa:boolean = false) {
         super(component, 'Polygon');
         this.onlyHa = onlyHa
-        this.msg = msg
+        
     }
 
     protected format(geometry: Geometry): string {
@@ -199,6 +198,6 @@ export class RulerAreaCtrl extends RulerControl {
       // @ts-ignore
       const area = calculateGeodesicArea(geom)
 
-      return calculaArea(area,this.onlyHa,this.msg);
+      return calculaArea(area,this.onlyHa);
     }
 }

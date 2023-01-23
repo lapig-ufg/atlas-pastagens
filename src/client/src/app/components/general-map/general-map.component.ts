@@ -1442,7 +1442,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     // 
     if (name !== 'None') {
       if( name === 'Polygon') {
-        this.addInteraction(new RulerAreaCtrl(this,true, this.localizationService.translate('area.polygon_size')).getDraw(), name, true);
+        this.addInteraction(new RulerAreaCtrl(this,true).getDraw(), name, true);
       }else{
         this.draw = new Draw({
           source: this.source,

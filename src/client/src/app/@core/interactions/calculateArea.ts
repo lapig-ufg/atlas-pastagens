@@ -47,17 +47,12 @@ export function calculateGeodesicArea(polygon: Polygon) {
     return Math.abs(poly.area);
 }
 
-export function formatGeodesicArea(area: number, onlyHa: boolean = false, msg:string=""): string {
+export function formatGeodesicArea(area: number, onlyHa: boolean = false): string {
     let output;
     const decimalPipe: DecimalPipe = new DecimalPipe('pt-BR');
   
     if(onlyHa){
-        const MAX_AREA = environment.MAX_AREA * 10000
-        if(area < MAX_AREA){
-            output = decimalPipe.transform( (area / 10000), '1.2-2') + ' ' + 'ha ';
-        }else{
-            output = decimalPipe.transform( (area / 10000), '1.2-2') + ' ' + 'ha '+msg;
-        }
+        output = decimalPipe.transform( (area / 10000), '1.2-2') + ' ' + 'ha ';
         
     }else{
         if (area > 1000000) {
