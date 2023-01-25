@@ -112,7 +112,12 @@
 
           <!--Caixa: right side swipe-->
           <div *ngIf="mapControls.swipe" class="controls-details-card">
-            <app-swipe [descriptor]="_descriptor"></app-swipe>
+            <app-swipe 
+            [descriptor]="_descriptor"
+            [map]="map"
+            [controlOptions]="controlOptions"
+            [closeDetailsWindow]="closeDetailWindowEvent.asObservable()">
+            </app-swipe>
           </div>
           <!--FINAL SWIPE-->
           <div *ngIf="mapControls.search" class="controls-details-card">
