@@ -30,6 +30,8 @@ export class SwipeComponent implements OnInit {
   public swipeLayerRight: DescriptorLayer;
   public swipeValueLeft: string;
   public swipeValueRight: string;
+
+  public mapLayers: boolean[];
   
   public isMobile: boolean = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent));
 
@@ -51,7 +53,7 @@ export class SwipeComponent implements OnInit {
     this.closeDetailsWindow.subscribe(() => this.clear());
   }
 
-  getSwipeLayers() {
+  getSwipeLayers2() {
     this.swipeLayers = [];
     this.map.getLayers().forEach(layer => {
       if (layer) {
@@ -62,7 +64,7 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  getSwipeLayers2() {
+  getSwipeLayers() {
     this.swipeLayers = [];
     this.descriptor.groups.forEach(group => {
       group.layers.forEach(layers => {
@@ -89,7 +91,7 @@ export class SwipeComponent implements OnInit {
     console.log(ev);
   }
 
-  search(ev) {
+  search2(ev) {
     this.swipeOptions = [];
     this.swipeLayers.forEach(layer => {
       let result = this.normalize(layer.get('label')).includes(this.normalize(ev.query));
@@ -99,7 +101,7 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  search2(ev) {
+  search(ev) {
     this.swipeOptions = [];
     this.swipeLayers.forEach(layer => {
       let result = this.normalize(layer.viewValueType).includes(this.normalize(ev.query));
@@ -145,6 +147,8 @@ export class SwipeComponent implements OnInit {
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
 
+    //this.saveMapLayers();
+        
     /*let layerType: DescriptorType = layer.get('descriptorLayer');
     layerType.visible = true;
     //this.changeLayerVisibility({ layer: layerType, updateSource: false });
@@ -157,7 +161,21 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  addLayersToLeftSideSwipe(lay) {
+  saveMapLayers(): void {
+    this.map.getLayers().forEach(layer => {
+      if (layer) {
+        if (layer.get('type') === 'layertype') {
+          console.log(layer);
+          console.log(layer.getVisible());
+          this.mapLayers.push(layer.getVisible());
+        }
+      }
+    });
+
+    console.log(this.mapLayers);
+  }
+
+  addLayersToLeftSideSwipe(lay): void {
     this.map.getLayers().getArray().forEach(layer => {
       if (layer.get('type') === 'layertype' && layer.get('key') !== lay.get('key') && layer.getVisible()) {
         this.swipe.addLayer(layer, false);
@@ -168,7 +186,7 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  normalize(value) {
+  normalize(value): string {
     return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
 
