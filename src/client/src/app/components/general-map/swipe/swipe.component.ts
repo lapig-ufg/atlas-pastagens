@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import Swipe from 'ol-ext/control/Swipe';
 import Layer from 'ol/layer/Layer';
 import Map from 'ol/Map';
-import { debug } from 'console';
 
 @Component({
   selector: 'app-swipe',
@@ -31,7 +30,7 @@ export class SwipeComponent implements OnInit {
   public swipeValueLeft: string;
   public swipeValueRight: string;
 
-  public mapLayers: boolean[];
+  public mapLayers: any;
   
   public isMobile: boolean = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent));
 
@@ -48,9 +47,11 @@ export class SwipeComponent implements OnInit {
 
     this.swipeLayerLeft = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
     this.swipeLayerRight = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-    this.getSwipeLayers();
 
     this.closeDetailsWindow.subscribe(() => this.clear());
+
+    this.saveLayersVisibility();
+    this.getSwipeLayers();
   }
 
   getSwipeLayers2() {
@@ -138,6 +139,7 @@ export class SwipeComponent implements OnInit {
   }
 
   clear(): void {
+    this.recoverLayersVisibility();
     this.map.removeControl(this.swipe);
     this.swipe = null;
   }
@@ -147,32 +149,48 @@ export class SwipeComponent implements OnInit {
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
 
+    this.turnOffLayersVisibility();
+
     //this.saveMapLayers();
-        
-    /*let layerType: DescriptorType = layer.get('descriptorLayer');
-    layerType.visible = true;
-    //this.changeLayerVisibility({ layer: layerType, updateSource: false });
-    //this.onSelectLayerSwipe.emit(layerType.valueType);
-    this.addLayersToLeftSideSwipe(layer);
-    this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");*/
+    //this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");*/
     
     setTimeout(() => {
       this.map.updateSize()
     });
   }
 
-  saveMapLayers(): void {
+  turnOffLayersVisibility(): void {
+    this.map.getLayers().forEach(layer => {
+      if(layer.get('type') === 'layertype') {
+        layer.setVisible(false);
+      }
+    });
+  }
+
+  saveLayersVisibility(): void {
+    this.mapLayers = [];
+
     this.map.getLayers().forEach(layer => {
       if (layer) {
         if (layer.get('type') === 'layertype') {
-          console.log(layer);
-          console.log(layer.getVisible());
-          this.mapLayers.push(layer.getVisible());
+          this.mapLayers.push({key: layer.get('key'), visibility: layer.getVisible()});
         }
       }
     });
 
     console.log(this.mapLayers);
+  }
+
+  recoverLayersVisibility(): void {
+    this.mapLayers.forEach(element => {
+      this.map.getLayers().forEach(layer => {
+        if(layer.get('type') === 'layertype') {
+          if(layer. get('key') === element.key) {
+            layer.setVisible(element.visibility);
+          }
+        }
+      });
+    });
   }
 
   addLayersToLeftSideSwipe(lay): void {
