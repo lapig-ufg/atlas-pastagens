@@ -25,10 +25,9 @@ export class SwipeComponent implements OnInit {
   public swipe: Swipe;
   public swipeOptions: LayerSwipe[];
   public swipeLayers: any[];
-  public swipeLayerLeft: DescriptorLayer;
-  public swipeLayerRight: DescriptorLayer;
-  public swipeValueLeft: string;
-  public swipeValueRight: string;
+
+  public leftLayer: any;
+  public rightLayer: any;
 
   public mapLayers: any;
   
@@ -42,27 +41,38 @@ export class SwipeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.swipeValueLeft = '';
-    this.swipeValueRight = '';
+    this.leftLayer = {name: '', layer: null, visible: false, side: false};
+    this.rightLayer = {name: '', layer: null, visible: false, side: true};
 
-    this.swipeLayerLeft = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-    this.swipeLayerRight = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-
-    this.closeDetailsWindow.subscribe(() => this.clear());
+    this.closeDetailsWindow.subscribe(() => this.onClear());
 
     this.saveLayersVisibility();
     this.getSwipeLayers();
   }
 
-  getSwipeLayers2() {
-    this.swipeLayers = [];
-    this.map.getLayers().forEach(layer => {
-      if (layer) {
-        if (layer.get('type') === 'layertype') {
-          this.swipeLayers.push(layer)
-        }
-      }
-    });
+  onSelectedLayer(ev, side): void {
+    this.createSwipe();
+
+    side.layer = this.getLayer(ev);
+    side.visible = true;
+
+    side.layer.setVisible(true);
+
+    this.swipe.addLayer(side.layer, side.side);
+  }
+
+  onClearLayer(side): void {
+    side.layer.setVisible(false);
+    side.visible = false;
+    side.name = "";
+
+    if(this.rightLayer.visible === this.leftLayer.visible) this.onClear();
+  }
+
+  onClear(): void {
+    this.recoverLayersVisibility();
+    this.map.removeControl(this.swipe);
+    this.swipe = null;
   }
 
   getSwipeLayers() {
@@ -76,33 +86,7 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  getLayer(find): Layer {
-    let aux;
-
-    this.map.getLayers().forEach(layer => {
-      if(layer.get('key') == find.key) {
-        aux = layer;
-      }
-    });
-
-    return aux;
-  }
-
-  changeDate(ev): void {
-    console.log(ev);
-  }
-
-  search2(ev) {
-    this.swipeOptions = [];
-    this.swipeLayers.forEach(layer => {
-      let result = this.normalize(layer.get('label')).includes(this.normalize(ev.query));
-      if (result) {
-        this.swipeOptions.push({ name: layer.get('label'), key: layer.get('key'), layer: layer });
-      }
-    });
-  }
-
-  search(ev) {
+  getOptions(ev) {
     this.swipeOptions = [];
     this.swipeLayers.forEach(layer => {
       let result = this.normalize(layer.viewValueType).includes(this.normalize(ev.query));
@@ -112,36 +96,16 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  onSelectedLayerLeft(ev): void {
-    this.createSwipe();
-    const layer = this.getLayer(ev);
-    layer.setVisible(true);
-    this.swipe.addLayer(layer, false);
-  }
+  getLayer(find): Layer {
+    let layer;
 
-  onSelectedLayerRight(ev): void {
-    this.createSwipe();
-    const layer = this.getLayer(ev);
-    layer.setVisible(true);
-    this.swipe.addLayer(layer, true);
-  }
+    this.map.getLayers().forEach(element => {
+      if(element.get('key') == find.key) {
+        layer = element;
+      }
+    });
 
-  clearLeft(): void {
-    this.swipeValueLeft = "";
-    this.swipeLayerLeft = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-    if(this.swipeValueRight == '') this.clear();
-  }
-
-  clearRight(): void {
-    this.swipeValueRight = "";
-    this.swipeLayerRight = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-    if(this.swipeValueLeft == '') this.clear();
-  }
-
-  clear(): void {
-    this.recoverLayersVisibility();
-    this.map.removeControl(this.swipe);
-    this.swipe = null;
+    return layer;
   }
 
   createSwipe(): void {
@@ -151,19 +115,10 @@ export class SwipeComponent implements OnInit {
 
     this.turnOffLayersVisibility();
 
-    //this.saveMapLayers();
-    //this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");*/
+    //this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
     
     setTimeout(() => {
       this.map.updateSize()
-    });
-  }
-
-  turnOffLayersVisibility(): void {
-    this.map.getLayers().forEach(layer => {
-      if(layer.get('type') === 'layertype') {
-        layer.setVisible(false);
-      }
     });
   }
 
@@ -171,14 +126,10 @@ export class SwipeComponent implements OnInit {
     this.mapLayers = [];
 
     this.map.getLayers().forEach(layer => {
-      if (layer) {
         if (layer.get('type') === 'layertype') {
           this.mapLayers.push({key: layer.get('key'), visibility: layer.getVisible()});
         }
-      }
     });
-
-    console.log(this.mapLayers);
   }
 
   recoverLayersVisibility(): void {
@@ -193,15 +144,16 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  addLayersToLeftSideSwipe(lay): void {
-    this.map.getLayers().getArray().forEach(layer => {
-      if (layer.get('type') === 'layertype' && layer.get('key') !== lay.get('key') && layer.getVisible()) {
-        this.swipe.addLayer(layer, false);
+  turnOffLayersVisibility(): void {
+    this.map.getLayers().forEach(layer => {
+      if(layer.get('type') === 'layertype') {
+        layer.setVisible(false);
       }
     });
-    setTimeout(() => {
-      this.map.updateSize()
-    });
+  }
+
+  changeDate(ev): void {
+    console.log(ev);
   }
 
   normalize(value): string {
