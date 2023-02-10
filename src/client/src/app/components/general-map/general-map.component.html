@@ -115,8 +115,9 @@
             <app-swipe 
             [descriptor]="_descriptor"
             [map]="map"
-            [controlOptions]="controlOptions"
-            [closeDetailsWindow]="closeDetailWindowEvent.asObservable()">
+            [closeDetailsWindow]="closeDetailWindowEvent.asObservable()"
+            (handleLayersLegend)="handleLayersLegend($event)"
+            [parseUrls]="parseUrls">
             </app-swipe>
           </div>
           <!--FINAL SWIPE-->

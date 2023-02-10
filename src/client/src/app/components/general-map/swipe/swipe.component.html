@@ -7,7 +7,7 @@
                 <p-autoComplete (onClear)="onClearLayer(leftLayer)" [appendTo]="'body'"
                 [placeholder]="'controls.details.swipe_placeholder' | translate" [(ngModel)]="leftLayer.name"
                 [suggestions]="swipeOptions" (onSelect)="onSelectedLayer($event, leftLayer)"
-                (completeMethod)="getOptions($event)" field="name">
+                (completeMethod)="getSuggestions($event)" field="name">
                     <ng-template let-layer pTemplate="item">
                         <div class="autocomplete-option">{{layer.name}}</div>
                     </ng-template>
@@ -24,7 +24,7 @@
                             *ngIf="leftLayer.layer.get('descriptorLayer').filters"
                             [options]="leftLayer.layer.get('descriptorLayer').filters"
                             [(ngModel)]="leftLayer.layer.get('descriptorLayer').filterSelected"
-                            (onChange)="changeDate(leftLayer.layer)"
+                            (onChange)="changeDate($event, leftLayer)"
                             optionLabel="viewValueFilter" optionValue="valueFilter"
                             appendTo="body"></p-dropdown>
                         <label
@@ -42,7 +42,7 @@
                     <p-autoComplete (onClear)="onClearLayer(rightLayer)" [appendTo]="'body'"
                     [placeholder]="'controls.details.swipe_placeholder' | translate" [(ngModel)]="rightLayer.name"
                     [suggestions]="swipeOptions" (onSelect)="onSelectedLayer($event, rightLayer)"
-                    (completeMethod)="getOptions($event)" field="name">
+                    (completeMethod)="getSuggestions($event)" field="name">
                         <ng-template let-layer pTemplate="item">
                             <div class="autocomplete-option">{{layer.name}}</div>
                         </ng-template>
@@ -60,7 +60,7 @@
                                 *ngIf="rightLayer.layer.get('descriptorLayer').filters"
                                 [options]="rightLayer.layer.get('descriptorLayer').filters"
                                 [(ngModel)]="rightLayer.layer.get('descriptorLayer').filterSelected"
-                                (onChange)="changeDate(rightLayer.layer)"
+                                (onChange)="changeDate($event.value, rightLayer)"
                                 optionLabel="viewValueFilter" optionValue="valueFilter"
                                 appendTo="body"></p-dropdown>
                             <label

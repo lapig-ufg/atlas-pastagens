@@ -422,7 +422,6 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   getType(types: DescriptorType[], selectedType: string) {
-    console.log(selectedType);
     return types.find(type => {
       type.download['loading'] = false;
       return type.valueType === selectedType
@@ -475,7 +474,6 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   changeLayerVisibility(layer: DescriptorLayer, updateSource = false) {
-    console.log(this.getType(layer.types, layer.selectedType));
     layer.selectedTypeObject = this.getType(layer.types, layer.selectedType);
     layer.selectedTypeObject!.visible = layer.visible;
     this.onLayerChangeVisibility.emit({ layer: layer.selectedTypeObject, updateSource: updateSource })

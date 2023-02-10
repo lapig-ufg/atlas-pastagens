@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Descriptor, DescriptorLayer } from 'src/app/@core/interfaces';
+import { Component, OnInit, Input, Output } from '@angular/core';
+import { Descriptor, DescriptorLayer, DescriptorType } from 'src/app/@core/interfaces';
 import { LocalizationService } from "../../../@core/internationalization/localization.service";
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
 import { ActivatedRoute} from "@angular/router";
@@ -7,8 +7,10 @@ import { MessageService} from 'primeng/api';
 import { LayerSwipe } from 'src/app/@core/interfaces/swipe';
 import { Observable } from 'rxjs';
 import Swipe from 'ol-ext/control/Swipe';
-import Layer from 'ol/layer/Layer';
 import Map from 'ol/Map';
+import { EventEmitter } from '@angular/core';
+import TileLayer from 'ol/layer/Tile';
+import { XYZ } from 'ol/source';
 
 @Component({
   selector: 'app-swipe',
@@ -17,8 +19,11 @@ import Map from 'ol/Map';
 })
 export class SwipeComponent implements OnInit {
   
+  @Output() handleLayersLegend: EventEmitter<any> = new EventEmitter();
+
+  @Input() parseUrls: any;
   @Input() closeDetailsWindow: Observable<void>;
-  @Input() controlOptions: boolean;
+
   @Input() descriptor: Descriptor;
   @Input() map: Map;
 
@@ -31,41 +36,76 @@ export class SwipeComponent implements OnInit {
 
   public mapLayers: any;
   
+  public lLayer =  new TileLayer({
+      properties: {
+        key: 'left',
+        type: 'swipe-layer',
+        descriptorLayer: null,
+        visible: true,
+      },
+      source: new XYZ({
+        wrapX: false,
+        url: ''
+      }),
+      visible: true
+    });
+
+  public rLayer = new TileLayer({
+      properties: {
+        key: 'right',
+        type: 'swipe-layer',
+        descriptorLayer: null,
+        visible: true,
+      },
+      source: new XYZ({
+        wrapX: false,
+        url: ''
+      }),
+      visible: true
+    });
+
   public isMobile: boolean = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent));
 
   constructor(
-    private googleAnalyticsService: GoogleAnalyticsService,
+    public googleAnalyticsService: GoogleAnalyticsService,
     public localizationService: LocalizationService,
-    private messageService: MessageService,
+    public messageService: MessageService,
     public route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    this.leftLayer = {name: '', layer: null, visible: false, side: false};
-    this.rightLayer = {name: '', layer: null, visible: false, side: true};
-
     this.closeDetailsWindow.subscribe(() => this.onClear());
 
-    this.saveLayersVisibility();
+    this.leftLayer = {layer: this.lLayer, key: 'left', visible: false, side: false};
+    this.rightLayer = {layer: this.rLayer, key: 'right', visible: false, side: true};
+
+    this.map.addLayer(this.lLayer);
+    this.map.addLayer(this.rLayer);
+
+    this.saveMapCurrentState();
     this.getSwipeLayers();
   }
 
   onSelectedLayer(ev, side): void {
     this.createSwipe();
 
-    side.layer = this.getLayer(ev);
+    side.layer.values_.descriptorLayer = this.getDescripor(ev.key);
+    side.layer.getSource().setUrls(this.parseUrls(ev.layer));
+
     side.visible = true;
 
     side.layer.setVisible(true);
-
     this.swipe.addLayer(side.layer, side.side);
+
+    this.handleLayersLegend.emit({valueType: ev.key, visible: side.visible});
   }
 
-  onClearLayer(side): void {
+  onClearLayer(side: any): void {
     side.layer.setVisible(false);
     side.visible = false;
     side.name = "";
 
+    this.handleLayersLegend.emit({valueType: side.key, visible: side.visible});
     if(this.rightLayer.visible === this.leftLayer.visible) this.onClear();
   }
 
@@ -86,7 +126,7 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  getOptions(ev) {
+  getSuggestions(ev) {
     this.swipeOptions = [];
     this.swipeLayers.forEach(layer => {
       let result = this.normalize(layer.viewValueType).includes(this.normalize(ev.query));
@@ -96,33 +136,41 @@ export class SwipeComponent implements OnInit {
     });
   }
 
-  getLayer(find): Layer {
-    let layer;
+  getDescripor(key: string): DescriptorType {
+    let descriptorType: DescriptorType;
 
-    this.map.getLayers().forEach(element => {
-      if(element.get('key') == find.key) {
-        layer = element;
-      }
+    this.descriptor.groups.forEach(group => {
+      group.layers.forEach(layer => {
+        if(layer.selectedType == key) {
+          descriptorType = Object.assign(Object.create(Object.getPrototypeOf(layer.selectedTypeObject!)), layer.selectedTypeObject!);
+        }
+      });
     });
 
-    return layer;
+    return descriptorType!;
   }
 
   createSwipe(): void {
     if(this.swipe != null) return;
+
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
 
-    this.turnOffLayersVisibility();
+    this.resetMap();
 
-    //this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
+    this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
     
     setTimeout(() => {
       this.map.updateSize()
     });
   }
 
-  saveLayersVisibility(): void {
+  changeDate(ev: string, side: any): void {
+    side.layer.getSource().setUrls(this.parseUrls(side.layer.get('descriptorLayer')));
+    side.layer.getSource().refresh();
+  }
+
+  saveMapCurrentState(): void {
     this.mapLayers = [];
 
     this.map.getLayers().forEach(layer => {
@@ -138,22 +186,20 @@ export class SwipeComponent implements OnInit {
         if(layer.get('type') === 'layertype') {
           if(layer. get('key') === element.key) {
             layer.setVisible(element.visibility);
+            this.handleLayersLegend.emit({valueType: layer.get('key'), visible: layer.get('visible')});
           }
         }
       });
     });
   }
 
-  turnOffLayersVisibility(): void {
+  resetMap(): void {
     this.map.getLayers().forEach(layer => {
       if(layer.get('type') === 'layertype') {
         layer.setVisible(false);
+        this.handleLayersLegend.emit({valueType: layer.get('key'), visible: layer.get('visible')});
       }
     });
-  }
-
-  changeDate(ev): void {
-    console.log(ev);
   }
 
   normalize(value): string {

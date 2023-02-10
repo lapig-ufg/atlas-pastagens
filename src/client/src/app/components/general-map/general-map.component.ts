@@ -732,7 +732,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  private parseUrls(layerType: DescriptorType) {
+  public parseUrls(layerType: DescriptorType) {
+    this.urls = [
+      environment.OWS_O1,
+      environment.OWS_O2,
+      environment.OWS_O3,
+      environment.OWS_O4
+    ];
+
     let result: string[] = []
 
     let filters: any[] = []
@@ -762,7 +769,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
-
       let layername = layerType!.valueType
 
       if (layerType!.valueType == "uso_solo_mapbiomas") {
@@ -786,6 +792,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   private createOlLayer(layerType: DescriptorType, type = 'layertype'): Promise<TileLayer<any>> {
     let promise;
 
+    // equal, igual, repetido;
     if (layerType.origin.sourceService === 'internal' && layerType.origin.typeOfTMS === 'xyz') {
       promise = new Promise<TileLayer<any>>(resolve => {
         resolve(new TileLayer({
