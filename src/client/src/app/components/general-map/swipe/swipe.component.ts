@@ -82,7 +82,6 @@ export class SwipeComponent implements OnInit {
     this.map.addLayer(this.lLayer);
     this.map.addLayer(this.rLayer);
 
-    this.saveMapCurrentState();
     this.getSwipeLayers();
   }
 
@@ -113,6 +112,9 @@ export class SwipeComponent implements OnInit {
     this.recoverLayersVisibility();
     this.map.removeControl(this.swipe);
     this.swipe = null;
+
+    this.leftLayer.layer.setVisible(false);
+    this.rightLayer.layer.setVisible(false);
   }
 
   getSwipeLayers() {
@@ -152,6 +154,7 @@ export class SwipeComponent implements OnInit {
 
   createSwipe(): void {
     if(this.swipe != null) return;
+    this.saveMapCurrentState();
 
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
@@ -160,9 +163,7 @@ export class SwipeComponent implements OnInit {
 
     this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
     
-    setTimeout(() => {
-      this.map.updateSize()
-    });
+    this.map.updateSize()
   }
 
   changeDate(ev: string, side: any): void {
