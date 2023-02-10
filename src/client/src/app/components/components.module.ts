@@ -51,15 +51,18 @@ import { GoogleAnalyticsService } from "./services/google-analytics.service";
 import { MobileComponent } from './left-side-bar/mobile/mobile.component';
 import { RightSideBarMobileComponent } from './right-side-bar/mobile/right-side-bar-mobile.component';
 import { GalleriaModule } from "primeng/galleria";
+import { SwipeComponent } from './general-map/swipe/swipe.component';
 
 registerLocaleData(localePt);
 
 
 @NgModule({
-  declarations: [...routedComponents,
+  declarations: [
+    ...routedComponents,
     AreaComponent,
     MobileComponent,
     RightSideBarMobileComponent,
+    SwipeComponent
   ],
   imports: [
     MatButtonToggleModule,

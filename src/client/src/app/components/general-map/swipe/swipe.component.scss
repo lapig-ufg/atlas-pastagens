@@ -1,0 +1,15 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+.container-swipe{
+  display: flex;
+  justify-content: space-around;
+
+  .swipe-card{
+    width: 100%;
+    margin: 2px;
+    border: 1px solid ;
+  }
+
+}
+

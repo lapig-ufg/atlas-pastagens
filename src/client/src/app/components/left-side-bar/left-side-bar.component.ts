@@ -361,6 +361,7 @@ export class LeftSideBarComponent implements AfterViewInit {
       window.location.href = '/'
     })
     this.renderer.insertBefore(this.el.nativeElement.querySelector(".p-sidebar-header"), div, this.el.nativeElement.querySelector(".p-sidebar-close"))
+    this.map.updateSize();
   }
 
   hideSidebar() {

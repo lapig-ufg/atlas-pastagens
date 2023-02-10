@@ -33,9 +33,7 @@ import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
 import {RulerAreaCtrl, RulerCtrl} from "../../@core/interactions/ruler";
 import {Message, MessageService, PrimeNGConfig, SelectItem} from 'primeng/api';
-import {LayerSwipe} from "../../@core/interfaces/swipe";
 import {AreaService} from '../services/area.service';
-import Swipe from 'ol-ext/control/Swipe';
 import Compass from 'ol-ext/control/Compass';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
@@ -54,6 +52,7 @@ import {environment} from "../../../environments/environment";
 import {GoogleAnalyticsService} from "../services/google-analytics.service";
 import {GalleryService} from '../services/gallery.service';
 import {Job, JobStatus} from "../../@core/interfaces/job";
+import { Subject } from 'rxjs';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -94,6 +93,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   @ViewChild('video') video: ElementRef;
   @ViewChild('wfsCard') wfsCard: ElementRef;
 
+  public closeDetailWindowEvent: Subject<void>;
+
   public msgs: Message[];
   public env: any;
   public innerHeigth: number;
@@ -115,10 +116,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public lat: number;
   public lon: number;
   public classes: string;
-  public swipeLayers: any[];
-  public swipeOptions: LayerSwipe[];
-  public swiperControl: Swipe;
-  public swipeLayer: DescriptorLayer;
   public mapControls: Control;
   public wmtsCapabilities: any[];
   public loadingMap: boolean;
@@ -184,7 +181,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public selectedSearchOption: string;
   public searchOptions: SelectItem[];
 
-  public valueSwipe: any;
   public legendExpanded: boolean;
   public isMobile: boolean;
 
@@ -207,6 +203,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     private primengConfig: PrimeNGConfig,
     private googleAnalyticsService: GoogleAnalyticsService,
   ) {
+    this.closeDetailWindowEvent = new Subject<void>();
+
     this.env = environment;
     this.showFormPoint = false;
     this.loadingDown = false;
@@ -229,7 +227,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.layersTypes = [];
     this.layersNames = [];
     this.limitsNames = [];
-    this.swipeLayers = [];
     this.wmtsCapabilities = [];
     this.featureCollections = [];
     this.gallery = [];
@@ -239,7 +236,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       properties: {},
       geojson: {}
     };
-    this.swipeLayer = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
     this.OlLayers = {};
     this.limitsTMS = {};
     this.map = {};
@@ -290,8 +286,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       text: true,
       minWidth: 100,
     };
-
-    this.swiperControl = new Swipe();
 
     this.bmaps = [
       {
@@ -620,29 +614,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onChangeSearchOption();
   }
 
-  getSwipeLayers() {
-    this.swipeLayers = [];
-    this.map.getLayers().forEach(layer => {
-      if (layer) {
-        if (layer.get('type') === 'layertype') {
-          this.swipeLayers.push(layer)
-        }
-      }
-    });
-  }
-
-  onClearSwipe() {
-    this.valueSwipe = "";
-    this.swipeLayer = { idLayer: '', labelLayer: '', selectedType: '', visible: false, types: [] };
-    this.removeSwipe()
-  }
-
-  onSwipeSelectedLayer(ev) {
-    this.swipeLayer.selectedTypeObject = ev.layer.get('descriptorLayer');
-    this.swipeLayer.visible = true;
-    this.addSwipe(ev.layer);
-  }
-
   onChangeDescriptor() {
     this.setSearchOptions();
     this.layersTypes = [];
@@ -761,7 +732,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  private parseUrls(layerType: DescriptorType) {
+  public parseUrls(layerType: DescriptorType) {
+    this.urls = [
+      environment.OWS_O1,
+      environment.OWS_O2,
+      environment.OWS_O3,
+      environment.OWS_O4
+    ];
+
     let result: string[] = []
 
     let filters: any[] = []
@@ -791,7 +769,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
-
       let layername = layerType!.valueType
 
       if (layerType!.valueType == "uso_solo_mapbiomas") {
@@ -815,6 +792,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   private createOlLayer(layerType: DescriptorType, type = 'layertype'): Promise<TileLayer<any>> {
     let promise;
 
+    // equal, igual, repetido;
     if (layerType.origin.sourceService === 'internal' && layerType.origin.typeOfTMS === 'xyz') {
       promise = new Promise<TileLayer<any>>(resolve => {
         resolve(new TileLayer({
@@ -924,7 +902,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       this.onLimitsReady.emit(limitsLayers);
 
-      this.getSwipeLayers();
       this.updateZIndex();
       this.loadingMap = false;
 
@@ -968,15 +945,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
         this.handleLayersLegend(layerType);
 
-        if (this.swiperControl.layers.length > 0) {
-          const existInSwipe = this.swiperControl.layers.find(l => {
-            return l.layer.get('key') === layerType.valueType
-          });
-
-          if (layer.visible && !existInSwipe) {
-            this.swiperControl.addLayer(this.OlLayers[layerType.valueType], false);
-          }
-        }
       } else {
         if (layer.layer.get('type') === 'bmap') {
           this.map.getLayers().forEach(layer => {
@@ -1286,13 +1254,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     return false;
   }
 
-  onSwipe() {
-    this.getSwipeLayers();
-    this.controlOptions = true;
-    this.mapControls.swipe = !this.mapControls.swipe
-    this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
-  }
-
   onSearch(show) {
     this.controlOptions = true;
     this.mapControls.search = show;
@@ -1317,6 +1278,12 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       this.unselect()
     }
 
+  }
+
+  onSwipe() {
+    this.controlOptions = true;
+    this.mapControls.swipe = !this.mapControls.swipe
+    this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
   }
 
   onPoint(): void {
@@ -1576,16 +1543,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.updateSourceAllLayers()
   }
 
-  search(ev) {
-    this.swipeOptions = [];
-    this.swipeLayers.forEach(layer => {
-      let result = this.normalize(layer.get('label')).includes(this.normalize(ev.query));
-      if (result) {
-        this.swipeOptions.push({ name: layer.get('label'), key: layer.get('key'), layer: layer });
-      }
-    });
-  }
-
   normalize(value) {
     return value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
   }
@@ -1799,35 +1756,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   onClearFilter(ev) {
     this.updateRegion(this.defaultRegion);
-  }
-
-  addSwipe(layer) {
-    this.swiperControl = new Swipe();
-    let layerType: DescriptorType = layer.get('descriptorLayer');
-    layerType.visible = true;
-    this.changeLayerVisibility({ layer: layerType, updateSource: false });
-    this.onSelectLayerSwipe.emit(layerType.valueType);
-    this.addLayersToLeftSideSwipe(layer);
-    this.swiperControl.addLayer(layer, true);
-    this.map.addControl(this.swiperControl);
-    setTimeout(() => {
-      this.map.updateSize()
-    });
-  }
-
-  removeSwipe() {
-    this.map.removeControl(this.swiperControl);
-  }
-
-  addLayersToLeftSideSwipe(lay) {
-    this.map.getLayers().getArray().forEach(layer => {
-      if (layer.get('type') === 'layertype' && layer.get('key') !== lay.get('key') && layer.getVisible()) {
-        this.swiperControl.addLayer(layer, false);
-      }
-    });
-    setTimeout(() => {
-      this.map.updateSize()
-    });
   }
 
   handleFilters(layerType: DescriptorType): string {
@@ -2166,8 +2094,13 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   closeDetailsWindow(){
+    Object.keys(this.mapControls).forEach(key => {
+      this.mapControls[key] = false;
+    });
+
     this.controlOptions = !this.controlOptions;
     this.onCloseDetailsWindow.emit(this.controlOptions);
+    this.closeDetailWindowEvent.next();
   }
 
   sendRequestJob(){
