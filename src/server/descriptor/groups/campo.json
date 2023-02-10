@@ -11,7 +11,10 @@
                 "selectedType": "pontos_campo_parada",
                 "types": [
                     "pontos_campo_parada",
-                    "pontos_campo_sem_parada"
+                    "pontos_campo_sem_parada",
+                    "pontos_campo_mato_grosso_2022",
+                    "pontos_campo_goias_2022",
+                    "pontos_campo_portal_amazonia_2022"
                 ]
             }
         ]
