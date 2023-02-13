@@ -95,6 +95,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   @ViewChild('wfsCard') wfsCard: ElementRef;
 
   public msgs: Message[];
+  public zoomLimit: number = 9;
   public env: any;
   public innerHeigth: number;
   public options: any = {}
@@ -749,6 +750,48 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.map.on('singleclick', (evt) => this.onDisplayFeatureInfo(evt));
     this.onMapReadyLeftSideBar.emit(map);
     this.onMapReadyRightSideBar.emit(map);
+    let zoomLimit = this.zoomLimit
+    
+    this.map.on('moveend', function(e) {
+
+        
+        
+        map.getLayers().forEach(layer => {
+          let descriptorLayer = layer.getProperties().descriptorLayer
+         
+          if (layer.get('type') === 'layertype' && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
+            
+            if(typeof descriptorLayer.download.layerTypeName !== 'undefined') {
+              let complexLayer = descriptorLayer.download.layerTypeName
+              let singleLayer = descriptorLayer.valueType
+
+
+              let zoom = map.getView().getZoom();
+              let soucer = layer.getSource()
+              let urls = soucer.urls
+              let urlNow = new URLSearchParams(urls[0].split("?")[1]).get('layers')
+
+              if (zoomLimit <= zoom && complexLayer !== urlNow ) {
+                
+                let newUrl = urls.map((url) => {
+                  return url.replace(singleLayer,complexLayer)
+                })
+                soucer.setUrls(newUrl)
+                soucer.refresh();
+                
+
+              }else if (zoomLimit > zoom && singleLayer !== urlNow) {
+                
+                let newUrl = urls.map((url) => {
+                  return url.replace(complexLayer,singleLayer)
+                })
+                soucer.setUrls(newUrl)
+                soucer.refresh();
+              }
+            }
+        }
+        });
+    });
   }
 
   hideLayers() {
@@ -803,7 +846,17 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           layername = layerType!.filterSelected
         }
       }
+      if (typeof layerType.download !== 'undefined'){
 
+        if(typeof layerType.download.layerTypeName !== 'undefined'){
+
+          let zoom = this.map.getView().getZoom()
+          if (this.zoomLimit <= zoom  ) {
+            layername = layerType.download!.layerTypeName
+          }
+        }
+
+      }
       for (let url of this.urls) {
         result.push(url + "?layers=" + layername + (layerType!.filterHandler == 'layername' ? "" : msfilter) + "&mode=tile&tile={x}+{y}+{z}" + "&tilemode=gmap" + "&map.imagetype=png");
       }
@@ -940,7 +993,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const layerType: DescriptorType = layer;
 
-    if (updateSource) {
+    if (updateSource ) {
       this.updateSourceLayer(layerType);
     } else {
 
@@ -966,7 +1019,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
         this.OlLayers[layerType.valueType].setVisible(layerType.visible);
 
+       
+
+
         this.handleLayersLegend(layerType);
+
+        if(this.map.getView().getZoom() >= this.zoomLimit){
+          let sourceLayers = this.OlLayers[layerType.valueType].getSource()
+          sourceLayers.setUrls(this.parseUrls(layerType));
+          sourceLayers.refresh();
+
+
+        }
 
         if (this.swiperControl.layers.length > 0) {
           const existInSwipe = this.swiperControl.layers.find(l => {
