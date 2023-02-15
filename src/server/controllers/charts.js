@@ -136,7 +136,7 @@ module.exports = function (app) {
     };
 
     Controller.handleResumo = function (request, response) {
-        const { lang, typeRegion, valueRegion, textRegion, year } = request.query;
+        const { lang, typeRegion, valueRegion, textRegion, year, card_resume } = request.query;
         const language = lang;
 
         Internal.languageOb = UtilsLang().getLang(language).right_sidebar;
@@ -146,24 +146,36 @@ module.exports = function (app) {
             textRegionTranslate: textRegion,
             yearTranslate: year
         };
-
-        let result = {
-            region: {
+        console.log(typeRegion)
+        
+        if(card_resume === "region"){
+            response.send({
                 area: request.queryResult['region'][0].area_region,
-            },
-            pasture: {
+            })
+        }else if(card_resume === "pasture"){
+            response.send({
                 area: request.queryResult['pasture'][0].value,
                 percentOfRegionArea: Internal.numberFormat((request.queryResult['pasture'][0].value / request.queryResult['region'][0].area_region) * 100) + "%"
-            },
-            pasture_quality: request.queryResult['pasture_quality'].map(ob => {
+            })
+        }
+        else if(card_resume === "carbono"){
+            
+            response.send(request.queryResult['pasture_carbon_somsc'][0])
+        }
+        else if(card_resume === "pasture_quality"){
+            
+            response.send(request.queryResult['pasture_quality'].map(ob => {
                 ob.percentAreaPasture = Internal.numberFormat((ob.value / request.queryResult['pasture'][0].value) * 100) + "%"
                 ob.percentOfRegionArea = Internal.numberFormat((ob.value / request.queryResult['region'][0].area_region) * 100) + "%"
                 ob.classe = Internal.languageOb.resumo_card.pasture_quality[ob.classe]
                 return ob;
-            })
+            }))
         }
-
-        response.send(result)
+        else{
+            
+            response.send('error')
+        }
+        
         response.end();
 
     };
