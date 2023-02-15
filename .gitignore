@@ -53,3 +53,4 @@ node_modules/*
 /src/server/download_plataform/*
 src/server/STORAGE
 src/server/plataforms_files/*
+src/client/proxy.conf.json
