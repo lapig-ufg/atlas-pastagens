@@ -95,6 +95,7 @@ export class RightSideBarComponent implements OnInit {
   public displayDashboard: boolean;
   public chartObject: any;
   public filterSelectedOnLayersForStatistics: string;
+  public layersForStatistics: any
 
 
   constructor(
@@ -126,6 +127,19 @@ export class RightSideBarComponent implements OnInit {
     this.filterSelectedOnLayersForStatistics = "year=2021"
 
 
+    this.layersForStatistics = {
+      pasture:{year:"year=2021",switch:true,valueType:"pasture_col6_s100"},
+      pasture_quality:{year:"year=0",switch:false,valueType:"pasture_quality_col7_s100"},
+      carbono:{year:"year=0",switch:false,valueType:"pa_br_somsc_2022"},
+    }
+
+    this.infoResumo = {
+      region:{},
+      pasture:{},
+      pasture_quality:{},
+      carbono:{}
+
+    }
     this.lang = this.localizationService.currentLang();
 
     this.expandGroups = {
@@ -325,14 +339,30 @@ export class RightSideBarComponent implements OnInit {
     params.push('textRegion=' + this.selectRegion.text)
     // params.push('year=')
 
-    let textParam = params.join('&') + '&' + this.filterSelectedOnLayersForStatistics
+    let textParam = params.join('&') 
 
     this.chartsArea2 = []
-
-    this.chartService.getResumo(textParam).subscribe(tempResumo => {
-      this.infoResumo = tempResumo;
-    }, error => {
-      console.error(error)
+    
+    
+    Object.keys(this.infoResumo).forEach(key => {
+      let year:string;
+      if(key === 'region'){
+        year = this.filterSelectedOnLayersForStatistics
+      }else{
+        year = this.layersForStatistics[key].year
+      }
+      console.log(textParam+ `&layer=${key}&${year}`)
+      if(this.infoResumo[key].year !== year.replace('year=','')){
+      this.chartService.getResumo(textParam+ `&card_resume=${key}&${year}`).subscribe(tempResumo => {
+          
+          this.infoResumo[key] = tempResumo;
+          this.infoResumo[key].year = year.replace('year=','')
+          
+          
+        }, error => {
+          console.error(error)
+        })
+      }
     })
 
   }
@@ -437,17 +467,39 @@ export class RightSideBarComponent implements OnInit {
   }
 
   receiveFilterLayer(selectedLayers) {
-    for (const [key, value] of Object.entries(this.filterSelectedOnLayersForStatistics)) {
-      let result = selectedLayers.find(x => x.valueType.includes('pasture'));
-
-      if (result) {
-        if (this.filterSelectedOnLayersForStatistics !== result.filterSelected) {
-          this.filterSelectedOnLayersForStatistics = result.filterSelected
-          this.updateStatistics(this.selectRegion);
-        }
+    // Old sistem
+    let result = selectedLayers.find(x => x.valueType.includes('pasture'));
+    if (result) {
+      if (this.filterSelectedOnLayersForStatistics !== result.filterSelected) {
+        this.filterSelectedOnLayersForStatistics = result.filterSelected
+        this.updateStatistics(this.selectRegion);
       }
     }
+    //New sistem
+    Object.keys(this.layersForStatistics).forEach(key => {
+      let layer = selectedLayers.find(x => x.valueType.includes(this.layersForStatistics[key].valueType));
+      if (layer ) {
+        this.layersForStatistics[key].switch = true
+        if (this.layersForStatistics[key].year !== layer.filterSelected) {
+          this.layersForStatistics[key].year = layer.filterSelected
+          this.updateStatistics(this.selectRegion);
+        }
+      }else{
+        this.layersForStatistics[key].switch = false
+      }
+
+    });
+    
+    
+
+      
+    
   }
+
+  updateStatus(name){
+
+  }
+
 
   exportCSV(table) {
 

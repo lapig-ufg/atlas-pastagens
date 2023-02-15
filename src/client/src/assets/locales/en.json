@@ -376,6 +376,11 @@
     "resumo_card": {
       "area_region": "Region Area",
       "area_pastagem": "Pasture Area (ha)",
+      "carbono":{
+        "title":"Estoques de Carbono (MgC)",
+        "total":"Total de estoque de carbono",
+        "mean":"media do estoque por hectare"
+      },
       "classe_pasture_quality": "Class",
       "area_classe_pasture_quality": "Area of this Degradation Class",
       "complement_text": "of",
