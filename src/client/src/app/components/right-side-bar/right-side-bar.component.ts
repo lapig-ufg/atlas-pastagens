@@ -128,16 +128,16 @@ export class RightSideBarComponent implements OnInit {
 
 
     this.layersForStatistics = {
-      pasture:{year:"year=2021",switch:true,valueType:"pasture_col6_s100"},
-      pasture_quality:{year:"year=0",switch:false,valueType:"pasture_quality_col7_s100"},
-      carbono:{year:"year=0",switch:false,valueType:"pa_br_somsc_2022"},
+      pasture: { year: "year=2021", switch: true, valueType: "pasture_col6_s100" },
+      pasture_quality: { year: "year=0", switch: false, valueType: "pasture_quality_col7_s100" },
+      carbono: { year: "year=0", switch: false, valueType: "pa_br_somsc_2022" },
     }
 
     this.infoResumo = {
-      region:{},
-      pasture:{},
-      pasture_quality:{},
-      carbono:{}
+      region: {},
+      pasture: {},
+      pasture_quality: {},
+      carbono: {}
 
     }
     this.lang = this.localizationService.currentLang();
@@ -214,19 +214,19 @@ export class RightSideBarComponent implements OnInit {
   }
 
   customSort(event: SortEvent) {
-    event.data?.sort((value1:any, value2:any) => {
+    event.data?.sort((value1: any, value2: any) => {
       let result;
 
-      if(event.field === 'index') {
+      if (event.field === 'index') {
 
-        let data1 = parseInt(value1[event.field? event.field:""].replace("º", ""));
-        let data2 = parseInt(value2[event.field? event.field:""].replace("º", ""));
+        let data1 = parseInt(value1[event.field ? event.field : ""].replace("º", ""));
+        let data2 = parseInt(value2[event.field ? event.field : ""].replace("º", ""));
 
         result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
         return Number(event.order) * result;
 
-      } else if(event.field === 'value') {
+      } else if (event.field === 'value') {
 
         let data1 = value1["originalValue"];
         let data2 = value2["originalValue"];
@@ -236,8 +236,8 @@ export class RightSideBarComponent implements OnInit {
         return Number(event.order) * result;
 
       } else {
-        let data1 = value1[event.field? event.field:""];
-        let data2 = value2[event.field? event.field:""]
+        let data1 = value1[event.field ? event.field : ""];
+        let data2 = value2[event.field ? event.field : ""]
 
         result = data1.localeCompare(data2);
 
@@ -304,7 +304,7 @@ export class RightSideBarComponent implements OnInit {
 
   updateStatistics(region?) {
     if (region) {
-      if(region.type === 'country' && region.text == ''){
+      if (region.type === 'country' && region.text == '') {
         region.text = 'BRASIL'
       }
       this.selectRegion = region;
@@ -339,26 +339,27 @@ export class RightSideBarComponent implements OnInit {
     params.push('textRegion=' + this.selectRegion.text)
     // params.push('year=')
 
-    let textParam = params.join('&') 
+    let textParam = params.join('&')
 
     this.chartsArea2 = []
-    
-    
+
+
     Object.keys(this.infoResumo).forEach(key => {
-      let year:string;
-      if(key === 'region'){
+      let year: string;
+      if (key === 'region') {
         year = this.filterSelectedOnLayersForStatistics
-      }else{
+      } else {
         year = this.layersForStatistics[key].year
       }
-      console.log(textParam+ `&layer=${key}&${year}`)
-      if(this.infoResumo[key].year !== year.replace('year=','')){
-      this.chartService.getResumo(textParam+ `&card_resume=${key}&${year}`).subscribe(tempResumo => {
-          
+      
+      if (this.infoResumo[key].year !== year.replace('year=', '') || this.infoResumo[key].value !== this.selectRegion.value) {
+
+        this.chartService.getResumo(textParam + `&card_resume=${key}&${year}`).subscribe(tempResumo => {
           this.infoResumo[key] = tempResumo;
-          this.infoResumo[key].year = year.replace('year=','')
-          
-          
+          this.infoResumo[key].year = year.replace('year=', '')
+          this.infoResumo[key].value = this.selectRegion.value
+
+
         }, error => {
           console.error(error)
         })
@@ -402,8 +403,8 @@ export class RightSideBarComponent implements OnInit {
     this.chartsArea2 = []
 
     this.chartService.getArea2(textParam).subscribe(tempChartsArea2 => {
-      if(Array.isArray(tempChartsArea2)){
-        if(tempChartsArea2.hasOwnProperty('data')) {
+      if (Array.isArray(tempChartsArea2)) {
+        if (tempChartsArea2.hasOwnProperty('data')) {
           this.cardsToDisplay.area2 = true
         } else {
           this.cardsToDisplay.area2 = false
@@ -478,25 +479,25 @@ export class RightSideBarComponent implements OnInit {
     //New sistem
     Object.keys(this.layersForStatistics).forEach(key => {
       let layer = selectedLayers.find(x => x.valueType.includes(this.layersForStatistics[key].valueType));
-      if (layer ) {
+      if (layer) {
         this.layersForStatistics[key].switch = true
         if (this.layersForStatistics[key].year !== layer.filterSelected) {
           this.layersForStatistics[key].year = layer.filterSelected
           this.updateStatistics(this.selectRegion);
         }
-      }else{
+      } else {
         this.layersForStatistics[key].switch = false
       }
 
     });
-    
-    
 
-      
-    
+
+
+
+
   }
 
-  updateStatus(name){
+  updateStatus(name) {
 
   }
 
