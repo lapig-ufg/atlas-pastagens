@@ -325,11 +325,21 @@
           }
         }
       },
+      
       "campo_general": {
         "labelGroup": "Field Visits",
         "layers": {
+          "pontos_campo_goias_2022":{
+            "labelLayer": "Goiás, 2022"
+          },
+          "pontos_campo_portal_amazonia_2022":{
+            "labelLayer": "Amazonia Portal, 2022"
+          },
+          "pontos_campo_brasil":{
+            "labelLayer": "Mato Grosso, 2022"
+          },
           "pontos_campo": {
-            "labelLayer": "Points"
+            "labelLayer": "Old Campaigns"
           }
         }
       },
@@ -377,9 +387,9 @@
       "area_region": "Region Area",
       "area_pastagem": "Pasture Area (ha)",
       "carbono":{
-        "title":"Estoques de Carbono (MgC)",
-        "total":"Total de estoque de carbono",
-        "mean":"media do estoque por hectare"
+        "title":"Carbon Stocks (MgC)",
+        "total":"Total carbon stock",
+        "mean":"average stock per hectare"
       },
       "classe_pasture_quality": "Class",
       "area_classe_pasture_quality": "Area of this Degradation Class",

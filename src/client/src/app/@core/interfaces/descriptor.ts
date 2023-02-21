@@ -19,6 +19,8 @@ export interface DescriptorMapCardAttributes {
   column: string;
   label: string;
   columnType: string;
+  enum?: Array<string>
+  dict?:any
 }
 
 export interface DescriptorMapCard {

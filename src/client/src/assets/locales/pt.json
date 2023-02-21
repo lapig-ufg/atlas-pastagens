@@ -329,8 +329,17 @@
       "campo_general": {
         "labelGroup": "Visitas de Campo",
         "layers": {
+          "pontos_campo_goias_2022":{
+            "labelLayer": "Goiás, 2022"
+          },
+          "pontos_campo_portal_amazonia_2022":{
+            "labelLayer": "Amazonia Portal, 2022"
+          },
+          "pontos_campo_brasil":{
+            "labelLayer": "Mato Grosso, 2022"
+          },
           "pontos_campo": {
-            "labelLayer": "Pontos"
+            "labelLayer": "Pontos Antigos"
           }
         }
       },

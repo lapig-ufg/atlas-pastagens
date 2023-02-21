@@ -1964,7 +1964,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
                     arrKeys.sort();
 
                     arrKeys.forEach(key => {
-
+                      console.log(key)
                       filesToDisplay[key] = [];
 
                       if (files[key].length > 0) {
@@ -2108,8 +2108,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   getAttributeValue(type, value) {
     let formattedValue: string | number | null = "";
+    
     const lang = this.localizationService.currentLang();
-    switch (type) {
+    switch (type.columnType) {
       case 'integer':
         if (lang === 'pt') {
           formattedValue = this.decimalPipe.transform(value, '', 'pt-BR');
@@ -2135,9 +2136,25 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       case 'string':
         formattedValue = value;
         break;
+
+      case "dict":
+        formattedValue = type['dict'][value];
+        break;
+
+      case "expression":
+          value = parseFloat(value)
+          console.log(value)
+          let text = type.expression
+          eval(text);
+          break;
+      case "enum":
+          formattedValue = type.enum[parseInt(value)];
+          break;
+
       default:
         formattedValue = value;
         break;
+
     }
     return formattedValue;
   }
