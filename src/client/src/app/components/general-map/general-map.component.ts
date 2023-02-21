@@ -2143,7 +2143,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       case "expression":
           value = parseFloat(value)
-          console.log(value)
+          //console.log(value)
           let text = type.expression
           eval(text);
           break;
