@@ -96,7 +96,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public closeDetailWindowEvent: Subject<void>;
   public zoomLimit: number = 9;
   public msgs: Message[];
-  public zoomLimit: number = 9;
   public env: any;
   public innerHeigth: number;
   public options: any = {}
@@ -725,6 +724,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onMapReadyLeftSideBar.emit(map);
     this.onMapReadyRightSideBar.emit(map);
 
+   
     let zoomLimit = this.zoomLimit
     
     this.map.on('moveend', function(e) {
@@ -830,8 +830,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (typeof layerType.download !== 'undefined'){
 
         if(typeof layerType.download.layerTypeName !== 'undefined'){
-
-
+        
           let zoom = this.map.getView().getZoom()
           if (this.zoomLimit <= zoom  ) {
             layername = layerType.download!.layerTypeName
@@ -842,8 +841,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       
 
 
-
-      }
       for (let url of this.urls) {
         result.push(url + "?layers=" + layername + (layerType!.filterHandler == 'layername' ? "" : msfilter) + "&mode=tile&tile={x}+{y}+{z}" + "&tilemode=gmap" + "&map.imagetype=png");
       }
@@ -982,7 +979,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const layerType: DescriptorType = layer;
 
-    if (updateSource ) {
+    if (updateSource) {
       this.updateSourceLayer(layerType);
     } else {
 
@@ -1008,29 +1005,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
         this.OlLayers[layerType.valueType].setVisible(layerType.visible);
 
-       
-
-
         this.handleLayersLegend(layerType);
 
-
-        if(this.map.getView().getZoom() >= this.zoomLimit){
-          let sourceLayers = this.OlLayers[layerType.valueType].getSource()
-          sourceLayers.setUrls(this.parseUrls(layerType));
-          sourceLayers.refresh();
-
-
-        }
-
-        if (this.swiperControl.layers.length > 0) {
-          const existInSwipe = this.swiperControl.layers.find(l => {
-            return l.layer.get('key') === layerType.valueType
-          });
-
-          if (layer.visible && !existInSwipe) {
-            this.swiperControl.addLayer(this.OlLayers[layerType.valueType], false);
-          }
-        }
       } else {
         if (layer.layer.get('type') === 'bmap') {
           this.map.getLayers().forEach(layer => {
@@ -1174,7 +1150,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const name = this.getFileName(parameters);
 
-    const zipCsvLayers = ['pasture_quality_col7_s100', 'pasture_col6_s100'];
+    const zipCsvLayers = ['pasture_quality_col6_s100', 'pasture_col6_s100'];
 
     const extension = (zipCsvLayers.includes(layer.valueType) && !(parameters.region.type === 'city')) ? '.zip' : '.csv';
 
@@ -1988,7 +1964,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
                     arrKeys.sort();
 
                     arrKeys.forEach(key => {
-                      console.log(key)
+
                       filesToDisplay[key] = [];
 
                       if (files[key].length > 0) {
@@ -2132,9 +2108,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   getAttributeValue(type, value) {
     let formattedValue: string | number | null = "";
-    
     const lang = this.localizationService.currentLang();
-    switch (type.columnType) {
+    switch (type) {
       case 'integer':
         if (lang === 'pt') {
           formattedValue = this.decimalPipe.transform(value, '', 'pt-BR');
@@ -2160,25 +2135,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       case 'string':
         formattedValue = value;
         break;
-
-      case "dict":
-        formattedValue = type['dict'][value];
-        break;
-
-      case "expression":
-          value = parseFloat(value)
-          //console.log(value)
-          let text = type.expression
-          eval(text);
-          break;
-      case "enum":
-          formattedValue = type.enum[parseInt(value)];
-          break;
-
       default:
         formattedValue = value;
         break;
-
     }
     return formattedValue;
   }
