@@ -33,9 +33,9 @@
                 "idLayer": "biomassa",
                 "labelLayer": "translate",
                 "visible": false,
-                "selectedType": "pasture_carbon_somsc",
+                "selectedType": "pa_br_somsc_2022",
                 "types": [
-                    "pasture_carbon_somsc"
+                    "pa_br_somsc_2022"
                 ]
             }
         ]

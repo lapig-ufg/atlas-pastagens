@@ -8,9 +8,11 @@ module.exports = function (app) {
     Internal.getRegionFilter = function (type, key) {
 
         var regionsFilter;
+        var col;
 
         if (type == 'country') {
             regionsFilter = "1=1";
+
         } else {
             var regionsFilter = "";
             if (type == 'city')
@@ -73,6 +75,34 @@ module.exports = function (app) {
                     + " GROUP BY 1,2;",
                 mantain: true
             },
+            {
+                source: 'lapig',
+                id: 'pasture_carbon_somsc',
+                sql: `select 
+                    min(c.value_min),
+                    avg(value_mean) as mean, 
+                    (avg(value_mean) * (
+                    SELECT  sum(st_area_ha)  
+                        FROM pasture_col6 
+                        WHERE ${regionFilter}
+                        AND ${yearFilter})
+                        ) as total
+                from pasture_carbon_somsc_statistic_2022 c
+                WHERE ${regionFilter}
+                AND ${yearFilter}`,
+                mantain: true
+
+            },
+            {
+                source: 'lapig',
+                id: 'pasture_carbon_somsc_mean',
+                sql: " select avg(value_mean) as value"
+                +  " from pasture_carbon_somsc_statistic_2022 "
+                +  " WHERE  " + regionFilter
+                +  " AND " + yearFilter,
+                mantain: true
+
+            }
         ]
     }
 

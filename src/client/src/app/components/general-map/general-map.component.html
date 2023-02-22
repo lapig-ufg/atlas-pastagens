@@ -109,40 +109,18 @@
           <i (click)="closeDetailsWindow()" class='bx bx-x-circle'></i>
         </div>
         <div class="controls-details-body">
+
+          <!--Caixa: right side swipe-->
           <div *ngIf="mapControls.swipe" class="controls-details-card">
-            <div class="controls-details-card-title">{{'controls.swipe' | translate}}</div>
-            <div class="controls-details-card-body">
-              <span>
-                <p-autoComplete
-                  (onClear)="onClearSwipe()"
-                  [appendTo]="'body'"
-                  [placeholder]="'controls.details.swipe_placeholder' | translate"
-                  [(ngModel)]="valueSwipe"
-                  [suggestions]="swipeOptions"
-                  (onSelect)="onSwipeSelectedLayer($event)"
-                  (completeMethod)="search($event)"
-                  field="name"
-                >
-                  <ng-template let-layer pTemplate="item">
-                    <div class="autocomplete-option">{{layer.name}}</div>
-                  </ng-template>
-                </p-autoComplete>
-                <div class="controls-details-card-body-actions">
-                  <i *ngIf="valueSwipe" [pTooltip]="'controls.details.clear' | translate" class='bx bx-trash' (click)="onClearSwipe()"></i>
-                </div>
-              </span>
-              <div class="layer-card-body" *ngIf="swipeLayer.visible">
-                <div class="layer-card-content">
-                  <span *ngIf="swipeLayer.selectedTypeObject!.filters" class="p-float-label">
-                    <p-dropdown id="type-filters-{{swipeLayer.selectedTypeObject!.filterSelected}}" *ngIf="swipeLayer.selectedTypeObject!.filters" [options]="swipeLayer.selectedTypeObject!.filters"
-                                [(ngModel)]="swipeLayer.selectedTypeObject!.filterSelected" (onChange)="changeLayerVisibility({layer: swipeLayer.selectedTypeObject, updateSource: true})"
-                                optionLabel="viewValueFilter" optionValue="valueFilter"></p-dropdown>
-                    <label for="type-filters-{{swipeLayer.selectedTypeObject!.filterSelected}}">{{swipeLayer.selectedTypeObject!.filterLabel}}</label>
-                  </span>
-                </div>
-              </div>
-            </div>
+            <app-swipe 
+            [descriptor]="_descriptor"
+            [map]="map"
+            [closeDetailsWindow]="closeDetailWindowEvent.asObservable()"
+            (handleLayersLegend)="handleLayersLegend($event)"
+            [parseUrls]="parseUrls">
+            </app-swipe>
           </div>
+          <!--FINAL SWIPE-->
           <div *ngIf="mapControls.search" class="controls-details-card">
             <div class="controls-details-card-title">{{'controls.search' | translate}}</div>
             <div class="controls-details-card-body">
@@ -233,7 +211,7 @@
                 <div class="details-inner">
                   <div class="details-row" *ngFor="let attribute of featureCollection.layerType.wfsMapCard.attributes">
                     <div class="details-row-header">{{attribute.label}}: </div>
-                    <div class="details-row-content">{{getAttributeValue(attribute.columnType, featureCollection.features[0].properties[attribute.column]) }}</div>
+                    <div class="details-row-content">{{getAttributeValue(attribute, featureCollection.features[0].properties[attribute.column]) }}</div>
                   </div>
                   <div *ngIf="gallery.length! > 0" class="gallery-btn">
                     <button

@@ -39,6 +39,7 @@ module.exports = function (app) {
                 }
             });
         });
+        console.log('grous:', groups)
         return groups;
     };
 
@@ -85,12 +86,12 @@ module.exports = function (app) {
 
         return [
             'pasture',
-            'areas_especiais',
-            'areas_declaradas',
-            'agropecuaria',
             'campo',
             'inspecao_visual',
+            'agropecuaria',
+            'areas_declaradas',
             'infraestrutura',
+            'areas_especiais',
             'imagens'
         ]
     }

@@ -5,6 +5,7 @@ import {LeftSideBarComponent} from "./left-side-bar/left-side-bar.component";
 import {RightSideBarComponent} from "./right-side-bar/right-side-bar.component";
 import {GeneralMapComponent} from "./general-map/general-map.component";
 import {FileUploadComponent} from "./file-upload/file-upload.component";
+import { SwipeComponent } from './general-map/swipe/swipe.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,6 @@ export const routedComponents = [
   RightSideBarComponent,
   GeneralMapComponent,
   FileUploadComponent,
-  MainComponent
+  MainComponent,
 ];
 
