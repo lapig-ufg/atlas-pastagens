@@ -1,6 +1,7 @@
 import {Component, ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
+import {PanelModule} from 'primeng/panel';
 
 @Component({
   selector: 'app-site-base',
