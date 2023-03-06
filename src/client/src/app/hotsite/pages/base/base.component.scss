@@ -20,7 +20,13 @@
   margin: 0 auto;
 }
 
-.logo-icons img {
-  width: auto;
-  height: 5;
+.copyright-container {
+  background-color: #75757565;
+  text-align: center;
+  padding: 10px;
+}
+
+.copyright-container img {
+  height: 70px;
+  padding: 10px;
 }
