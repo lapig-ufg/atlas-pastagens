@@ -8,9 +8,9 @@
                 "idLayer": "pasture",
                 "labelLayer": "translate",
                 "visible": true,
-                "selectedType": "pasture_col6_s100",
+                "selectedType": "pasture_col7_s100",
                 "types": [
-                    "pasture_col6_s100"
+                    "pasture_col7_s100"
                 ]
             },
             {
