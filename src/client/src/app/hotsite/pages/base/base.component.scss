@@ -21,12 +21,23 @@
 }
 
 .copyright-container {
-  background-color: #ffffff27;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: auto;
   text-align: center;
   padding: 10px;
+  width: 45%;
 }
 
 .copyright-container img {
+  filter: contrast(200%);
+  filter: brightness(120%);
+  filter: saturate(200%);
   height: 70px;
   padding: 10px;
+}
+
+.text-center {
+  text-align: center;
+  padding: 15px;
 }
