@@ -298,7 +298,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           source: new XYZ({
             wrapX: false,
             url:
-              'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+              'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGhhcmxlc2FuZHJhZGUiLCJhIjoiY2thaHAxcDM5MGx2dzJ4dDExaGQ0bGF3ciJ9.kiB2OzG3Q0THur8XLUW3Gg'
           }),
           visible: true
         })
@@ -313,7 +313,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           source: new XYZ({
             wrapX: false,
             url:
-              'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw'
+              'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoidGhhcmxlc2FuZHJhZGUiLCJhIjoiY2thaHAxcDM5MGx2dzJ4dDExaGQ0bGF3ciJ9.kiB2OzG3Q0THur8XLUW3Gg'
           }),
           visible: false
         })
@@ -570,7 +570,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onChangeSearchOption();
     this.cdRef.detectChanges();
 
-    
+
 
   }
 
@@ -724,18 +724,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onMapReadyLeftSideBar.emit(map);
     this.onMapReadyRightSideBar.emit(map);
 
-   
+
     let zoomLimit = this.zoomLimit
-    
+
     this.map.on('moveend', function(e) {
 
-        
-        
+
+
         map.getLayers().forEach(layer => {
           let descriptorLayer = layer.getProperties().descriptorLayer
-         
+
           if (layer.get('type') === 'layertype' && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
-            
+
             if(typeof descriptorLayer.download.layerTypeName !== 'undefined') {
               let complexLayer = descriptorLayer.download.layerTypeName
               let singleLayer = descriptorLayer.valueType
@@ -747,16 +747,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
               let urlNow = new URLSearchParams(urls[0].split("?")[1]).get('layers')
 
               if (zoomLimit <= zoom && complexLayer !== urlNow ) {
-                
+
                 let newUrl = urls.map((url) => {
                   return url.replace(singleLayer,complexLayer)
                 })
                 soucer.setUrls(newUrl)
                 soucer.refresh();
-                
+
 
               }else if (zoomLimit > zoom && singleLayer !== urlNow) {
-                
+
                 let newUrl = urls.map((url) => {
                   return url.replace(complexLayer,singleLayer)
                 })
@@ -830,15 +830,15 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (typeof layerType.download !== 'undefined'){
 
         if(typeof layerType.download.layerTypeName !== 'undefined'){
-        
+
           let zoom = this.map.getView().getZoom()
           if (this.zoomLimit <= zoom  ) {
             layername = layerType.download!.layerTypeName
           }
         }
-          
+
       }
-      
+
 
 
       for (let url of this.urls) {
@@ -847,7 +847,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     }
 
-    
+
     return result;
   }
 
@@ -1468,7 +1468,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   addDrawInteraction(name: string): void {
     this.drawing = true;
-    // 
+    //
     if (name !== 'None') {
       if( name === 'Polygon') {
         this.addInteraction(new RulerAreaCtrl(this,true).getDraw(), name, true);
@@ -1479,7 +1479,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         });
         this.addInteraction(this.draw, name, true);
       }
-      
+
     }
   }
 
@@ -2223,6 +2223,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.loadingMap = evt;
   }
 
-  
+
 
 }
