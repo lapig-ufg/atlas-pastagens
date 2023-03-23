@@ -570,7 +570,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onChangeSearchOption();
     this.cdRef.detectChanges();
 
-    
+
 
   }
 
@@ -724,18 +724,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onMapReadyLeftSideBar.emit(map);
     this.onMapReadyRightSideBar.emit(map);
 
-   
+
     let zoomLimit = this.zoomLimit
-    
+
     this.map.on('moveend', function(e) {
 
-        
-        
+
+
         map.getLayers().forEach(layer => {
           let descriptorLayer = layer.getProperties().descriptorLayer
-         
+
           if (layer.get('type') === 'layertype' && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
-            
+
             if(typeof descriptorLayer.download.layerTypeName !== 'undefined') {
               let complexLayer = descriptorLayer.download.layerTypeName
               let singleLayer = descriptorLayer.valueType
@@ -747,16 +747,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
               let urlNow = new URLSearchParams(urls[0].split("?")[1]).get('layers')
 
               if (zoomLimit <= zoom && complexLayer !== urlNow ) {
-                
+
                 let newUrl = urls.map((url) => {
                   return url.replace(singleLayer,complexLayer)
                 })
                 soucer.setUrls(newUrl)
                 soucer.refresh();
-                
+
 
               }else if (zoomLimit > zoom && singleLayer !== urlNow) {
-                
+
                 let newUrl = urls.map((url) => {
                   return url.replace(complexLayer,singleLayer)
                 })
@@ -805,12 +805,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         filters.push(layerType!.regionFilter)
 
         if (layerType!.regionFilter && this.msFilterRegion){
-          // /**
-          //  * TODO remover quando o problema de bimoas do dados de qualidade.
-          //  */
-          // if(layerType!.valueType !== 'pasture_quality_col6_s100'){
-          //   filters.push(this.msFilterRegion)
-          // }
+
           filters.push(this.msFilterRegion)
         }
 
@@ -830,15 +825,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (typeof layerType.download !== 'undefined'){
 
         if(typeof layerType.download.layerTypeName !== 'undefined'){
-        
+
+
           let zoom = this.map.getView().getZoom()
           if (this.zoomLimit <= zoom  ) {
             layername = layerType.download!.layerTypeName
           }
         }
-          
+
       }
-      
+
 
 
       for (let url of this.urls) {
@@ -847,7 +843,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     }
 
-    
+
     return result;
   }
 
@@ -1150,7 +1146,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const name = this.getFileName(parameters);
 
-    const zipCsvLayers = ['pasture_quality_col6_s100', 'pasture_col6_s100'];
+    const zipCsvLayers = ['pasture_quality_col7_s100', 'pasture_col7_s100'];
 
     const extension = (zipCsvLayers.includes(layer.valueType) && !(parameters.region.type === 'city')) ? '.zip' : '.csv';
 
@@ -1468,7 +1464,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   addDrawInteraction(name: string): void {
     this.drawing = true;
-    // 
+    //
     if (name !== 'None') {
       if( name === 'Polygon') {
         this.addInteraction(new RulerAreaCtrl(this,true).getDraw(), name, true);
@@ -1479,7 +1475,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         });
         this.addInteraction(this.draw, name, true);
       }
-      
+
     }
   }
 
@@ -2222,4 +2218,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   onMapLoading(evt): void{
     this.loadingMap = evt;
   }
+
+
+
 }
