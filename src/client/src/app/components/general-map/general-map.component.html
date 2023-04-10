@@ -116,8 +116,7 @@
             [descriptor]="_descriptor"
             [map]="map"
             [closeDetailsWindow]="closeDetailWindowEvent.asObservable()"
-            (handleLayersLegend)="handleLayersLegend($event)"
-            [parseUrls]="parseUrls">
+            (handleLayersLegend)="handleLayersLegend($event)">
             </app-swipe>
           </div>
           <!--FINAL SWIPE-->
@@ -144,7 +143,7 @@
                   [(ngModel)]="selectedAutoCompleteText"
                   [suggestions]="listForAutoComplete"
                   (completeMethod)="obtainSearchSuggestions($event)"
-                  (onSelect)="onSelectSuggestion($event)"
+                  (onSelect)="onSelectFilter($event)"
                   [emptyMessage]="textsComponentesFilters.search_failed"
                   [showEmptyMessage]="true"
                   field="text" styleClass="wid100"

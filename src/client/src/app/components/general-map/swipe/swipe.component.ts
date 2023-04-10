@@ -11,6 +11,7 @@ import Map from 'ol/Map';
 import { EventEmitter } from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
+import { GeneralMapComponent } from '../general-map.component';
 
 @Component({
   selector: 'app-swipe',
@@ -21,11 +22,10 @@ export class SwipeComponent implements OnInit {
   
   @Output() handleLayersLegend: EventEmitter<any> = new EventEmitter();
 
-  @Input() parseUrls: any;
   @Input() closeDetailsWindow: Observable<void>;
 
-  @Input() descriptor: Descriptor;
   @Input() map: Map;
+  @Input() descriptor: Descriptor;
 
   public swipe: Swipe;
   public swipeOptions: LayerSwipe[];
@@ -86,10 +86,13 @@ export class SwipeComponent implements OnInit {
   }
 
   onSelectedLayer(ev, side): void {
+    // ev: layer selecionada pelo usuáiro.
+    // side: layer.
+
     this.createSwipe();
 
     side.layer.values_.descriptorLayer = this.getDescripor(ev.key);
-    side.layer.getSource().setUrls(this.parseUrls(ev.layer));
+    side.layer.getSource().setUrls(GeneralMapComponent.parseUrls(ev.layer));
 
     side.visible = true;
 
@@ -154,20 +157,21 @@ export class SwipeComponent implements OnInit {
 
   createSwipe(): void {
     if(this.swipe != null) return;
+
     this.saveMapCurrentState();
 
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
 
     this.resetMap();
+    
+    this.map.updateSize();
 
     this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
-    
-    this.map.updateSize()
   }
 
   changeDate(ev: string, side: any): void {
-    side.layer.getSource().setUrls(this.parseUrls(side.layer.get('descriptorLayer')));
+    side.layer.getSource().setUrls(GeneralMapComponent.parseUrls(side.layer.get('descriptorLayer')));
     side.layer.getSource().refresh();
   }
 
