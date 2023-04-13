@@ -783,7 +783,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  public static parseUrls(layerType: DescriptorType) {
+  public parseUrls(layerType: DescriptorType) {
     let urls = [
       environment.OWS_O1,
       environment.OWS_O2,
@@ -858,7 +858,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             visible: layerType.visible
           },
           source: new XYZ({
-            urls: GeneralMapComponent.parseUrls(layerType)
+            urls: this.parseUrls(layerType)
           }),
           visible: layerType.visible
         }));
@@ -903,7 +903,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             visible: layerType.visible
           },
           source: new XYZ({
-            urls: GeneralMapComponent.parseUrls(layerType)
+            urls: this.parseUrls(layerType)
           }),
           visible: layerType.visible
         }));
@@ -1532,24 +1532,20 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.map.getView().fit([], { duration: 900 });
   }
 
-  private getMapLayer(layerDescriptor): any {
+  private getLayerByDescriptor(layerDescriptor): any {
     let _layer;
 
     this.map.getLayers().forEach(layer => {
-      if(layer.get("type") === "layertype" || layer.get("type") === "swipe-layer") {
-        if(layer.get("descriptorLayer").valueType === layerDescriptor.valueType) {
-          _layer = layer;
-        }
-      }
+      try {
+        if(layer.get("descriptorLayer").valueType === layerDescriptor.valueType) _layer = layer;
+      } catch(error) {}
     });
 
     return _layer;
   }
 
   private updateSourceLayer(layer) {
-    let sourceLayers = this.getMapLayer(layer).getSource();
-
-    console.log("Tradicional: ", layer);
+    let sourceLayers = this.getLayerByDescriptor(layer).getSource();
 
     if (layer.origin.sourceService === 'external' && layer.origin.typeOfTMS === 'wmts') {
       let olLayer = GeneralMapComponent.OlLayers[layer.valueType];
@@ -1558,14 +1554,16 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       options.layer = layer.filterSelected;
       olLayer.setSource(new WMTS(options))
     } else {
-      sourceLayers.setUrls(GeneralMapComponent.parseUrls(layer));
+      sourceLayers.setUrls(this.parseUrls(layer));
       sourceLayers.refresh();
     }
   }
 
   private updateSourceAllLayers() {
+    let layerToFilter: string[] = ["layertype", "swipe-layer"];
+
     this.map.getLayers().forEach(layer => {
-      if(layer.get("type") === "layertype" || layer.get("type") === "swipe-layer") {
+      if(layerToFilter.includes(layer.get("type"))) {
         this.updateSourceLayer(layer.get("descriptorLayer"));
       }
     });
@@ -1639,8 +1637,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   onSelectFilter(event) {
-    console.log("Filter: ", event);
-
     if (this.selectedSearchOption.toLowerCase() == 'region') {
       this.updateRegion(event)
     } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {

@@ -113,10 +113,11 @@
           <!--Caixa: right side swipe-->
           <div *ngIf="mapControls.swipe" class="controls-details-card">
             <app-swipe 
-            [descriptor]="_descriptor"
-            [map]="map"
+            [descriptor]="_descriptor" [map]="map"
             [closeDetailsWindow]="closeDetailWindowEvent.asObservable()"
-            (handleLayersLegend)="handleLayersLegend($event)">
+            [parseUrls]="parseUrls"
+            (handleLayersLegend)="handleLayersLegend($event)"
+            >
             </app-swipe>
           </div>
           <!--FINAL SWIPE-->

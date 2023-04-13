@@ -22,6 +22,7 @@ export class SwipeComponent implements OnInit {
   
   @Output() handleLayersLegend: EventEmitter<any> = new EventEmitter();
 
+  @Input() parseUrls: any;
   @Input() closeDetailsWindow: Observable<void>;
 
   @Input() map: Map;
@@ -82,6 +83,8 @@ export class SwipeComponent implements OnInit {
     this.map.addLayer(this.lLayer);
     this.map.addLayer(this.rLayer);
 
+    this.mapLayers = [];
+
     this.getSwipeLayers();
   }
 
@@ -92,7 +95,7 @@ export class SwipeComponent implements OnInit {
     this.createSwipe();
 
     side.layer.values_.descriptorLayer = this.getDescripor(ev.key);
-    side.layer.getSource().setUrls(GeneralMapComponent.parseUrls(ev.layer));
+    side.layer.getSource().setUrls(this.parseUrls(ev.layer));
 
     side.visible = true;
 
@@ -171,13 +174,11 @@ export class SwipeComponent implements OnInit {
   }
 
   changeDate(ev: string, side: any): void {
-    side.layer.getSource().setUrls(GeneralMapComponent.parseUrls(side.layer.get('descriptorLayer')));
+    side.layer.getSource().setUrls(this.parseUrls(side.layer.get('descriptorLayer')));
     side.layer.getSource().refresh();
   }
 
   saveMapCurrentState(): void {
-    this.mapLayers = [];
-
     this.map.getLayers().forEach(layer => {
         if (layer.get('type') === 'layertype') {
           this.mapLayers.push({key: layer.get('key'), visibility: layer.getVisible()});
