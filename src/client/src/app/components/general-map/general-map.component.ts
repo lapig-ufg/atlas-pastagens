@@ -93,6 +93,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   @ViewChild('video') video: ElementRef;
   @ViewChild('wfsCard') wfsCard: ElementRef;
 
+  public static instance: GeneralMapComponent;
+
   public closeDetailWindowEvent: Subject<void>;
   public zoomLimit: number = 9;
   public msgs: Message[];
@@ -104,7 +106,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public selectedLayers = [] as any[];
   public limits = [] as any[];
   public compass: Compass;
-  public map: any;
+  public map: Map;
   public _descriptor: Descriptor;
   public mousePositionOptions: any;
   public showFormPoint: boolean;
@@ -188,6 +190,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public job: Job;
   public emailValid: boolean = true;
 
+  public layersToFilter: string[];
+
   constructor(
     public  localizationService: LocalizationService,
     private downloadService: DownloadService,
@@ -203,6 +207,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     private primengConfig: PrimeNGConfig,
     private googleAnalyticsService: GoogleAnalyticsService,
   ) {
+    GeneralMapComponent.instance = this;
+
+    this.layersToFilter = ["layertype", "swipe-layer"];
+
     this.closeDetailWindowEvent = new Subject<void>();
 
     this.env = environment;
@@ -238,7 +246,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     };
     this.OlLayers = {};
     this.limitsTMS = {};
-    this.map = {};
 
     this.features = [];
 
@@ -569,9 +576,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     });
     this.onChangeSearchOption();
     this.cdRef.detectChanges();
-
-
-
   }
 
   ngAfterContentChecked(): void {
@@ -724,22 +728,19 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.onMapReadyLeftSideBar.emit(map);
     this.onMapReadyRightSideBar.emit(map);
 
-
+    let layersToFilter = this.layersToFilter;
     let zoomLimit = this.zoomLimit
 
     this.map.on('moveend', function(e) {
-
-
-
         map.getLayers().forEach(layer => {
           let descriptorLayer = layer.getProperties().descriptorLayer
 
-          if (layer.get('type') === 'layertype' && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
+          if(descriptorLayer === null) return;
+          if (layersToFilter.includes(layer.get('type')) && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
 
             if(typeof descriptorLayer.download.layerTypeName !== 'undefined') {
               let complexLayer = descriptorLayer.download.layerTypeName
               let singleLayer = descriptorLayer.valueType
-
 
               let zoom = map.getView().getZoom();
               let soucer = layer.getSource()
@@ -780,7 +781,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   public parseUrls(layerType: DescriptorType) {
-    this.urls = [
+    let urls = [
       environment.OWS_O1,
       environment.OWS_O2,
       environment.OWS_O3,
@@ -814,7 +815,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       let layername = layerType!.valueType
 
       if (layerType!.valueType == "uso_solo_mapbiomas") {
-        this.year = layerType!.filterSelected
+        GeneralMapComponent.instance.year = layerType!.filterSelected
       }
 
       if (layerType!.filterHandler == 'layername') {
@@ -823,26 +824,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         }
       }
       if (typeof layerType.download !== 'undefined'){
-
         if(typeof layerType.download.layerTypeName !== 'undefined'){
-
-
-          let zoom = this.map.getView().getZoom()
-          if (this.zoomLimit <= zoom  ) {
+          let zoom = GeneralMapComponent.instance.map.getView().getZoom()
+          if (GeneralMapComponent.instance.zoomLimit <= zoom!) {
             layername = layerType.download!.layerTypeName
           }
         }
-
       }
 
-
-
-      for (let url of this.urls) {
+      for (let url of GeneralMapComponent.instance.urls) {
         result.push(url + "?layers=" + layername + (layerType!.filterHandler == 'layername' ? "" : msfilter) + "&mode=tile&tile={x}+{y}+{z}" + "&tilemode=gmap" + "&map.imagetype=png");
       }
-
     }
-
 
     return result;
   }
@@ -1011,7 +1004,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             }
           });
           const lay = this.map.getLayers().getArray().find(l => l.get('key') === layer.layer.get('key'));
-          lay.setVisible(ev.layer.layer.state_.visible);
+          lay!.setVisible(ev.layer.layer.state_.visible);
         } else if (layer.layer.get('type') === 'limit') {
           this.map.getLayers().forEach(layer => {
             if (layer.get('type') === 'limit') {
@@ -1019,7 +1012,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             }
           });
           const lay = this.map.getLayers().getArray().find(l => l.get('key') === layer.layer.get('key'));
-          lay.setVisible(ev.layer.layer.state_.visible);
+          lay!.setVisible(ev.layer.layer.state_.visible);
         }
       }
     }
@@ -1386,7 +1379,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.snap = null;
     this.initVectorLayerInteraction();
     this.map.getOverlays().getArray().slice(0).forEach(over => {
-      const properties = over.options;
+      const properties = over.getOptions();
       if (properties.hasOwnProperty('id')) {
         if (properties.id === 'popup-info') over.setPosition(undefined);
       } else {
@@ -1536,8 +1529,21 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.map.getView().fit([], { duration: 900 });
   }
 
+  private getLayerByDescriptor(layerDescriptor): any {
+    let _layer;
+
+    this.map.getLayers().forEach(layer => {
+      try {
+        if(layer.get("descriptorLayer").valueType === layerDescriptor.valueType) _layer = layer;
+      } catch(error) {}
+    });
+
+    return _layer;
+  }
+
   private updateSourceLayer(layer) {
-    let sourceLayers = this.OlLayers[layer.valueType].getSource();
+    let sourceLayers = this.getLayerByDescriptor(layer).getSource();
+
     if (layer.origin.sourceService === 'external' && layer.origin.typeOfTMS === 'wmts') {
       let olLayer = this.OlLayers[layer.valueType];
       // @ts-ignore
@@ -1551,12 +1557,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   private updateSourceAllLayers() {
-    for (let layer of this.layersTypes) {
-      this.updateSourceLayer(layer)
-    }
+    this.map.getLayers().forEach(layer => {
+      if(this.layersToFilter.includes(layer.get("type"))) {
+        this.updateSourceLayer(layer.get("descriptorLayer"));
+      }
+    });
   }
 
-  updateRegion(region) {
+  public updateRegion(region) {
 
     this.map.removeLayer(this.otherLayerFromFilters.layer)
     this.map.removeLayer(this.regionsLimits)
@@ -1623,7 +1631,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  onSelectSuggestion(event) {
+  onSelectFilter(event) {
     if (this.selectedSearchOption.toLowerCase() == 'region') {
       this.updateRegion(event)
     } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
@@ -2215,10 +2223,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.emailValid = pattern.test(this.job.email)
   }
 
-  onMapLoading(evt): void{
+  onMapLoading(evt): void {
     this.loadingMap = evt;
   }
-
-
-
 }
