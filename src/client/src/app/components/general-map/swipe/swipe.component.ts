@@ -11,6 +11,7 @@ import Map from 'ol/Map';
 import { EventEmitter } from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
+import { GeneralMapComponent } from '../general-map.component';
 
 @Component({
   selector: 'app-swipe',
@@ -24,8 +25,8 @@ export class SwipeComponent implements OnInit {
   @Input() parseUrls: any;
   @Input() closeDetailsWindow: Observable<void>;
 
-  @Input() descriptor: Descriptor;
   @Input() map: Map;
+  @Input() descriptor: Descriptor;
 
   public swipe: Swipe;
   public swipeOptions: LayerSwipe[];
@@ -82,10 +83,15 @@ export class SwipeComponent implements OnInit {
     this.map.addLayer(this.lLayer);
     this.map.addLayer(this.rLayer);
 
+    this.mapLayers = [];
+
     this.getSwipeLayers();
   }
 
   onSelectedLayer(ev, side): void {
+    // ev: layer selecionada pelo usuáiro.
+    // side: layer.
+
     this.createSwipe();
 
     side.layer.values_.descriptorLayer = this.getDescripor(ev.key);
@@ -154,16 +160,17 @@ export class SwipeComponent implements OnInit {
 
   createSwipe(): void {
     if(this.swipe != null) return;
+
     this.saveMapCurrentState();
 
     this.swipe = new Swipe();
     this.map.addControl(this.swipe);
 
     this.resetMap();
+    
+    this.map.updateSize();
 
     this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
-    
-    this.map.updateSize()
   }
 
   changeDate(ev: string, side: any): void {
@@ -172,8 +179,6 @@ export class SwipeComponent implements OnInit {
   }
 
   saveMapCurrentState(): void {
-    this.mapLayers = [];
-
     this.map.getLayers().forEach(layer => {
         if (layer.get('type') === 'layertype') {
           this.mapLayers.push({key: layer.get('key'), visibility: layer.getVisible()});

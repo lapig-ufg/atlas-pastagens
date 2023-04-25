@@ -113,11 +113,11 @@
           <!--Caixa: right side swipe-->
           <div *ngIf="mapControls.swipe" class="controls-details-card">
             <app-swipe 
-            [descriptor]="_descriptor"
-            [map]="map"
+            [descriptor]="_descriptor" [map]="map"
             [closeDetailsWindow]="closeDetailWindowEvent.asObservable()"
+            [parseUrls]="parseUrls"
             (handleLayersLegend)="handleLayersLegend($event)"
-            [parseUrls]="parseUrls">
+            >
             </app-swipe>
           </div>
           <!--FINAL SWIPE-->
@@ -144,7 +144,7 @@
                   [(ngModel)]="selectedAutoCompleteText"
                   [suggestions]="listForAutoComplete"
                   (completeMethod)="obtainSearchSuggestions($event)"
-                  (onSelect)="onSelectSuggestion($event)"
+                  (onSelect)="onSelectFilter($event)"
                   [emptyMessage]="textsComponentesFilters.search_failed"
                   [showEmptyMessage]="true"
                   field="text" styleClass="wid100"

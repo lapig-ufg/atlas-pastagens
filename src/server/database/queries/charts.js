@@ -60,7 +60,7 @@ module.exports = function (app) {
                 source: 'lapig',
                 id: 'pasture',
                 sql: " SELECT  CAST(sum(a.st_area_ha) as double precision) as value "
-                    + " FROM pasture_col6 a "
+                    + " FROM pasture_col7 a "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter,
                 mantain: true
@@ -83,7 +83,7 @@ module.exports = function (app) {
                     avg(value_mean) as mean, 
                     (avg(value_mean) * (
                     SELECT  sum(st_area_ha)  
-                        FROM pasture_col6 
+                        FROM pasture_col7 
                         WHERE ${regionFilter}
                         AND ${yearFilter})
                         ) as total
@@ -132,7 +132,7 @@ module.exports = function (app) {
                 id: 'pasture',
                 sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE " + regionFilter + ") as area_mun "
-                    + " FROM pasture_col6 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
+                    + " FROM pasture_col7 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
                     + " WHERE " + regionFilter
                     // " AND " + yearFilter +
                     + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
@@ -216,7 +216,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'estados',
-                sql: " SELECT UPPER(uf) AS label, '#d4a31c' as color,  SUM(area_ha) as value  FROM pasture_col6 "
+                sql: " SELECT UPPER(uf) AS label, '#d4a31c' as color,  SUM(area_ha) as value  FROM pasture_col7 "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1, 2 ORDER BY 3 DESC;",
@@ -234,7 +234,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'municipios',
-                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col6 p "
+                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col7 p "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1, 2, 3 ORDER BY value DESC;",
@@ -244,7 +244,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'estados',
-                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.st_area_ha) as value  FROM pasture_col6 p "
+                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.st_area_ha) as value  FROM pasture_col7 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1  ORDER BY 2 DESC;",
@@ -254,7 +254,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'biomas',
-                sql: " SELECT p.bioma AS biome,  SUM(p.st_area_ha) as value  FROM pasture_col6 p "
+                sql: " SELECT p.bioma AS biome,  SUM(p.st_area_ha) as value  FROM pasture_col7 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1 ORDER BY 2 DESC;",
