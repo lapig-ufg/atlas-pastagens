@@ -636,7 +636,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           }
           
         } catch (error) {
-          console.error(error)
+          console.error('onChangeDescriptor error in visible')
         }
         
       });
@@ -661,7 +661,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           }
           this.layersNames.push(layer);
         } catch (error) {
-          console.error(error)
+          console.error('groups')
         }
         
       }
@@ -681,7 +681,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.basemapsAvaliable.push(baseMapAvaliable)
           }
         } catch (error) {
-          console.error(error)
+          console.error('base_map')
         }
         
 
