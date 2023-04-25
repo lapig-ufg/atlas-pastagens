@@ -6,11 +6,11 @@
     def application_name= "app_atlas"
 
         stage('Checkout') {
-            git branch: 'main',
+            git branch: 'develop',
             url: 'https://github.com/lapig-ufg/atlas-pastagens.git'
         }
         stage('Validate') {
-            sh 'git pull origin main'
+            sh 'git pull origin develop'
 
         }
         stage('SonarQube analysis') {
@@ -32,7 +32,7 @@
                         nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
                         version: NODE_VERSION) {
                         //BUILD APPLICATION 
-                        echo "Build main site distribution"
+                        echo "Build develop site distribution"
                         sh "npm set progress=false"
                         sh "cd src/server && npm install" 
                         sh "cd src/client && npm install" 
