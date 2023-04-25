@@ -146,7 +146,7 @@ module.exports = function (app) {
             textRegionTranslate: textRegion,
             yearTranslate: year
         };
-        console.log(typeRegion)
+        
         
         if(card_resume === "region"){
             response.send({

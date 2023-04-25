@@ -164,7 +164,7 @@ module.exports = function (app) {
         return [{
             source: 'lapig',
             id: 'pasture',
-            sql: "select distinct year from pasture_col6 pc order by year asc",
+            sql: "select distinct year from pasture_col7 pc order by year asc",
             mantain: true
         },
             {

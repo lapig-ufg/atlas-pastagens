@@ -39,7 +39,7 @@ module.exports = function (app) {
                 }
             });
         });
-        console.log('grous:', groups)
+        
         return groups;
     };
 
