@@ -630,9 +630,15 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     let defaultLayer = '';
     this._descriptor.groups.forEach(group => {
       group.layers.forEach(layer => {
-        if(layer.visible){
-          defaultLayer = layer.selectedType;
+        try {
+          if(layer.visible){
+            defaultLayer = layer.selectedType;
+          }
+          
+        } catch (error) {
+          console.error(error)
         }
+        
       });
     })
 
@@ -644,15 +650,20 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     for (let groups of this._descriptor.groups) {
       for (let layer of groups.layers) {
-        layer.types.forEach(typeLayer => {
-          typeLayer.download['loading'] = false;
-        })
-        layer.selectedTypeObject = layer.types.find(type => type.valueType === layer.selectedType);
-        layer.selectedTypeObject!.visible = layer.visible;
-        for (let types of layer.types) {
-          this.layersTypes.push(types)
+        try {
+          layer.types.forEach(typeLayer => {
+            typeLayer.download['loading'] = false;
+          })
+          layer.selectedTypeObject = layer.types.find(type => type.valueType === layer.selectedType);
+          layer.selectedTypeObject!.visible = layer.visible;
+          for (let types of layer.types) {
+            this.layersTypes.push(types)
+          }
+          this.layersNames.push(layer);
+        } catch (error) {
+          console.error(error)
         }
-        this.layersNames.push(layer);
+        
       }
     }
 
@@ -660,26 +671,35 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       basemap.selectedTypeObject = basemap.types.find(type => type.valueType === basemap.selectedType);
       basemap.selectedTypeObject!.visible = basemap.visible;
       for (let types of basemap.types) {
-
-        const baseMapAvaliable = this.bmaps.find(b => {
-          return b.layer.get('key') === types.valueType;
-        })
-
-        if (baseMapAvaliable) {
-          baseMapAvaliable.layer.set('label', types.viewValueType)
-          this.basemapsAvaliable.push(baseMapAvaliable)
+        try {
+          const baseMapAvaliable = this.bmaps.find(b => {
+            return b.layer.get('key') === types.valueType;
+          })
+  
+          if (baseMapAvaliable) {
+            baseMapAvaliable.layer.set('label', types.viewValueType)
+            this.basemapsAvaliable.push(baseMapAvaliable)
+          }
+        } catch (error) {
+          console.error(error)
         }
+        
 
       }
     }
 
     for (let limit of this._descriptor.limits) {
-      limit.selectedTypeObject = limit.types.find(type => type.valueType === limit.selectedType);
-      limit.selectedTypeObject!.visible = limit.visible;
-
-      for (let types of limit.types) {
-        this.limitsNames.push(types)
+      try{
+        limit.selectedTypeObject = limit.types.find(type => type.valueType === limit.selectedType);
+        limit.selectedTypeObject!.visible = limit.visible;
+  
+        for (let types of limit.types) {
+          this.limitsNames.push(types)
+        }
+      }catch (error) {
+        console.error(error)
       }
+      
     }
 
     this.onBasemapsReady.emit(this.basemapsAvaliable);
