@@ -4,7 +4,7 @@ FROM registry.lapig.iesa.ufg.br/lapig-images-homol/app_atlas:base
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
 ENV BRANCH="develop"
 
-LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com>"
+LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com> Rocha Jairo <devjairomr.gmail.com.br>"
 
 RUN if [ -d "/APP/atlas-pastagens" ]; then rm -Rf /APP/atlas-pastagens; fi  && \
     cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB}
