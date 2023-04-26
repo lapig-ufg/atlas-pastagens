@@ -95,7 +95,7 @@
                 nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
                 version: "$NODE_VERSION") {
                     //BUILD APPLICATION 
-                    echo "Build main site distribution"
+                    echo "Build homologation site distribution"
                     sh "npm set progress=false"
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
