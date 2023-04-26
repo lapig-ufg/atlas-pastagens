@@ -152,7 +152,7 @@
         stage('Building Image') {
 
             if (env.BRANCH_NAME == 'main') {
-                dockerImage = docker.build registryhomol + "/$application_name:$BUILD_NUMBER", "--no-cache -f docker/production/Dockerfile ."
+                dockerImage = docker.build registryprod + "/$application_name:$BUILD_NUMBER", "--no-cache -f docker/production/Dockerfile ."
             }
             if (env.BRANCH_NAME == 'develop') {
                 dockerImage = docker.build registryhomol + "/$application_name:$BUILD_NUMBER", "--no-cache -f docker/homologation/Dockerfile ."
