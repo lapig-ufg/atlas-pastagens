@@ -20,6 +20,5 @@ module.exports = new function () {
         return obj;
     }
 
-
     return Controller;
 }

@@ -53,6 +53,8 @@ import {GoogleAnalyticsService} from "../services/google-analytics.service";
 import {GalleryService} from '../services/gallery.service';
 import {Job, JobStatus} from "../../@core/interfaces/job";
 import { Subject } from 'rxjs';
+import Layer from 'ol/layer/Layer';
+import BaseLayer from 'ol/layer/Base';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -106,7 +108,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public selectedLayers = [] as any[];
   public limits = [] as any[];
   public compass: Compass;
-  public map: any;
+  public map: Map;
   public _descriptor: Descriptor;
   public mousePositionOptions: any;
   public showFormPoint: boolean;
@@ -242,7 +244,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     };
     this.OlLayers = {};
     this.limitsTMS = {};
-    this.map = {};
 
     this.features = [];
 
@@ -832,7 +833,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
 
           let zoom = this.map.getView().getZoom()
-          if (this.zoomLimit <= zoom  ) {
+          if (this.zoomLimit <= zoom!) {
             layername = layerType.download!.layerTypeName
           }
         }
@@ -1015,7 +1016,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             }
           });
           const lay = this.map.getLayers().getArray().find(l => l.get('key') === layer.layer.get('key'));
-          lay.setVisible(ev.layer.layer.state_.visible);
+          lay!.setVisible(ev.layer.layer.state_.visible);
         } else if (layer.layer.get('type') === 'limit') {
           this.map.getLayers().forEach(layer => {
             if (layer.get('type') === 'limit') {
@@ -1023,7 +1024,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             }
           });
           const lay = this.map.getLayers().getArray().find(l => l.get('key') === layer.layer.get('key'));
-          lay.setVisible(ev.layer.layer.state_.visible);
+          lay!.setVisible(ev.layer.layer.state_.visible);
         }
       }
     }
@@ -1390,7 +1391,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.snap = null;
     this.initVectorLayerInteraction();
     this.map.getOverlays().getArray().slice(0).forEach(over => {
-      const properties = over.options;
+      const properties = over.get("options");
       if (properties.hasOwnProperty('id')) {
         if (properties.id === 'popup-info') over.setPosition(undefined);
       } else {

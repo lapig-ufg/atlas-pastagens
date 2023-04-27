@@ -17,22 +17,20 @@ export class ChartService {
     }),
   };
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  getArea1(parameters): Observable<any> {
+  getTimeSeries(parameters): Observable<any> {
     return this.httpClient.get<any>(this.apiURL + '/area1?' + parameters, this.httpOptions)
-      .pipe(
-        catchError(this.errorHandler),
-      );
+      .pipe(catchError(this.errorHandler));
   }
 
-  getArea2(parameters): Observable<any> {
+  getProportionAnalysis(parameters): Observable<any> {
     return this.httpClient.get<any>(this.apiURL + '/area2?' + parameters, this.httpOptions)
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));
   }
 
-  getArea3(parameters): Observable<any> {
+  getBarGraph(parameters): Observable<any> {
     return this.httpClient.get<any>(this.apiURL + '/area3?' + parameters, this.httpOptions)
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));
@@ -44,7 +42,7 @@ export class ChartService {
       .pipe(catchError(this.errorHandler));
   }
 
-  getResumo(parameters): Observable<any> {
+  getSummary(parameters): Observable<any> {
     return this.httpClient.get<any>(this.apiURL + '/resumo?' + parameters, this.httpOptions)
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));

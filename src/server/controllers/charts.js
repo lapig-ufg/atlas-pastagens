@@ -197,6 +197,7 @@ module.exports = function (app) {
                 "idsOfQueriesExecuted": [
                     { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
                     { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
+                    { idOfQuery: 'carbon_stock', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] }
                 ],
                 "title": Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].title,
                 "getText": function (chart) {
