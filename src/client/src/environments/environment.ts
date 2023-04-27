@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 let commitId = ''
 try{
-  const config = require('./version.json');
+  const config = require('../../../../version.json');
   console.log(config)
   commitId = config.commitId
 }catch{
