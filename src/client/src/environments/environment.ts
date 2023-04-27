@@ -1,6 +1,16 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+let commitId = ''
+try{
+  const config = require('./version.json');
+  console.log(config)
+  commitId = config.commitId
+}catch{
+  console.log('Not version')
+}
+
+
 
 export const environment = {
   APP_NAME: 'Atlas das Pastagens',
@@ -15,7 +25,8 @@ export const environment = {
   APP_URL: 'https://atlasdev.lapig.iesa.ufg.br',
   LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br',
   LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',
-  MAX_AREA: 9500
+  MAX_AREA: 9500,
+  COMMIT_ID:commitId
 };
 
 /*

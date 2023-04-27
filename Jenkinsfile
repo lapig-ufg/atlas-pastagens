@@ -26,6 +26,16 @@
             }
 
         }
+        stage('Obter ID do commit') {
+            script {
+                    def commitId = sh(returnStdout: true, script: 'git log --pretty=format:%h -n 1').trim()
+                
+                    def json = [:]
+                    json['commitId'] = commitId
+                    writeFile(file: 'version.json', text: groovy.json.JsonOutput.toJson(json))
+            }
+            
+        }
         
         stage('Build') {
             if (env.BRANCH_NAME == 'main') {
