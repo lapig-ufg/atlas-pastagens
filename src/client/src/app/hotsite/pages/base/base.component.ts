@@ -23,7 +23,7 @@ export class BaseComponent implements  AfterViewInit {
 
   constructor(private cdr: ChangeDetectorRef, private router: Router, private localizationService: LocalizationService) {
     this.initMenu();
-    this.COMMIT_ID = environment.COMMIT_ID
+    this.COMMIT_ID = `Build:${environment.COMMIT_ID}`
   }
   initMenu(){
     this.menu = [
