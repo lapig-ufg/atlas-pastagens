@@ -1,6 +1,6 @@
 let commitId = ''
 try{
-  const config = require('assets/version.json');
+  const config = require('./version.json');
   console.log(config)
   commitId = config.commitId
 }catch{

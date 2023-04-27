@@ -11,7 +11,7 @@ RUN if [ -d "/APP/atlas-pastagens" ]; then rm -Rf /APP/atlas-pastagens; fi  && \
     
 ADD ./src/server/node_modules /APP/atlas-pastagens/src/server/node_modules  
 ADD ./src/client/dist/client /APP/atlas-pastagens/src/client/dist/client
-COPY ./version.jso* /APP/atlas-pastagens/src/client/dist/client/assets/
+
 
 CMD [ "/bin/bash", "-c", "/APP/src/server/prod-start.sh; tail -f /dev/null"]
 
