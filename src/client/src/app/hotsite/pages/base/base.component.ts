@@ -18,12 +18,12 @@ export class BaseComponent implements  AfterViewInit {
   public checked = false;
   public menu: Menu[];
   public lang: string;
-  public COMMIT_ID
+  public COMMIT_ID = `Build: ${environment.COMMIT_ID}`
 
 
   constructor(private cdr: ChangeDetectorRef, private router: Router, private localizationService: LocalizationService) {
     this.initMenu();
-    this.COMMIT_ID = `Build:${environment.COMMIT_ID}`
+    
   }
   initMenu(){
     this.menu = [
