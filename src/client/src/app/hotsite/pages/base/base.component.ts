@@ -2,6 +2,8 @@ import {Component, ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
 import {PanelModule} from 'primeng/panel';
+import { environment } from "../../../../environments/environment";
+
 
 @Component({
   selector: 'app-site-base',
@@ -16,10 +18,12 @@ export class BaseComponent implements  AfterViewInit {
   public checked = false;
   public menu: Menu[];
   public lang: string;
+  public COMMIT_ID
 
 
   constructor(private cdr: ChangeDetectorRef, private router: Router, private localizationService: LocalizationService) {
     this.initMenu();
+    this.COMMIT_ID = `Build:${environment.COMMIT_ID}`
   }
   initMenu(){
     this.menu = [
