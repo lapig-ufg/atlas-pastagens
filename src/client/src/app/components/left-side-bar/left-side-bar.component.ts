@@ -28,6 +28,7 @@ import Compass from 'ol-ext/control/Compass';
 import { GoogleAnalyticsService } from "../services/google-analytics.service";
 import {loadFeaturesXhr} from "ol/featureloader";
 import {ActivatedRoute, Router} from "@angular/router";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: 'app-left-side-bar',
@@ -88,6 +89,7 @@ export class LeftSideBarComponent implements AfterViewInit {
 
   public metadata: Metadata;
   public displayMetadata: boolean;
+  public COMMIT_ID = `Build: ${environment.COMMIT_ID}`
 
   constructor(
     protected el: ElementRef,
