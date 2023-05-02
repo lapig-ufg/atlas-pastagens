@@ -145,8 +145,8 @@ export class RightSideBarComponent implements OnInit {
     this.cardsToDisplay = {
       summary: true,
       timeSeries: true,
-      proportionAnalysis: true,
-      barGraph: true,
+      proportionAnalysis: false,
+      barGraph: false,
       rankingTable: true
     }
 
@@ -378,7 +378,7 @@ export class RightSideBarComponent implements OnInit {
         if (tempCharts.hasOwnProperty('data')) {
           this.cardsToDisplay.proportionAnalysis = true;
         } else {
-          this.cardsToDisplay.proportionAnalysis = true;
+          this.cardsToDisplay.proportionAnalysis = false;
         }
       }
       this.chartsProportionAnalysis = tempCharts;
