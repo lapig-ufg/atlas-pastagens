@@ -1,8 +1,13 @@
 import {Component, ElementRef, ViewChild,ChangeDetectorRef, AfterViewInit} from '@angular/core';
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
 import {LangChangeEvent} from "@ngx-translate/core";
+import { Card } from 'primeng/card';
+import { Collaborator } from 'src/app/@core/interfaces/collaborator';
+import { IndexCard } from 'src/app/@core/interfaces/card';
 
 declare var $;
+
+
 
 @Component({
   selector: 'app-index',
@@ -10,6 +15,9 @@ declare var $;
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements  AfterViewInit {
+  public news: IndexCard[];
+  public featured: IndexCard[];
+  public team: Collaborator[];
 
   public video: any;
   public player: any;
@@ -28,6 +36,13 @@ export class IndexComponent implements  AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.news = [];
+    this.featured = [];
+    this.team = [];
+
+    this.getNews();
+    this.getFeatured();
+
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.lang = langChangeEvent.lang;
     });
@@ -84,5 +99,35 @@ export class IndexComponent implements  AfterViewInit {
         }
       }
     })
+  }
+
+  private getNews(): void {
+    this.news = [
+      { title: "hotsite.home.emphasis.pasture.title",
+        image: "../../../../assets/hotsite/images/pastagem.png",
+        description: "hotsite.home.emphasis.pasture.text",
+        url: "/Área%20de%20Pastagem.pdf"}
+    ]
+  }
+
+  private getFeatured(): void {
+    this.featured = [
+      { title: "hotsite.home.emphasis.pasture.title",
+        image: '../../../../assets/hotsite/images/pastagem.png',
+        description: "hotsite.home.emphasis.pasture.text",
+        url: "/Área%20de%20Pastagem.pdf"},
+      { title: "hotsite.home.emphasis.pasture_quality.title",
+        image: '../../../../assets/hotsite/images/qualidade_pastagem.png',
+        description: 'hotsite.home.emphasis.pasture_quality.text',
+        url: "/Qualidade%20de%20Pastagem.pdf"},
+      { title: "hotsite.home.emphasis.carbon_stock.title",
+        image: '../../../../assets/hotsite/images/estoque.png',
+        description: "hotsite.home.emphasis.carbon_stock.text",
+        url: "/Estoque%20de%20carbono.pdf"}
+      ]
+  }
+
+  private getTeam(): void {
+    
   }
 }
