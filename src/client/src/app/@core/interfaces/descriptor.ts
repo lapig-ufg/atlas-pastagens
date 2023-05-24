@@ -32,7 +32,7 @@ export interface DescriptorDownload {
   csv: boolean;
   gpkg: boolean;
   layerTypeName: string;
-  raster: boolean;
+  raster: boolean| string;
   shp: boolean;
   loading?:boolean;
 }

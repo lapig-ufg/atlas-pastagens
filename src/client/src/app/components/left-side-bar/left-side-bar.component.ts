@@ -413,6 +413,17 @@ export class LeftSideBarComponent implements AfterViewInit {
 
   }
 
+
+  checkButton(e){
+    if(e === false){
+      return false
+    }
+    if(typeof e === "string"){
+      return true
+    }
+    return true
+  }
+
   search(event) {
     // this.mylookupservice.getResults(event.query).then(data => {
     //   this.results = data;
