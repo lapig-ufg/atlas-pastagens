@@ -1,6 +1,6 @@
-export interface Collaborator {
+export interface Team {
     name: string,
+    role: string,
     image: string,
-    profession: string,
     lattes: string
 }

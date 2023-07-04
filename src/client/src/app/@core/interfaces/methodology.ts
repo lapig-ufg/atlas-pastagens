@@ -1,6 +1,6 @@
-export interface IndexCard {
+export interface Methodology {
     title: string,
     description: string,
     image: string,
-    url: string
+    file: string
 }

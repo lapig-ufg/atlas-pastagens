@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {LocalizationService} from "../../../@core/internationalization/localization.service";
 import {LangChangeEvent} from "@ngx-translate/core";
+import { DataAPI } from 'src/app/components/services/data.service';
+import { Article } from 'src/app/@core/interfaces/article';
 
 @Component({
   selector: 'app-artigos',
@@ -9,12 +11,15 @@ import {LangChangeEvent} from "@ngx-translate/core";
 })
 export class ArtigosComponent implements OnInit {
 
+  public articles: Article[];
+
   search: string;
 
-  articles: Article[];
+  constructor(private localizationService: LocalizationService, private dataHotsite: DataAPI) {
+    this.articles = [];
+    this.getArticles();
 
-  constructor(private localizationService: LocalizationService) {
-    this.articles =  [
+    /*this.articles =  [
       {
         id: 0,
         title: this.localizationService.translate('hotsite.articles.0.title'),
@@ -231,29 +236,21 @@ export class ArtigosComponent implements OnInit {
         abstract: this.localizationService.translate('hotsite.articles.23.abstract'),
         published:  new Date(2022,12,26),
       },
-    ];
+    ];*/
   }
 
   ngOnInit() {
     this.articles = this.articles.sort((a,b)=>(a.published > b.published)?-1:1)
-    this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+  }
 
-      this.articles.forEach(article =>{
-        article.title = this.localizationService.translate('hotsite.articles.'+article.id+'.title');
-        article.abstract =  this.localizationService.translate('hotsite.articles.'+article.id+'.abstract');
-      })
+  private getArticles(): void {
+    this.dataHotsite.getArticles().subscribe(res => {
+      Object.keys(res).forEach(key => {
+        let element = res[key];
+        this.articles.push({ title: element.title, image: element.image,
+          doi: element.doi, authors: element.authors,
+          abstract: element.abstract, published: element.published });
+      });
     });
   }
-}
-
-
-
-export interface Article {
-  id: number;
-  title: string;
-  image: string;
-  doi: string;
-  authors: string;
-  abstract: string;
-  published:Date;
 }
