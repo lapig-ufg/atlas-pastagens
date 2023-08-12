@@ -49,14 +49,12 @@
                     sh "npm set progress=false"
                    
                     sh "cd src/server && npm install" 
-                    sh "cd src/client && npm install" 
-                    sh "npm cache clean --force"
-                    sh "npm install -g @angular/cli"
+                    
                     
 
                     //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
                     sh "export NODE_OPTIONS=--max-old-space-size=8096"
-                    def status = sh(returnStatus: true, script: "cd src/client && ng update @angular/cli && ngcc --clear-cache && ng build --stats-json --source-map=false --no-progress")
+                    def status = sh(returnStatus: true, script: "cd src/client && npm install && ngcc --clear-cache && ng build --stats-json --source-map=false --no-progress")
                     if (status != 0) {
                         echo "FAILED BUILD!"
                         currentBuild.result = 'FAILED'
