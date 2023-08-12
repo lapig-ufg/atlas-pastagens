@@ -50,6 +50,7 @@
                    
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
+                    sh "npm install -g @angular/cli@12.1.4 -g "
                     sh "ng --version"
                     
 
