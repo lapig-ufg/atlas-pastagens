@@ -107,6 +107,8 @@
                     //BUILD APPLICATION 
                     echo "Build homologation site distribution"
                     sh "npm set progress=false"
+                    sh "rm -rfv src/client/node_modules"
+                    sh "rm -rfv src/server/node_modules"
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
 
