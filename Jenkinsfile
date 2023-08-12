@@ -43,18 +43,17 @@
                 nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                 nvmIoJsOrgMirror: 'https://iojs.org/dist',
                 nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-                version: '16.14.2') {
+                version: NODE_VERSION) {
                     //BUILD APPLICATION 
                     echo "Build main site distribution"
                     sh "npm set progress=false"
-                   
                     sh "cd src/server && npm install" 
-                    
+                    sh "cd src/client && npm install" 
                     
 
                     //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
                     sh "export NODE_OPTIONS=--max-old-space-size=8096"
-                    def status = sh(returnStatus: true, script: "cd src/client && npm install && ng build --stats-json --source-map=false --no-progress")
+                    def status = sh(returnStatus: true, script: "cd src/client && ng build --stats-json --source-map=false --no-progress")
                     if (status != 0) {
                         echo "FAILED BUILD!"
                         currentBuild.result = 'FAILED'
