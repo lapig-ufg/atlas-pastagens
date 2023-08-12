@@ -47,9 +47,10 @@
                     //BUILD APPLICATION 
                     echo "Build main site distribution"
                     sh "npm set progress=false"
-                    sh "node --version"
+                   
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
+                    sh "ng --version"
                     
 
                     //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
