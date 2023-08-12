@@ -131,8 +131,11 @@
                                 *ngIf="layer.selectedTypeObject!.download.csv && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
                         <button pTooltip="{{'left_sidebar.layer.down_raster' | translate}}" pButton pRipple type="button"
                                 label="TIFF" (click)="download('raster', layer.selectedTypeObject, $event)"
-                                
                                 *ngIf="checkButton(layer.selectedTypeObject!.download.raster) && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                        <button pTooltip="{{'left_sidebar.layer.down_csv' | translate}}" pButton pRipple type="button"
+                                label="Time Serie" (click)="download('timeseries', layer.selectedTypeObject, $event)"
+                                *ngIf="layer.selectedTypeObject!.download.csv && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                        
                       </div>
                     </div>
                   </div>

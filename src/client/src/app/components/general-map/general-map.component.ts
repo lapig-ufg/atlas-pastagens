@@ -1268,10 +1268,20 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
     layer.download.loading = true;
 
+
+    let _filter = this.selectedFilterFromLayerType(layer.valueType)
+    if(tipo === 'timeseries'){
+      tipo = 'csv'
+      _filter = {
+        "valueFilter": "year=all",
+        "viewValueFilter": "Time Seris"
+      }
+    }
+
     let parameters = {
       "layer": layer,
       "region": this.selectRegion,
-      "filter": this.selectedFilterFromLayerType(layer.valueType),
+      "filter": _filter,
       "typeDownload": tipo
     };
 
