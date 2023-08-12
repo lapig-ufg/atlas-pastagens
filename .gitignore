@@ -45,9 +45,9 @@ src/client/node_modules/
 *.rdb
 *.sqlite
 src/client/dist/
-src/client/package-lock.json
-src/server/package-lock.json
-package-lock.json
+#src/client/package-lock.json
+#src/server/package-lock.json
+#package-lock.json
 node_modules/*
 /src/server/uploads/*
 /src/server/download_plataform/*
