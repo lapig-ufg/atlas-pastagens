@@ -43,10 +43,11 @@
                 nvm(nvmInstallURL: 'https://raw.githubusercontent.com/creationix/nvm/master/install.sh', 
                 nvmIoJsOrgMirror: 'https://iojs.org/dist',
                 nvmNodeJsOrgMirror: 'https://nodejs.org/dist', 
-                version: NODE_VERSION) {
+                version: '14.19.1') {
                     //BUILD APPLICATION 
                     echo "Build main site distribution"
                     sh "npm set progress=false"
+                    sh "node --version"
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
                     
