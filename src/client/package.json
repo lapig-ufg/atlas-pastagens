@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    
+    "@angular/animations": "~12.1.2",
     "@angular/cdk": "^12.2.2",
     "@angular/common": "~12.1.2",
     "@angular/compiler": "~12.1.2",
@@ -38,7 +38,6 @@
     "geographiclib": "^1.52.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.23",
-    "lodash": "^4.17.21",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
     "ngx-drag-scroll": "^12.0.0-beta.1",
