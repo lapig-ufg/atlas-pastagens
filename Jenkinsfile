@@ -47,8 +47,10 @@
                     //BUILD APPLICATION 
                     echo "Build main site distribution"
                     sh "npm set progress=false"
+                    sh "rm -rfv src/client/node_modules"
+                    sh "rm -rfv src/server/node_modules"
                     sh "cd src/server && npm install" 
-                    sh "cd src/client && npm install" 
+                    sh "cd src/client && npm install"
                     
 
                     //VERIFY IF BUILD IS COMPLETE AND NOTIFY IN DISCORD ABOUT OF THE RESULT
@@ -107,6 +109,8 @@
                     //BUILD APPLICATION 
                     echo "Build homologation site distribution"
                     sh "npm set progress=false"
+                    sh "rm -rfv src/client/node_modules"
+                    sh "rm -rfv src/server/node_modules"
                     sh "cd src/server && npm install" 
                     sh "cd src/client && npm install" 
 
