@@ -25,6 +25,7 @@ export const environment = {
   APP_URL: 'https://atlasdev.lapig.iesa.ufg.br',
   LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br',
   LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',
+  LAPIG_CONTENT_HUB: 'https://content-hub.lapig.iesa.ufg.br',
   MAX_AREA: 9500,
   COMMIT_ID:commitId
 };
