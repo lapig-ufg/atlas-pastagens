@@ -45,53 +45,16 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-6 item">
+        <div *ngFor="let highlight of highlights" class="col-lg-4 col-md-6 item">
           <div class="card">
-            <a target="_blank"
-              [href]="'../../../../assets/hotsite/documents/metodos/' + lang + '/Área%20de%20Pastagem.pdf'"
-              class="service-heading">
+            <a target="_blank" [href]="highlight.document" class="service-heading">
               <div class="card-header p-0 position-relative border-0">
-                <img class="d-block img-responsive" src="../../../../assets/hotsite/images/pastagem.png"
-                  alt="Áreas de pastagem">
+                <img class="d-block img-responsive" [src]="highlight.image" [alt]="highlight.title">
               </div>
               <div class="card-body service-details">
-                <div class="card-title">{{'hotsite.home.emphasis.pasture.title' | translate}}</div>
+                <div class="card-title"> {{ highlight.title }}</div>
                 <p>
-                  {{'hotsite.home.emphasis.pasture.text' | translate}}
-                </p>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mt-md-0 mt-4">
-          <div class="card">
-            <a target="_blank"
-              [href]="'../../../../assets/hotsite/documents/metodos/' + lang + '/Qualidade%20de%20Pastagem.pdf'"
-              class="service-heading">
-              <div class="card-header p-0 position-relative border-0">
-                <img class="d-block img-responsive" src="../../../../assets/hotsite/images/qualidade_pastagem.png"
-                  alt="Qualidade das pastagens">
-              </div>
-              <div class="card-body service-details">
-                <div class="card-title">{{'hotsite.home.emphasis.pasture_quality.title' | translate}}</div>
-                <p [innerHTML]="'hotsite.home.emphasis.pasture_quality.text' | translate"></p>
-              </div>
-            </a>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-6 mt-lg-0 mt-4">
-          <div class="card">
-            <a target="_blank"
-              [href]="'../../../../assets/hotsite/documents/metodos/' + lang + '/Estoque%20de%20carbono.pdf'"
-              class="service-heading">
-              <div class="card-header p-0 position-relative border-0">
-                <img class="d-block img-responsive" src="../../../../assets/hotsite/images/estoque.png"
-                  alt="card-image">
-              </div>
-              <div class="card-body service-details">
-                <div class="card-title">{{'hotsite.home.emphasis.carbon_stock.title' | translate}}</div>
-                <p>
-                  {{'hotsite.home.emphasis.carbon_stock.text' | translate}}
+                  {{ highlight.description }}
                 </p>
               </div>
             </a>

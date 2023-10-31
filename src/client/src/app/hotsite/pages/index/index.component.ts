@@ -3,6 +3,8 @@ import { LocalizationService } from "../../../@core/internationalization/localiz
 import { LangChangeEvent } from "@ngx-translate/core";
 import { ContentHub } from '../../services/content-hub.service';
 import { Team } from 'src/app/@core/interfaces/team';
+import { Highlight } from 'src/app/@core/interfaces/highlights';
+import { environment } from 'src/environments/environment';
 
 declare var $;
 
@@ -14,6 +16,7 @@ declare var $;
 export class IndexComponent implements AfterViewInit {
 
   public team: Team[];
+  public highlights: Highlight[];
 
   public video: any;
   public player: any;
@@ -29,6 +32,7 @@ export class IndexComponent implements AfterViewInit {
   @ViewChild('owl') owl: ElementRef;
   constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService, private contentHub: ContentHub) {
     this.featchTeam();
+    this.featchHighlight();
 
     this.lang = this.localizationService.currentLang();
   }
@@ -36,6 +40,8 @@ export class IndexComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
       this.featchTeam();
+      this.featchHighlight();
+
       this.lang = langChangeEvent.lang;
     });
 
@@ -71,9 +77,25 @@ export class IndexComponent implements AfterViewInit {
         this.team.push(
           {
             name: element.name,
-            image:"https://s3.lapig.iesa.ufg.br/storage/" + element.image,
+            image: environment.S3 + element.image,
             lattes: element.lattes,
             role: element.role});
+      });
+    })
+  }
+
+  private featchHighlight(): void {
+    this.highlights = [];
+
+    this.contentHub.getHighlights().subscribe(values => {
+      values.forEach(element => {
+        this.highlights.push(
+          {
+            title: element.title,
+            image: environment.S3 + element.image,
+            description: element.description,
+            document: element.file,
+          });
       });
     })
   }
