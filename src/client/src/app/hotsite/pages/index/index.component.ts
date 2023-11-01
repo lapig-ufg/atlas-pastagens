@@ -15,7 +15,6 @@ declare var $;
 })
 export class IndexComponent implements AfterViewInit {
 
-  public team: Team[];
   public highlights: Highlight[];
 
   public video: any;
@@ -31,7 +30,6 @@ export class IndexComponent implements AfterViewInit {
 
   @ViewChild('owl') owl: ElementRef;
   constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchTeam();
     this.featchHighlight();
 
     this.lang = this.localizationService.currentLang();
@@ -39,7 +37,6 @@ export class IndexComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.featchTeam();
       this.featchHighlight();
 
       this.lang = langChangeEvent.lang;
@@ -67,21 +64,6 @@ export class IndexComponent implements AfterViewInit {
     }
 
     this.cdr.detectChanges();
-  }
-
-  private featchTeam(): void {
-    this.team = [];
-
-    this.contentHub.getTeam().subscribe(values => {
-      values.forEach(element => {
-        this.team.push(
-          {
-            name: element.name,
-            image: environment.S3 + element.image,
-            lattes: element.lattes,
-            role: element.role});
-      });
-    })
   }
 
   private featchHighlight(): void {
