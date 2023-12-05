@@ -10,8 +10,6 @@ try{
   console.log('Not version')
 }
 
-
-
 export const environment = {
   APP_NAME: 'Atlas das Pastagens',
   production: false,
