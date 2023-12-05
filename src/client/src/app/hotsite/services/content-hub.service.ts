@@ -9,7 +9,7 @@ import { environment } from "../../../environments/environment";
 })
 
 export class ContentHub {
-    private apiURL = environment.LAPIG_CONTENT_HUB;
+    private apiURL = environment.LAPIG_CONTENT_HUB + "/api";
 
     static PARAMS = new HttpParams({
         fromObject: {
@@ -27,12 +27,12 @@ export class ContentHub {
 
     getNews(): Observable<any> {
         let lang = this.localizationService.currentLang();
-        return this.httpClient.get(this.apiURL + `/api/news/${lang}`, this.httpOptions);
+        return this.httpClient.get(this.apiURL + `/news/${lang}`, this.httpOptions);
     }
 
     getTeam(): Observable<any> {
         let lang = this.localizationService.currentLang();
-        return this.httpClient.get(this.apiURL + `/api/team/${lang}`, this.httpOptions);
+        return this.httpClient.get(this.apiURL + `/team/${lang}`, this.httpOptions);
     }
 
     getArticles(): Observable<any> {

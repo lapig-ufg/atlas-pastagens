@@ -50,9 +50,9 @@
       "down_raster": "Download TIFF",
       "down_error_title": "Erro",
       "down_error_msg": "Não foi possível baixar o arquivo {{name}}, por favor tente novamente.",
-      "s3_file_empty":"Não existe dados para o filtro selecionado.",
-      "s3_unable_filter_layer":"Esta camada não é possível de ser filtrada.",
-      "s3_file_not_found":"Por favor tente mais tarde, estamos processando este arquivo."
+      "s3_file_empty": "Não existe dados para o filtro selecionado.",
+      "s3_unable_filter_layer": "Esta camada não é possível de ser filtrada.",
+      "s3_file_not_found": "Por favor tente mais tarde, estamos processando este arquivo."
     }
   },
   "map": {
@@ -60,7 +60,7 @@
     "find_point": "Localizar ponto",
     "msg_warning_biome_title": "Atenção",
     "msg_warning_biome": "Os dados dos biomas estão em processamento. Em breve estarão disponíveis na plataforma.",
-    "job":{
+    "job": {
       "title": "Solicitação de Análise da Geometria",
       "input_name": "Nome",
       "input_email": "E-mail",
@@ -329,13 +329,13 @@
       "campo_general": {
         "labelGroup": "Visitas de Campo",
         "layers": {
-          "pontos_campo_goias_2022":{
+          "pontos_campo_goias_2022": {
             "labelLayer": "Goiás, 2022"
           },
-          "pontos_campo_portal_amazonia_2022":{
+          "pontos_campo_portal_amazonia_2022": {
             "labelLayer": "Amazonia Portal, 2022"
           },
-          "pontos_campo_brasil":{
+          "pontos_campo_brasil": {
             "labelLayer": "Mato Grosso, 2022"
           },
           "pontos_campo": {
@@ -386,10 +386,10 @@
     "resumo_card": {
       "area_region": "Área da Região",
       "area_pastagem": "Área de Pastagem (ha)",
-      "carbono":{
-        "title":"Estoques de Carbono (MgC)",
-        "total":"Total de estoque de carbono",
-        "mean":"media do estoque por hectare"
+      "carbono": {
+        "title": "Estoques de Carbono (MgC)",
+        "total": "Total de estoque de carbono",
+        "mean": "media do estoque por hectare"
       },
       "classe_pasture_quality": "Classe",
       "area_classe_pasture_quality": "Área desta Classe de Degradação",
@@ -520,6 +520,7 @@
     "has_not_info_message": "Não foi encontrado informações para a região selecionada."
   },
   "hotsite": {
+    "lang_label": "Idioma",
     "base": {
       "header": {
         "menu": {
@@ -545,36 +546,11 @@
         "title": "Atlas das pastagens",
         "text": "A plataforma disponibiliza, atualmente, seis bases de dados: (1) mapeamento das áreas ocupadas por pastagens no Brasil; (2) mapeamento da qualidade dessas áreas, estimativas do estoque de carbono nas pastagens do bioma Cerrado; (3) informações do rebanho bovino brasileiro analisadas a partir dos dados da pesquisa pecuária municipal (IBGE); (4) séries temporais de classificação de uso e cobertura da terra por inspeção visual de dados dos satélites Landsat; (5) avaliação da condição das pastagens em campanhas de campo realizadas por equipes do laboratório."
       },
-      "emphasis": {
-        "title": "Dados em destaque",
-        "pasture": {
-          "title": "Áreas de Pastagem",
-          "text": "Conjunto de dados que compreende uma série temporal composta por mapas anuais das pastagens brasileiras abrangendo o período de 1985 a 2020. O mapeamento foi baseado em dados Landsat, classificados de modo não supervisionado por meio do Random Forest, na plataforma Earth Engine da Google;"
-        },
-        "pasture_quality": {
-          "title": "Qualidade das pastagens",
-          "text": "Compreende o mapeamento da qualidade das pastagens brasileiras, tomando por referência de áreas de pastagens o conjunto de dados “Áreas de Pastagens”. Por meio de índices de vegetação obtidos por sensoriamento remoto, as pastagens brasileiras foram classificadas em três níveis de degradação (Ausente, Intermediário e Severa), para os anos de 2000 e 2020."
-        },
-        "carbon_stock": {
-          "title": "Estoque de carbono",
-          "text": "Estimativas de estoque de carbono na matéria orgânica do solo a partir de modelagem ecossistêmica, em áreas ocupadas por pastagens no Brasil. Esse conjunto de dados compreende uma série temporal de mapas de estoque de carbono na camada superficial de solo (0 a 20 cm), abrangendo o período de 1985 a 2021."
-        }
+      "news": {
+        "title": "Notícias"
       },
-      "team": {
-        "title": "Equipe",
-        "researcher_analyst": "Pesquisador e Analista Socioambiental",
-        "researcher_analyst_f": "Pesquisadora e Analista Socioambiental",
-        "research_assistant": "Pesquisadora Assistente",
-        "project_manager": "Gestora de Projetos",
-        "infrastructure_analyst": "Analista de Infraestrutura",
-        "devops_analyst": "Analista DevOps",
-        "systems_analyst": "Analista de Desenvolvimento de Sistemas",
-        "phd_animal_science": "Doutor em Zootecnia",
-        "phd_ecology": "Doutor Ecologia",
-        "development_analyst": "Analista de Desenvolvimento de Sistemas",
-        "database_analyst": "Analista de Banco de Dados e Desenvolvedor",
-        "coordinator": "Coordenador",
-        "statistician": "Estatístico"
+      "emphasis": {
+        "title": "Dados em destaque"
       },
       "differential": {
         "title": "Diferencial",
@@ -583,12 +559,16 @@
         "p3": "Além da visualização de todas as bases de dados disponíveis na plataforma, os dados estão disponíveis para download em formato geo-espacializado (shapefile) ou tabela (csv), sendo os dados abertos um dos diferenciais da plataforma."
       }
     },
-    "lang_label": "Idioma",
     "about": {
       "page_title": "Atlas das Pastagens",
-      "title": "Sobre",
-      "p1": "O Atlas das Pastagens, público e gratuito, foi desenvolvido pelo Laboratório de Processamento de Imagens e Geoprocessamento da Universidade Federal de Goiás (Lapig/UFG), para tornar acessível os resultados e produtos, gerados no âmbito da iniciativa MapBiomas, referentes às pastagens brasileiras.",
-      "p2": "A plataforma disponibiliza, atualmente, seis bases de dados: (1) mapeamento das áreas ocupadas por pastagens no Brasil; (2) mapeamento da qualidade dessas áreas; (3) mapeamento dos estoques de carbono das pastagens no bioma Cerrado; (4) informações do rebanho bovino brasileiro analisadas a partir dos dados da pesquisa pecuária municipal (IBGE); (5) séries temporais de classificação de uso e cobertura da terra por inspeção visual de dados dos satélites Landsat; (6) avaliação da condição das pastagens em campanhas de campo realizadas por equipes do laboratório."
+      "abstract": {
+        "title": "Sobre",
+        "p1": "O Atlas das Pastagens, público e gratuito, foi desenvolvido pelo Laboratório de Processamento de Imagens e Geoprocessamento da Universidade Federal de Goiás (Lapig/UFG), para tornar acessível os resultados e produtos, gerados no âmbito da iniciativa MapBiomas, referentes às pastagens brasileiras.",
+        "p2": "A plataforma disponibiliza, atualmente, seis bases de dados: (1) mapeamento das áreas ocupadas por pastagens no Brasil; (2) mapeamento da qualidade dessas áreas; (3) mapeamento dos estoques de carbono das pastagens no bioma Cerrado; (4) informações do rebanho bovino brasileiro analisadas a partir dos dados da pesquisa pecuária municipal (IBGE); (5) séries temporais de classificação de uso e cobertura da terra por inspeção visual de dados dos satélites Landsat; (6) avaliação da condição das pastagens em campanhas de campo realizadas por equipes do laboratório."
+      },
+      "team": {
+        "title": "Equipe"
+      }
     },
     "gallery": {
       "page_title": "Galeria de imagens das Pastagens",
@@ -617,31 +597,7 @@
     },
     "methods": {
       "page_title": "Procedimentos Metodológicos",
-      "title": "Métodos",
-      "pasture": {
-        "title": "Áreas de Pastagem",
-        "text": "Conjunto de dados que compreende uma série temporal composta por mapas anuais das pastagens brasileiras abrangendo o período de 1985 a 2020. O mapeamento foi baseado em dados Landsat, classificados de modo não supervisionado por meio do Random Forest, na plataforma Earth Engine da Google;"
-      },
-      "pasture_quality": {
-        "title": "Qualidade das pastagens",
-        "text": "Compreende o mapeamento da qualidade das pastagens brasileiras, tomando por referência de áreas de pastagens o conjunto de dados “Áreas de Pastagens”. Por meio de índices de vegetação obtidos por sensoriamento remoto, as pastagens brasileiras foram classificadas em três níveis de degradação (Ausente, Intermediário e Severa), para os anos de 2000 e 2020;"
-      },
-      "carbon_stock": {
-        "title": "Estoque de carbono nas pastagens",
-        "text": "Estimativas de estoque de carbono na matéria orgânica do solo a partir de modelagem ecossistêmica, em áreas ocupadas por pastagens no Brasil. Esse conjunto de dados compreende uma série temporal de mapas de estoque de carbono na camada superficial de solo (0 a 20 cm), abrangendo o período de 1985 a 2021."
-      },
-      "herd_cattle": {
-        "title": "Rebanho Bovino",
-        "text": "Série temporal do rebanho bovino por município, abrangendo o período de 1985 a 2020. Disponibilizado em Unidade Animal (UA), calculadas a partir do rebanho bovino em cada município."
-      },
-      "inspected_points": {
-        "title": "Pontos inspecionados visualmente",
-        "text": "Conjunto georreferenciado de pontos para todo o território brasileiro, classificados anualmente a partir de 1985, por meio de inspeção visual."
-      },
-      "field_points": {
-        "title": "Pontos de campo",
-        "text": "Pontos de uso e cobertura da terra amostrados e avaliados em campo, com o propósito de validar mapas de áreas ocupadas por pastagens produzidos pelo Lapig-UFG."
-      }
+      "title": "Métodos"
     },
     "articles": {
       "page_title": "Artigos Relacionados",
@@ -650,102 +606,6 @@
       "search": {
         "title": "Buscar Artigos",
         "placeholder": "Título, Resumo ou Autores"
-      },
-      "0": {
-        "title": "Assessing the Wall-to-Wall Spatial and Qualitative Dynamics of the Brazilian Pasturelands 2010–2018, Based on the Analysis of the Landsat Data Archive",
-        "abstract": "Neste estudo, mapeamos e avaliamos a dinâmica espaço-temporal da qualidade das pastagens no Brasil, entre 2010 e 2018, considerando três classes de degradação: Ausente (D0), Intermediário (D1) e Grave (D2). Não houve variação na área total ocupada por pastagens no período avaliado, apesar da dinâmica espacial acentuada. O percentual de pastagens não degradadas aumentou ~12%, devido à recuperação de áreas degradadas e o surgimento de novas áreas de pastagem."
-      },
-      "1": {
-        "title": "Shaping the Brazilian landscape: a process driven by land occupation, large-scale deforestation, and rapid agricultural expansion.",
-        "abstract": "Neste estudo apresentamos, com base em um desenho amostral inédito e na interpretação de 85.152 pontos amostrais em imagens Landsat, as estimativas de área das principais classes de cobertura e uso da terra no Brasil, bem como suas transições anuais, de 1985 a 2018. Nossos resultados indicam que, dos 850 Mha que compõem o território nacional, 294,2 Mha ± 1,44% estavam antropizados em 2018, com ~34% dessa área convertida após 1985. Nesse período, houve uma perda de 98,2 Mha ± 2,27% de vegetação natural, e aumento de 55,1 Mha ± 0,64% nas áreas de pastagem e 28,2 Mha ± 0,29% nas áreas de lavouras anuais."
-      },
-      "2": {
-        "title": "Biomassa seca estimada em áreas de pastagens com dados de sensoriamento remoto: Estudo de caso na bacia hidrográfica do Rio Vermelho.",
-        "abstract": "O objetivo deste trabalho foi estimar a biomassa seca em áreas de pastagens com dados satelitários, bem como dados de campo em áreas de pastagem no Cerrado goiano. O experimento foi realizado em áreas de pastagens na Bacia Hidrográfica do Rio Vermelho, porção oeste de Goiás, com a utilização das imagens do satélite Landsat 8. A estimativa deste parâmetro foi obtida combinando os algoritmos SEBAL (Surface Energy Balance Algorithm for Land), e o modelo CASA (Carnegie Ames Stanford Approach)."
-      },
-      "3": {
-        "title": "Modelling gross primary productivity in tropical savanna pasturelands for livestock intensification in Brazil.",
-        "abstract": "Neste estudo, estimamos a produção de biomassa seca das pastagens do estado de Goiás (localizada no bioma Cerrado) com base no uso de um novo mapa de pastagem altamente preciso e imagens MODIS MOD13Q1 NDVI (índice de vegetação por diferença normalizada)."
-      },
-      "4": {
-        "title": "Land use dynamics in the Brazilian Cerrado in the period from 2002 to 2013",
-        "abstract": "O objetivo deste trabalho foi analisar a dinâmica de uso das terras na região do Cerrado de 2002 a 2013. Essa análise foi baseada nas interpretações de imagens do satélite Landsat realizadas pelo Projeto de Conservação e Utilização Sustentável da Diversidade Biológica Brasileira (Probio) e pelo projeto TerraClass Cerrado 2013, coordenados pelo Ministério do Meio Ambiente."
-      },
-      "5": {
-        "title": "Landsat-based assessment of the quantitative and qualitative dynamics of the pasture areas in rural settlements in the Cerrado biome, Brazil",
-        "abstract": "Esta pesquisa teve como objetivo compreender como evoluíram as áreas de pastagem nos assentamentos rurais do Estado de Goiás (região núcleo do bioma Cerrado), desde sua criação até a atualidade. Para tanto, foram realizadas análises quantitativas e qualitativas, com base no mapeamento anual das pastagens brasileiras (no âmbito da iniciativa MapBiomas), bem como em imagens de satélite da série Landsat, obtidas e processadas através da plataforma Google Earth Engine."
-      },
-      "6": {
-        "title": "Development of a technological index for the assessment of the beef production systems of the vermelho river basin in Goiás, Brazil",
-        "abstract": "Este estudo analisou as estratégias produtivas e a tecnologia dos produtores de carne bovina na bacia do Vermelho em Goiás, Brasil. Os dados foram usados para desenvolver um índice tecnológico, aplicável aos sistemas locais de produção de carne bovina. Os dados foram obtidos por meio de questionários. Um conjunto de 60 propriedades foi selecionado para fornecer uma amostra representativa do relevo e da qualidade do solo dentro da área de estudo. Os dados foram analisados usando correspondência múltipla, análise de cluster e procedimentos de regressão beta."
-      },
-      "7": {
-        "title": "Degradation trends based on MODIS-derived estimates of productivity and water use efficiency: a case study for the cultivated pastures in the Brazilian Cerrado",
-        "abstract": "Este estudo teve como objetivo avaliar as tendências de degradação das pastagens cultivadas no bioma Cerrado encontradas no Estado de Minas Gerais, Brasil (conforme produzido pelo projeto de mapeamento TerraClass Cerrado Landsat, liderado pelo Ministério do Meio Ambiente do Brasil)."
-      },
-      "8": {
-        "title": "The seasonal carbon and water balances of the Cerrado environment of Brazil: Past, present, and future influences of land cover and land use.",
-        "abstract": "Neste artigo, dados de vegetação de sensoriamento remoto MODIS do Índice de Vegetação Realçado (EVI) e dados de evapotranspiração (ET) para o período de 2000–2012 foram analisados para compreender as diferenças na produtividade primária líquida (NPP-proxy), carbono e fluxo evaporativo das grandes paisagens naturais e antrópicas do Cerrado."
-      },
-      "9": {
-        "title": "Assessing Pasture Degradation in the Brazilian Cerrado Based on the Analysis of MODIS NDVI Time-Series",
-        "abstract": "Neste estudo, estimamos a área de pastagens degradadas no Cerrado, analisando as tendências de anomalias cumulativas de NDVI ao longo do tempo, usadas como proxy para a degradação das pastagens."
-      },
-      "10": {
-        "title": "Estimating Greenhouse Gas Emissions from Cattle Raising in Brazil",
-        "abstract": "Este estudo estimou, pela primeira vez, as emissões de gases de efeito estufa associadas à pecuária no Brasil, enfocando o período de 2003 a 2008 e as três principais fontes: 1) parcela do desmatamento resultando no estabelecimento de pastagens e consequente queima da vegetação derrubada; 2) queima de pastagem; e 3) fermentação entérica bovina."
-      },
-      "11": {
-        "title": "Increasing importance of precipitation variability on global livestock grazing lands. Nature Climate Change",
-        "abstract": "Neste estudo, avaliamos as ameaças climáticas às pastagens globais, com um foco específico nas mudanças na variabilidade da precipitação dentro e entre os anos (índice de concentração de precipitação (PCI) e coeficiente de variação de precipitação (CVP), respectivamente)."
-      },
-      "12": {
-        "title": "Monitoring the brazilian pasturelands: A new mapping approach based on the landsat 8 spectral and temporal domains",
-        "abstract": "Neste estudo, utilizamos todo o conjunto de imagens Landsat 8 disponíveis para o Brasil em 2015, a partir das quais foram derivadas dezenas de métricas sazonais, para produzir, por meio de critérios objetivos e estratégias de classificação automatizada, um novo mapa de pastagens para o país."
-      },
-      "13": {
-        "title": "Assessing the Spatial and Occupation Dynamics of the Brazilian Pasturelands Based on the Automated Classification of MODIS Images from 2000 to 2016",
-        "abstract": "Este estudo mapeou, por meio de critérios objetivos e métodos de classificação automática (Random Forest) aplicados às imagens MODIS (Moderate Resolution Imaging Spectroradiometer), a totalidade das pastagens brasileiras entre 2000 e 2016."
-      },
-      "14": {
-        "title": "Assessing the pasturelands and livestock dynamics in Brazil, from 1985 to 2017: A novel approach based on high spatial resolution imagery and Google Earth Engine cloud computing",
-        "abstract": "Este trabalho mapeou, anualmente e de forma inédita, a totalidade das pastagens brasileiras, de 1985 a 2017. Com uma precisão geral de cerca de 90%, os 33 mapas produzidos indicaram a área de pastagem variando de ~ 118 Mha ± 3,41% ( 1985) para ~ 178 Mha ± 2,53% (2017), sendo que essa expansão ocorreu principalmente na região norte do país e em menor medida no centro-oeste."
-      },
-      "15": {
-        "title": "Biophysical Properties of Cultivated Pastures in the Brazilian Savanna Biome: An Analysis in the Spatial-Temporal Domains Based on Ground and Satellite Data",
-        "abstract": "O objetivo principal deste estudo foi a avaliação das propriedades biofísicas das pastagens em escala regional, por meio da translação de dados em campo durante as estações chuvosa e seca (biomassa total, biomassa verde e% de cobertura verde), considerando o uso combinado de imagens índice de vegetação com resoluções alta  (Landsat-TM) e moderada (MODIS)."
-      },
-      "16": {
-        "title": "Livestock intensification potential in Brazil based on agricultural census and satellite data analysis",
-        "abstract": "O objetivo deste trabalho foi avaliar o potencial de intensificação da pecuária à pasto no Brasil. As taxas de lotação bovina foram estimadas de acordo com os dados do censo agropecuário e da pesquisa pecuária municipal. A capacidade de suporte da pastagem foi obtida pela combinação de imagens MODIS de produtividade primária bruta (i.e. GPP) e dados de demanda de matéria seca por unidade animal (UA)."
-      },
-      "17": {
-        "title": "MODIS estimates of pasture productivity in the Cerrado based on ground and Landsat-8 data extrapolations",
-        "abstract": "Neste estudo, combinamos dados de campo e de satélite para avaliar as características biofísicas e os padrões de produtividade das pastagens existentes no bioma Cerrado. De outubro de 2013 a setembro de 2014, foram coletados dados de campo de biomassa total e verde e porcentagem de cobertura verde (% GC) em duas áreas de estudo localizadas no município de Uberlândia, Estado de Minas Gerais, os quais foram extrapolados regionalmente com base em imagens Landsat e MODIS."
-      },
-      "18": {
-        "title": "Caracterização biofísica e potencial de intensificação sustentável da pecuária brasileira em pastagens",
-        "abstract": "Este trabalho, desenvolvido no âmbito da tese de doutoramento de Arielle Elias Arantes (2017), teve por objetivo avaliar o vigor e o potencial de intensificação das pastagens brasileiras. A estimativa de vigor teve por base o Índice de Vigor do Pasto (PVI), derivado a partir da integração dos coeficientes α (intercepto) e β (slope), obtidos da regressão linear do índice de vegetação (NDVI) ao longo do tempo (2000 a 2017)."
-      },
-      "19": {
-        "title": "Pastagens degradadas, uma herança dos imóveis rurais desapropriados para os assentamentos rurais do Cerrado goiano",
-        "abstract": "O presente artigo está centrado em dois objetivos principais: I) verificar a predominância de pastagens degradadas nos imóveis rurais desapropriados por meio da política de reforma agrária no estado de Goiás; e II) avaliar o potencial dos dados satelitários quanto a determinação das condições produtivas da terra."
-      },
-      "20": {
-        "title": "Land-use dynamics in a Brazilian agricultural frontier region, 1985-2017",
-        "abstract": "Neste estudo, aplicamos técnicas de amostragem estatística a dados de sensoriamento remoto (imagens Landsat de 1985 a 2017) para recuperar informações sobre a dinâmica do uso da terra em uma das regiões de fronteira agrícola mais proeminentes do mundo (i.e. o bioma Cerrado, com ênfase no Estado de Goiás)."
-      },
-      "21": {
-        "title": "A pecuária goiana vista pela janela de um SIG.",
-        "abstract": "Este trabalho buscou, por meio da espacialização dos dados pecuários produzidos pelo IBGE (de 1974 a 2017), apresentar o potencial de um SIG para estudar a dinâmica da pecuária goiana, conforme diferentes recortes temporais e espaciais."
-      },
-      "22": {
-        "title": "Tecnologia e degradação de pastagens na pecuária no Cerrado brasileiro",
-        "abstract": "Esta pesquisa teve por objetivo analisar a relação entre nível tecnológico de produção de bovinos e de degradação de pastagens, considerando como área de estudo a Bacia Hidrográfica do Rio Vermelho, em Goiás - Brasil."
-      },
-      "23": {
-        "title": "Monitoring of Carbon Stocks in Pastures in the Savannas of Brasil through Ecosystem Modeling on a Regional Scale",
-        "abstract": "Considerando que as pastagens representam o principal uso da terra no país, ocupando aproximadamente 20% do território, o mapeamento e monitoramento dos estoques de C nessas áreas é fundamental para determinar sua contribuição nas emissões nacionais. Neste estudo, com base no uso integrado do modelo CENTURY, bancos de dados georreferenciados e ambiente R, mapeamos e analisamos, pela primeira vez, a dinâmica dos estoques de C associados às áreas de pastagem do bioma Cerrado entre os anos de 2000 e 2019. Os estoques médios de C no solo (0–20 cm) e na biomassa aérea estimados pelo modelo foram de ~31 MgC·ha<sup>−1</sup> e ~4 MgC·ha<sup>−1</sup>, respectivamente, valores próximos aos observados na literatura para o região."
       }
     },
     "error": {

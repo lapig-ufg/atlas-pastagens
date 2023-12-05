@@ -3,6 +3,9 @@ import { LocalizationService } from "../../../@core/internationalization/localiz
 import { LangChangeEvent } from "@ngx-translate/core";
 import { ContentHub } from '../../services/content-hub.service';
 import { Team } from 'src/app/@core/interfaces/team';
+import { Highlight } from 'src/app/@core/interfaces/highlights';
+import { environment } from 'src/environments/environment';
+import { News } from 'src/app/@core/interfaces/news';
 
 declare var $;
 
@@ -13,7 +16,8 @@ declare var $;
 })
 export class IndexComponent implements AfterViewInit {
 
-  public team: Team[];
+  public news: News[];
+  public highlights: Highlight[];
 
   public video: any;
   public player: any;
@@ -28,14 +32,17 @@ export class IndexComponent implements AfterViewInit {
 
   @ViewChild('owl') owl: ElementRef;
   constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchTeam();
+    this.fetchNews();
+    this.fetchHighlight();
 
     this.lang = this.localizationService.currentLang();
   }
 
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.featchTeam();
+      this.fetchNews();
+      this.fetchHighlight();
+
       this.lang = langChangeEvent.lang;
     });
 
@@ -63,17 +70,34 @@ export class IndexComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private featchTeam(): void {
-    this.team = [];
+  private fetchNews(): void {
+    this.news = [];
 
-    this.contentHub.getTeam().subscribe(values => {
+    this.contentHub.getNews().subscribe(values => {
       values.forEach(element => {
-        this.team.push(
+        this.news.push(
           {
-            name: element.name,
-            image:"https://s3.lapig.iesa.ufg.br/storage/" + element.image,
-            lattes: element.lattes,
-            role: element.role});
+            title: element.title,
+            description: element.description,
+            image: environment.S3 + element.image,
+            url: element.url,
+          });
+      });
+    })
+  }
+
+  private fetchHighlight(): void {
+    this.highlights = [];
+
+    this.contentHub.getHighlights().subscribe(values => {
+      values.forEach(element => {
+        this.highlights.push(
+          {
+            title: element.title,
+            image: environment.S3 + element.image,
+            description: element.description,
+            document: element.file,
+          });
       });
     })
   }
