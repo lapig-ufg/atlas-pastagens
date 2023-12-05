@@ -15,6 +15,7 @@
     </div>
   </section>
   <!-- //banner section -->
+
   <!-- about section -->
   <div class="w3l-content-photo-5 py-5">
     <div class="container py-lg-5 py-sm-4">
@@ -34,6 +35,39 @@
   </div>
   <!-- //about section -->
 
+  <!-- news section -->
+  <div *ngIf="news.length != 0">
+    <div class="service-section">
+      <div class="container py-md-5 py-4">
+        <div class="row align-items-center mb-5">
+          <div class="col-md-6 section-heading">
+            <h3 class="title-style-2">
+              {{'hotsite.home.news.title' | translate}}
+            </h3>
+          </div>
+        </div>
+        <div class="row justify-content-center">
+          <div *ngFor="let element of news" class="col-lg-4 col-md-6 item">
+            <div class="card">
+              <a target="_blank" [href]="element.url" class="service-heading">
+                <div class="card-header p-0 position-relative border-0">
+                  <img class="d-block img-responsive" [src]="element.image" [alt]="element.title">
+                </div>
+                <div class="card-body service-details">
+                  <div class="card-title"> {{ element.title }}</div>
+                  <p>
+                    {{ element.description }}
+                  </p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //news section -->
+
   <!-- services section -->
   <div class="service-section">
     <div class="container py-md-5 py-4">
@@ -45,16 +79,16 @@
         </div>
       </div>
       <div class="row justify-content-center">
-        <div *ngFor="let highlight of highlights" class="col-lg-4 col-md-6 item">
+        <div *ngFor="let element of highlights" class="col-lg-4 col-md-6 item">
           <div class="card">
-            <a target="_blank" [href]="highlight.document" class="service-heading">
+            <a target="_blank" [href]="element.document" class="service-heading">
               <div class="card-header p-0 position-relative border-0">
-                <img class="d-block img-responsive" [src]="highlight.image" [alt]="highlight.title">
+                <img class="d-block img-responsive" [src]="element.image" [alt]="element.title">
               </div>
               <div class="card-body service-details">
-                <div class="card-title"> {{ highlight.title }}</div>
+                <div class="card-title"> {{ element.title }}</div>
                 <p>
-                  {{ highlight.description }}
+                  {{ element.description }}
                 </p>
               </div>
             </a>

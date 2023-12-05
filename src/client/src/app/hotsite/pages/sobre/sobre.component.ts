@@ -16,16 +16,16 @@ export class SobreComponent implements OnInit {
   public team: Team[];
 
   constructor(private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchTeam();
+    this.fetchTeam();
   }
 
   ngOnInit() {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.featchTeam();
+      this.fetchTeam();
     });
   }
 
-  private featchTeam(): void {
+  private fetchTeam(): void {
     this.team = [];
 
     this.contentHub.getTeam().subscribe(values => {

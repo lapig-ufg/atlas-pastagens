@@ -5,6 +5,7 @@ import { ContentHub } from '../../services/content-hub.service';
 import { Team } from 'src/app/@core/interfaces/team';
 import { Highlight } from 'src/app/@core/interfaces/highlights';
 import { environment } from 'src/environments/environment';
+import { News } from 'src/app/@core/interfaces/news';
 
 declare var $;
 
@@ -15,6 +16,7 @@ declare var $;
 })
 export class IndexComponent implements AfterViewInit {
 
+  public news: News[];
   public highlights: Highlight[];
 
   public video: any;
@@ -30,14 +32,16 @@ export class IndexComponent implements AfterViewInit {
 
   @ViewChild('owl') owl: ElementRef;
   constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchHighlight();
+    this.fetchNews();
+    this.fetchHighlight();
 
     this.lang = this.localizationService.currentLang();
   }
 
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.featchHighlight();
+      this.fetchNews();
+      this.fetchHighlight();
 
       this.lang = langChangeEvent.lang;
     });
@@ -66,7 +70,23 @@ export class IndexComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
-  private featchHighlight(): void {
+  private fetchNews(): void {
+    this.news = [];
+
+    this.contentHub.getNews().subscribe(values => {
+      values.forEach(element => {
+        this.news.push(
+          {
+            title: element.title,
+            description: element.description,
+            image: environment.S3 + element.image,
+            url: element.url,
+          });
+      });
+    })
+  }
+
+  private fetchHighlight(): void {
     this.highlights = [];
 
     this.contentHub.getHighlights().subscribe(values => {

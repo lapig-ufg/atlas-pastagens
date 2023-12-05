@@ -16,18 +16,19 @@ export class MetodosComponent implements OnInit {
   public lang: string;
 
   constructor(private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchMethodologies();
+    this.fetchMethodologies();
 
     this.lang = this.localizationService.currentLang();
   }
 
   ngOnInit() {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.fetchMethodologies();
       this.lang = langChangeEvent.lang;
     });
   }
 
-  private featchMethodologies(): void {
+  private fetchMethodologies(): void {
     this.methodologies = [];
 
     this.contentHub.getMethodologies().subscribe(values => {

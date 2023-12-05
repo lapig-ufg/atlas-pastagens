@@ -17,16 +17,16 @@ export class ArtigosComponent implements OnInit {
   articles: Article[];
 
   constructor(private localizationService: LocalizationService, private contentHub: ContentHub) {
-    this.featchArticles();
+    this.fetchArticles();
   }
 
   ngOnInit() {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
-      this.featchArticles();
+      this.fetchArticles();
     });
   }
 
-  private featchArticles(): void {
+  private fetchArticles(): void {
     this.articles = [];
 
     this.contentHub.getArticles().subscribe(values => {
