@@ -23,5 +23,8 @@ export const environment = {
   LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',
   S3: "https://s3.lapig.iesa.ufg.br/storage/",
   MAX_AREA: 9500,
-  COMMIT_ID:commitId
+  COMMIT_ID:commitId,
+  recaptcha: {
+    siteKey: '6Lf_jygpAAAAAO-8ArU28R6EszgO2WhCArk06nPm',
+  },
 };

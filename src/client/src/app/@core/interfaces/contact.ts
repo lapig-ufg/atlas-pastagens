@@ -4,5 +4,5 @@ export interface Contact {
     subject: string;
     institution: string;
     message: string;
-    status: string;
+    token: string;
   }
