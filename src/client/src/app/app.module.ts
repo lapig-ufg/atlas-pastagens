@@ -14,6 +14,8 @@ import { environment } from '../environments/environment';
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NoCacheHeaders } from "./@core/interceptors/no-cache-headers.interceptor";
 
+import { RECAPTCHA_V3_SITE_KEY, RecaptchaV3Module } from 'ng-recaptcha';
+
 /**
  * The http loader factory : Loads the files from define path.
  * @param {HttpClient} http
@@ -31,6 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent
   ],
   imports: [
+    RecaptchaV3Module,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -50,11 +53,15 @@ export function HttpLoaderFactory(http: HttpClient) {
       }
     }),
   ],
-  providers: [ {
+  providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: NoCacheHeaders,
     multi: true
-  },],
+  },
+  {
+    provide: RECAPTCHA_V3_SITE_KEY,
+    useValue: environment.recaptcha.siteKey,
+  }],
   bootstrap: [AppComponent],
 })
 

@@ -19,7 +19,6 @@ module.exports = function(app) {
     }
 
     return function(request, response, next) {
-
         var hasController = (request.route.stack.length > 1)
         var pathParts = request.path.split('/')
         var controller = pathParts[2]

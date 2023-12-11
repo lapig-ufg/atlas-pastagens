@@ -40,6 +40,7 @@
     "jspdf-autotable": "^3.5.23",
     "lodash-es": "^4.17.21",
     "moment": "^2.29.1",
+    "ng-recaptcha": "^8.0.1",
     "ngx-drag-scroll": "^12.0.0-beta.1",
     "ol": "6.14.1",
     "ol-ext": "3.2.13",
