@@ -10,6 +10,7 @@
         "app-root-path": "^3.0.0",
         "archiver": "^5.3.0",
         "async": "~3.2.2",
+        "axios": "^0.24.0",
         "body-parser": "^1.19.0",
         "bson": ">=4.6.0",
         "compression": "^1.7.4",
