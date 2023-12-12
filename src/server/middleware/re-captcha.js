@@ -6,6 +6,7 @@ module.exports = function (app) {
     var api = 'https://www.google.com/recaptcha/api/siteverify';
 
     return function (request, response, next) {
+        console.log('oi')
         axios({
             method: 'post',
             url: api,

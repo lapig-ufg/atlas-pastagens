@@ -50,8 +50,8 @@ export class AreaService {
 
   saveDrawedGeometry(term: any): Observable<any> {
     return this.httpClient.post<any>(
-      this.apiURL + '/savegeom',
-      JSON.stringify(term),
+      this.apiURL + '/savegeom?time=' + Date.now().toString(),
+      JSON.stringify(term.draw),
       this.httpOptions)
       .pipe(
         catchError(this.errorHandler),
