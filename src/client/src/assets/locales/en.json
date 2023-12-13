@@ -50,9 +50,9 @@
       "down_raster": "Download TIFF",
       "down_error_title": "Error",
       "down_error_msg": "Could not download file {{name}}, please try again.",
-      "s3_file_empty":"There is no data for the selected filter.",
-      "s3_unable_filter_layer":"This layer cannot be filtered.",
-      "s3_file_not_found":"Please try again later, we are processing this file."
+      "s3_file_empty": "There is no data for the selected filter.",
+      "s3_unable_filter_layer": "This layer cannot be filtered.",
+      "s3_file_not_found": "Please try again later, we are processing this file."
     }
   },
   "map": {
@@ -60,7 +60,7 @@
     "find_point": "Find point",
     "msg_warning_biome_title": "Warning",
     "msg_warning_biome": "Biome data is currently being processed. They will soon be available on the platform.",
-    "job":{
+    "job": {
       "title": "Geometry Analysis Request",
       "input_name": "Name",
       "input_email": "E-mail",
@@ -325,17 +325,16 @@
           }
         }
       },
-      
       "campo_general": {
         "labelGroup": "Field Visits",
         "layers": {
-          "pontos_campo_goias_2022":{
+          "pontos_campo_goias_2022": {
             "labelLayer": "Goiás, 2022"
           },
-          "pontos_campo_portal_amazonia_2022":{
+          "pontos_campo_portal_amazonia_2022": {
             "labelLayer": "Amazonia Portal, 2022"
           },
-          "pontos_campo_brasil":{
+          "pontos_campo_brasil": {
             "labelLayer": "Mato Grosso, 2022"
           },
           "pontos_campo": {
@@ -386,10 +385,10 @@
     "resumo_card": {
       "area_region": "Region Area",
       "area_pastagem": "Pasture Area (ha)",
-      "carbono":{
-        "title":"Carbon Stocks (MgC)",
-        "total":"Total carbon stock",
-        "mean":"average stock per hectare"
+      "carbono": {
+        "title": "Carbon Stocks (MgC)",
+        "total": "Total carbon stock",
+        "mean": "average stock per hectare"
       },
       "classe_pasture_quality": "Class",
       "area_classe_pasture_quality": "Area of this Degradation Class",
@@ -520,6 +519,7 @@
     "has_not_info_message": "No information was found for the selected region."
   },
   "hotsite": {
+    "lang_label": "Language",
     "base": {
       "header": {
         "menu": {
@@ -545,36 +545,11 @@
         "title": "Atlas of Pastures",
         "text": "Currently, the platform provides access to six databases: (1) mapping of lands used for pastures in Brazil; (2) mapping of quality of those pastures; (3) mapping of pastures carbon stocks in the Cerrado biome; (4) information on the Brazilian cattle herd analyzed from municipalities survey of livestock (IBGE); (5) time series of land use and land cover classification through visual inspection of Landsat satellites data; (6) ground truth data of pastures condition obtained through field campaigns carried out by Lapig’s teams."
       },
-      "emphasis": {
-        "title": "Highlights",
-        "pasture": {
-          "title": "Pasture areas",
-          "text": "A dataset of time series the comprehends annual maps of Brazilian pastures, covering a timeframe from 1985 to 2020. The mapping has Landsat data as basis, classified by Random Forest approach, non-supervised, using the Google Earth Engine computing platform."
-        },
-        "pasture_quality": {
-          "title": "Pastures quality",
-          "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2000 to 2020."
-        },
-        "carbon_stock": {
-          "title": "Carbon stocks",
-          "text": "Estimates of carbon stock in soil organic matter from ecosystem modeling in areas occupied by pastures in Brazil. This dataset comprises a time series of maps of carbon stock in the surface layer of soil (0 to 20 cm), covering the period from 1985 to 2021."
-        }
+      "news": {
+        "title": "News"
       },
-      "team": {
-        "title": "Team",
-        "researcher_analyst": "Researcher and Social and Environmental Analyst",
-        "researcher_analyst_f": "Researcher and Social and Environmental Analyst",
-        "research_assistant": "Research Assistant",
-        "project_manager": "Project Manager",
-        "infrastructure_analyst": "Infrastructure Analyst",
-        "devops_analyst": "DevOps Analyst",
-        "systems_analyst": "Systems Development Analyst",
-        "phd_animal_science": "PhD in Animal Science",
-        "phd_ecology": "PhD in Ecology",
-        "development_analyst": "Systems Development Analyst",
-        "database_analyst": "Database Analyst and Developer",
-        "coordinator": "Coordinator",
-        "statistician": "Statistician"
+      "emphasis": {
+        "title": "Highlights"
       },
       "differential": {
         "title": "Differential",
@@ -583,12 +558,16 @@
         "p3": "In addition to visualization of all databases accessible in the platform, the data are also available for download on geospatial file extension (shapefile) or sheets (cvs), being the open data one of the platform differentials."
       }
     },
-    "lang_label": "Language",
     "about": {
       "page_title": "Atlas of Pastures",
-      "title": "About",
-      "p1": "The Atlas of Pastures, open to the public, was developed by the Image Processing and Geoprocessing Laboratory of the Federal University of Goiás (Lapig/UFG), to facilitate the access to results and products generated within the MapBiomas initiative, regarding Brazilian pastures.",
-      "p2": "Currently, the platform provides access to six databases: (1) mapping of lands used for pastures in Brazil; (2) mapping of quality of those pastures; (3) mapping of pastures carbon stocks in the Cerrado biome; (4) information on the Brazilian cattle herd analyzed from municipalities survey of livestock (IBGE); (5) time series of land use and land cover classification through visual inspection of Landsat satellites data; (6) ground truth data of pastures condition obtained through field campaigns carried out by Lapig’s teams."
+      "abstract": {
+        "title": "About",
+        "p1": "The Atlas of Pastures, open to the public, was developed by the Image Processing and Geoprocessing Laboratory of the Federal University of Goiás (Lapig/UFG), to facilitate the access to results and products generated within the MapBiomas initiative, regarding Brazilian pastures.",
+        "p2": "Currently, the platform provides access to six databases: (1) mapping of lands used for pastures in Brazil; (2) mapping of quality of those pastures; (3) mapping of pastures carbon stocks in the Cerrado biome; (4) information on the Brazilian cattle herd analyzed from municipalities survey of livestock (IBGE); (5) time series of land use and land cover classification through visual inspection of Landsat satellites data; (6) ground truth data of pastures condition obtained through field campaigns carried out by Lapig’s teams."
+      },
+      "team": {
+        "title": "Team"
+      }
     },
     "gallery": {
       "page_title": "Photo Gallery of Brazilian Pastures",
@@ -617,31 +596,7 @@
     },
     "methods": {
       "page_title": "Methodological procedures",
-      "title": "Methodology",
-      "pasture": {
-        "title": "Pastures areas",
-        "text": "The dataset is a time series the comprehends annual maps of Brazilian pastures, covering a timeframe from 1985 to 2020. The mapping has Landsat data as basis, classified by Random Forest approach, non-supervised, using the Google Earth Engine computing platform."
-      },
-      "pasture_quality": {
-        "title": "Pastures quality",
-        "text": "It comprehends the mapping of quality of Brazilian pastures, taking as reference the pastures areas from the dataset \"Pasture areas\". Throughout vegetation indices obtaind through remote sensing, the Brazilian pastures were classified into three degradation levels (Absent, Intermediate and Severe), for the years of 2000 to 2020."
-      },
-      "carbon_stock": {
-        "title": "Carbon stocks",
-        "text": "Estimates of carbon stock in soil organic matter from ecosystem modeling in areas occupied by pastures in Brazil. This dataset comprises a time series of maps of carbon stock in the surface layer of soil (0 to 20 cm), covering the period from 1985 to 2021."
-      },
-      "herd_cattle": {
-        "title": "Cattle herd",
-        "text": "Time series of cattle herd per municipalities, covering the period from 1985 to 2020. Available as livestock units (LSU), calculated from the reported cattle herd on each county."
-      },
-      "inspected_points": {
-        "title": "Visually inspected areas",
-        "text": "Set of points georeferenced for the entire Brazilian territory, classified annually through visual inspection since 1985"
-      },
-      "field_points": {
-        "title": "Field Points",
-        "text": "Land use and land cover points, sampled and evaluated in the field, for the purpose of validating the mapping of areas occupied by pastures elaborated by Lapig-UFG."
-      }
+      "title": "Methodology"
     },
     "articles": {
       "page_title": "Related articles",
@@ -650,104 +605,7 @@
       "search": {
         "title": "Search Articles",
         "placeholder": "Title, Abstract and Authors"
-      },
-      "0": {
-        "title": "Assessing the Wall-to-Wall Spatial and Qualitative Dynamics of the Brazilian Pasturelands 2010–2018, Based on the Analysis of the Landsat Data Archive",
-        "abstract": "In this study, we mapped and evaluated the spatiotemporal dynamics of pasture quality in Brazil, between 2010 and 2018, considering three classes of degradation: Absent (D0), Intermediate (D1), and Severe (D2). There was no variation in the total area occupied by pastures in the evaluated period, in spite of the accentuated spatial dynamics. The percentage of non-degraded pastures increased by ~12%, due to the recovery of degraded areas and the emergence of new pasture areas."
-      },
-      "1": {
-        "title": "Shaping the Brazilian landscape: a process driven by land occupation, large-scale deforestation, and rapid agricultural expansion.",
-        "abstract": "In this study we present, based on an unprecedented sample design and interpretation of 85,152 sample points in Landsat images, the area estimates of the main land cover and land use classes in Brazil, as wellas their annual transitions, from 1985 to 2018."
-      },
-      "2": {
-        "title": "Estimated dry biomass in pasture areas with remote sensing: a case study of Rio Vermelho Drainage Basin.",
-        "abstract": "This study aimed to estimate the dry biomass in pasture areas with satellite data, as well as field data in pasture areas in the Cerrado of Goiás. The experiment was carried out in pasture areas at the Rio Vermelho Drainage Basin, in the western portion of Goiás state, using Landsat 8 satellite images. The dry biomass estimation was obtained by combining the SEBAL algorithms (Surface Energy Balance Algorithm for Land), and the CASA model (Carnegie Ames Stanford Approach)."
-      },
-      "3": {
-        "title": "Modelling gross primary productivity in tropical savanna pasturelands for livestock intensification in Brazil.",
-        "abstract": "In this study, we estimated the dry biomass production of pastures in the state of Goiás (located in the Cerrado biome) based on the use of a new highly precise and accurate pasture map and on MODIS MOD13Q1 NDVI images (normalized difference vegetation index)."
-      },
-      "4": {
-        "title": "Land use dynamics in the Brazilian Cerrado in the period from 2002 to 2013",
-        "abstract": "This study aimed to analyze the land use dynamics in the Cerrado region from 2002 to 2013. This analysis was based on the interpretations of Landsat satellite images carried out by the Conservation and Sustainable Utilization of Brazilian Biological Diversity Project (Probio) and by the TerraClass Cerrado 2013 Project, both coordinated by the Ministry of the Environment."
-      },
-      "5": {
-        "title": "Landsat-based assessment of the quantitative and qualitative dynamics of the pasture areas in rural settlements in the Cerrado biome, Brazil",
-        "abstract": "This research aimed to comprehend the evolution of pasture areas in rural settlements in the state of Goiás (core region of the Cerrado biome), from their creation to the present. For so, quantitative and qualitative analyzes were carried out, based on the annual mapping of Brazilian pastures (within the scope of the MapBiomas initiative), as well as on satellite images from the Landsat series, obtained and processed through the Google Earth Engine platform."
-      },
-      "6": {
-        "title": "Development of a technological index for the assessment of the beef production systems of the vermelho river basin in Goiás, Brazil",
-        "abstract": "This study analyzed production strategies and beef producers’ technology in the Rio Vermelho drainage basin in Goiás, Brazil. The data were used to develop a technological index, applicable to the local beef production systems. The data were obtained through questionnaires. A set of 60 properties was selected to provide a representative sample of the relief and soil quality within the study area. The data were analyzed using multiple correspondence, cluster analysis, and beta regression procedures."
-      },
-      "7": {
-        "title": "Degradation trends based on MODIS-derived estimates of productivity and water use efficiency: a case study for the cultivated pastures in the Brazilian Cerrado",
-        "abstract": "This study aimed to evaluate the degradation trends of cultivated pastures in the Cerrado biome found in Minas Gerais state, Brazil (as produced by the TerraClass Cerrado Landsat based mapping project, led by the Ministry of Environment of Brazil)."
-      },
-      "8": {
-        "title": "The seasonal carbon and water balances of the Cerrado environment of Brazil: Past, present, and future influences of land cover and land use.",
-        "abstract": "In this paper, MODIS remote sensing vegetation data from the Enhanced Vegetation Index (EVI) and evapotranspiration (ET) data for the 2000–2012 period were analyzed to understand differences in net primary productivity (NPP-proxy), carbon, and the evaporative flux of the major natural and anthropic landscapes of the Cerrado."
-      },
-      "9": {
-        "title": "Assessing Pasture Degradation in the Brazilian Cerrado Based on the Analysis of MODIS NDVI Time-Series",
-        "abstract": "In this study, we estimated the area of degraded pastures in the Cerrado by analyzing the trends of cumulative NDVI anomalies over time used as a proxy for pasture degradation."
-      },
-      "10": {
-        "title": "Estimating Greenhouse Gas Emissions from Cattle Raising in Brazil",
-        "abstract": "This study estimated, for the first time, the greenhouse gas emissions associated with cattle raisin in Brazil, focusing on the period from 2003 to 2008 and the three main sources: 1) portion of deforestation resulting in pasture establishment and subsequent burning of felled vegetation; 2) pasture burning; and 3) bovine enteric fermentation."
-      },
-      "11": {
-        "title": "Increasing importance of precipitation variability on global livestock grazing lands. Nature Climate Change",
-        "abstract": "In this study, we assess climate threats to global pastures, with focus on changes in precipitation variability within and between years (precipitation concentration index (PCI) and precipitation coefficient of variation (CVP), respectively)."
-      },
-      "12": {
-        "title": "Monitoring the brazilian pasturelands: A new mapping approach based on the landsat 8 spectral and temporal domains",
-        "abstract": "In this study, we utilized the entire set of Landsat 8 images available for Brazil in 2015, from which dozens of seasonal metrics were derived, to produce, through objective criteria and automated classification strategies, a new pasture map for the country."
-      },
-      "13": {
-        "title": "Assessing the Spatial and Occupation Dynamics of the Brazilian Pasturelands Based on the Automated Classification of MODIS Images from 2000 to 2016",
-        "abstract": "This study mapped, through objective criteria and automatic classification methods (Random Forest) applied to MODIS images (Moderate Resolution Imaging Spectroradiometer), the totality of the Brazilian pastures between 2000 and 2016."
-      },
-      "14": {
-        "title": "Assessing the pasturelands and livestock dynamics in Brazil, from 1985 to 2017: A novel approach based on high spatial resolution imagery and Google Earth Engine cloud computing",
-        "abstract": "This work has mapped, annually and in an unprecedented way, the totality of the Brazilian pastures, from 1985 to 2017. With an overall accuracy of about 90%, the 33 maps produced indicated the pasture area varying from ~118 Mha ±3.41% (1985) to ~178 Mha ±2.53% (2017), with this expansion occurring mostly in the northern region of the country and to a lesser extent in the midwest."
-      },
-      "15": {
-        "title": "Biophysical Properties of Cultivated Pastures in the Brazilian Savanna Biome: An Analysis in the Spatial-Temporal Domains Based on Ground and Satellite Data",
-        "abstract": "The primary goal of this study was the regional assessment of pasture biophysical properties, through the scaling of wet- and dry-season ground truth data (total biomass, green biomass, and % green cover) via the combined use of high (Landsat-TM) and moderate (MODIS) spatial resolution vegetation index images"
-      },
-      "16": {
-        "title": "Livestock intensification potential in Brazil based on agricultural census and satellite data analysis",
-        "abstract": "The objective of this work was to evaluate the livestock potential for intensification on pasture in Brazil. Livestock units were estimated according to agricultural census data and municipalities survey of livestock (IBGE). Pasture carrying capacity was obtained through the combining of MODIS images of gross primary productivity (i.e., GPP) and demanded dry matter intake data per animal unit (AU)."
-      },
-      "17": {
-        "title": "MODIS estimates of pasture productivity in the Cerrado based on ground and Landsat-8 data extrapolations",
-        "abstract": "In this study we combined field and satellite data to assess the biophysical characteristics and productivity patterns of the Cerrado pastures. From October 2013 to September 2014, field data of total and green biomass and percent green cover (%GC) were collected in two study areas located in the municipality of Uberlândia, Minas Gerais state. These data were extrapolated to the entire Cerrado biome having Landsat-8 Operational Land Imager (OLI) and Terra MODIS images as basis."
-      },
-      "18": {
-        "title": "Biophysical characterization and the potential for sustainable intensification of the brazilian cattle ranching in pastures",
-        "abstract": "This study was developed within the scope of the doctorate tesis of Arielle Elias Arantes (2017), having as objective to evaluate the pasture vigor and the potential livestock intensification for Brazil. In order to obtain the vigor and productivity of Brazilian pastures, a Pasture Strength Index (PVI) was generated by integrating the α (intercept) and β (slope) coefficients, derived from the linear regression of the vegetation index (NDVI) over time (2000 to 2017)."
-      },
-      "19": {
-        "title": "Degraded pastures, a legacy of rural properties expropriated for rural settlements in the Cerrado biome within the state of Goiás.",
-        "abstract": "This article aims to: I) verify the predominance of degraded pastures in expropriated rural properties through the agrarian reform policy in the state of Goiás; and  II) evaluate the potential of satellite data regarding the determination of the productive conditions of the land."
-      },
-      "20": {
-        "title": "Land-use dynamics in a Brazilian agricultural frontier region, 1985-2017",
-        "abstract": "In this study, we applied statistical sampling techniques to remote sensing data (Landsat images from 1985 to 2017) to retrieve information on land use dynamics in one of the world's most prominent regions as agricultural frontier (i.e., the Cerrado biome, with emphasis in the state of Goiás)."
-      },
-      "21": {
-        "title": "The livestock in Goiás seen through the GIS window",
-        "abstract": "This work aims, through spatialization of the livestock data produced by IBGE from 1974 to 2017, to present the potential of a GIS to study the patterns of livestock dinamics in Goiás, in a given temporal and spatial cutout."
-      },
-      "22": {
-        "title": "Technology and degradation of pastures in livestock in the brazilian Cerrado",
-        "abstract": "The present study aims to identify and analyze the relationships between the technological level of cattle production and the degradation of pastures in the Rio Vermelho drainage basin in Goiás, central Brazil."
-      },
-      "23": {
-        "title": "Monitoring of Carbon Stocks in Pastures in the Savannas of Brasil through Ecosystem Modeling on a Regional Scale",
-        "abstract": "Considering that pastures represent the primary land use in the country, occupying approximately 20% of the territory, the mapping and monitoring of C stocks in these areas is essential to determine their contribution to national emissions. In this study, based on the integrated use of the CENTURY model, georeferenced databases, and the R environment, we mapped and analyzed, for the first time, the C stocks dynamics associated with the pasture areas of the Cerrado biome between 2000 and 2019. The average C stocks in the soil (0–20 cm) and in the aboveground biomass estimated by modeling were ~31 MgC·ha<sup>−1</sup> and ~4 MgC·ha<sup>−1</sup>, respectively, values close to those observed in the literature for the region."
       }
-
     },
     "error": {
       "msg": "Page not found",

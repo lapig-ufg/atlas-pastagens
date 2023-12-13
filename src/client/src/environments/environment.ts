@@ -10,8 +10,6 @@ try{
   console.log('Not version')
 }
 
-
-
 export const environment = {
   APP_NAME: 'Atlas das Pastagens',
   production: false,
@@ -25,8 +23,13 @@ export const environment = {
   APP_URL: 'https://atlasdev.lapig.iesa.ufg.br',
   LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br',
   LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',
+  LAPIG_CONTENT_HUB: 'https://content-hub.lapig.iesa.ufg.br',
+  S3: "https://s3.lapig.iesa.ufg.br/storage/",
   MAX_AREA: 9500,
-  COMMIT_ID:commitId
+  COMMIT_ID:commitId,
+  recaptcha: {
+    siteKey: '6Lf_jygpAAAAAO-8ArU28R6EszgO2WhCArk06nPm',
+  },
 };
 
 /*

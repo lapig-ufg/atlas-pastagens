@@ -1,6 +1,11 @@
-import {Component, ElementRef, ViewChild,ChangeDetectorRef, AfterViewInit} from '@angular/core';
-import {LocalizationService} from "../../../@core/internationalization/localization.service";
-import {LangChangeEvent} from "@ngx-translate/core";
+import { Component, ElementRef, ViewChild, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { LocalizationService } from "../../../@core/internationalization/localization.service";
+import { LangChangeEvent } from "@ngx-translate/core";
+import { ContentHub } from '../../services/content-hub.service';
+import { Team } from 'src/app/@core/interfaces/team';
+import { Highlight } from 'src/app/@core/interfaces/highlights';
+import { environment } from 'src/environments/environment';
+import { News } from 'src/app/@core/interfaces/news';
 
 declare var $;
 
@@ -9,7 +14,10 @@ declare var $;
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class IndexComponent implements  AfterViewInit {
+export class IndexComponent implements AfterViewInit {
+
+  public news: News[];
+  public highlights: Highlight[];
 
   public video: any;
   public player: any;
@@ -23,12 +31,18 @@ export class IndexComponent implements  AfterViewInit {
   lang: string;
 
   @ViewChild('owl') owl: ElementRef;
-  constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService) {
+  constructor(private cdr: ChangeDetectorRef, private localizationService: LocalizationService, private contentHub: ContentHub) {
+    this.fetchNews();
+    this.fetchHighlight();
+
     this.lang = this.localizationService.currentLang();
   }
 
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.fetchNews();
+      this.fetchHighlight();
+
       this.lang = langChangeEvent.lang;
     });
 
@@ -37,7 +51,7 @@ export class IndexComponent implements  AfterViewInit {
     if (currentTheme) {
       document.documentElement.setAttribute('data-theme', currentTheme);
       if (currentTheme === 'dark') {
-       this.checked = true;
+        this.checked = true;
       }
     }
 
@@ -45,7 +59,7 @@ export class IndexComponent implements  AfterViewInit {
 
     const firstScriptTag = document.getElementsByTagName('script')[0];
 
-    for(let src of this.scritps){
+    for (let src of this.scritps) {
       const tag = document.createElement('script');
       tag.src = src
       tag.type = 'text/javascript';
@@ -54,35 +68,37 @@ export class IndexComponent implements  AfterViewInit {
     }
 
     this.cdr.detectChanges();
-    $(this.owl.nativeElement).owlCarousel({
-      loop: true,
-      nav: false,
-      margin: 15,
-      stagePadding: 20,
-      responsiveClass: true,
-      autoplay: true,
-      autoplayTimeout: 3000,
-      autoplaySpeed: 1000,
-      autoplayHoverPause: true,
-      responsive: {
-        0: {
-          items: 1,
-          nav: false
-        },
-        736: {
-          items: 1,
-          nav: false
-        },
-        991: {
-          items: 2,
-          margin: 30,
-          nav: false
-        },
-        1080: {
-          items: 4,
-          nav: false
-        }
-      }
+  }
+
+  private fetchNews(): void {
+    this.news = [];
+
+    this.contentHub.getNews().subscribe(values => {
+      values.forEach(element => {
+        this.news.push(
+          {
+            title: element.title,
+            description: element.description,
+            image: environment.S3 + element.image,
+            url: element.url,
+          });
+      });
+    })
+  }
+
+  private fetchHighlight(): void {
+    this.highlights = [];
+
+    this.contentHub.getHighlights().subscribe(values => {
+      values.forEach(element => {
+        this.highlights.push(
+          {
+            title: element.title,
+            image: environment.S3 + element.image,
+            description: element.description,
+            document: element.file,
+          });
+      });
     })
   }
 }

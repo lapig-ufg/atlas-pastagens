@@ -26,8 +26,14 @@ export class ContatoService {
 
   constructor(private httpClient: HttpClient) { }
 
-  saveContact(contact: Contact): Observable<any> {
-    return this.httpClient.post<any>(this.apiURL + `/create`, {contact}, this.httpOptions)
+  saveContact(contact: Contact, recaptcha: string): Observable<any> {
+    return this.httpClient.post<any>(this.apiURL + `/create`, {contact},
+      {
+          headers: new HttpHeaders({
+            'Recaptcha-Token': recaptcha,
+            "Content-Type": "application/json",
+          })
+      })
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));
   }
