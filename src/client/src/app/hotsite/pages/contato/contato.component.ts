@@ -31,9 +31,7 @@ export class ContatoComponent implements OnInit {
         this.erroForm = false;
   
         const contact = contactForm.value;
-        contact.token = token;
-        console.log(contact);
-        this.contatoService.saveContact(contact).subscribe((result) => {
+        this.contatoService.saveContact(contact,token).subscribe((result) => {
           if(result.message === "sucess") {
             contactForm.reset();
             this.messageService.add({

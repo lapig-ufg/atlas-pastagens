@@ -14,45 +14,46 @@ import TileLayer from "ol/layer/Tile";
 import Map from 'ol/Map';
 import * as OlExtent from 'ol/extent.js';
 import * as Proj from 'ol/proj';
-import {toLonLat, transform, transformExtent} from 'ol/proj';
-import {LocalizationService} from "../../@core/internationalization/localization.service";
+import { toLonLat, transform, transformExtent } from 'ol/proj';
+import { LocalizationService } from "../../@core/internationalization/localization.service";
 import TileGrid from "ol/tilegrid/TileGrid";
-import {Control, Descriptor, DescriptorLayer, DescriptorType, Ruler, TextFilter} from "../../@core/interfaces";
-import {DownloadService, MapService} from "../services";
-import {saveAs} from 'file-saver';
-import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {Coordinate, createStringXY} from "ol/coordinate";
-import {Feature, Overlay} from "ol";
-import {BingMaps, XYZ} from "ol/source";
-import {Fill, Stroke, Style} from "ol/style";
-import {Geometry, LinearRing, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon} from 'ol/geom';
-import {Draw, Interaction, Modify, Snap} from "ol/interaction";
+import { Control, Descriptor, DescriptorLayer, DescriptorType, Ruler, TextFilter } from "../../@core/interfaces";
+import { DownloadService, MapService } from "../services";
+import { saveAs } from 'file-saver';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { Coordinate, createStringXY } from "ol/coordinate";
+import { Feature, Overlay } from "ol";
+import { BingMaps, XYZ } from "ol/source";
+import { Fill, Stroke, Style } from "ol/style";
+import { Geometry, LinearRing, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon } from 'ol/geom';
+import { Draw, Interaction, Modify, Snap } from "ol/interaction";
 import VectorSource from "ol/source/Vector";
-import {GeoJSON} from "ol/format";
+import { GeoJSON } from "ol/format";
 import VectorLayer from "ol/layer/Vector";
 import CircleStyle from "ol/style/Circle";
-import {RulerAreaCtrl, RulerCtrl} from "../../@core/interactions/ruler";
-import {Message, MessageService, PrimeNGConfig, SelectItem} from 'primeng/api';
-import {AreaService} from '../services/area.service';
+import { RulerAreaCtrl, RulerCtrl } from "../../@core/interactions/ruler";
+import { Message, MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
+import { AreaService } from '../services/area.service';
 import Compass from 'ol-ext/control/Compass';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import {Pixel} from "ol/pixel";
-import {WmtsService} from "../services/wmts.service";
-import WMTS, {Options, optionsFromCapabilities} from 'ol/source/WMTS';
-import {HttpService} from "../services/http.service";
-import {DecimalPipe} from "@angular/common";
+import { Pixel } from "ol/pixel";
+import { WmtsService } from "../services/wmts.service";
+import WMTS, { Options, optionsFromCapabilities } from 'ol/source/WMTS';
+import { HttpService } from "../services/http.service";
+import { DecimalPipe } from "@angular/common";
 import * as moment from 'moment';
 import buffer from "@turf/buffer";
 import turfDistance from "@turf/distance";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import * as turfHelper from "@turf/helpers";
 import turfCentroid from "@turf/centroid";
-import {environment} from "../../../environments/environment";
-import {GoogleAnalyticsService} from "../services/google-analytics.service";
-import {GalleryService} from '../services/gallery.service';
-import {Job, JobStatus} from "../../@core/interfaces/job";
+import { environment } from "../../../environments/environment";
+import { GoogleAnalyticsService } from "../services/google-analytics.service";
+import { GalleryService } from '../services/gallery.service';
+import { Job, JobStatus } from "../../@core/interfaces/job";
 import { Subject } from 'rxjs';
+import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -76,7 +77,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  @Input()  openMenu = true as boolean;
+  @Input() openMenu = true as boolean;
   @Output() onHide = new EventEmitter<any>();
   @Output() onMapReadyLeftSideBar = new EventEmitter<any>();
   @Output() onSelectLayerSwipe = new EventEmitter<string>();
@@ -193,7 +194,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public layersToFilter: string[];
 
   constructor(
-    public  localizationService: LocalizationService,
+    public localizationService: LocalizationService,
     private downloadService: DownloadService,
     private decimalPipe: DecimalPipe,
     private cdRef: ChangeDetectorRef,
@@ -206,6 +207,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     private messageService: MessageService,
     private primengConfig: PrimeNGConfig,
     private googleAnalyticsService: GoogleAnalyticsService,
+    private recaptchaV3Service: ReCaptchaV3Service,
   ) {
     GeneralMapComponent.instance = this;
 
@@ -224,7 +226,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.legendExpanded = false;
       this.isMobile = true;
-    } else{
+    } else {
       this.isMobile = false;
     }
 
@@ -582,7 +584,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.cdRef.detectChanges();
   }
 
-  clearJob(){
+  clearJob() {
     this.job = {
       name: '',
       email: '',
@@ -631,14 +633,14 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this._descriptor.groups.forEach(group => {
       group.layers.forEach(layer => {
         try {
-          if(layer.visible){
+          if (layer.visible) {
             defaultLayer = layer.selectedType;
           }
-          
+
         } catch (error) {
           console.error('onChangeDescriptor error in visible')
         }
-        
+
       });
     })
 
@@ -663,7 +665,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         } catch (error) {
           console.error('groups')
         }
-        
+
       }
     }
 
@@ -675,7 +677,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           const baseMapAvaliable = this.bmaps.find(b => {
             return b.layer.get('key') === types.valueType;
           })
-  
+
           if (baseMapAvaliable) {
             baseMapAvaliable.layer.set('label', types.viewValueType)
             this.basemapsAvaliable.push(baseMapAvaliable)
@@ -683,23 +685,23 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         } catch (error) {
           console.error('base_map')
         }
-        
+
 
       }
     }
 
     for (let limit of this._descriptor.limits) {
-      try{
+      try {
         limit.selectedTypeObject = limit.types.find(type => type.valueType === limit.selectedType);
         limit.selectedTypeObject!.visible = limit.visible;
-  
+
         for (let types of limit.types) {
           this.limitsNames.push(types)
         }
-      }catch (error) {
+      } catch (error) {
         console.error(error)
       }
-      
+
     }
 
     this.onBasemapsReady.emit(this.basemapsAvaliable);
@@ -734,7 +736,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.legendExpanded = false;
       this.isMobile = true;
-    } else{
+    } else {
       this.isMobile = false;
     }
     setTimeout(() => {
@@ -751,42 +753,42 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     let layersToFilter = this.layersToFilter;
     let zoomLimit = this.zoomLimit
 
-    this.map.on('moveend', function(e) {
-        map.getLayers().forEach(layer => {
-          let descriptorLayer = layer.getProperties().descriptorLayer
+    this.map.on('moveend', function (e) {
+      map.getLayers().forEach(layer => {
+        let descriptorLayer = layer.getProperties().descriptorLayer
 
-          if(descriptorLayer === null) return;
-          if (layersToFilter.includes(layer.get('type')) && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined'){
+        if (descriptorLayer === null) return;
+        if (layersToFilter.includes(layer.get('type')) && layer.getVisible() === true && typeof descriptorLayer.download !== 'undefined') {
 
-            if(typeof descriptorLayer.download.layerTypeName !== 'undefined') {
-              let complexLayer = descriptorLayer.download.layerTypeName
-              let singleLayer = descriptorLayer.valueType
+          if (typeof descriptorLayer.download.layerTypeName !== 'undefined') {
+            let complexLayer = descriptorLayer.download.layerTypeName
+            let singleLayer = descriptorLayer.valueType
 
-              let zoom = map.getView().getZoom();
-              let soucer = layer.getSource()
-              let urls = soucer.urls
-              let urlNow = new URLSearchParams(urls[0].split("?")[1]).get('layers')
+            let zoom = map.getView().getZoom();
+            let soucer = layer.getSource()
+            let urls = soucer.urls
+            let urlNow = new URLSearchParams(urls[0].split("?")[1]).get('layers')
 
-              if (zoomLimit <= zoom && complexLayer !== urlNow ) {
+            if (zoomLimit <= zoom && complexLayer !== urlNow) {
 
-                let newUrl = urls.map((url) => {
-                  return url.replace(singleLayer,complexLayer)
-                })
-                soucer.setUrls(newUrl)
-                soucer.refresh();
+              let newUrl = urls.map((url) => {
+                return url.replace(singleLayer, complexLayer)
+              })
+              soucer.setUrls(newUrl)
+              soucer.refresh();
 
 
-              }else if (zoomLimit > zoom && singleLayer !== urlNow) {
+            } else if (zoomLimit > zoom && singleLayer !== urlNow) {
 
-                let newUrl = urls.map((url) => {
-                  return url.replace(complexLayer,singleLayer)
-                })
-                soucer.setUrls(newUrl)
-                soucer.refresh();
-              }
+              let newUrl = urls.map((url) => {
+                return url.replace(complexLayer, singleLayer)
+              })
+              soucer.setUrls(newUrl)
+              soucer.refresh();
             }
+          }
         }
-        });
+      });
     });
   }
 
@@ -825,10 +827,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       if (layerType!.regionFilter)
         filters.push(layerType!.regionFilter)
 
-        if (layerType!.regionFilter && this.msFilterRegion){
+      if (layerType!.regionFilter && this.msFilterRegion) {
 
-          filters.push(this.msFilterRegion)
-        }
+        filters.push(this.msFilterRegion)
+      }
 
       let msfilter = '&MSFILTER=' + filters.join(' AND ')
 
@@ -843,8 +845,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           layername = layerType!.filterSelected
         }
       }
-      if (typeof layerType.download !== 'undefined'){
-        if(typeof layerType.download.layerTypeName !== 'undefined'){
+      if (typeof layerType.download !== 'undefined') {
+        if (typeof layerType.download.layerTypeName !== 'undefined') {
           let zoom = GeneralMapComponent.instance.map.getView().getZoom()
           if (GeneralMapComponent.instance.zoomLimit <= zoom!) {
             layername = layerType.download!.layerTypeName
@@ -980,7 +982,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     })
   }
 
-  updateObjectMapLayers(){
+  updateObjectMapLayers() {
   }
 
   changeLayerVisibility(ev) {
@@ -1275,27 +1277,27 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       "typeDownload": tipo
     };
 
-    this.downloadService.downloadFromS3(parameters).subscribe((response) =>{
-      if (response){
-        window.open(response.url,'_blank')
+    this.downloadService.downloadFromS3(parameters).subscribe((response) => {
+      if (response) {
+        window.open(response.url, '_blank')
       }
       layer.download.loading = false;
     }, (error) => {
       let name = ''
       const pre_fix = 'left_sidebar.layer.'
-      if (error.includes(pre_fix)){
+      if (error.includes(pre_fix)) {
         name = this.localizationService.translate(error)
-      }else{
+      } else {
         name = this.localizationService.translate('left_sidebar.layer.down_error_msg', { name: error })
       }
 
       this.messageService.add({
-           life: 2000,
-            severity: 'error',
-            summary: this.localizationService.translate('left_sidebar.layer.down_error_title'),
-            detail:name
-          });
-          layer.download.loading = false;
+        life: 2000,
+        severity: 'error',
+        summary: this.localizationService.translate('left_sidebar.layer.down_error_title'),
+        detail: name
+      });
+      layer.download.loading = false;
     });
   }
 
@@ -1479,9 +1481,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.drawing = true;
     //
     if (name !== 'None') {
-      if( name === 'Polygon') {
-        this.addInteraction(new RulerAreaCtrl(this,true).getDraw(), name, true);
-      }else{
+      if (name === 'Polygon') {
+        this.addInteraction(new RulerAreaCtrl(this, true).getDraw(), name, true);
+      } else {
         this.draw = new Draw({
           source: this.source,
           type: name
@@ -1554,8 +1556,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     this.map.getLayers().forEach(layer => {
       try {
-        if(layer.get("descriptorLayer").valueType === layerDescriptor.valueType) _layer = layer;
-      } catch(error) {}
+        if (layer.get("descriptorLayer").valueType === layerDescriptor.valueType) _layer = layer;
+      } catch (error) { }
     });
 
     return _layer;
@@ -1578,7 +1580,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   private updateSourceAllLayers() {
     this.map.getLayers().forEach(layer => {
-      if(this.layersToFilter.includes(layer.get("type"))) {
+      if (this.layersToFilter.includes(layer.get("type"))) {
         this.updateSourceLayer(layer.get("descriptorLayer"));
       }
     });
@@ -2179,7 +2181,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     }
   }
 
-  closeDetailsWindow(){
+  closeDetailsWindow() {
     Object.keys(this.mapControls).forEach(key => {
       this.mapControls[key] = false;
     });
@@ -2189,51 +2191,69 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.closeDetailWindowEvent.next();
   }
 
-  sendRequestJob(){
+  sendRequestJob() {
+
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME }
-      this.areaService.saveDrawedGeometry(drawData)
-        .subscribe(data => {
-          this.job.token = data.token;
-          this.job.area = data.area;
-          this.areaService.saveJob(this.job).subscribe(result => {
-            // this.onSearchDrawnGeometryMobile.emit(data.token);
-            this.printRegionsIdentification(data.token);
-            this.onCancel();
-            this.displayFormJob = false;
-            this.clearJob()
-            this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
-          }, error => {
-            console.log(error)
-            this.displayFormJob = false;
-            this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
-          })
-        }, error => {
-          this.displayFormJob = false;
-          console.log(error)
-          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+      this.recaptchaV3Service.execute('importantAction')
+        .subscribe((recaptcha: string) => {
+
+          let drawData = {
+            geometry: this.getGeoJsonFromFeature(),
+            app_origin: environment.APP_NAME,
+            
+          }
+
+          this.areaService.saveDrawedGeometry(drawData, recaptcha)
+            .subscribe(data => {
+              this.job.token = data.token;
+              this.job.area = data.area;
+              this.areaService.saveJob(this.job).subscribe(result => {
+                // this.onSearchDrawnGeometryMobile.emit(data.token);
+                this.printRegionsIdentification(data.token);
+                this.onCancel();
+                this.displayFormJob = false;
+                this.clearJob()
+                this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
+              }, error => {
+                console.log(error)
+                this.displayFormJob = false;
+                this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+              })
+            }, error => {
+              this.displayFormJob = false;
+              console.log(error)
+              this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+            })
         })
     } else {
-      let drawData = { geometry: this.getGeoJsonFromFeature(), app_origin: environment.APP_NAME ,lang:this.localizationService.currentLang(),}
-      this.areaService.saveDrawedGeometry(drawData)
-        .subscribe(data => {
-          this.job.token = data.token;
-          this.job.area = data.area;
-          this.areaService.saveJob(this.job).subscribe(result => {
-            this.printRegionsIdentification(data.token);
-            this.onCancel();
-            this.displayFormJob = false;
-            this.clearJob()
-            this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
-          }, error => {
-            console.log(error)
-            this.displayFormJob = false;
-            this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
-          })
-        }, error => {
-          const fall = error
-          this.displayFormJob = false;
-          this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.msg'), detail: fall });
+      this.recaptchaV3Service.execute('importantAction')
+        .subscribe((recaptcha: string) => {
+          let drawData = {
+            geometry: this.getGeoJsonFromFeature(),
+            app_origin: environment.APP_NAME,
+            lang: this.localizationService.currentLang()
+          }
+
+          this.areaService.saveDrawedGeometry(drawData,recaptcha)
+            .subscribe(data => {
+              this.job.token = data.token;
+              this.job.area = data.area;
+              this.areaService.saveJob(this.job).subscribe(result => {
+                this.printRegionsIdentification(data.token);
+                this.onCancel();
+                this.displayFormJob = false;
+                this.clearJob()
+                this.messageService.add({ life: 2000, severity: 'success', summary: this.localizationService.translate('area.save_message_success.title', { token: data.token }), detail: this.localizationService.translate('area.save_message_success.msg') })
+              }, error => {
+                console.log(error)
+                this.displayFormJob = false;
+                this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.title'), detail: this.localizationService.translate('area.save_message_error.msg') });
+              })
+            }, error => {
+              const fall = error
+              this.displayFormJob = false;
+              this.messageService.add({ severity: 'error', summary: this.localizationService.translate('area.save_message_error.msg'), detail: fall });
+            })
         })
     }
   }
