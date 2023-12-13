@@ -9,6 +9,7 @@ module.exports = function (app) {
     Controller.callServiceToObtainLayerTypes = async function (language, type = 'layers') {
         let res = {}
         let url = String(process.env.OWS_API + "/map/" + type + "?lang=" + language)
+        
         try {
             const response = await got(url);
             res = JSON.parse(response.body)

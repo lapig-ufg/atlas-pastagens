@@ -48,11 +48,17 @@ export class AreaService {
       .pipe(catchError(this.errorHandler));
   }
 
-  saveDrawedGeometry(term: any): Observable<any> {
+  saveDrawedGeometry(data: any, recaptcha: string): Observable<any> {
+    
     return this.httpClient.post<any>(
       this.apiURL + '/savegeom?time=' + Date.now().toString(),
-      JSON.stringify(term.draw),
-      this.httpOptions)
+      JSON.stringify(data),
+      {
+        headers: new HttpHeaders({
+          'Recaptcha-Token': recaptcha,
+          'Content-Type': 'application/json',
+        }),
+      })
       .pipe(
         catchError(this.errorHandler),
       );

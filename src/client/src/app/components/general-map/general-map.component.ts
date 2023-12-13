@@ -2199,10 +2199,11 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
           let drawData = {
             geometry: this.getGeoJsonFromFeature(),
-            app_origin: environment.APP_NAME
+            app_origin: environment.APP_NAME,
+            
           }
 
-          this.areaService.saveDrawedGeometry({ draw: drawData, recaptcha: recaptcha })
+          this.areaService.saveDrawedGeometry(drawData, recaptcha)
             .subscribe(data => {
               this.job.token = data.token;
               this.job.area = data.area;
@@ -2233,7 +2234,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             lang: this.localizationService.currentLang()
           }
 
-          this.areaService.saveDrawedGeometry({ draw: drawData, recaptcha: recaptcha })
+          this.areaService.saveDrawedGeometry(drawData,recaptcha)
             .subscribe(data => {
               this.job.token = data.token;
               this.job.area = data.area;
