@@ -488,6 +488,7 @@ export class LeftSideBarComponent implements AfterViewInit {
 
   onChangeTransparency(layer, ev) {
     console.log("Changing layer visibility...");
+    console.log(layer);
     this.onLayerChangeTransparency.emit({ layer: layer, opacity: ev.target.value })
   }
 

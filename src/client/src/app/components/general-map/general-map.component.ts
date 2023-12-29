@@ -987,7 +987,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   changeLayerVisibility(ev) {
     let { layer, updateSource } = ev;
-
+    console.log(ev)
     const layerType: DescriptorType = layer;
 
     if (updateSource) {
@@ -1013,7 +1013,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.handleLayersLegend(type);
           }
         });
-
+        console.log(layerType.valueType)
         this.OlLayers[layerType.valueType].setVisible(layerType.visible);
 
         this.handleLayersLegend(layerType);
@@ -1161,7 +1161,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const name = this.getFileName(parameters);
 
-    const zipCsvLayers = ['pasture_quality_col7_s100', 'pasture_col7_s100'];
+    const zipCsvLayers = ['pasture_vigor_col8_s100', 'pasture_col8_s100'];
 
     const extension = (zipCsvLayers.includes(layer.valueType) && !(parameters.region.type === 'city')) ? '.zip' : '.csv';
 
