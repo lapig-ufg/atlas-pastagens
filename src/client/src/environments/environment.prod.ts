@@ -76,7 +76,7 @@ export const environment = {
   OWS_O2: "https://o2.lapig.iesa.ufg.br/ows",
   OWS_O3: "https://o3.lapig.iesa.ufg.br/ows",
   OWS_O4: "https://o4.lapig.iesa.ufg.br/ows",
-  APP_URL: 'https://atlas-homolog.lapig.iesa.ufg.br',
+  APP_URL: 'https://atlasdaspastagens.lapig.iesa.ufg.br',
   LAPIG_JOBS: 'https://jobs.lapig.iesa.ufg.br',
   LAPIG_CONTENT_HUB: 'https://content-hub.lapig.iesa.ufg.br',
   LAPIG_DOWNLOAD_API: 'https://download.lapig.iesa.ufg.br',

@@ -74,7 +74,7 @@ jobs:
           cd ${{ github.workspace }}/src/server && npm install
           cd ${{ github.workspace }}/src/client && npm install
           npm install -g @angular/cli@12.2.16
-          cd ${{ github.workspace }}/src/client && ng build --stats-json --source-map=false --no-progress
+          cd ${{ github.workspace }}/src/client && ng build --configuration=homolog --stats-json --source-map=false --no-progress
 
 
       - name: Build Docker
