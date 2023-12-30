@@ -136,6 +136,7 @@ module.exports = function (app) {
     };
 
     Controller.handleResumo = function (request, response) {
+        console.log('handleResumo: ')
         const { lang, typeRegion, valueRegion, textRegion, year, card_resume } = request.query;
         const language = lang;
 
@@ -438,6 +439,7 @@ module.exports = function (app) {
     };
 
     Controller.handleTableRankings = function (request, response) {
+        console.log('handleTableRankings: ')
         const { lang, typeRegion, valueRegion, textRegion } = request.query;
         const language = lang;
 

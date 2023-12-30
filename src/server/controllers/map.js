@@ -57,11 +57,11 @@ module.exports = function (app) {
 
     Controller.search = function (request, response) {
         var regiao;
-
+        //console.log('search')
         const queryResult = request.queryResult['search']
 
         let iniResults = []
-
+        //console.log(request.queryResult)
 
         queryResult.forEach(function (row) {
             delete row.priority

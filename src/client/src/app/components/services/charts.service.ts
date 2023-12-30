@@ -45,6 +45,7 @@ export class ChartService {
   }
 
   getResumo(parameters): Observable<any> {
+
     return this.httpClient.get<any>(this.apiURL + '/resumo?' + parameters, this.httpOptions)
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));

@@ -273,8 +273,8 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   onChangeLimit(limit, event) {
-    console.log("limit: ", limit);
-    console.log("event: ", event);
+    //console.log("limit: ", limit);
+    //console.log("event: ", event);
 
     this.limits.map((l) => {
       l.checked = limit.get('key') === l.get('key');
@@ -487,7 +487,7 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   onChangeTransparency(layer, ev) {
-    console.log("Changing layer visibility...");
+    //"Changing layer visibility...");
     this.onLayerChangeTransparency.emit({ layer: layer, opacity: ev.target.value })
   }
 
