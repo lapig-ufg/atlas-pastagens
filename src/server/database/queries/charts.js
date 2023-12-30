@@ -59,8 +59,8 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  CAST(sum(a.st_area_ha) as double precision) as value "
-                    + " FROM pasture_col7 a "
+                sql: " SELECT  CAST(sum(a.area_ha) as double precision) as value "
+                    + " FROM pasture_col8 a "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter,
                 mantain: true
@@ -69,7 +69,7 @@ module.exports = function (app) {
                 source: 'lapig',
                 id: 'pasture_quality',
                 sql: " SELECT b.name as classe, b.color, CAST(sum(a.area_ha) as double precision) as value "
-                    + " FROM pasture_quality_col7 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'"
+                    + " FROM pasture_vigor_col8 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'"
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1,2;",
@@ -82,8 +82,8 @@ module.exports = function (app) {
                     min(c.value_min),
                     avg(value_mean) as mean, 
                     (avg(value_mean) * (
-                    SELECT  sum(st_area_ha)  
-                        FROM pasture_col7 
+                    SELECT  sum(area_ha)  
+                        FROM pasture_col8 
                         WHERE ${regionFilter}
                         AND ${yearFilter})
                         ) as total
@@ -130,9 +130,9 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
+                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE " + regionFilter + ") as area_mun "
-                    + " FROM pasture_col7 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
+                    + " FROM pasture_col8 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
                     + " WHERE " + regionFilter
                     // " AND " + yearFilter +
                     + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
@@ -152,7 +152,7 @@ module.exports = function (app) {
                 source: 'lapig',
                 id: 'pasture_quality',
                 sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
-                    " FROM pasture_quality_col7 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
+                    " FROM pasture_vigor_col8 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
                     "WHERE " + regionFilter +
                     // " AND " + yearFilter +
                     " GROUP BY 1,2,3 ORDER BY 1 ASC;",
@@ -190,7 +190,7 @@ module.exports = function (app) {
                 id: 'pasture_quality',
                 sql: "SELECT b.name as label, b.color, sum(a.area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun "
-                    + "FROM pasture_quality_col7 as A "
+                    + "FROM pasture_vigor_col8 as A "
                     + "INNER JOIN graphic_colors as B on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
@@ -216,7 +216,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'estados',
-                sql: " SELECT UPPER(uf) AS label, '#d4a31c' as color,  SUM(area_ha) as value  FROM pasture_col7 "
+                sql: " SELECT UPPER(uf) AS label, '#d4a31c' as color,  SUM(area_ha) as value  FROM pasture_col8 "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1, 2 ORDER BY 3 DESC;",
@@ -234,7 +234,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'municipios',
-                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col7 p "
+                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.area_ha) as value  FROM pasture_col8 p "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1, 2, 3 ORDER BY value DESC;",
@@ -244,7 +244,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'estados',
-                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.st_area_ha) as value  FROM pasture_col7 p "
+                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.area_ha) as value  FROM pasture_col8 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1  ORDER BY 2 DESC;",
@@ -254,7 +254,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'biomas',
-                sql: " SELECT p.bioma AS biome,  SUM(p.st_area_ha) as value  FROM pasture_col7 p "
+                sql: " SELECT p.bioma AS biome,  SUM(p.area_ha) as value  FROM pasture_col8 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1 ORDER BY 2 DESC;",

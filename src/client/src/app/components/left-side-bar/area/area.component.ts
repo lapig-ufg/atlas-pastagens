@@ -473,7 +473,7 @@ export class AreaComponent implements OnInit {
       let result = await this.areaService.getSavedAnalysis(params.join('&')).toPromise()
 
       if (typeof result === 'object' && result !== null) {
-        console.log('result ', result)
+        //console.log('result ', result)
         this.chartsArea = [...result.pasture, ...result.pasture_quality]
         this.layerFromConsulta.analyzedArea = result;
       }
@@ -567,7 +567,7 @@ export class AreaComponent implements OnInit {
     this.job.token = data.token;
     this.job.area = data.area;
     this.areaService.saveJob(this.job).subscribe(result => {
-      console.log(result)
+      //console.log(result)
       this.displayFormJob = false;
       if (data.features.length > 1) {
         this.layerFromUpload.loading = false;

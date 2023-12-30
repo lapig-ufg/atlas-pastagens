@@ -74,7 +74,7 @@ module.exports = function (app) {
         const token = params['token']
         const year = params['year']
         const sql = "SELECT p.year as label, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as value " +
-            "FROM pasture_col7 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
+            "FROM pasture_col8 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
             (year ? "AND year = ${year}" : "") +
             "and up.token = ${token} GROUP BY 1 order by 1 desc";
         return [
@@ -96,7 +96,7 @@ module.exports = function (app) {
             source: 'lapig',
             id: 'pasture_quality',
             sql: "SELECT p.year as label, b.name as classe, b.color, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) AS value "
-                + " FROM pasture_quality_col7 p "
+                + " FROM pasture_vigor_col8 p "
                 + " INNER JOIN graphic_colors as b on cast(p.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
                 + " INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom)  where p.year IS NOT NULL "
                 + (year ? "AND year = ${year}" : "")
@@ -111,7 +111,7 @@ module.exports = function (app) {
         const token = params['token']
         const year = params['year']
         const sql = "SELECT p.year, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
-            "FROM pasture_col7 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
+            "FROM pasture_col8 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
             (year ? "AND year = ${year} " : " ") +
             "and up.token = ${token} GROUP BY 1 order by 1 desc";
         return [{
@@ -129,7 +129,7 @@ module.exports = function (app) {
         const token = params['token']
         const year = params['year']
         const sql = "SELECT p.year, b.name as classe, b.color, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) AS area_pastagem "
-            + " FROM pasture_quality_col7 p "
+            + " FROM pasture_vigor_col8 p "
             + " INNER JOIN graphic_colors as b on cast(p.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
             + " INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom)  where p.year IS NOT NULL "
             + (year ? "AND year = ${year}" : "")
@@ -151,7 +151,7 @@ module.exports = function (app) {
             source: 'lapig',
             id: 'pastagem',
             sql: "SELECT p.year, SUM((ST_Area(safe_intersection(st_transform(p.geom,4674), up.geom)::GEOGRAPHY) / 1000000.0)*100.0) as area_pastagem " +
-                "FROM pasture_col7 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
+                "FROM pasture_col8 p INNER JOIN fdw_general.upload_shapes up on ST_INTERSECTS(ST_TRANSFORM(p.geom,4674), up.geom) where p.year IS NOT NULL  " +
                 (year ? "AND year = ${year}" : "") +
                 "and up.token= ${token} GROUP BY 1 order by 1 desc",
             mantain: true
@@ -164,13 +164,13 @@ module.exports = function (app) {
         return [{
             source: 'lapig',
             id: 'pasture',
-            sql: "select distinct year from pasture_col7 pc order by year asc",
+            sql: "select distinct year from pasture_col8 pc order by year asc",
             mantain: true
         },
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: "select distinct year from pasture_quality_col7 pc order by year asc",
+                sql: "select distinct year from pasture_vigor_col8 pc order by year asc",
                 mantain: true
             }
         ]

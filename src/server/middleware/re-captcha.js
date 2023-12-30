@@ -4,8 +4,9 @@ module.exports = function (app) {
     var Internal = {}
 
     var api = 'https://www.google.com/recaptcha/api/siteverify';
-
+    //console.log('reCaptcha initialization')
     return function (request, response, next) {
+        //console.log('reCaptcha call')
         if (request.headers['recaptcha-token'] !== undefined) {
             axios({
                 method: 'post',

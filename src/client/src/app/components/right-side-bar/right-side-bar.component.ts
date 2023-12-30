@@ -124,12 +124,12 @@ export class RightSideBarComponent implements OnInit {
 
     this.selectRegion = this.defaultRegion;
 
-    this.filterSelectedOnLayersForStatistics = "year=2021"
+    this.filterSelectedOnLayersForStatistics = "year=2022"
 
 
     this.layersForStatistics = {
-      pasture: { year: "year=2021", switch: true, valueType: "pasture_col7_s100" },
-      pasture_quality: { year: "year=0", switch: false, valueType: "pasture_quality_col7_s100" },
+      pasture: { year: "year=2022", switch: true, valueType: "pasture_col8_s100" },
+      pasture_quality: { year: "year=0", switch: false, valueType: "pasture_vigor_col8_s100" },
       carbono: { year: "year=0", switch: false, valueType: "pa_br_somsc_2022" },
     }
 

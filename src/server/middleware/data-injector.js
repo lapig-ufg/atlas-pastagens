@@ -1,5 +1,5 @@
 module.exports = function(app) {
-
+    //console.log('data-injector initialization')
     const merge = require('merge')
     const async = require('async')
 
@@ -19,6 +19,7 @@ module.exports = function(app) {
     }
 
     return function(request, response, next) {
+        //console.log('data-injector call')
         var hasController = (request.route.stack.length > 1)
         var pathParts = request.path.split('/')
         var controller = pathParts[2]
@@ -40,8 +41,9 @@ module.exports = function(app) {
             }
 
             var result = {};
-
+            
             var onEach = function(query, nextQuery) {
+                console.log(query)
                 client.query(query, params, function(queryResult) {
                     result[query.id] = queryResult.rows
                     nextQuery()
