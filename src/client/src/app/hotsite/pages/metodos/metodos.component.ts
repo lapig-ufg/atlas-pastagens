@@ -33,12 +33,14 @@ export class MetodosComponent implements OnInit {
 
     this.contentHub.getMethodologies().subscribe(values => {
       values.forEach(element => {
+        let fileUrl = JSON.parse(element.file as string)[0].download_link;
+
         this.methodologies.push(
           {
             title: element.title,
             image: environment.S3 + element.image,
             description: element.description,
-            file: element.file,
+            file: environment.S3 + fileUrl,
           });
       });
     })
