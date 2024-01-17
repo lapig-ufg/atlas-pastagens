@@ -91,12 +91,14 @@ export class IndexComponent implements AfterViewInit {
 
     this.contentHub.getHighlights().subscribe(values => {
       values.forEach(element => {
+        let fileUrl = JSON.parse(element.file as string)[0].download_link;
+
         this.highlights.push(
           {
             title: element.title,
             image: environment.S3 + element.image,
             description: element.description,
-            document: element.file,
+            document: environment.S3 + fileUrl,
           });
       });
     })
