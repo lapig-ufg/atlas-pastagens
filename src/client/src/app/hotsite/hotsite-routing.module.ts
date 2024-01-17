@@ -5,7 +5,7 @@ import { MetodosComponent } from "./pages/metodos/metodos.component";
 import { SobreComponent } from "./pages/sobre/sobre.component";
 import { ArtigosComponent } from "./pages/artigos/artigos.component";
 import { GaleriaComponent } from "./pages/galeria/galeria.component";
-import { ContatoComponent } from './pages/contato/contato.component';
+import { ContatoComponent } from './pages/ajuda/ajuda.component';
 
 const routes: Routes = [
   {

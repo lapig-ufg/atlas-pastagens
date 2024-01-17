@@ -49,4 +49,9 @@ export class ContentHub {
         let lang = this.localizationService.currentLang();
         return this.httpClient.get<any>(this.apiURL + `/methodologies/${lang}`, this.httpOptions);
     }
+
+    getFAQs(): Observable<any> {
+        let lang = this.localizationService.currentLang();
+        return this.httpClient.get<any>(this.apiURL + `/faqs/${lang}`, this.httpOptions);
+    }
 }

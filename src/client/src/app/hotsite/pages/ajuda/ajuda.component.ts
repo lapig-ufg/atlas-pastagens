@@ -2,23 +2,29 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { LocalizationService } from 'src/app/@core/internationalization/localization.service';
-import { ContatoService } from './contato.service';
+import { ContatoService } from './ajuda.service';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
+import { FAQ } from 'src/app/@core/interfaces/faq';
+import { ContentHub } from '../../services/content-hub.service';
 
 @Component({
-  selector: 'app-contato',
-  templateUrl: './contato.component.html',
-  styleUrls: ['./contato.component.scss'],
+  selector: 'app-ajuda',
+  templateUrl: './ajuda.component.html',
+  styleUrls: ['./ajuda.component.scss'],
   providers: [MessageService],
 })
-export class ContatoComponent implements OnInit {
+export class AjudaComponent implements OnInit {
+  private faqs: FAQ[];
+
   private erroForm: boolean = false;
 
   constructor(
+    private contentHub: ContentHub,
     private contatoService: ContatoService, 
     protected messageService: MessageService,
     public  localizationService: LocalizationService,
     private recaptchaV3Service: ReCaptchaV3Service) {
+      this.fetchMethodologies();
     }
 
   ngOnInit() {
@@ -57,6 +63,21 @@ export class ContatoComponent implements OnInit {
     });
 
     
+  }
+
+  private fetchMethodologies(): void {
+    this.faqs = [];
+
+    this.contentHub.getFAQs().subscribe(values => {
+      values.forEach(element => {
+        this.faqs.push(
+          {
+            sequence: element.sequence,
+            question: element.question,
+            answer: element.answer,
+          });
+      });
+    })
   }
 
   getErroForm(): boolean {
