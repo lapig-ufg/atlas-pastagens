@@ -529,7 +529,7 @@
           "methods": "Métodos",
           "articles": "Artigos",
           "gallery": "Galeria",
-          "contact": "Contato"
+          "help": "Ajuda"
         }
       },
       "footer": {
@@ -613,29 +613,34 @@
       "btn_back_to_home": "Voltar para home"
     },
     "contact": {
-      "title": "Entre em Contato",
-      "sub-title": "Mande Mensgem",
-      "location": "Nos Visite:",
-      "email": "Email:",
-      "user-name": "Seu Nome",
-      "user-email": "Seu Email",
-      "user-subject": "Assunto",
-      "user-institution": "Instituição",
-      "user-message": "Escreve uma Mensagem",
-      "submit": "Submeter",
-      "form-validation": {
-        "email": {
-          "required": "Email é requerido.",
-          "invalid": "Email é inválido."
-        },
-        "name": "Nome é requerido.",
-        "subject": "Assunto é requerido.",
-        "institution": "Instituição é requerido",
-        "message": "Mensagem é requerido."
+      "faq": {
+        "title": "FAQ"
       },
-      "submit-message": {
-        "success": "Sua mensagem foi enviada com sucesso",
-        "fail": "Seu envio falhou"
+      "form": {
+        "title": "Entre em Contato",
+        "sub-title": "Mande Mensgem",
+        "button": "Submeter",
+        "user": {
+          "name": "Seu Nome",
+          "email": "Seu Email",
+          "subject": "Assunto",
+          "institution": "Instituição",
+          "message": "Escreve uma Mensagem"
+        },
+        "validation": {
+          "email": {
+            "required": "Email é requerido.",
+            "invalid": "Email é inválido."
+          },
+          "name": "Nome é requerido.",
+          "subject": "Assunto é requerido.",
+          "institution": "Instituição é requerido",
+          "message": "Mensagem é requerido."
+        },
+        "submit": {
+          "success": "Sua mensagem foi enviada com sucesso",
+          "fail": "Seu envio falhou"
+        }
       }
     }
   },
