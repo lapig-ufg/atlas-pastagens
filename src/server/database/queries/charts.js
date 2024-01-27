@@ -59,7 +59,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  CAST(sum(a.area_ha) as double precision) as value "
+                sql: " SELECT  CAST(sum(a.st_area_ha) as double precision) as value "
                     + " FROM pasture_col8 a "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter,
@@ -68,7 +68,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: " SELECT b.name as classe, b.color, CAST(sum(a.area_ha) as double precision) as value "
+                sql: " SELECT b.name as classe, b.color, CAST(sum(a.st_area_ha) as double precision) as value "
                     + " FROM pasture_vigor_col8 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'"
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
@@ -130,7 +130,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.area_ha) as value, "
+                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE " + regionFilter + ") as area_mun "
                     + " FROM pasture_col8 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
                     + " WHERE " + regionFilter
@@ -151,7 +151,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
+                sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.st_area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
                     " FROM pasture_vigor_col8 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
                     "WHERE " + regionFilter +
                     // " AND " + yearFilter +
@@ -171,24 +171,24 @@ module.exports = function (app) {
             // {
             //     source: 'lapig',
             //     id: 'uso_solo_terraclass',
-            //     sql: "SELECT a.classe as label, b.color, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_terraclass as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_terraclass' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
+            //     sql: "SELECT a.classe as label, b.color, sum(a.st_area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_terraclass as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_terraclass' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
             //     mantain: true
             // },
             // {
             //     source: 'lapig',
             //     id: 'uso_solo_probio',
-            //     sql: "SELECT a.classe as label, b.color, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_probio as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_probio' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
+            //     sql: "SELECT a.classe as label, b.color, sum(a.st_area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_probio as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_probio' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
             //     mantain: true
             // },
             // {
             //     id: 'uso_solo_mapbiomas',
-            //     sql: "SELECT b.name as label, b.color, sum(a.area_ha) as value, (SELECT SUM(pol_ha) FROM regions " + tableRegionsFilter + ") as area_mun, year FROM uso_solo_mapbiomas as A INNER JOIN graphic_colors as B on a.classe = b.class_number AND b.table_rel = 'uso_solo_mapbiomas' " + regionsFilter + " " + year + " GROUP BY 1,2,5 ORDER BY 3 DESC",
+            //     sql: "SELECT b.name as label, b.color, sum(a.st_area_ha) as value, (SELECT SUM(pol_ha) FROM regions " + tableRegionsFilter + ") as area_mun, year FROM uso_solo_mapbiomas as A INNER JOIN graphic_colors as B on a.classe = b.class_number AND b.table_rel = 'uso_solo_mapbiomas' " + regionsFilter + " " + year + " GROUP BY 1,2,5 ORDER BY 3 DESC",
             //     mantain: true
             // }
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: "SELECT b.name as label, b.color, sum(a.area_ha) as value, "
+                sql: "SELECT b.name as label, b.color, sum(a.st_area_ha) as value, "
                     + "(SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun "
                     + "FROM pasture_vigor_col8 as A "
                     + "INNER JOIN graphic_colors as B on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality' "
@@ -200,7 +200,7 @@ module.exports = function (app) {
             // {
             //     source: 'lapig',
             //     id: 'biomassa',
-            //     sql: "SELECT a.classe as label, b.color, sum(a.area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_terraclass as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_terraclass' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
+            //     sql: "SELECT a.classe as label, b.color, sum(a.st_area_ha) as value, (SELECT CAST(SUM(pol_ha) as double precision) FROM regions " + regionFilter + ") as area_mun FROM uso_solo_terraclass as A INNER JOIN graphic_colors as B on a.classe = b.name AND b.table_rel = 'uso_solo_terraclass' " + regionFilter + " GROUP BY 1,2 ORDER BY 3 DESC",
             //     mantain: true
             // },
 
