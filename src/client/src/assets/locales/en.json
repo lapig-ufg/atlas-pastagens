@@ -644,5 +644,10 @@
     "fotos_camera": "Camara Photos",
     "fotos_drone": "Drone Photos",
     "videos_drone": "Drone Videos"
+  },
+  "atlasinformation":{
+    "title": "Clarification Note",
+    "text":"<p>We'd like to inform you that we recently identified an error in our area estimates. We have already solved this issue to ensure precise information on pasture areas.</p><p>Your trust is highly important to us. Should you have any questions, please don't hesitate to reach out to us at <strong>atlasdaspastagens.lapig@ufg.br</strong>.</p></p>Thank you for your understanding.</p><p>Best regards,</p><p>Atlas of Pastures Team</p>"
+    
   }
 }
