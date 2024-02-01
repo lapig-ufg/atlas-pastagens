@@ -309,4 +309,20 @@
       </div>
     </div>
   </p-dialog>
+
+  <p-dialog
+    header="{{'atlasinformation.title' | translate}}"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [appendTo]="'body'"
+    [modal]="true"
+    [style]="{width: isMobile ? '98vw' : '45vw'}"
+    [(visible)]="showInformation"
+  >
+    <div class="message-content">
+      <p [innerHTML]="'atlasinformation.text' | translate"></p>
+      
+    </div>
+  </p-dialog>
 </section>

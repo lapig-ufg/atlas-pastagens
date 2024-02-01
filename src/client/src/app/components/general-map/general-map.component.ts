@@ -137,7 +137,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   public msFilterRegion: string;
   public selectRegion: any;
   public year: any;
-
+  public isShowIformats: boolean;
   public defaultRegion: any;
   public regionsLimits: any;
 
@@ -214,7 +214,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     this.layersToFilter = ["layertype", "swipe-layer"];
 
     this.closeDetailWindowEvent = new Subject<void>();
-
+    this.isShowIformats = true;
     this.env = environment;
     this.showFormPoint = false;
     this.loadingDown = false;
@@ -1073,6 +1073,10 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       item.visible = item.get('visible');
     });
 
+  }
+
+  showInformation(){
+    this.isShowIformats = !this.isShowIformats
   }
 
   updateZIndex() {
