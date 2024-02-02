@@ -1,5 +1,5 @@
 export interface FAQ {
-    sequence: String;
-    question: String;
-    answer: String;
+    sequence: string;
+    question: string;
+    answer: string;
 }

@@ -52,6 +52,6 @@ export class ContentHub {
 
     getFAQs(): Observable<any> {
         let lang = this.localizationService.currentLang();
-        return this.httpClient.get<any>(this.apiURL + `/FAQ/${lang}`, this.httpOptions);
+        return this.httpClient.get<any>(this.apiURL + `/faq/${lang}`, this.httpOptions);
     }
 }
