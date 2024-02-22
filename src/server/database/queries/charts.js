@@ -234,7 +234,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'municipios',
-                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.area_ha) as value  FROM pasture_col8 p "
+                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col8 p "
                     + " WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1, 2, 3 ORDER BY value DESC;",
@@ -244,7 +244,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'estados',
-                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.area_ha) as value  FROM pasture_col8 p "
+                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.st_area_ha) as value  FROM pasture_col8 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1  ORDER BY 2 DESC;",
@@ -254,7 +254,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'biomas',
-                sql: " SELECT p.bioma AS biome,  SUM(p.area_ha) as value  FROM pasture_col8 p "
+                sql: " SELECT p.bioma AS biome,  SUM(p.st_area_ha) as value  FROM pasture_col8 p "
                     + "WHERE " + regionFilter
                     + " AND " + yearFilter
                     + " GROUP BY 1 ORDER BY 2 DESC;",
