@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div [class]="open ? 'open ' : '' ">
       <div class="logo-details">
-          <img src="../../../assets/logos/atlas_icon.png" (click)='toggleMenu()'>
+        <img src="../../../assets/logos/atlas_icon.png" (click)='toggleMenu()'>
       </div>
       <ul #leftSidebar class="nav-list">
         <drag-scroll class="nav-list-drag" [scrollbar-hidden]="true" [drag-scroll-x-disabled]="true">
@@ -10,7 +10,7 @@
             <div pRipple [pTooltip]="open ? '' : 'menu.filters_tooltip'  | translate "
               [class]="showFilter ? 'menu-active' : ''">
               <i class='fg-map-search'></i>
-              <span class="links_name">{{'menu.filters' | translate}}</span>
+              <span class="links_namez">{{'menu.filters' | translate}}</span>
             </div>
           </li>
           <li *ngFor="let item of menu">
@@ -39,15 +39,9 @@
       </ul>
     </div>
   </div>
-  <p-sidebar
-    [appendTo]="leftSidebar"
-    [modal]="false"
-    [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
-    [(visible)]="layersSideBar"
-    (onShow)="onSideBarShow()"
-    (onHide)="hideSidebar()"
-    (visibleChange)="onSideBarToggle.emit(layersSideBar)"
-  >
+  <p-sidebar [appendTo]="leftSidebar" [modal]="false" [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
+    [(visible)]="layersSideBar" (onShow)="onSideBarShow()" (onHide)="hideSidebar()"
+    (visibleChange)="onSideBarToggle.emit(layersSideBar)">
     <h4 *ngIf="currentMenu?.key !== 'statistics'" class="title">
       {{ layersTitle }}
     </h4>
@@ -72,67 +66,62 @@
                     <p-inputSwitch (onChange)="changeLayerVisibility(layer)" [id]=layer.idLayer
                       (ngModelChange)="layer.visible = !layer.visible" [(ngModel)]="layer.visible"></p-inputSwitch>
                     <h5>{{layer.labelLayer}}</h5>
-                    <i *ngIf="layer.selectedTypeObject!.metadata &&  layer.selectedTypeObject!.visible" pTooltip="{{'left_sidebar.layer.metadata' | translate}}"
-                      class='bx bxs-info-circle' (click)="showMetadata(layer)"></i>
+                    <i *ngIf="layer.selectedTypeObject!.metadata &&  layer.selectedTypeObject!.visible"
+                      pTooltip="{{'left_sidebar.layer.metadata' | translate}}" class='bx bxs-info-circle'
+                      (click)="showMetadata(layer)"></i>
                   </div>
                   <div class="layer-card-body" *ngIf="layer.visible">
                     <div class="layer-card-content">
-                      <div class="layer-alert" *ngIf="layer.selectedTypeObject?.alertMessage" >
+                      <div class="layer-alert" *ngIf="layer.selectedTypeObject?.alertMessage">
                         <span>{{layer.selectedTypeObject?.alertMessage}}</span>
                       </div>
                       <div *ngIf="layer.types.length > 1">
                         <span class="p-float-label">
-                            <p-dropdown
-                              appendTo="body"
-                              id="types-{{layer.selectedType}}"
-                              *ngIf="layer.types.length > 1"
-                              [options]="layer.types"
-                              [(ngModel)]="layer.selectedType"
-                              (onChange)="changeLayerVisibility(layer)"
-                              optionLabel="viewValueType"
-                              optionValue="valueType"
-                            ></p-dropdown>
-                            <label for="types-{{layer.selectedType}}">{{layer.selectedTypeObject!.typeLabel}}</label>
-                            <div ></div>
+                          <p-dropdown appendTo="body" id="types-{{layer.selectedType}}" *ngIf="layer.types.length > 1"
+                            [options]="layer.types" [(ngModel)]="layer.selectedType"
+                            (onChange)="changeLayerVisibility(layer)" optionLabel="viewValueType"
+                            optionValue="valueType"></p-dropdown>
+                          <label for="types-{{layer.selectedType}}">{{layer.selectedTypeObject!.typeLabel}}</label>
+                          <div></div>
                         </span>
                       </div>
                       <span *ngIf="layer.selectedTypeObject!.filters" class="p-float-label">
-                        <p-dropdown
-                          appendTo="body"
-                          appendTo="body"
-                          *ngIf="layer.selectedTypeObject!.filters"
+                        <p-dropdown appendTo="body" appendTo="body" *ngIf="layer.selectedTypeObject!.filters"
                           id="type-filters-{{layer.selectedTypeObject!.filterSelected}}"
                           [options]="layer.selectedTypeObject!.filters"
                           [(ngModel)]="layer.selectedTypeObject!.filterSelected"
-                          (onChange)="changeLayerVisibility(layer, true)"
-                          optionLabel="viewValueFilter"
-                          optionValue="valueFilter"
-                        ></p-dropdown>
-                        <label for="type-filters-{{layer.selectedTypeObject!.filterSelected}}">{{layer.selectedTypeObject!.filterLabel}}</label>
+                          (onChange)="changeLayerVisibility(layer, true)" optionLabel="viewValueFilter"
+                          optionValue="valueFilter"></p-dropdown>
+                        <label
+                          for="type-filters-{{layer.selectedTypeObject!.filterSelected}}">{{layer.selectedTypeObject!.filterLabel}}</label>
                       </span>
                       <div class="layer-transparency">
                         <input (mousemove)="onChangeTransparency(layer, $event)" class="range" type="range" min="0"
                           max="100" value="0">
                         <br> <span>{{'left_sidebar.opacity' | translate}}</span>
                       </div>
-                      <div class="layer-exports" *ngIf="layer.selectedTypeObject!.download.csv || layer.selectedTypeObject!.download.gpkg || layer.selectedTypeObject!.download.raster || layer.selectedTypeObject!.download.shp">
+                      <div class="layer-exports"
+                        *ngIf="layer.selectedTypeObject!.download.csv || layer.selectedTypeObject!.download.gpkg || layer.selectedTypeObject!.download.raster || layer.selectedTypeObject!.download.shp">
                         <div *ngIf="layer.selectedTypeObject!.download.loading" class="loader-container">
                           <div *ngIf="layer.selectedTypeObject!.download.loading" class="loader"></div>
                         </div>
 
                         <button pTooltip="{{'left_sidebar.layer.down_shp' | translate}}" pButton pRipple type="button"
-                                label="SHP" (click)="download('shp', layer.selectedTypeObject, $event)"
-                                *ngIf="layer.selectedTypeObject!.download.shp && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                          label="SHP" (click)="download('shp', layer.selectedTypeObject, $event)"
+                          *ngIf="layer.selectedTypeObject!.download.shp && !layer.selectedTypeObject!.download.loading"
+                          class="p-button-raised p-button-text" icon="pi pi-download"></button>
                         <button pTooltip="{{'left_sidebar.layer.down_gpkg' | translate}}" pButton pRipple type="button"
-                                label="GPKG" (click)="download('gpkg', layer.selectedTypeObject, $event)"
-                                *ngIf="layer.selectedTypeObject!.download.gpkg && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                          label="GPKG" (click)="download('gpkg', layer.selectedTypeObject, $event)"
+                          *ngIf="layer.selectedTypeObject!.download.gpkg && !layer.selectedTypeObject!.download.loading"
+                          class="p-button-raised p-button-text" icon="pi pi-download"></button>
                         <button pTooltip="{{'left_sidebar.layer.down_csv' | translate}}" pButton pRipple type="button"
-                                label="CSV" (click)="download('csv', layer.selectedTypeObject, $event)"
-                                *ngIf="layer.selectedTypeObject!.download.csv && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
-                        <button pTooltip="{{'left_sidebar.layer.down_raster' | translate}}" pButton pRipple type="button"
-                                label="TIFF" (click)="download('raster', layer.selectedTypeObject, $event)"
-                                
-                                *ngIf="checkButton(layer.selectedTypeObject!.download.raster) && !layer.selectedTypeObject!.download.loading" class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                          label="CSV" (click)="download('csv', layer.selectedTypeObject, $event)"
+                          *ngIf="layer.selectedTypeObject!.download.csv && !layer.selectedTypeObject!.download.loading"
+                          class="p-button-raised p-button-text" icon="pi pi-download"></button>
+                        <button pTooltip="{{'left_sidebar.layer.down_raster' | translate}}" pButton pRipple
+                          type="button" label="TIFF" (click)="download('raster', layer.selectedTypeObject, $event)"
+                          *ngIf="checkButton(layer.selectedTypeObject!.download.raster) && !layer.selectedTypeObject!.download.loading"
+                          class="p-button-raised p-button-text" icon="pi pi-download"></button>
                       </div>
                     </div>
                   </div>
@@ -158,7 +147,7 @@
             <div class="details-inner">
               <div class="toggle" *ngFor="let limit of limits">
                 <p-inputSwitch [(ngModel)]="limit.checked" styleClass="inputSwitchClass"
-                               (onChange)="onChangeLimit(limit, $event)"></p-inputSwitch>
+                  (onChange)="onChangeLimit(limit, $event)"></p-inputSwitch>
                 <p class="inlineSwitchButton"> {{limit.get('label')}} </p>
                 <br><br>
               </div>
@@ -178,7 +167,7 @@
               <div class="toggle" *ngFor="let bmap of basesmaps">
                 <p-inputSwitch styleClass="inputSwitchClass" (onChange)="onChangeBaseMap(bmap, $event)"
                   [(ngModel)]="bmap.checked"></p-inputSwitch>
-                  <p class="inlineSwitchButton"> {{bmap.name}} </p>
+                <p class="inlineSwitchButton"> {{bmap.name}} </p>
                 <br><br>
               </div>
             </div>
@@ -196,7 +185,7 @@
             <div class="details-inner">
               <div class="toggle" *ngFor="let option of options">
                 <p-inputSwitch [(ngModel)]="option.checked" styleClass="inputSwitchClass"
-                               (onChange)="onChangeOption(option)"></p-inputSwitch>
+                  (onChange)="onChangeOption(option)"></p-inputSwitch>
                 <p class="inlineSwitchButton"> {{option.name}}</p>
                 <br><br>
               </div>
@@ -208,27 +197,27 @@
     <div class="footer">
       <div class="partners">
         <img src="assets/logos/marcas.png" alt="">
-        
+
       </div>
       <div class="build_version">
         <p>{{COMMIT_ID}}</p>
       </div>
-      
+
     </div>
   </p-sidebar>
-  <p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false"
-            [appendTo]="'body'" [modal]="true" header="{{metadata.header.title}} - {{metadata.header.description}}" [(visible)]="displayMetadata"
-            [style]="{width: '50vw'}">
+  <p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [appendTo]="'body'"
+    [modal]="true" header="{{metadata.header.title}} - {{metadata.header.description}}" [(visible)]="displayMetadata"
+    [style]="{width: '50vw'}">
     <table>
       <tbody>
-      <tr class="table-row" *ngFor="let data of metadata.data">
-        <td class="title-row"><b>{{data.title}}</b></td>
-        <td *ngIf="!isDetails(data.title); else linkDetails" class="content-row">{{data.description}}
-        </td>
-        <ng-template #linkDetails>
-          <td class="content-row" [innerHTML]="data.description"></td>
-        </ng-template>
-      </tr>
+        <tr class="table-row" *ngFor="let data of metadata.data">
+          <td class="title-row"><b>{{data.title}}</b></td>
+          <td *ngIf="!isDetails(data.title); else linkDetails" class="content-row">{{data.description}}
+          </td>
+          <ng-template #linkDetails>
+            <td class="content-row" [innerHTML]="data.description"></td>
+          </ng-template>
+        </tr>
       </tbody>
     </table>
   </p-dialog>
@@ -236,9 +225,3 @@
 </section>
 
 <left-side-bar-mobile></left-side-bar-mobile>
-
-
-
-
-
-

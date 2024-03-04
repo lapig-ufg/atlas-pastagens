@@ -168,6 +168,9 @@
           }
 
           .links_name {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
             color: #fff;
             font-size: 12px;
             font-weight: 400;
@@ -347,6 +350,7 @@
           max-width: 80%;
         }
       }
+
       .build_version {
         margin-top: 5px;
         display: flex;
@@ -379,8 +383,7 @@
         }
       }
 
-      .menu-item {
-      }
+      .menu-item {}
     }
   }
 
@@ -421,8 +424,7 @@
       }
     }
 
-    .p-sidebar-content {
-    }
+    .p-sidebar-content {}
   }
 
 
@@ -716,7 +718,7 @@
   }
 }
 
-.layer-alert{
+.layer-alert {
   padding: 7px;
   border-radius: 5px;
   margin-bottom: 9px;
@@ -726,9 +728,9 @@
   border-width: 0 0 0 6px;
   color: #121210;
   text-align: center;
-  span{
+
+  span {
     font-size: 11px;
     text-align: center;
   }
 }
-
