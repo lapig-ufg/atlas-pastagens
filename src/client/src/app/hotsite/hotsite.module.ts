@@ -8,7 +8,7 @@ import { SobreComponent } from './pages/sobre/sobre.component';
 import { ArtigosComponent } from './pages/artigos/artigos.component';
 import { MetodosComponent } from './pages/metodos/metodos.component';
 import { GaleriaComponent } from "./pages/galeria/galeria.component";
-import { ContatoComponent } from './pages/contato/contato.component';
+import { AjudaComponent } from './pages/ajuda/ajuda.component';
 import { TranslateModule } from "@ngx-translate/core";
 import { MultiSelectModule } from "primeng/multiselect";
 import { GalleriaModule } from 'primeng/galleria';
@@ -16,8 +16,12 @@ import { ButtonModule } from 'primeng/button';
 import { GoogleAnalyticsService } from "../components/services/google-analytics.service";
 import {FilterPipe} from "../@core/pipes";
 import { ToastModule } from 'primeng/toast';
+
+import { AccordionModule } from 'primeng/accordion';
+
 @NgModule({
   imports: [
+    AccordionModule,
     CommonModule,
     HotsiteRoutingModule,
     FormsModule,
@@ -34,7 +38,7 @@ import { ToastModule } from 'primeng/toast';
     ArtigosComponent,
     MetodosComponent,
     GaleriaComponent,
-    ContatoComponent,
+    AjudaComponent,
     FilterPipe
   ],
   providers: [

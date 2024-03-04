@@ -9,7 +9,7 @@ import { Contact } from 'src/app/@core/interfaces/contact';
   providedIn: 'root'
 })
 
-export class ContatoService {
+export class AjudaService {
   private apiURL = '/service/contact';
 
   static PARAMS = new HttpParams({
