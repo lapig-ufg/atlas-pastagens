@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div *ngIf="faqs.length != 0">
-                <p-accordion [activeIndex]="0">
+                <p-accordion>
                     <p-accordionTab *ngFor="let element of faqs" [header]="element.sequence + ' - ' + element.question">
                         <div [innerHTML]="element.answer"></div>
                     </p-accordionTab>

@@ -68,9 +68,9 @@ export class AjudaComponent implements OnInit {
   }
 
   private fetchFAQ(): void {
-    this.faqs = [];
-
     this.contentHub.getFAQs().subscribe(values => {
+      this.faqs = [];
+      
       values.forEach(element => {
         this.faqs.push(
           {
