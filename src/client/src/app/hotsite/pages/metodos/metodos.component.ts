@@ -29,9 +29,9 @@ export class MetodosComponent implements OnInit {
   }
 
   private fetchMethodologies(): void {
-    this.methodologies = [];
-
     this.contentHub.getMethodologies().subscribe(values => {
+      this.methodologies = [];
+
       values.forEach(element => {
         let fileUrl = JSON.parse(element.file as string)[0].download_link;
 
