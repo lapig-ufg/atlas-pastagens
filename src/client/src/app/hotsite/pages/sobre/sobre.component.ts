@@ -26,9 +26,9 @@ export class SobreComponent implements OnInit {
   }
 
   private fetchTeam(): void {
-    this.team = [];
-
     this.contentHub.getTeam().subscribe(values => {
+      this.team = [];
+
       values.forEach(element => {
         this.team.push(
           {

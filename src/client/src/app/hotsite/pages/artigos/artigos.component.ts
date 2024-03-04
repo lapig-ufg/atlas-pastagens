@@ -27,9 +27,9 @@ export class ArtigosComponent implements OnInit {
   }
 
   private fetchArticles(): void {
-    this.articles = [];
-
     this.contentHub.getArticles().subscribe(values => {
+      this.articles = [];
+
       values.forEach(article => {
         this.articles.push(
           {

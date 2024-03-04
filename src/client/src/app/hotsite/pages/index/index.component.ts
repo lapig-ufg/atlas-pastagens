@@ -71,9 +71,9 @@ export class IndexComponent implements AfterViewInit {
   }
 
   private fetchNews(): void {
-    this.news = [];
-
     this.contentHub.getNews().subscribe(values => {
+      this.news = [];
+
       values.forEach(element => {
         this.news.push(
           {
@@ -87,9 +87,9 @@ export class IndexComponent implements AfterViewInit {
   }
 
   private fetchHighlight(): void {
-    this.highlights = [];
-
     this.contentHub.getHighlights().subscribe(values => {
+      this.highlights = [];
+
       values.forEach(element => {
         let fileUrl = JSON.parse(element.file as string)[0].download_link;
 
