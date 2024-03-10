@@ -304,6 +304,14 @@
           }
         }
       },
+      "mapa_referecia": {
+        "labelGroup": "Mapa Referência (MapBiomas)",
+        "layers": {
+          "mapa_referecia": {
+            "labelLayer": "Referência Pastagens"
+          }
+        }
+      },
       "pasture_carbon_general": {
         "labelGroup": "Mapas de Carbono",
         "layers": {

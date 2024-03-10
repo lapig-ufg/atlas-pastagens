@@ -20,9 +20,9 @@ module.exports = function (app) {
             else if (type == 'state')
                 regionsFilter += "uf = '" + key + "'"
             else if (type == 'region')
-                regionsFilter += "regiao = '" + key + "'"
+                regionsFilter += "upper(regiao) = '" + key + "'"
             else if (type == 'biome')
-                regionsFilter += "bioma = '" + key.toUpperCase() + "'"
+                regionsFilter += "upper(bioma) = '" + key.toUpperCase() + "'"
             else if (type == 'fronteira') {
                 if (key == 'amz_legal') {
                     regionsFilter += "amaz_legal = 1"

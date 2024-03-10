@@ -663,7 +663,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           }
           this.layersNames.push(layer);
         } catch (error) {
-          console.error('groups')
+          
+          console.error(this.layersNames, layer,'groups')
         }
 
       }
@@ -1610,7 +1611,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       this.msFilterRegion = "uf ilike '" + this.selectRegion.value + "'"
     }
     else if (this.selectRegion.type == 'region') {
-      this.msFilterRegion = "regiao = '" + this.selectRegion.value + "'"
+      this.msFilterRegion = "upper(regiao) = '" + this.selectRegion.value + "'"
     }
     else if (this.selectRegion.type == 'biome') {
       this.msFilterRegion = "unaccent(bioma) ilike unaccent('" + this.selectRegion.value + "')"
