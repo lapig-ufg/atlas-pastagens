@@ -25,6 +25,22 @@
         ]
     },
     {
+        "idGroup": "mapa_referecia",
+        "labelGroup": "translate",
+        "groupExpanded": false,
+        "layers": [
+            {
+                "idLayer": "mapa_referecia",
+                "labelLayer": "translate",
+                "visible": false,
+                "selectedType": "pa_br_areas_pastagens_250_2016_lapig",
+                "types": [
+                    "pa_br_areas_pastagens_250_2016_lapig"
+                ]
+            }
+        ]
+    },
+    {
         "idGroup": "pasture_carbon_general",
         "labelGroup": "translate",
         "groupExpanded": false,
