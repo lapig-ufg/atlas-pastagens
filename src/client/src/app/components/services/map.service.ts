@@ -52,11 +52,10 @@ export class MapService {
   }
 
   search(term): Observable<any> {
-
     if (term === "") {
       return of([]);
     }
-    //console.log("Searchin " +   this.apiURL + '/search', { params: MapService.PARAMS.set("key", term) });
+
     return this.httpClient.get<any>(this.apiURL + '/search', { params: MapService.PARAMS.set("key", term) })
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));
@@ -71,11 +70,10 @@ export class MapService {
   }
 
   getRegions(term: string): Observable<any> {
-  
     if (term === "") {
       return of([]);
     }
-    //console.log("Searching regions..." + this.apiURL + '/search', { params: MapService.PARAMS.set("key", term) } );
+
     return this.httpClient.get<any>(this.apiURL + '/search', { params: MapService.PARAMS.set("key", term) })
       .pipe(map(response => response))
       .pipe(catchError(this.errorHandler));

@@ -106,7 +106,7 @@ module.exports = function (app) {
         ]
     }
 
-    Query.area1 = function (params) {
+    Query.pastureGraph = function (params) {
 
         var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
         // var yearFilter = Internal.getYearFilter(params['year']);

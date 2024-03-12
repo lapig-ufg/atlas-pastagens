@@ -139,8 +139,6 @@ module.exports = function (app) {
             .send(languageJson['upload_messages']['is_polygon_error'][Internal.language]);
 
         }else{
-             //console.log(JSON.stringify(geometry.features[0]['geometry']))
-            
              if(geoJson === false){
                 const jsonWgs84 = repro.toWgs84(geometry, undefined, epsg);
                 var area = Internal.calculateGeodesicArea(jsonWgs84)
@@ -152,7 +150,6 @@ module.exports = function (app) {
             }
             // area in Km²
             const MAX_AREA = process.env.MAX_AREA
-            console.log(`: ${parseInt(area)}`)
             if(area <= (MAX_AREA * 10000)){
                 return area
             }else{
@@ -171,7 +168,6 @@ module.exports = function (app) {
 
 
     Internal.toGeoJson = function (shapfile, callback) {
-        console.log('toGeoJson',shapfile)
         let geojson = ogr2ogr(shapfile,  {
             options: ["-t_srs", "EPSG:4326"],
         })
@@ -352,11 +348,9 @@ module.exports = function (app) {
             /* for initial population*/
             var rowValues = [token, geom, data_atualizacao, Internal.app_origin]
             const res = await client.query(INSERT_STATEMENT, rowValues)
-            //console.log(token + ' inserted.')
 
             var rowValuesValid = [token]
             const resValid = await client.query(makeValid, rowValuesValid)
-            //console.log(token, " validado!")
 
             await client.query('COMMIT')
         } catch (e) {
@@ -476,8 +470,7 @@ module.exports = function (app) {
             const regionGroupedByType = groupBy(regions, 'type');
 
             const keysRegionsGrouped = Object.keys(regionGroupedByType);
-            // console.log(keys);
-
+   
             function getUniqueListBy(arr, key) {
                 return [...new Map(arr.map(item => [item[key], item])).values()]
             }
@@ -487,7 +480,6 @@ module.exports = function (app) {
                 uniqueRegionsGrouped.push({
                     [key]: getUniqueListBy(regionGroupedByType[key], 'name')
                 })
-                // console.log(`${key}: ${regionGroupedByType[key]} : ${getUniqueListBy(regionGroupedByType[key], 'name')}`);
             });
 
 
@@ -1102,9 +1094,9 @@ module.exports = function (app) {
                 {
                     "id": "pasture",
                     "idsOfQueriesExecuted": [
-                        { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
+                        { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
                     ],
-                    "title": Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].title,
+                    "title": Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].title,
                     "getText": function () {
                         const text = auxLang.analyzed_area_pasture_text
                         return text
@@ -1119,10 +1111,10 @@ module.exports = function (app) {
                 {
                     "id": "pasture_quality",
                     "idsOfQueriesExecuted": [
-                        { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["area1_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
-                        // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
+                        { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
+                        // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
                     ],
-                    "title": Internal.languageOb["area1_card"]["pastureQuality"].title,
+                    "title": Internal.languageOb["pastureGraph_card"]["pastureQuality"].title,
                     "getText": function () {
                         const text = auxLang.analyzed_area_pasture_quality_text
                         return text

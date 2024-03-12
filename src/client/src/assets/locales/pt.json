@@ -370,7 +370,7 @@
     "title": "Estatísticas",
     "cards_titles": {
       "resumoTitle": "Informações Gerais",
-      "area1Title": "Séries Temporais",
+      "pastureGraphTitle": "Séries Temporais",
       "area2Title": "Análise de Proporção",
       "area3Title": "Gráfico Barra",
       "areaTableTitle": "Rankings de Área de Pastagem"
@@ -403,7 +403,7 @@
         "Ausente": "Ausente"
       }
     },
-    "area1_card": {
+    "pastureGraph_card": {
       "pastureAndLotacaoBovina": {
         "title": "Pastagem",
         "text": "De acordo com o LAPIG, a área de Pastagem (em hectares) e o Rebanho Bovino (em UA) no #typeRegionTranslate# #textRegionTranslate# foi de:",
@@ -421,6 +421,13 @@
             "Intermediário": "Intermediário",
             "Ausente": "Ausente"
           }
+        }
+      },
+      "carbon": {
+        "title": "Carbon",
+        "text": "According to LAPIG, the carbon emession...",
+        "labelOfQuery": {
+          "carbon": "Carbon"
         }
       }
     },

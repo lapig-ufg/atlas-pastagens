@@ -27,11 +27,12 @@ module.exports = function (app) {
         try {
             let arrayLabels = []
             let arrayData = []
-            for (let query of chartDescription.idsOfQueriesExecuted) {
 
+            for (let query of chartDescription.idsOfQueriesExecuted) {
                 let queryInd = allQueriesResult[query.idOfQuery]
-                arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
                 let colors = [...new Set(queryInd.map(a => a.color))]
+
+                arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
 
                 if (chartDescription.type == 'line') {
                     if (typeof query.labelOfQuery === 'string') {
@@ -136,7 +137,6 @@ module.exports = function (app) {
     };
 
     Controller.handleResumo = function (request, response) {
-        console.log('handleResumo: ')
         const { lang, typeRegion, valueRegion, textRegion, year, card_resume } = request.query;
         const language = lang;
 
@@ -181,7 +181,7 @@ module.exports = function (app) {
 
     };
 
-    Controller.handleArea1Data = function (request, response) {
+    Controller.handlePastureGraphData = function (request, response) {
         const { lang, typeRegion, valueRegion, textRegion } = request.query;
         const language = lang;
 
@@ -196,16 +196,16 @@ module.exports = function (app) {
             {
                 "id": "pastureAndLotacaoBovina",
                 "idsOfQueriesExecuted": [
-                    { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
-                    { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
+                    { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
+                    { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
                 ],
-                "title": Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].title,
+                "title": Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].title,
                 "getText": function (chart) {
                     // replacements['areaMun'] = Number(chart['indicators'][0]["area_mun"])
                     // replacements['anthropicArea'] = chart['indicators'].reduce((a, { value }) => a + value, 0);
                     // replacements['percentArea'] = (replacements['anthropicArea'] / replacements['areaMun']) * 100.0;
 
-                    const text = Internal.replacementStrings(Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].text, replacements)
+                    const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].text, replacements)
                     return text
                 },
                 "type": 'line',
@@ -218,16 +218,33 @@ module.exports = function (app) {
             {
                 "id": "pastureQuality",
                 "idsOfQueriesExecuted": [
-                    { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["area1_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
-                    // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["area1_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
+                    { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
+                    // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
                 ],
-                "title": Internal.languageOb["area1_card"]["pastureQuality"].title,
+                "title": Internal.languageOb["pastureGraph_card"]["pastureQuality"].title,
                 "getText": function (queriesResult, query) {
                     // replacements['areaMun'] = Internal.numberFormat(Number([...new Set(queriesResult[query[0].idOfQuery].map(ob => ob.area_mun))][0]))
                     // replacements['anthropicArea'] = chart['indicators'].reduce((a, { value }) => a + value, 0);
                     // replacements['percentArea'] = (replacements['anthropicArea'] / replacements['areaMun']) * 100.0;
 
-                    const text = Internal.replacementStrings(Internal.languageOb["area1_card"]["pastureQuality"].text, replacements)
+                    const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["pastureQuality"].text, replacements)
+                    return text
+                },
+                "type": 'line',
+                "options": {
+                    legend: {
+                        display: false
+                    }
+                }
+            },
+            {
+                "id": "carbon",
+                "idsOfQueriesExecuted": [
+                    { idOfQuery: 'carbon', labelOfQuery: Internal.languageOb["pastureGraph_card"]["carbon"].labelOfQuery['carbon'] },
+                ],
+                "title": Internal.languageOb["pastureGraph_card"]["carbon"].title,
+                "getText": function (chart) {
+                    const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["carbon"].text, replacements)
                     return text
                 },
                 "type": 'line',
@@ -240,8 +257,8 @@ module.exports = function (app) {
         ]
 
         let chartFinal = []
+
         for (let chart of chartResult) {
-            // console.log(request.queryResult)
             chart['data'] = Internal.buildGraphResult(request.queryResult, chart)
             chart['show'] = false
 
@@ -256,9 +273,9 @@ module.exports = function (app) {
 
             chartFinal.push(chart);
         }
+
         response.send(chartFinal)
         response.end();
-
     };
 
     Controller.handleArea2Data = function (request, response) {
@@ -439,7 +456,6 @@ module.exports = function (app) {
     };
 
     Controller.handleTableRankings = function (request, response) {
-        console.log('handleTableRankings: ')
         const { lang, typeRegion, valueRegion, textRegion } = request.query;
         const language = lang;
 

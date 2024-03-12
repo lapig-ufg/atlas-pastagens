@@ -42,7 +42,6 @@ module.exports = class Group {
 
 
         } catch (error) {
-            // console.log(error.response.body);
             //=> 'Internal server error ...'
         }
 

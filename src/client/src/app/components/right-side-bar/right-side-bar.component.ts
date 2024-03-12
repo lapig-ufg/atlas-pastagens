@@ -38,8 +38,6 @@ export class RightSideBarComponent implements OnInit {
   @Output() onSideBarToggle = new EventEmitter<boolean>();
   @Input() descriptor: Descriptor;
 
-
-
   @Input() set displayOptions(value: boolean) {
     this.onSideBarToggle.emit(value);
     this._displayOptions = value;
@@ -59,15 +57,14 @@ export class RightSideBarComponent implements OnInit {
 
   public chartsArea3 = [] as any;
   public chartsArea2 = [] as any;
-  public chartsArea1 = [] as any;
+  public pastureGraphCharts = [] as any;
   public tableRankings = [] as any;
-  public infoResumo: any;
+  public infoSummary: any;
 
   //Charts Variables
   public defaultRegion: any;
   public selectRegion: any;
   public objectFullScreenChart: any = {};
-
 
   public options: any;
   public groupLayers: any[];
@@ -75,9 +72,6 @@ export class RightSideBarComponent implements OnInit {
 
   public expandGroups: any;
   public cardsToDisplay: any;
-
-
-
 
   @Output() onChangeMap = new EventEmitter<any>();
   @Output() onChangeLimits = new EventEmitter<any>();
@@ -133,7 +127,7 @@ export class RightSideBarComponent implements OnInit {
       carbono: { year: "year=0", switch: false, valueType: "pa_br_somsc_2022" },
     }
 
-    this.infoResumo = {
+    this.infoSummary = {
       region: {},
       pasture: {},
       pasture_quality: {},
@@ -143,17 +137,17 @@ export class RightSideBarComponent implements OnInit {
     this.lang = this.localizationService.currentLang();
 
     this.expandGroups = {
-      resumo: true,
-      area1: false,
+      summary: true,
+      pastureGraph: false,
       area2: false,
       area3: false,
       rankingTable: false
     }
 
     this.cardsToDisplay = {
-      resumo: true,
-      area1: true,
-      area2: true,
+      summary: true,
+      pastureGraph: true,
+      area2: false,
       area3: false,
       rankingTable: true
     }
@@ -251,7 +245,6 @@ export class RightSideBarComponent implements OnInit {
   }
 
   openCharts(chart) {
-
     let obj = {
       title: chart.title,
       text: chart.text,
@@ -262,7 +255,6 @@ export class RightSideBarComponent implements OnInit {
     }
 
     this.objectFullScreenChart = obj;
-
   }
 
   setMap(map) {
@@ -303,6 +295,7 @@ export class RightSideBarComponent implements OnInit {
   }
 
   updateStatistics(region?) {
+    console.log(region)
     if (region) {
       if (region.type === 'country' && region.text == '') {
         region.text = 'BRASIL'
@@ -312,11 +305,11 @@ export class RightSideBarComponent implements OnInit {
       this.selectRegion = this.defaultRegion;
     }
 
-    if (this.cardsToDisplay.resumo) {
-      this.updateResumo();
+    if (this.cardsToDisplay.summary) {
+      this.updateSummary();
     }
-    if (this.cardsToDisplay.area1) {
-      this.updateArea1Charts()
+    if (this.cardsToDisplay.pastureGraph) {
+      this.updatePastureGraphCharts()
     }
     if (this.cardsToDisplay.area2) {
       this.updateArea2Charts()
@@ -330,8 +323,7 @@ export class RightSideBarComponent implements OnInit {
 
   }
 
-  updateResumo() {
-
+  updateSummary() {
     let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
@@ -344,20 +336,20 @@ export class RightSideBarComponent implements OnInit {
     this.chartsArea2 = []
 
 
-    Object.keys(this.infoResumo).forEach(key => {
+    Object.keys(this.infoSummary).forEach(key => {
       let year: string;
       if (key === 'region') {
         year = this.filterSelectedOnLayersForStatistics
       } else {
         year = this.layersForStatistics[key].year
       }
-      
-      if (this.infoResumo[key].year !== year.replace('year=', '') || this.infoResumo[key].value !== this.selectRegion.value) {
+
+      if (this.infoSummary[key].year !== year.replace('year=', '') || this.infoSummary[key].value !== this.selectRegion.value) {
 
         this.chartService.getResumo(textParam + `&card_resume=${key}&${year}`).subscribe(tempResumo => {
-          this.infoResumo[key] = tempResumo;
-          this.infoResumo[key].year = year.replace('year=', '')
-          this.infoResumo[key].value = this.selectRegion.value
+          this.infoSummary[key] = tempResumo;
+          this.infoSummary[key].year = year.replace('year=', '')
+          this.infoSummary[key].value = this.selectRegion.value
 
 
         }, error => {
@@ -368,26 +360,25 @@ export class RightSideBarComponent implements OnInit {
 
   }
 
+  updatePastureGraphCharts() {
+    this.pastureGraphCharts = []
 
+    let params: string[] = []
 
-  updateArea1Charts() {
-    this.chartsArea1 = []
-    let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
     params.push('valueRegion=' + this.selectRegion.value)
     params.push('textRegion=' + this.selectRegion.text)
+
     let textParam = params.join('&');
 
-    this.chartService.getArea1(textParam).subscribe(tempChartsArea1 => {
-
-      this.chartsArea1 = tempChartsArea1;
+    this.chartService.getPastureGraph(textParam).subscribe(tempPastureGraphCharts => {
+      console.log(tempPastureGraphCharts)
+      this.pastureGraphCharts = tempPastureGraphCharts;
     }, error => {
       console.error(error)
     });
-
   }
-
 
   updateArea2Charts() {
 
@@ -418,7 +409,7 @@ export class RightSideBarComponent implements OnInit {
   }
 
   updateArea3Charts() {
-    this.chartsArea1 = []
+    this.pastureGraphCharts = []
     let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)

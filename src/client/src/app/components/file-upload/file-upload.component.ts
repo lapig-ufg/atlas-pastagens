@@ -82,7 +82,6 @@ export class FileUploadComponent implements OnInit {
   ngOnInit() { }
 
   onClick() {
-    // console.log(this.language)
     // this.target = '/service/upload/spatial-file' + "?lang=" 
     let self = this;
 
@@ -260,7 +259,6 @@ export class FileUploadComponent implements OnInit {
                 canCancel: true
               });
             }
-            // console.log('... file[' + i + '].name = ' + file.name);
           }
         }
 
@@ -277,9 +275,6 @@ export class FileUploadComponent implements OnInit {
           canRetry: false,
           canCancel: true
         });
-        // console.log(
-        //   '... file[' + i + '].name = ' + ev.dataTransfer.files[i].name
-        // );
       }
     }
 
@@ -287,8 +282,6 @@ export class FileUploadComponent implements OnInit {
   }
 
   dragOverHandler(ev: DragEvent) {
-    // console.log('File(s) in drop zone');
-
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
   }

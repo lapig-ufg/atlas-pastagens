@@ -1,4 +1,4 @@
-<p-sidebar position="right" [modal]="false" (onHide)="hideSideBar()" [(visible)]="_displayOptions">
+<p-sidebar position="right" [modal]="false" (onHide)="hideSideBar()" [visible]="_displayOptions">
   <h4 class="title"> {{'right_sidebar.title' | translate}}</h4>
   <div class="content">
     <div class="layer-merge" align="center">
@@ -9,17 +9,18 @@
       </div>
     </div>
 
-    <div *ngIf="cardsToDisplay.resumo">
-      <div [class]="expandGroups.resumo ? 'group-card group-card-active' :'group-card'">
-        <div (click)="expandGroups.resumo = !expandGroups.resumo" class="abstract">
+    <!--- Informações Gerais--->
+    <div *ngIf="cardsToDisplay.summary">
+      <div [class]="expandGroups.summary ? 'group-card group-card-active' :'group-card'">
+        <div (click)="expandGroups.summary = !expandGroups.summary" class="abstract">
           <span>
             <i class='bx bx-trending-up'></i>
             <div class="group-label">{{'right_sidebar.cards_titles.resumoTitle' | translate}}</div>
           </span>
-          <i [class]="expandGroups.resumo ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
+          <i [class]="expandGroups.summary ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
         </div>
         <div class="details">
-          <div class="details-inner" *ngIf="infoResumo">
+          <div class="details-inner" *ngIf="infoSummary">
             <div class="resumo-container">
               <div class="resumo-card">
                 <div class="resumo-card-title">{{'right_sidebar.region_types.'+selectRegion.type | translate}}</div>
@@ -27,28 +28,28 @@
               </div>
               <div class="resumo-card">
                 <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_region' | translate}}</div>
-                <div class="resumo-card-content">{{infoResumo.region.area | number:'1.2-3' }} ha</div>
+                <div class="resumo-card-content">{{infoSummary.region.area | number:'1.2-3' }} ha</div>
               </div>
               <div class="resumo-card" *ngIf="layersForStatistics.pasture.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}} ({{infoResumo.pasture.year}})</div>
-                <div class="resumo-card-content">{{infoResumo.pasture.area | number:'1.2-3' }} ha
-                  ({{infoResumo.pasture.percentOfRegionArea}}
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}} ({{infoSummary.pasture.year}})</div>
+                <div class="resumo-card-content">{{infoSummary.pasture.area | number:'1.2-3' }} ha
+                  ({{infoSummary.pasture.percentOfRegionArea}}
                   {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
               </div>
               <!--Carbono-->
-              <div class="resumo-card"  *ngIf="infoResumo.carbono.total && layersForStatistics.carbono.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.carbono.title' | translate}} ({{infoResumo.carbono.year}})</div>
+              <div class="resumo-card"  *ngIf="infoSummary.carbono.total && layersForStatistics.carbono.switch">
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.carbono.title' | translate}} ({{infoSummary.carbono.year}})</div>
                 <div class="resumo-card-content">
-                  {{'right_sidebar.resumo_card.carbono.total' | translate}} {{infoResumo.carbono.total | number:'1.2-3' }} (MgC) {{'right_sidebar.resumo_card.carbono.mean' | translate}} 
-                  {{infoResumo.carbono.mean | number:'1.2-3'}} (MgC.ha) (
+                  {{'right_sidebar.resumo_card.carbono.total' | translate}} {{infoSummary.carbono.total | number:'1.2-3' }} (MgC) {{'right_sidebar.resumo_card.carbono.mean' | translate}} 
+                  {{infoSummary.carbono.mean | number:'1.2-3'}} (MgC.ha) (
                   {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
               </div>
                <!--End Carbono-->
 
-              <div class="resumo-card" *ngIf="infoResumo.pasture_quality.length > 0 && layersForStatistics.pasture_quality.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}} ({{infoResumo.pasture_quality.year}})</div>
+              <div class="resumo-card" *ngIf="infoSummary.pasture_quality.length > 0 && layersForStatistics.pasture_quality.switch">
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}} ({{infoSummary.pasture_quality.year}})</div>
                 <div class="resumo-card-content">
-                  <div class="resumo-card-content" *ngFor="let cl of infoResumo.pasture_quality"
+                  <div class="resumo-card-content" *ngFor="let cl of infoSummary.pasture_quality"
                     [style]="'border-radius: 5px; margin: 5px; background: ' + cl.color">
                     <div class="resumo-card-title-content">{{cl.classe}}</div>
                     <div class="resumo-card-content">{{cl.value | number:'1.2-3'}} ha ({{cl.percentAreaPasture}}
@@ -68,24 +69,26 @@
         </div>
       </div>
     </div>
-    <div *ngIf="cardsToDisplay.area1">
-      <div [class]="expandGroups.area1 ? 'group-card group-card-active' :'group-card'">
-        <div (click)="expandGroups.area1 = !expandGroups.area1" class="abstract">
+
+    <!--- Séries Temporais --->
+    <div *ngIf="cardsToDisplay.pastureGraph">
+      <div [class]="expandGroups.pastureGraph ? 'group-card group-card-active' :'group-card'">
+        <div (click)="expandGroups.pastureGraph = !expandGroups.pastureGraph" class="abstract">
           <span>
             <i class='bx bx-trending-up'></i>
-            <div class="group-label">{{'right_sidebar.cards_titles.area1Title' | translate}}</div>
+            <div class="group-label">{{'right_sidebar.cards_titles.pastureGraphTitle' | translate}}</div>
           </span>
-          <i [class]="expandGroups.area1 ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
+          <i [class]="expandGroups.pastureGraph ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
         </div>
         <div class="details">
           <div class="details-inner">
-            <div *ngIf="chartsArea1.length! <= 0" class="loader-container">
+            <div *ngIf="pastureGraphCharts.length! <= 0" class="loader-container">
               <div class="loader"></div>
             </div>
 
-            <!--table view municipio-->
-            <p-tabView *ngIf="chartsArea1.length! > 0">
-              <p-tabPanel header="{{chart.title}}" *ngFor="let chart of chartsArea1 ; let i = index" [selected]="i == 0"
+            <!-- table view municipio -->
+            <p-tabView *ngIf="pastureGraphCharts.length! > 0">
+              <p-tabPanel header="{{chart.title}}" *ngFor="let chart of pastureGraphCharts ; let i = index" [selected]="i == 0"
                 [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
                 <div class="margin">
                   <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
@@ -107,6 +110,8 @@
         </div>
       </div>
     </div>
+
+    <!--- Area2 --->
     <div *ngIf="cardsToDisplay.area2">
       <div [class]="expandGroups.area2 ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.area2 = !expandGroups.area2" class="abstract">
@@ -142,6 +147,8 @@
         </div>
       </div>
     </div>
+
+    <!--- Area3 --->
     <div *ngIf="cardsToDisplay.area3">
       <div [class]="expandGroups.area3 ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.area3 = !expandGroups.area3" class="abstract">
@@ -179,6 +186,8 @@
         </div>
       </div>
     </div>
+
+    <!--- Ranking de Aréa das Pastagens --->
     <div *ngIf="cardsToDisplay.rankingTable">
       <div [class]="expandGroups.rankingTable ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.rankingTable = !expandGroups.rankingTable" class="abstract">
@@ -245,7 +254,7 @@
 </p-sidebar>
 
 <p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
-  [header]="objectFullScreenChart.title" [(visible)]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
+  [header]="objectFullScreenChart.title" [visible]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
   <p *ngIf="objectFullScreenChart.text">
     {{ objectFullScreenChart.text }}
   </p>
