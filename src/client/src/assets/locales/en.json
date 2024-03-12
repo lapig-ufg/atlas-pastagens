@@ -311,6 +311,14 @@
           }
         }
       },
+      "mapa_referecia": {
+        "labelGroup": "Reference Map (MapBiomas)",
+        "layers": {
+          "mapa_referecia": {
+            "labelLayer": "Pasture Reference"
+          }
+        }
+      },
       "infraestrutura": {
         "labelGroup": "Infrastructure",
         "layers": {
