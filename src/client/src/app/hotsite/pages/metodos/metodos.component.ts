@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {LocalizationService} from "../../../@core/internationalization/localization.service";
-import {LangChangeEvent} from "@ngx-translate/core";
+import { LocalizationService } from "../../../@core/internationalization/localization.service";
+import { LangChangeEvent } from "@ngx-translate/core";
 import { Methodology } from 'src/app/@core/interfaces/methodology';
 import { environment } from 'src/environments/environment';
 import { ContentHub } from '../../services/content-hub.service';
@@ -12,10 +12,12 @@ import { ContentHub } from '../../services/content-hub.service';
 })
 export class MetodosComponent implements OnInit {
   public methodologies: Methodology[];
-  
+
   public lang: string;
 
-  constructor(private localizationService: LocalizationService, private contentHub: ContentHub) {
+  constructor(
+    private localizationService: LocalizationService,
+    private contentHub: ContentHub) {
     this.fetchMethodologies();
 
     this.lang = this.localizationService.currentLang();
@@ -29,9 +31,9 @@ export class MetodosComponent implements OnInit {
   }
 
   private fetchMethodologies(): void {
-    this.methodologies = [];
-
     this.contentHub.getMethodologies().subscribe(values => {
+      this.methodologies = [];
+
       values.forEach(element => {
         let fileUrl = JSON.parse(element.file as string)[0].download_link;
 

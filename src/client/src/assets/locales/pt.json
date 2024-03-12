@@ -402,7 +402,7 @@
       "classe_pasture_quality": "Classe",
       "area_classe_pasture_quality": "Área desta Classe de Degradação",
       "complement_text": "do(a)",
-      "pasture_quality_title": "Vigor de Pastagem",
+      "pasture_quality_title": "Vigor da Pastagem",
       "complement_text_pasture_quality": "da área de Pastagem do(a)",
       "obs_text": "*A diferença entre a área de pastagem aqui apresentada e a área mapeada, é explicada pelo ajuste de área a partir da análise de acurácia, detalhada em Parente et al. 2019 (<a target='_blank' class='link-details' href='https://doi.org/10.1016/j.rse.2019.111301'> https://doi.org/10.1016/j.rse.2019.111301</a>)",
       "pasture_quality": {
@@ -421,7 +421,7 @@
         }
       },
       "pastureQuality": {
-        "title": "Vigor de Pastagem",
+        "title": "Vigor da Pastagem",
         "text": "De acordo com o LAPIG, ao longo dos anos, o #typeRegionTranslate# #textRegionTranslate# possui sua área de Pastagem (ha) distribuída entre as seguintes classes de degradação de Pastagem",
         "labelOfQuery": {
           "pasture_quality": {
@@ -466,7 +466,7 @@
         "Agricultura": "Agricultura"
       },
       "pastureQualityPerYear": {
-        "title": "Vigor de Pastagem",
+        "title": "Vigor da Pastagem",
         "text": "De acordo com o LAPIG, no ano de #yearTranslate#, o #typeRegionTranslate# #textRegionTranslate# possui uma área total de Pastagem mapeada em #areaPasture# ha, distribuída entre as seguintes classes de degradação de Pastagem:",
         "labelOfQuery": {
           "pasture_quality": {
@@ -537,7 +537,7 @@
           "methods": "Métodos",
           "articles": "Artigos",
           "gallery": "Galeria",
-          "contact": "Contato"
+          "help": "Ajuda"
         }
       },
       "footer": {
@@ -620,30 +620,35 @@
       "msg": "Página não encontrada",
       "btn_back_to_home": "Voltar para home"
     },
-    "contact": {
-      "title": "Entre em Contato",
-      "sub-title": "Mande Mensgem",
-      "location": "Nos Visite:",
-      "email": "Email:",
-      "user-name": "Seu Nome",
-      "user-email": "Seu Email",
-      "user-subject": "Assunto",
-      "user-institution": "Instituição",
-      "user-message": "Escreve uma Mensagem",
-      "submit": "Submeter",
-      "form-validation": {
-        "email": {
-          "required": "Email é requerido.",
-          "invalid": "Email é inválido."
-        },
-        "name": "Nome é requerido.",
-        "subject": "Assunto é requerido.",
-        "institution": "Instituição é requerido",
-        "message": "Mensagem é requerido."
+    "help": {
+      "faq": {
+        "title": "FAQ"
       },
-      "submit-message": {
-        "success": "Sua mensagem foi enviada com sucesso",
-        "fail": "Seu envio falhou"
+      "form": {
+        "title": "Entre em Contato",
+        "sub-title": "Mande Mensgem",
+        "button": "Submeter",
+        "user": {
+          "name": "Seu Nome",
+          "email": "Seu Email",
+          "subject": "Assunto",
+          "institution": "Instituição",
+          "message": "Escreve uma Mensagem"
+        },
+        "validation": {
+          "email": {
+            "required": "Email é requerido.",
+            "invalid": "Email é inválido."
+          },
+          "name": "Nome é requerido.",
+          "subject": "Assunto é requerido.",
+          "institution": "Instituição é requerido",
+          "message": "Mensagem é requerido."
+        },
+        "submit": {
+          "success": "Sua mensagem foi enviada com sucesso",
+          "fail": "Seu envio falhou"
+        }
       }
     }
   },
