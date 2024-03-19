@@ -133,7 +133,6 @@ module.exports = function (app) {
         }
 
         return dataInfo;
-
     };
 
     Controller.handleResumo = function (request, response) {
@@ -148,7 +147,6 @@ module.exports = function (app) {
             yearTranslate: year
         };
         
-        
         if(card_resume === "region"){
             response.send({
                 area: request.queryResult['region'][0].area_region,
@@ -160,11 +158,9 @@ module.exports = function (app) {
             })
         }
         else if(card_resume === "carbono"){
-            
             response.send(request.queryResult['pasture_carbon_somsc'][0])
         }
         else if(card_resume === "pasture_quality"){
-            
             response.send(request.queryResult['pasture_quality'].map(ob => {
                 ob.percentAreaPasture = Internal.numberFormat((ob.value / request.queryResult['pasture'][0].value) * 100) + "%"
                 ob.percentOfRegionArea = Internal.numberFormat((ob.value / request.queryResult['region'][0].area_region) * 100) + "%"
@@ -173,12 +169,10 @@ module.exports = function (app) {
             }))
         }
         else{
-            
             response.send('error')
         }
         
         response.end();
-
     };
 
     Controller.handlePastureGraphData = function (request, response) {
@@ -240,7 +234,7 @@ module.exports = function (app) {
             {
                 "id": "carbon",
                 "idsOfQueriesExecuted": [
-                    { idOfQuery: 'carbon', labelOfQuery: Internal.languageOb["pastureGraph_card"]["carbon"].labelOfQuery['carbon'] },
+                    { idOfQuery: 'pasture_carbon', labelOfQuery: Internal.languageOb["pastureGraph_card"]["carbon"].labelOfQuery['carbon'] },
                 ],
                 "title": Internal.languageOb["pastureGraph_card"]["carbon"].title,
                 "getText": function (chart) {
@@ -273,6 +267,8 @@ module.exports = function (app) {
 
             chartFinal.push(chart);
         }
+
+        console.log(chartFinal);
 
         response.send(chartFinal)
         response.end();

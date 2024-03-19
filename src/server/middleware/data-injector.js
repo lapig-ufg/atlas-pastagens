@@ -23,11 +23,8 @@ module.exports = function(app) {
         var controller = pathParts[2]
         var method = pathParts[3]
 
-
         if (controller in queries && method in queries[controller]) {
-
             var queriesOfController = queries[controller]
-
             var params = Internal.parseParams(request, queriesOfController)
             var methodQueries = queriesOfController[method](params)
 
@@ -62,14 +59,9 @@ module.exports = function(app) {
                 }
             };
 
-
             async.each(methodQueries, onEach, onComplete)
-
-
-
         } else {
             next()
         }
-
     };
 };

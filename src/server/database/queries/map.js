@@ -84,7 +84,6 @@ module.exports = function (app) {
     // 	var columnsCSV= "cd_geouf,cd_geocmu,regiao,uf,estado,municipio,bioma,arcodesmat,matopiba,mun_ha,pol_ha,pct_areapo, "+params.columnsCSV;
     //   var filter = filterRegion;
     // 	var sqlquery;
-    // 	console.log('paramsss::',params)
 
     //   if(year != undefined && year != '') 
     //     filter = filterRegion +' AND '+ year;
@@ -93,7 +92,6 @@ module.exports = function (app) {
     // 		columnsCSV = '*'
     // 		filter = filterRegion;
     // 	}
-    // 	console.log("SELECT "+columnsCSV+" FROM "+layer+" WHERE "+filter)
     // 	return "SELECT "+columnsCSV+" FROM "+layer+" WHERE "+filter;
     // }
 

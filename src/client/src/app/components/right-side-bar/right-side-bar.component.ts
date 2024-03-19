@@ -373,8 +373,8 @@ export class RightSideBarComponent implements OnInit {
     let textParam = params.join('&');
 
     this.chartService.getPastureGraph(textParam).subscribe(tempPastureGraphCharts => {
-      console.log(tempPastureGraphCharts)
       this.pastureGraphCharts = tempPastureGraphCharts;
+      console.log(this.pastureGraphCharts);
     }, error => {
       console.error(error)
     });
