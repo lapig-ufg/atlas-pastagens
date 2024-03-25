@@ -87,7 +87,7 @@
             </div>
 
             <!-- table view municipio -->
-            <p-tabView *ngIf="pastureGraphCharts.length! > 0">
+            <p-tabView *ngIf="pastureGraphCharts.length! > 0" [scrollable]="true">
               <p-tabPanel header="{{chart.title}}" *ngFor="let chart of pastureGraphCharts ; let i = index" [selected]="i == 0"
                 [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
                 <div class="margin">

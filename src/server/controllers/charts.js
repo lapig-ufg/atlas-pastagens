@@ -195,10 +195,6 @@ module.exports = function (app) {
                 ],
                 "title": Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].title,
                 "getText": function (chart) {
-                    // replacements['areaMun'] = Number(chart['indicators'][0]["area_mun"])
-                    // replacements['anthropicArea'] = chart['indicators'].reduce((a, { value }) => a + value, 0);
-                    // replacements['percentArea'] = (replacements['anthropicArea'] / replacements['areaMun']) * 100.0;
-
                     const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].text, replacements)
                     return text
                 },
@@ -267,8 +263,6 @@ module.exports = function (app) {
 
             chartFinal.push(chart);
         }
-
-        console.log(chartFinal);
 
         response.send(chartFinal)
         response.end();
