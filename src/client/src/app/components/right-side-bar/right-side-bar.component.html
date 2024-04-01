@@ -31,23 +31,28 @@
                 <div class="resumo-card-content">{{infoSummary.region.area | number:'1.2-3' }} ha</div>
               </div>
               <div class="resumo-card" *ngIf="layersForStatistics.pasture.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}} ({{infoSummary.pasture.year}})</div>
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}}
+                  ({{infoSummary.pasture.year}})</div>
                 <div class="resumo-card-content">{{infoSummary.pasture.area | number:'1.2-3' }} ha
                   ({{infoSummary.pasture.percentOfRegionArea}}
                   {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
               </div>
               <!--Carbono-->
-              <div class="resumo-card"  *ngIf="infoSummary.carbono.total && layersForStatistics.carbono.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.carbono.title' | translate}} ({{infoSummary.carbono.year}})</div>
+              <div class="resumo-card" *ngIf="infoSummary.carbono.total && layersForStatistics.carbono.switch">
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.carbono.title' | translate}}
+                  ({{infoSummary.carbono.year}})</div>
                 <div class="resumo-card-content">
-                  {{'right_sidebar.resumo_card.carbono.total' | translate}} {{infoSummary.carbono.total | number:'1.2-3' }} (MgC) {{'right_sidebar.resumo_card.carbono.mean' | translate}} 
+                  {{'right_sidebar.resumo_card.carbono.total' | translate}} {{infoSummary.carbono.total | number:'1.2-3'
+                  }} (MgC) {{'right_sidebar.resumo_card.carbono.mean' | translate}}
                   {{infoSummary.carbono.mean | number:'1.2-3'}} (MgC.ha) (
                   {{'right_sidebar.resumo_card.complement_text' | translate}} {{selectRegion.text}})</div>
               </div>
-               <!--End Carbono-->
+              <!--End Carbono-->
 
-              <div class="resumo-card" *ngIf="infoSummary.pasture_quality.length > 0 && layersForStatistics.pasture_quality.switch">
-                <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}} ({{infoSummary.pasture_quality.year}})</div>
+              <div class="resumo-card"
+                *ngIf="infoSummary.pasture_quality.length > 0 && layersForStatistics.pasture_quality.switch">
+                <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}}
+                  ({{infoSummary.pasture_quality.year}})</div>
                 <div class="resumo-card-content">
                   <div class="resumo-card-content" *ngFor="let cl of infoSummary.pasture_quality"
                     [style]="'border-radius: 5px; margin: 5px; background: ' + cl.color">
@@ -87,23 +92,18 @@
             </div>
 
             <!-- table view municipio -->
-            <p-tabView *ngIf="pastureGraphCharts.length! > 0" [scrollable]="true">
-              <p-tabPanel header="{{chart.title}}" *ngFor="let chart of pastureGraphCharts ; let i = index" [selected]="i == 0"
-                [disabled]="!chart.show" [headerStyle]="{'font-size': 'small'}">
+            <div class='column' *ngIf="pastureGraphCharts.length! > 0">
+              <p-card *ngFor="let chart of pastureGraphCharts" header="{{chart.title}}" style="margin: 1%;">
                 <div class="margin">
                   <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
                     <mat-icon>aspect_ratio</mat-icon>
                   </button>
                   <h4 class="graphicTitle"> {{chart.text}} </h4>
                 </div>
-                <br><br>
-                <div *ngIf="chart.hasOwnProperty('type')">
-                  <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data"
-                    [options]="chart.options">
-                  </p-chart>
-                </div>
-              </p-tabPanel>
-            </p-tabView>
+                <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
+                </p-chart>
+              </p-card>
+            </div>
             <!--table view municipio-->
 
           </div>
@@ -205,9 +205,8 @@
                   [selected]="i == 0" [disabled]="!table.show" [headerStyle]="{'font-size': 'small'}">
                   <div *ngIf="table.show">
                     <p-table #dt [columns]="table.exportCols" styleClass="p-datatable-sm" [value]="table.data"
-                      (sortFunction)="customSort($event)" [customSort]="true"
-                      [paginator]="true" [rows]="10" [showCurrentPageReport]="true" responsiveLayout="scroll"
-                      [autoLayout]="true"
+                      (sortFunction)="customSort($event)" [customSort]="true" [paginator]="true" [rows]="10"
+                      [showCurrentPageReport]="true" responsiveLayout="scroll" [autoLayout]="true"
                       currentPageReportTemplate="{{'right_sidebar.area_table_card_auxiliar.showing' | translate}} {first} {{'right_sidebar.area_table_card_auxiliar.to' | translate}} {last} {{'right_sidebar.area_table_card_auxiliar.of' | translate}} {totalRecords} {{'right_sidebar.area_table_card_auxiliar.entries' | translate}}"
                       [rowsPerPageOptions]="[10,25,50]">
                       <ng-template pTemplate="caption">
@@ -259,8 +258,8 @@
     {{ objectFullScreenChart.text }}
   </p>
   <div class="chart">
-    <p-chart *ngIf="objectFullScreenChart.type" [responsive]="true"  [type]="objectFullScreenChart.type" [data]="objectFullScreenChart.data"
-      [options]="objectFullScreenChart.options">
+    <p-chart *ngIf="objectFullScreenChart.type" [responsive]="true" [type]="objectFullScreenChart.type"
+      [data]="objectFullScreenChart.data" [options]="objectFullScreenChart.options">
     </p-chart>
   </div>
 </p-dialog>
