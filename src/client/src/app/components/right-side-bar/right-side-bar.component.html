@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <!--- Informações Gerais--->
+    <!--- Informações Gerais --->
     <div *ngIf="cardsToDisplay.summary">
       <div [class]="expandGroups.summary ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.summary = !expandGroups.summary" class="abstract">
@@ -23,8 +23,8 @@
           <div class="details-inner" *ngIf="infoSummary">
             <div class="resumo-container">
               <div class="resumo-card">
-                <div class="resumo-card-title">{{'right_sidebar.region_types.'+selectRegion.type | translate}}</div>
-                <div class="resumo-card-content">{{selectRegion.text}}</div>
+                <div class="resumo-card-title">{{'right_sidebar.region_types.' + selectRegion.type | translate}}</div>
+                <div class="resumo-card-content"> {{ selectRegion.text }} </div>
               </div>
               <div class="resumo-card">
                 <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_region' | translate}}</div>
@@ -93,7 +93,8 @@
 
             <!-- table view municipio -->
             <div class='column' *ngIf="pastureGraphCharts.length! > 0">
-              <p-card *ngFor="let chart of pastureGraphCharts" header="{{chart.title}}" style="margin: 1%;">
+              <div *ngFor="let chart of pastureGraphCharts">
+              <p-card *ngIf="layersForStatistics[chart.id].switch" header="{{chart.title}}">
                 <div class="margin">
                   <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
                     <mat-icon>aspect_ratio</mat-icon>
@@ -103,6 +104,7 @@
                 <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
                 </p-chart>
               </p-card>
+              </div>
             </div>
             <!--table view municipio-->
 

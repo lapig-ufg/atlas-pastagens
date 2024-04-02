@@ -11,7 +11,6 @@ import Map from 'ol/Map';
 import { EventEmitter } from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
 import { XYZ } from 'ol/source';
-import { GeneralMapComponent } from '../general-map.component';
 
 @Component({
   selector: 'app-swipe',

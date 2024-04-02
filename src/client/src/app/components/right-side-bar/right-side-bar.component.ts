@@ -24,7 +24,6 @@ import { ExportToCsv } from 'export-to-csv';
 
 import { SortEvent } from 'primeng/api';
 
-
 @Component({
   selector: 'app-right-side-bar',
   templateUrl: './right-side-bar.component.html',
@@ -91,7 +90,6 @@ export class RightSideBarComponent implements OnInit {
   public filterSelectedOnLayersForStatistics: string;
   public layersForStatistics: any
 
-
   constructor(
     private el: ElementRef,
     private customerService: CustomerService,
@@ -132,8 +130,8 @@ export class RightSideBarComponent implements OnInit {
       pasture: {},
       pasture_quality: {},
       carbono: {}
-
     }
+
     this.lang = this.localizationService.currentLang();
 
     this.expandGroups = {
@@ -154,7 +152,6 @@ export class RightSideBarComponent implements OnInit {
 
     // this.updateStatistics(this.selectRegion)
 
-
     this.layersSideBar = false;
     this.layersSideBarMobile = false;
     this.currentMenu = {
@@ -163,12 +160,11 @@ export class RightSideBarComponent implements OnInit {
       icon: 'fg-layers',
       show: false
     }
-    this.displayFilter = false;
 
+    this.displayFilter = false;
   }
 
   ngOnInit(): void {
-
     this.updateStatistics(this.selectRegion);
 
     this.innerHeigth = window.innerHeight;
@@ -198,8 +194,6 @@ export class RightSideBarComponent implements OnInit {
         },
       },
     };
-
-
   }
 
   @HostListener('window:resize', ['$event'])
@@ -212,7 +206,6 @@ export class RightSideBarComponent implements OnInit {
       let result;
 
       if (event.field === 'index') {
-
         let data1 = parseInt(value1[event.field ? event.field : ""].replace("º", ""));
         let data2 = parseInt(value2[event.field ? event.field : ""].replace("º", ""));
 
@@ -221,14 +214,12 @@ export class RightSideBarComponent implements OnInit {
         return Number(event.order) * result;
 
       } else if (event.field === 'value') {
-
         let data1 = value1["originalValue"];
         let data2 = value2["originalValue"];
 
         result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
         return Number(event.order) * result;
-
       } else {
         let data1 = value1[event.field ? event.field : ""];
         let data2 = value2[event.field ? event.field : ""]
@@ -266,7 +257,6 @@ export class RightSideBarComponent implements OnInit {
   }
 
   handleMenu(menu, mobile = false) {
-
     this.menu.map(m => {
       return m.show = false
     });
@@ -281,21 +271,17 @@ export class RightSideBarComponent implements OnInit {
     if (mobile) {
       this.layersSideBarMobile = true;
       // this.onMenuSelected.emit({show: this.layersSideBarMobile, key: menu.key});
-
     } else {
       this.layersSideBar = true;
       this.onMenuSelected.emit({ show: this.layersSideBar, key: menu.key })
     }
-
   }
-
 
   handleLang(lng) {
     this.lang = lng;
   }
 
   updateStatistics(region?) {
-    console.log(region)
     if (region) {
       if (region.type === 'country' && region.text == '') {
         region.text = 'BRASIL'
@@ -320,7 +306,6 @@ export class RightSideBarComponent implements OnInit {
     if (this.cardsToDisplay.rankingTable) {
       this.updateAreaTable();
     }
-
   }
 
   updateSummary() {
@@ -335,7 +320,6 @@ export class RightSideBarComponent implements OnInit {
 
     this.chartsArea2 = []
 
-
     Object.keys(this.infoSummary).forEach(key => {
       let year: string;
       if (key === 'region') {
@@ -345,19 +329,15 @@ export class RightSideBarComponent implements OnInit {
       }
 
       if (this.infoSummary[key].year !== year.replace('year=', '') || this.infoSummary[key].value !== this.selectRegion.value) {
-
         this.chartService.getResumo(textParam + `&card_resume=${key}&${year}`).subscribe(tempResumo => {
           this.infoSummary[key] = tempResumo;
           this.infoSummary[key].year = year.replace('year=', '')
           this.infoSummary[key].value = this.selectRegion.value
-
-
         }, error => {
           console.error(error)
         })
       }
     })
-
   }
 
   updatePastureGraphCharts() {
@@ -373,16 +353,16 @@ export class RightSideBarComponent implements OnInit {
     let textParam = params.join('&');
 
     this.chartService.getPastureGraph(textParam).subscribe(tempPastureGraphCharts => {
+      console.log(tempPastureGraphCharts)
       this.pastureGraphCharts = tempPastureGraphCharts;
-      console.log(this.pastureGraphCharts);
     }, error => {
       console.error(error)
     });
   }
 
   updateArea2Charts() {
-
     let params: string[] = [];
+
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
     params.push('valueRegion=' + this.selectRegion.value)
@@ -405,7 +385,6 @@ export class RightSideBarComponent implements OnInit {
     }, error => {
       console.error(error)
     })
-
   }
 
   updateArea3Charts() {
@@ -440,7 +419,6 @@ export class RightSideBarComponent implements OnInit {
     this.chartService.getAreaTable(textParam).subscribe(tempTables => {
 
       for (let tab of tempTables) {
-
         tab.exportCols = [];
         let rows_labels = tab.rows_labels.split('?');
         let columnsTitle = tab.columnsTitle.split('?');
@@ -448,30 +426,21 @@ export class RightSideBarComponent implements OnInit {
         for (let i = 0; i < rows_labels.length; i++) {
           tab.exportCols.push({ dataKey: rows_labels[i], header: columnsTitle[i] })
         }
-
       }
 
       this.tableRankings = tempTables;
     }, error => {
       console.error(error)
     });
-
   }
 
   receiveFilterLayer(selectedLayers) {
-    // Old sistem
-    let result = selectedLayers.find(x => x.valueType.includes('pasture'));
-    if (result) {
-      if (this.filterSelectedOnLayersForStatistics !== result.filterSelected) {
-        this.filterSelectedOnLayersForStatistics = result.filterSelected
-        this.updateStatistics(this.selectRegion);
-      }
-    }
-    //New sistem
     Object.keys(this.layersForStatistics).forEach(key => {
       let layer = selectedLayers.find(x => x.valueType.includes(this.layersForStatistics[key].valueType));
+
       if (layer) {
         this.layersForStatistics[key].switch = true
+        
         if (this.layersForStatistics[key].year !== layer.filterSelected) {
           this.layersForStatistics[key].year = layer.filterSelected
           this.updateStatistics(this.selectRegion);
@@ -479,22 +448,14 @@ export class RightSideBarComponent implements OnInit {
       } else {
         this.layersForStatistics[key].switch = false
       }
-
     });
 
-
-
-
-
+    console.log(this.layersForStatistics);
   }
 
-  updateStatus(name) {
-
-  }
-
+  updateStatus(name) {}
 
   exportCSV(table) {
-
     const options = {
       fieldSeparator: ';',
       quoteStrings: '"',
@@ -525,25 +486,17 @@ export class RightSideBarComponent implements OnInit {
     const csvExporter = new ExportToCsv(options);
 
     csvExporter.generateCsv(res);
-
   }
 
-
   exportPdf(table) {
-
     const doc = new jsPDF();
 
     autoTable(doc, {
       columnStyles: { 3: { halign: 'center' } },
       columns: table.exportCols,
       body: table.data
-
     });
 
     doc.save(table.title + '.pdf');
-
-
   }
-
-
 }

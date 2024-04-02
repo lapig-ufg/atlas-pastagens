@@ -188,7 +188,7 @@ module.exports = function (app) {
 
         const chartResult = [
             {
-                "id": "pastureAndLotacaoBovina",
+                "id": "pasture",
                 "idsOfQueriesExecuted": [
                     { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
                     { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
@@ -206,7 +206,7 @@ module.exports = function (app) {
                 }
             },
             {
-                "id": "pastureQuality",
+                "id": "pasture_quality",
                 "idsOfQueriesExecuted": [
                     { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
                     // { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
@@ -228,7 +228,7 @@ module.exports = function (app) {
                 }
             },
             {
-                "id": "carbon",
+                "id": "carbono",
                 "idsOfQueriesExecuted": [
                     { idOfQuery: 'pasture_carbon', labelOfQuery: Internal.languageOb["pastureGraph_card"]["carbon"].labelOfQuery['carbon'] },
                 ],
