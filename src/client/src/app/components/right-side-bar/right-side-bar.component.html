@@ -91,22 +91,27 @@
               <div class="loader"></div>
             </div>
 
-            <!-- table view municipio -->
+            <!-- Empty warning -->
+            <div class="ghost-text" *ngIf="shouldShowGraph()">
+              {{ 'right_sidebar.pastureGraph_card.empty' | translate }}
+            </div>
+
+            <!-- Graph cards -->
             <div class='column' *ngIf="pastureGraphCharts.length! > 0">
-              <div *ngFor="let chart of pastureGraphCharts">
-              <p-card *ngIf="layersForStatistics[chart.id].switch" header="{{chart.title}}">
-                <div class="margin">
-                  <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
-                    <mat-icon>aspect_ratio</mat-icon>
-                  </button>
-                  <h4 class="graphicTitle"> {{chart.text}} </h4>
-                </div>
-                <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
-                </p-chart>
-              </p-card>
+              <div class="time-series-card-margin" *ngFor="let chart of pastureGraphCharts">
+                <p-card *ngIf="layersForStatistics[chart.id].switch" header="{{chart.title}}">
+                  <div class="margin">
+                    <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
+                      <mat-icon>aspect_ratio</mat-icon>
+                    </button>
+                    <h4 class="graphicTitle"> {{chart.text}} </h4>
+                  </div>
+                  <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
+                  </p-chart>
+                </p-card>
               </div>
             </div>
-            <!--table view municipio-->
+            <!-- Graph cards -->
 
           </div>
         </div>
@@ -255,7 +260,7 @@
 </p-sidebar>
 
 <p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
-  [header]="objectFullScreenChart.title" [visible]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
+  [header]="objectFullScreenChart.title" [(visible)]="objectFullScreenChart.fullScreen" [style]="{width: '50vw'}">
   <p *ngIf="objectFullScreenChart.text">
     {{ objectFullScreenChart.text }}
   </p>

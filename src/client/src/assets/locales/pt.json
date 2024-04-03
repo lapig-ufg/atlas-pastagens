@@ -404,6 +404,7 @@
       }
     },
     "pastureGraph_card": {
+      "empty": "Nenhuma camada selecionada...",
       "pastureAndLotacaoBovina": {
         "title": "Pastagem",
         "text": "De acordo com o LAPIG, a área de Pastagem (em hectares) e o Rebanho Bovino (em UA) no #typeRegionTranslate# #textRegionTranslate# foi de:",

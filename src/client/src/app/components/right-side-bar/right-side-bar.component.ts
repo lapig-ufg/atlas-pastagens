@@ -353,7 +353,6 @@ export class RightSideBarComponent implements OnInit {
     let textParam = params.join('&');
 
     this.chartService.getPastureGraph(textParam).subscribe(tempPastureGraphCharts => {
-      console.log(tempPastureGraphCharts)
       this.pastureGraphCharts = tempPastureGraphCharts;
     }, error => {
       console.error(error)
@@ -440,7 +439,7 @@ export class RightSideBarComponent implements OnInit {
 
       if (layer) {
         this.layersForStatistics[key].switch = true
-        
+
         if (this.layersForStatistics[key].year !== layer.filterSelected) {
           this.layersForStatistics[key].year = layer.filterSelected
           this.updateStatistics(this.selectRegion);
@@ -453,7 +452,7 @@ export class RightSideBarComponent implements OnInit {
     console.log(this.layersForStatistics);
   }
 
-  updateStatus(name) {}
+  updateStatus(name) { }
 
   exportCSV(table) {
     const options = {
@@ -498,5 +497,11 @@ export class RightSideBarComponent implements OnInit {
     });
 
     doc.save(table.title + '.pdf');
+  }
+
+  shouldShowGraph(): boolean {
+    return !this.layersForStatistics['carbono'].switch
+      && !this.layersForStatistics['pasture'].switch
+      && !this.layersForStatistics['pasture_quality'].switch;
   }
 }

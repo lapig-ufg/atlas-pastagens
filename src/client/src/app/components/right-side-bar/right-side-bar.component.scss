@@ -527,3 +527,17 @@
     }
   }
 }
+
+.time-series-card-margin {
+  margin-bottom: 1%;
+}
+
+.ghost-text {
+  color: #999; /* Cor do texto fantasma */
+  font-family: Arial, sans-serif; /* Fonte do texto */
+  font-size: 16px; /* Tamanho do texto */
+  text-align: center; /* Centralizar o texto horizontalmente */
+  opacity: 0.6; /* Opacidade do texto fantasma */
+  margin-top: 20px;
+  margin-bottom: 20px;
+}

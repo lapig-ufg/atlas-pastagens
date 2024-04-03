@@ -403,6 +403,7 @@
       }
     },
     "pastureGraph_card": {
+      "empty": "No layers selected...",
       "pastureAndLotacaoBovina": {
         "title": "Pasture",
         "text": "According to LAPIG, the Pasture area (in hectares) and the Bovine Stocking (in UA) in the #typeRegionTranslate# #textRegionTranslate# was:",
