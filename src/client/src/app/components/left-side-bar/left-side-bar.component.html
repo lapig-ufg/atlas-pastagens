@@ -6,13 +6,15 @@
       </div>
       <ul #leftSidebar class="nav-list">
         <drag-scroll class="nav-list-drag" [scrollbar-hidden]="true" [drag-scroll-x-disabled]="true">
+          <!-- Filters Menu -->
           <li (click)="onFilter()">
             <div pRipple [pTooltip]="open ? '' : 'menu.filters_tooltip'  | translate "
               [class]="showFilter ? 'menu-active' : ''">
               <i class='fg-map-search'></i>
-              <span class="links_namez">{{'menu.filters' | translate}}</span>
+              <span class="links_name">{{'menu.filters' | translate}}</span>
             </div>
           </li>
+          <!-- Others Menus -->
           <li *ngFor="let item of menu">
             <div pRipple [pTooltip]="open ? '' : 'menu.'+item.key+'_tooltip'  | translate " (click)="handleMenu(item)"
               [class]="handleMenuActive(item)">

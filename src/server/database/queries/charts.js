@@ -12,7 +12,6 @@ module.exports = function (app) {
 
         if (type == 'country') {
             regionsFilter = "1=1";
-
         } else {
             var regionsFilter = "";
             if (type == 'city')
@@ -40,10 +39,10 @@ module.exports = function (app) {
     }
 
     Internal.getYearFilter = function (year) {
-
         if (year) {
             year = "year = " + (year)
         }
+        
         return year;
     }
 
@@ -106,10 +105,8 @@ module.exports = function (app) {
         ]
     }
 
-    Query.area1 = function (params) {
-
+    Query.pastureGraph = function (params) {
         var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
-        // var yearFilter = Internal.getYearFilter(params['year']);
 
         return [
             //     {
@@ -158,8 +155,14 @@ module.exports = function (app) {
                     " GROUP BY 1,2,3 ORDER BY 1 ASC;",
                 mantain: true
             },
+            {
+                source: 'lapig',
+                id: 'pasture_carbon',
+                sql: " SELECT a.year::int as label, b.color, b.name as classe, sum(value_sum) as value" +
+                " FROM pasture_carbon_somsc_statistic_2022 a " + "INNER JOIN graphic_colors as b on b.table_rel = 'pasture_carbon'" +
+                "WHERE " + regionFilter + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
+            }
         ]
-
     }
 
     Query.area2 = function (params) {

@@ -273,9 +273,6 @@ export class LeftSideBarComponent implements AfterViewInit {
   }
 
   onChangeLimit(limit, event) {
-    //console.log("limit: ", limit);
-    //console.log("event: ", event);
-
     this.limits.map((l) => {
       l.checked = limit.get('key') === l.get('key');
     });

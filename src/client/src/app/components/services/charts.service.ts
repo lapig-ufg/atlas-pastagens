@@ -19,8 +19,8 @@ export class ChartService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getArea1(parameters): Observable<any> {
-    return this.httpClient.get<any>(this.apiURL + '/area1?' + parameters, this.httpOptions)
+  getPastureGraph(parameters): Observable<any> {
+    return this.httpClient.get<any>(this.apiURL + '/pastureGraph?' + parameters, this.httpOptions)
       .pipe(
         catchError(this.errorHandler),
       );

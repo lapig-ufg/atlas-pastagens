@@ -67,7 +67,6 @@ module.exports = function(app) {
                 }
                 else if (config['pg_lapig']['debug']) {
                     const duration = Date.now() - start
-                    // console.log('Executed query', { query, duration, rows: result.rowCount })
                 }
                 callback(result)
             })
@@ -80,7 +79,6 @@ module.exports = function(app) {
                 }
                 else if (config['pg_general']['debug']) {
                     const duration = Date.now() - start
-                    // console.log('Executed query', { query, duration, rows: result.rowCount })
                 }
                 callback(result)
             })

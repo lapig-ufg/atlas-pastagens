@@ -377,7 +377,7 @@
     "title": "Statistics",
     "cards_titles": {
       "resumoTitle": "General Informations",
-      "area1Title": "Timeseries",
+      "pastureGraphTitle": "Timeseries",
       "area2Title": "Proportional Analysis",
       "area3Title": "Bar Charts",
       "areaTableTitle": "Pasture Area Rankings"
@@ -410,7 +410,8 @@
         "Ausente": "Absent"
       }
     },
-    "area1_card": {
+    "pastureGraph_card": {
+      "empty": "No layers selected...",
       "pastureAndLotacaoBovina": {
         "title": "Pasture",
         "text": "According to LAPIG, the Pasture area (in hectares) and the Bovine Stocking (in UA) in the #typeRegionTranslate# #textRegionTranslate# was:",
@@ -428,6 +429,13 @@
             "Intermediário": "Intermediary",
             "Ausente": "Absent"
           }
+        }
+      },
+      "carbon": {
+        "title": "Carbon",
+        "text": "According to LAPIG, the estimate of carbon (in MgC) in soil organic matter in #typeRegionTranslate# #textRegionTranslate# is",
+        "labelOfQuery": {
+          "carbon": "Carbon"
         }
       }
     },

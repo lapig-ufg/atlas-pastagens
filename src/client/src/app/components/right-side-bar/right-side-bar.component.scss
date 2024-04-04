@@ -30,13 +30,14 @@
   background: $primary;
   border-radius: 5px;
 }
+
 .chart{
-  max-width: 60%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .margin {
-  margin-bottom: 15px;
+  margin-bottom: 20%;
 }
 
 .graphicTitle {
@@ -44,7 +45,7 @@
   position: absolute;
   margin-top: 7px;
   display: inline;
-  width: 243px;
+  width: 230px;
 }
 
 .divReportButton {
@@ -525,4 +526,18 @@
       margin: unset;
     }
   }
+}
+
+.time-series-card-margin {
+  margin-bottom: 2%;
+}
+
+.ghost-text {
+  color: #999; /* Cor do texto fantasma */
+  font-family: Arial, sans-serif; /* Fonte do texto */
+  font-size: 16px; /* Tamanho do texto */
+  text-align: center; /* Centralizar o texto horizontalmente */
+  opacity: 0.6; /* Opacidade do texto fantasma */
+  margin-top: 20px;
+  margin-bottom: 20px;
 }

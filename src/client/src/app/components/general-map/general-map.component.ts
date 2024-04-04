@@ -987,9 +987,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   changeLayerVisibility(ev) {
-
     let { layer, updateSource } = ev;
-    //console.log('event: ' + JSON.stringify(layer))
+
     const layerType: DescriptorType = layer;
 
     if (updateSource) {
@@ -1015,7 +1014,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             this.handleLayersLegend(type);
           }
         });
-        //console.log(this.OlLayers, layerType.valueType)
+
         this.OlLayers[layerType.valueType].setVisible(layerType.visible);
 
         this.handleLayersLegend(layerType);

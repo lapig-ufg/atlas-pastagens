@@ -24,7 +24,6 @@ import { ExportToCsv } from 'export-to-csv';
 
 import { SortEvent } from 'primeng/api';
 
-
 @Component({
   selector: 'app-right-side-bar',
   templateUrl: './right-side-bar.component.html',
@@ -37,8 +36,6 @@ export class RightSideBarComponent implements OnInit {
   @Output() onMenuSelected = new EventEmitter<any>();
   @Output() onSideBarToggle = new EventEmitter<boolean>();
   @Input() descriptor: Descriptor;
-
-
 
   @Input() set displayOptions(value: boolean) {
     this.onSideBarToggle.emit(value);
@@ -59,15 +56,14 @@ export class RightSideBarComponent implements OnInit {
 
   public chartsArea3 = [] as any;
   public chartsArea2 = [] as any;
-  public chartsArea1 = [] as any;
+  public pastureGraphCharts = [] as any;
   public tableRankings = [] as any;
-  public infoResumo: any;
+  public infoSummary: any;
 
   //Charts Variables
   public defaultRegion: any;
   public selectRegion: any;
   public objectFullScreenChart: any = {};
-
 
   public options: any;
   public groupLayers: any[];
@@ -75,9 +71,6 @@ export class RightSideBarComponent implements OnInit {
 
   public expandGroups: any;
   public cardsToDisplay: any;
-
-
-
 
   @Output() onChangeMap = new EventEmitter<any>();
   @Output() onChangeLimits = new EventEmitter<any>();
@@ -96,7 +89,6 @@ export class RightSideBarComponent implements OnInit {
   public chartObject: any;
   public filterSelectedOnLayersForStatistics: string;
   public layersForStatistics: any
-
 
   constructor(
     private el: ElementRef,
@@ -133,33 +125,32 @@ export class RightSideBarComponent implements OnInit {
       carbono: { year: "year=0", switch: false, valueType: "pa_br_somsc_2022" },
     }
 
-    this.infoResumo = {
+    this.infoSummary = {
       region: {},
       pasture: {},
       pasture_quality: {},
       carbono: {}
-
     }
+
     this.lang = this.localizationService.currentLang();
 
     this.expandGroups = {
-      resumo: true,
-      area1: false,
+      summary: true,
+      pastureGraph: false,
       area2: false,
       area3: false,
       rankingTable: false
     }
 
     this.cardsToDisplay = {
-      resumo: true,
-      area1: true,
-      area2: true,
+      summary: true,
+      pastureGraph: true,
+      area2: false,
       area3: false,
       rankingTable: true
     }
 
     // this.updateStatistics(this.selectRegion)
-
 
     this.layersSideBar = false;
     this.layersSideBarMobile = false;
@@ -169,12 +160,11 @@ export class RightSideBarComponent implements OnInit {
       icon: 'fg-layers',
       show: false
     }
-    this.displayFilter = false;
 
+    this.displayFilter = false;
   }
 
   ngOnInit(): void {
-
     this.updateStatistics(this.selectRegion);
 
     this.innerHeigth = window.innerHeight;
@@ -204,8 +194,6 @@ export class RightSideBarComponent implements OnInit {
         },
       },
     };
-
-
   }
 
   @HostListener('window:resize', ['$event'])
@@ -218,7 +206,6 @@ export class RightSideBarComponent implements OnInit {
       let result;
 
       if (event.field === 'index') {
-
         let data1 = parseInt(value1[event.field ? event.field : ""].replace("º", ""));
         let data2 = parseInt(value2[event.field ? event.field : ""].replace("º", ""));
 
@@ -227,14 +214,12 @@ export class RightSideBarComponent implements OnInit {
         return Number(event.order) * result;
 
       } else if (event.field === 'value') {
-
         let data1 = value1["originalValue"];
         let data2 = value2["originalValue"];
 
         result = (data1 < data2) ? -1 : (data1 > data2) ? 1 : 0;
 
         return Number(event.order) * result;
-
       } else {
         let data1 = value1[event.field ? event.field : ""];
         let data2 = value2[event.field ? event.field : ""]
@@ -251,7 +236,6 @@ export class RightSideBarComponent implements OnInit {
   }
 
   openCharts(chart) {
-
     let obj = {
       title: chart.title,
       text: chart.text,
@@ -262,7 +246,6 @@ export class RightSideBarComponent implements OnInit {
     }
 
     this.objectFullScreenChart = obj;
-
   }
 
   setMap(map) {
@@ -274,7 +257,6 @@ export class RightSideBarComponent implements OnInit {
   }
 
   handleMenu(menu, mobile = false) {
-
     this.menu.map(m => {
       return m.show = false
     });
@@ -289,14 +271,11 @@ export class RightSideBarComponent implements OnInit {
     if (mobile) {
       this.layersSideBarMobile = true;
       // this.onMenuSelected.emit({show: this.layersSideBarMobile, key: menu.key});
-
     } else {
       this.layersSideBar = true;
       this.onMenuSelected.emit({ show: this.layersSideBar, key: menu.key })
     }
-
   }
-
 
   handleLang(lng) {
     this.lang = lng;
@@ -312,11 +291,11 @@ export class RightSideBarComponent implements OnInit {
       this.selectRegion = this.defaultRegion;
     }
 
-    if (this.cardsToDisplay.resumo) {
-      this.updateResumo();
+    if (this.cardsToDisplay.summary) {
+      this.updateSummary();
     }
-    if (this.cardsToDisplay.area1) {
-      this.updateArea1Charts()
+    if (this.cardsToDisplay.pastureGraph) {
+      this.updatePastureGraphCharts()
     }
     if (this.cardsToDisplay.area2) {
       this.updateArea2Charts()
@@ -327,11 +306,9 @@ export class RightSideBarComponent implements OnInit {
     if (this.cardsToDisplay.rankingTable) {
       this.updateAreaTable();
     }
-
   }
 
-  updateResumo() {
-
+  updateSummary() {
     let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
@@ -343,55 +320,48 @@ export class RightSideBarComponent implements OnInit {
 
     this.chartsArea2 = []
 
-
-    Object.keys(this.infoResumo).forEach(key => {
+    Object.keys(this.infoSummary).forEach(key => {
       let year: string;
       if (key === 'region') {
         year = this.filterSelectedOnLayersForStatistics
       } else {
         year = this.layersForStatistics[key].year
       }
-      
-      if (this.infoResumo[key].year !== year.replace('year=', '') || this.infoResumo[key].value !== this.selectRegion.value) {
 
+      if (this.infoSummary[key].year !== year.replace('year=', '') || this.infoSummary[key].value !== this.selectRegion.value) {
         this.chartService.getResumo(textParam + `&card_resume=${key}&${year}`).subscribe(tempResumo => {
-          this.infoResumo[key] = tempResumo;
-          this.infoResumo[key].year = year.replace('year=', '')
-          this.infoResumo[key].value = this.selectRegion.value
-
-
+          this.infoSummary[key] = tempResumo;
+          this.infoSummary[key].year = year.replace('year=', '')
+          this.infoSummary[key].value = this.selectRegion.value
         }, error => {
           console.error(error)
         })
       }
     })
-
   }
 
+  updatePastureGraphCharts() {
+    this.pastureGraphCharts = []
 
+    let params: string[] = []
 
-  updateArea1Charts() {
-    this.chartsArea1 = []
-    let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
     params.push('valueRegion=' + this.selectRegion.value)
     params.push('textRegion=' + this.selectRegion.text)
+
     let textParam = params.join('&');
 
-    this.chartService.getArea1(textParam).subscribe(tempChartsArea1 => {
-
-      this.chartsArea1 = tempChartsArea1;
+    this.chartService.getPastureGraph(textParam).subscribe(tempPastureGraphCharts => {
+      this.pastureGraphCharts = tempPastureGraphCharts;
     }, error => {
       console.error(error)
     });
-
   }
 
-
   updateArea2Charts() {
-
     let params: string[] = [];
+
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
     params.push('valueRegion=' + this.selectRegion.value)
@@ -414,11 +384,10 @@ export class RightSideBarComponent implements OnInit {
     }, error => {
       console.error(error)
     })
-
   }
 
   updateArea3Charts() {
-    this.chartsArea1 = []
+    this.pastureGraphCharts = []
     let params: string[] = [];
     params.push('lang=' + this.localizationService.currentLang())
     params.push('typeRegion=' + this.selectRegion.type)
@@ -449,7 +418,6 @@ export class RightSideBarComponent implements OnInit {
     this.chartService.getAreaTable(textParam).subscribe(tempTables => {
 
       for (let tab of tempTables) {
-
         tab.exportCols = [];
         let rows_labels = tab.rows_labels.split('?');
         let columnsTitle = tab.columnsTitle.split('?');
@@ -457,30 +425,21 @@ export class RightSideBarComponent implements OnInit {
         for (let i = 0; i < rows_labels.length; i++) {
           tab.exportCols.push({ dataKey: rows_labels[i], header: columnsTitle[i] })
         }
-
       }
 
       this.tableRankings = tempTables;
     }, error => {
       console.error(error)
     });
-
   }
 
   receiveFilterLayer(selectedLayers) {
-    // Old sistem
-    let result = selectedLayers.find(x => x.valueType.includes('pasture'));
-    if (result) {
-      if (this.filterSelectedOnLayersForStatistics !== result.filterSelected) {
-        this.filterSelectedOnLayersForStatistics = result.filterSelected
-        this.updateStatistics(this.selectRegion);
-      }
-    }
-    //New sistem
     Object.keys(this.layersForStatistics).forEach(key => {
       let layer = selectedLayers.find(x => x.valueType.includes(this.layersForStatistics[key].valueType));
+
       if (layer) {
         this.layersForStatistics[key].switch = true
+
         if (this.layersForStatistics[key].year !== layer.filterSelected) {
           this.layersForStatistics[key].year = layer.filterSelected
           this.updateStatistics(this.selectRegion);
@@ -488,22 +447,12 @@ export class RightSideBarComponent implements OnInit {
       } else {
         this.layersForStatistics[key].switch = false
       }
-
     });
-
-
-
-
-
   }
 
-  updateStatus(name) {
-
-  }
-
+  updateStatus(name) { }
 
   exportCSV(table) {
-
     const options = {
       fieldSeparator: ';',
       quoteStrings: '"',
@@ -534,25 +483,23 @@ export class RightSideBarComponent implements OnInit {
     const csvExporter = new ExportToCsv(options);
 
     csvExporter.generateCsv(res);
-
   }
 
-
   exportPdf(table) {
-
     const doc = new jsPDF();
 
     autoTable(doc, {
       columnStyles: { 3: { halign: 'center' } },
       columns: table.exportCols,
       body: table.data
-
     });
 
     doc.save(table.title + '.pdf');
-
-
   }
 
-
+  shouldShowGraph(): boolean {
+    return this.layersForStatistics['carbono'].switch
+      || this.layersForStatistics['pasture'].switch
+      || this.layersForStatistics['pasture_quality'].switch;
+  }
 }

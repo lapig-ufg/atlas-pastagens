@@ -24,13 +24,10 @@ module.exports = function (app) {
                         const fileData = fs.readFileSync(path.join(folder_path, file), 'utf8');
                         const json = JSON.parse(fileData.toString());
 
-                        // console.log(json)
                         json.forEach(function (item, index) {
-
-                            // console.log(element, item)
                             var group = new Group(language, item, layertypes).getGroupInstance();
+                            
                             groups.push(group)
-
                         });
 
                     } catch (e) {
@@ -66,7 +63,6 @@ module.exports = function (app) {
                         const fileData = fs.readFileSync(path.join(folder_path, file), 'utf8');
                         const json = JSON.parse(fileData.toString());
 
-                        // console.log(json)
                         json.forEach(function (item, index) {
                             const layer = new Layer(language, item, null, layertypes);
                             layers.push(layer.getLayerInstance())
