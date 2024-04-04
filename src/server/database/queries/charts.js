@@ -158,7 +158,7 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture_carbon',
-                sql: " SELECT a.year::int as label, b.color, b.name as classe, sum(a.value_sum) as value" +
+                sql: " SELECT a.year::int as label, b.color, b.name as classe, sum(value_sum) as value" +
                 " FROM pasture_carbon_somsc_statistic_2022 a " + "INNER JOIN graphic_colors as b on b.table_rel = 'pasture_carbon'" +
                 "WHERE " + regionFilter + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
             }

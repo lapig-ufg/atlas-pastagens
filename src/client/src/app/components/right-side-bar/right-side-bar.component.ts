@@ -448,8 +448,6 @@ export class RightSideBarComponent implements OnInit {
         this.layersForStatistics[key].switch = false
       }
     });
-
-    console.log(this.layersForStatistics);
   }
 
   updateStatus(name) { }
@@ -500,8 +498,8 @@ export class RightSideBarComponent implements OnInit {
   }
 
   shouldShowGraph(): boolean {
-    return !this.layersForStatistics['carbono'].switch
-      && !this.layersForStatistics['pasture'].switch
-      && !this.layersForStatistics['pasture_quality'].switch;
+    return this.layersForStatistics['carbono'].switch
+      || this.layersForStatistics['pasture'].switch
+      || this.layersForStatistics['pasture_quality'].switch;
   }
 }

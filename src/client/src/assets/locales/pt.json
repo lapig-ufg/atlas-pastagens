@@ -426,7 +426,7 @@
       },
       "carbon": {
         "title": "Carbon",
-        "text": "According to LAPIG, the carbon emession...",
+        "text": "De acordo com o LAPIG, a estimativa de carbono (em MgC) na matéria orgânica do solo no #typeRegionTranslate# #textRegionTranslate# é de:",
         "labelOfQuery": {
           "carbon": "Carbon"
         }
@@ -659,9 +659,8 @@
     "fotos_drone": "Fotos de Drone",
     "videos_drone": "Vídeos de Drone"
   },
-  "atlasinformation":{
+  "atlasinformation": {
     "title": "Nota de Esclarecimento",
-    "text":"<p>Gostaríamos de informar que identificamos recentemente um erro em nossas estimativas de área de pastagem. Nossa equipe já solucionou essa questão, assegurando informações precisas.</p><p>Sua confiança é muito importante para nós. Caso tenha alguma dúvida, não hesite em nos contatar pelo e-mail <strong>atlasdaspastagens.lapig@ufg.br</strong>.</p></p>Obrigado pela sua compreensão.</p><p>Atenciosamente,</p><p>Equipe Atlas das Pastagens</p>"
-    
+    "text": "<p>Gostaríamos de informar que identificamos recentemente um erro em nossas estimativas de área de pastagem. Nossa equipe já solucionou essa questão, assegurando informações precisas.</p><p>Sua confiança é muito importante para nós. Caso tenha alguma dúvida, não hesite em nos contatar pelo e-mail <strong>atlasdaspastagens.lapig@ufg.br</strong>.</p></p>Obrigado pela sua compreensão.</p><p>Atenciosamente,</p><p>Equipe Atlas das Pastagens</p>"
   }
 }

@@ -76,43 +76,38 @@
     </div>
 
     <!--- Séries Temporais --->
-    <div *ngIf="cardsToDisplay.pastureGraph">
-      <div [class]="expandGroups.pastureGraph ? 'group-card group-card-active' :'group-card'">
-        <div (click)="expandGroups.pastureGraph = !expandGroups.pastureGraph" class="abstract">
-          <span>
-            <i class='bx bx-trending-up'></i>
-            <div class="group-label">{{'right_sidebar.cards_titles.pastureGraphTitle' | translate}}</div>
-          </span>
-          <i [class]="expandGroups.pastureGraph ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
-        </div>
-        <div class="details">
-          <div class="details-inner">
-            <div *ngIf="pastureGraphCharts.length! <= 0" class="loader-container">
-              <div class="loader"></div>
-            </div>
-
-            <!-- Empty warning -->
-            <div class="ghost-text" *ngIf="shouldShowGraph()">
-              {{ 'right_sidebar.pastureGraph_card.empty' | translate }}
-            </div>
-
-            <!-- Graph cards -->
-            <div class='column' *ngIf="pastureGraphCharts.length! > 0">
-              <div class="time-series-card-margin" *ngFor="let chart of pastureGraphCharts">
-                <p-card *ngIf="layersForStatistics[chart.id].switch" header="{{chart.title}}">
-                  <div class="margin">
-                    <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
-                      <mat-icon>aspect_ratio</mat-icon>
-                    </button>
-                    <h4 class="graphicTitle"> {{chart.text}} </h4>
-                  </div>
-                  <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
-                  </p-chart>
-                </p-card>
+    <div *ngIf="shouldShowGraph()">
+      <div *ngIf="cardsToDisplay.pastureGraph">
+        <div [class]="expandGroups.pastureGraph ? 'group-card group-card-active' :'group-card'">
+          <div (click)="expandGroups.pastureGraph = !expandGroups.pastureGraph" class="abstract">
+            <span>
+              <i class='bx bx-trending-up'></i>
+              <div class="group-label">{{'right_sidebar.cards_titles.pastureGraphTitle' | translate}}</div>
+            </span>
+            <i [class]="expandGroups.pastureGraph ? 'bx bxs-up-arrow-circle' :'bx bxs-down-arrow-circle'"></i>
+          </div>
+          <div class="details">
+            <div class="details-inner">
+              <div *ngIf="pastureGraphCharts.length! <= 0" class="loader-container">
+                <div class="loader"></div>
               </div>
+              <!-- Graph cards -->
+              <div class='column' *ngIf="pastureGraphCharts.length! > 0">
+                <div class="time-series-card-margin" *ngFor="let chart of pastureGraphCharts">
+                  <p-card *ngIf="layersForStatistics[chart.id].switch" header="{{chart.title}}">
+                    <div class="margin">
+                      <button class="matButton" color="primary" (click)="openCharts(chart)" mat-icon-button>
+                        <mat-icon>aspect_ratio</mat-icon>
+                      </button>
+                      <h4 class="graphicTitle"> {{chart.text}} </h4>
+                    </div>
+                    <p-chart #chartU [type]="chart.type" [responsive]="true" [data]="chart.data" height="150px">
+                    </p-chart>
+                  </p-card>
+                </div>
+              </div>
+              <!-- Graph cards -->
             </div>
-            <!-- Graph cards -->
-
           </div>
         </div>
       </div>
@@ -195,6 +190,7 @@
     </div>
 
     <!--- Ranking de Aréa das Pastagens --->
+    <div *ngIf="layersForStatistics.pasture.switch">
     <div *ngIf="cardsToDisplay.rankingTable">
       <div [class]="expandGroups.rankingTable ? 'group-card group-card-active' :'group-card'">
         <div (click)="expandGroups.rankingTable = !expandGroups.rankingTable" class="abstract">
@@ -256,6 +252,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </p-sidebar>
 

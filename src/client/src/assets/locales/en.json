@@ -425,7 +425,7 @@
       },
       "carbon": {
         "title": "Carbon",
-        "text": "According to LAPIG, the carbon emession...",
+        "text": "According to LAPIG, the estimate of carbon (in MgC) in soil organic matter in #typeRegionTranslate# #textRegionTranslate# is",
         "labelOfQuery": {
           "carbon": "Carbon"
         }
