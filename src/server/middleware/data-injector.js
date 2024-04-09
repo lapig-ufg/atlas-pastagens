@@ -18,6 +18,7 @@ module.exports = function(app) {
     }
 
     return function(request, response, next) {
+        console.log('DataInjector')
         var hasController = (request.route.stack.length > 1)
         var pathParts = request.path.split('/')
         var controller = pathParts[2]
@@ -38,6 +39,7 @@ module.exports = function(app) {
             var result = {};
             
             var onEach = function(query, nextQuery) {
+                console.log(query)
                 client.query(query, params, function(queryResult) {
                     result[query.id] = queryResult.rows
                     nextQuery()
@@ -63,5 +65,7 @@ module.exports = function(app) {
         } else {
             next()
         }
+
+        console.log('End')
     };
 };
