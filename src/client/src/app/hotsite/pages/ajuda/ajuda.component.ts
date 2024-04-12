@@ -14,7 +14,11 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./ajuda.component.scss'],
   providers: [MessageService],
 })
-export class AjudaComponent implements OnInit {
+
+/**
+ * Ajuda Componfdsafldjsçaflkjdsçalkfjdçslakfjçdslakfjçdslkaf
+ */
+class AjudaComponent implements OnInit {
   public faqs: FAQ[];
 
   private erroForm: boolean = false;
@@ -34,6 +38,11 @@ export class AjudaComponent implements OnInit {
     });
   }
 
+  /**
+   * Essa função faz algo quando onSubmit
+   * 
+   * @param contactForm 
+   */
   onSubmit(contactForm: NgForm) {
     this.recaptchaV3Service.execute('importantAction')
       .subscribe((token: string) => {
@@ -70,7 +79,7 @@ export class AjudaComponent implements OnInit {
   private fetchFAQ(): void {
     this.contentHub.getFAQs().subscribe(values => {
       this.faqs = [];
-      
+
       values.forEach(element => {
         this.faqs.push(
           {
@@ -86,3 +95,5 @@ export class AjudaComponent implements OnInit {
     return this.erroForm;
   }
 }
+
+export {AjudaComponent};

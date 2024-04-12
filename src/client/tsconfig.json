@@ -29,5 +29,16 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
+  },
+  "typedocOptions": {
+    "out": "docs",
+    "entryPointStrategy": "expand",
+    "entryPoints": [
+      "src/app/hotsite/pages/ajuda/ajuda.component.ts",
+      "src/app/hotsite/pages/ajuda/ajuda.service.ts",
+      "src/app/hotsite/services/content-hub.service.ts"
+    ],
   }
 }
+
+//npx typedoc --out typedoc $(find src/app/hotsite/pages -type f -name "*.component.ts")
