@@ -9,18 +9,12 @@ import { environment } from "../../../environments/environment";
 })
 
 /**
- * Service responsável por lidar com as requisições à API Content-Hub. 
+ * Serviço responsável por lidar com as requisições à API do Content-Hub. 
  */
 class ContentHub {
     private apiURL = environment.LAPIG_CONTENT_HUB + "/api";
 
-    static PARAMS = new HttpParams({
-        fromObject: {
-            format: "json"
-        }
-    });
-
-    httpOptions = {
+    private httpOptions = {
         headers: new HttpHeaders({
             'Content-Type': 'application/json',
         }),
