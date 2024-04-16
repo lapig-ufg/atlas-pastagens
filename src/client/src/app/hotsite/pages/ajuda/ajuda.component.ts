@@ -16,7 +16,7 @@ import { LangChangeEvent } from '@ngx-translate/core';
 })
 
 /**
- * Ajuda Componfdsafldjsçaflkjdsçalkfjdçslakfjçdslakfjçdslkaf
+ * Componente responsável pela guia de Ajuda.
  */
 class AjudaComponent implements OnInit {
   public faqs: FAQ[];
@@ -39,9 +39,9 @@ class AjudaComponent implements OnInit {
   }
 
   /**
-   * Essa função faz algo quando onSubmit
+   * Submete o formulário para o banco de dados.
    * 
-   * @param contactForm 
+   * @param {NgForm} contactForm 
    */
   onSubmit(contactForm: NgForm) {
     this.recaptchaV3Service.execute('importantAction')
@@ -76,6 +76,9 @@ class AjudaComponent implements OnInit {
       });
   }
 
+  /**
+   * Recupera os elementos do FAQ.
+   */
   private fetchFAQ(): void {
     this.contentHub.getFAQs().subscribe(values => {
       this.faqs = [];

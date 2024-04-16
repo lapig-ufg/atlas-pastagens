@@ -81,7 +81,7 @@ class ContentHub {
     /**
      * Acessa os dados da tabela ***FAQ*** do Content-Hub.
      * 
-     * @returns {Observable<Array>} Observavel contendo uma lista de registros da tabela ***FAQs***.
+     * @returns {Observable<Array>} Observavel contendo uma lista de registros da tabela ***FAQ***.
      */
     getFAQs(): Observable<any> {
         let lang = this.localizationService.currentLang();
