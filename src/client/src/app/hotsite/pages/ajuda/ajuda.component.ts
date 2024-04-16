@@ -14,7 +14,11 @@ import { LangChangeEvent } from '@ngx-translate/core';
   styleUrls: ['./ajuda.component.scss'],
   providers: [MessageService],
 })
-export class AjudaComponent implements OnInit {
+
+/**
+ * Componente responsável pela guia de Ajuda.
+ */
+class AjudaComponent implements OnInit {
   public faqs: FAQ[];
 
   private erroForm: boolean = false;
@@ -34,6 +38,11 @@ export class AjudaComponent implements OnInit {
     });
   }
 
+  /**
+   * Submete o formulário para o banco de dados.
+   * 
+   * @param {NgForm} contactForm 
+   */
   onSubmit(contactForm: NgForm) {
     this.recaptchaV3Service.execute('importantAction')
       .subscribe((token: string) => {
@@ -67,10 +76,13 @@ export class AjudaComponent implements OnInit {
       });
   }
 
+  /**
+   * Recupera os elementos do FAQ.
+   */
   private fetchFAQ(): void {
     this.contentHub.getFAQs().subscribe(values => {
       this.faqs = [];
-      
+
       values.forEach(element => {
         this.faqs.push(
           {
@@ -86,3 +98,5 @@ export class AjudaComponent implements OnInit {
     return this.erroForm;
   }
 }
+
+export {AjudaComponent};
