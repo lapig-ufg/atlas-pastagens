@@ -69,8 +69,6 @@ export class SwipeComponent implements OnInit {
   constructor(
     public googleAnalyticsService: GoogleAnalyticsService,
     public localizationService: LocalizationService,
-    public messageService: MessageService,
-    public route: ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
