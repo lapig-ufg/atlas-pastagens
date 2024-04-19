@@ -42,7 +42,7 @@ export class LocalizationService {
      this._localeId = lng;
    } else {
      let browserLang = this.translateService.getBrowserLang();
-     this._localeId = browserLang.match(/en|pt/) ? browserLang : 'en';
+     this._localeId = browserLang!.match(/en|pt/) ? browserLang! : 'en';
    }
     return this.useLanguage(this._localeId);
   }

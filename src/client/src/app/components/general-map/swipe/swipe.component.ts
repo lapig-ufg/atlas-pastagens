@@ -2,8 +2,6 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { Descriptor, DescriptorLayer, DescriptorType } from 'src/app/@core/interfaces';
 import { LocalizationService } from "../../../@core/internationalization/localization.service";
 import { GoogleAnalyticsService } from '../../services/google-analytics.service';
-import { ActivatedRoute} from "@angular/router";
-import { MessageService} from 'primeng/api';
 import { LayerSwipe } from 'src/app/@core/interfaces/swipe';
 import { Observable } from 'rxjs';
 import Swipe from 'ol-ext/control/Swipe';
@@ -170,7 +168,9 @@ export class SwipeComponent implements OnInit {
     this.googleAnalyticsService.eventEmitter("Activate", "GeoTools", "Swipe");
   }
 
-  changeDate(ev: string, side: any): void {
+  changeDate(event: any, side: any): void {
+    // TODO: See what is 'event' and update it.
+    console.log(event);
     side.layer.getSource().setUrls(this.parseUrls(side.layer.get('descriptorLayer')));
     side.layer.getSource().refresh();
   }
