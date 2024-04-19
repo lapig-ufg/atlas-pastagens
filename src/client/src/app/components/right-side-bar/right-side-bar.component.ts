@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { LocalizationService } from "../../@core/internationalization/localization.service";
 import { ChartService } from '../services/charts.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CustomerService } from '../services/customer.service';
 import { Descriptor, Layer, Legend, Menu } from "../../@core/interfaces";
 import Map from 'ol/Map';
