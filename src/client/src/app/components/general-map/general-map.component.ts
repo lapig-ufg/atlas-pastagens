@@ -1,58 +1,74 @@
 import {
-  AfterContentChecked,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnInit,
-  Output,
-  ViewChild
+  AfterContentChecked, ChangeDetectorRef, Component, ElementRef,
+  EventEmitter, HostListener, Input, OnInit, Output, ViewChild
 } from '@angular/core';
-import TileLayer from "ol/layer/Tile";
-import Map from 'ol/Map';
-import * as OlExtent from 'ol/extent.js';
-import * as Proj from 'ol/proj';
-import { toLonLat, transform, transformExtent } from 'ol/proj';
-import { LocalizationService } from "../../@core/internationalization/localization.service";
-import TileGrid from "ol/tilegrid/TileGrid";
-import { Control, Descriptor, DescriptorLayer, DescriptorType, Ruler, TextFilter } from "../../@core/interfaces";
-import { DownloadService, MapService } from "../services";
-import { saveAs } from 'file-saver';
+import { DecimalPipe } from "@angular/common";
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Coordinate, createStringXY } from "ol/coordinate";
+
+/**
+ * Importações do OpenLayer.
+ */
 import { Feature, Overlay } from "ol";
-import { BingMaps, XYZ } from "ol/source";
+import Map from 'ol/Map';
+import * as Proj from 'ol/proj';
+import * as OlExtent from 'ol/extent.js';
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector";
+import { GeoJSON } from "ol/format";
 import { Fill, Stroke, Style } from "ol/style";
+import CircleStyle from "ol/style/Circle";
+import { BingMaps, XYZ } from "ol/source";
+import WMTS, { Options, optionsFromCapabilities } from 'ol/source/WMTS';
+import VectorSource from "ol/source/Vector";
+import { Pixel } from "ol/pixel";
+import { Coordinate, createStringXY } from "ol/coordinate";
+import Compass from 'ol-ext/control/Compass';
 import { Geometry, LinearRing, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon } from 'ol/geom';
 import { Draw, Interaction, Modify, Snap } from "ol/interaction";
-import VectorSource from "ol/source/Vector";
-import { GeoJSON } from "ol/format";
-import VectorLayer from "ol/layer/Vector";
-import CircleStyle from "ol/style/Circle";
+import TileGrid from "ol/tilegrid/TileGrid";
+import { Type } from "ol/geom/Geometry";
+
+/**
+ * Importações do @\core.
+ */
 import { RulerAreaCtrl, RulerCtrl } from "../../@core/interactions/ruler";
+import { LocalizationService } from "../../@core/internationalization/localization.service";
+import { Control, Descriptor, DescriptorType, Ruler, TextFilter } from "../../@core/interfaces";
+import { Job, JobStatus } from "../../@core/interfaces/job";
+
+
+import { saveAs } from 'file-saver';
+
 import { Message, MessageService, PrimeNGConfig, SelectItem } from 'primeng/api';
 import { AreaService } from '../services/area.service';
-import Compass from 'ol-ext/control/Compass';
+
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
-import { Pixel } from "ol/pixel";
+
+/**
+ * Importações do Services.
+ */
+import { DownloadService, MapService } from "../services";
 import { WmtsService } from "../services/wmts.service";
-import WMTS, { Options, optionsFromCapabilities } from 'ol/source/WMTS';
 import { HttpService } from "../services/http.service";
-import { DecimalPipe } from "@angular/common";
+import { GoogleAnalyticsService } from "../services/google-analytics.service";
+import { GalleryService } from '../services/gallery.service';
+
 import * as moment from 'moment';
+
+/**
+ * Importações do @\Turf.
+ */
 import buffer from "@turf/buffer";
 import turfDistance from "@turf/distance";
 import booleanPointInPolygon from "@turf/boolean-point-in-polygon";
 import * as turfHelper from "@turf/helpers";
 import turfCentroid from "@turf/centroid";
+
 import { environment } from "../../../environments/environment";
-import { GoogleAnalyticsService } from "../services/google-analytics.service";
-import { GalleryService } from '../services/gallery.service';
-import { Job, JobStatus } from "../../@core/interfaces/job";
+
 import { Subject } from 'rxjs';
+
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -143,9 +159,9 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   private interaction: Interaction;
 
-  private source: VectorSource<Geometry> = new VectorSource();
+  private source: VectorSource<Feature<Geometry>> = new VectorSource();
   private vector: VectorLayer<any> = new VectorLayer();
-  private vectorPopup: VectorLayer<any> = new VectorLayer();
+
   private modify: Modify;
   private draw: any;
   private snap: any;
@@ -427,7 +443,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     this.mousePositionOptions = {
       coordinateFormat: (coordinate: Coordinate) => {
-        const c: Coordinate = toLonLat(coordinate, this.map.getView().getProjection());
+        const c: Coordinate = Proj.toLonLat(coordinate, this.map.getView().getProjection());
         return this.formataCoordenada(c);
       },
       className: 'mouse-position',
@@ -643,7 +659,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
       });
     })
-    
+
     this.map.getLayers().forEach(layer => {
       if (layer.get('type') === 'layertype' && defaultLayer !== layer.get('key')) {
         layer.setVisible(false)
@@ -663,8 +679,8 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           }
           this.layersNames.push(layer);
         } catch (error) {
-          
-          console.error(this.layersNames, layer,'groups')
+
+          console.error(this.layersNames, layer, 'groups')
         }
 
       }
@@ -1075,7 +1091,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
   }
 
-  showInformation(){
+  showInformation() {
     this.isShowIformats = !this.isShowIformats
   }
 
@@ -1474,7 +1490,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     let geom: Feature<any>[] = [];
     this.source.getFeatures().forEach(function (feature) {
       let feat = new Feature(feature.getGeometry()!.clone().transform('EPSG:3857', 'EPSG:4326'));
-      // let feat = new Feature(feature.getGeometry()!.clone());
       feat.setProperties(feature.getProperties())
       geom.push(feat);
     });
@@ -1482,20 +1497,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     return writer.writeFeatures(geom);
   }
 
-  addDrawInteraction(name: string): void {
+  addDrawInteraction(geometryType: string): void {
     this.drawing = true;
-    //
-    if (name !== 'None') {
-      if (name === 'Polygon') {
-        this.addInteraction(new RulerAreaCtrl(this, true).getDraw(), name, true);
+    if (geometryType !== 'None') {
+      if (geometryType === 'Polygon') {
+        this.addInteraction(new RulerAreaCtrl(this, true).getDraw(), geometryType, true);
       } else {
         this.draw = new Draw({
           source: this.source,
-          type: name
+          type: geometryType as Type
         });
-        this.addInteraction(this.draw, name, true);
+        this.addInteraction(this.draw, geometryType, true);
       }
-
     }
   }
 
@@ -1592,7 +1605,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
   }
 
   public updateRegion(region) {
-
     this.map.removeLayer(this.otherLayerFromFilters.layer)
     this.map.removeLayer(this.regionsLimits)
 
@@ -1603,6 +1615,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
       this.selectedAutoCompleteText.text = '';
     }
 
+    // TODO: Clean Code.
     if (this.selectRegion.type == 'city') {
       this.msFilterRegion = "cd_geocmu = '" + this.selectRegion.value + "'"
     }
@@ -1664,11 +1677,6 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     } else if (this.selectedSearchOption.toLowerCase() == 'car' || this.selectedSearchOption.toLowerCase() == 'uc') {
       this.updateAreaOnMap(event)
     }
-    // if(event.type != 'biome'){
-    //
-    // } else {
-    //   this.messageService.add({ life: 8000, severity: 'warn', summary: this.localizationService.translate('map.msg_warning_biome_title'), detail: this.localizationService.translate('map.msg_warning_biome') })
-    // }
   }
 
   onChangeSearchOption() {
@@ -1823,8 +1831,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
     dd.content.push({ qr: 'https://atlasdaspastagens.ufg.br/map/' + token.toString(), fit: '200', alignment: 'center' });
 
     const filename = this.localizationService.translate('area.token.title') + ' - ' + token + '.pdf'
-    // const win = window.open('', '_blank');
-    // pdfMake.createPdf(dd).open({}, win);
+
     pdfMake.createPdf(dd).download(filename);
 
     this.googleAnalyticsService.eventEmitter("Print_Identification_Token_Layer", "Upload", "uploadLayer");
@@ -1938,7 +1945,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         }
       });
 
-      this.popupRegion.coordinate = transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+      this.popupRegion.coordinate = Proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
       const bufferedPoint = buffer({ type: 'Point', coordinates: this.popupRegion.coordinate }, 20, {
         units: 'kilometers'
       });
@@ -1950,17 +1957,18 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
         })
       });
 
-      const bbox = transformExtent(bufferSource.getExtent(), 'EPSG:3857', 'EPSG:4326');
+      const bbox = Proj.transformExtent(bufferSource.getExtent(), 'EPSG:3857', 'EPSG:4326');
       const pixel: Pixel = this.map.getEventPixel(evt.originalEvent);
       let promises: any[] = [];
 
       promises.push(this.getFeatures('municipios_info', bbox));
-      this.map.forEachLayerAtPixel(pixel, function (layer) {
+      // TODO: This is broken for sure.
+      /*this.map.forEachLayerAtPixel(pixel, function (layer) {
         const layerType: DescriptorType = layer.get('descriptorLayer');
         if (layer.get('type') === 'layertype' && layerType.typeLayer === 'vectorial' && layer.getVisible() && layerType.wfsMapCard.show) {
           promises.push(self.getFeatures(layer, bbox));
         }
-      });
+      });*/
 
       Promise.all(promises).then((layersFeatures) => {
         if (layersFeatures.length > 0) {
@@ -2205,7 +2213,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
           let drawData = {
             geometry: this.getGeoJsonFromFeature(),
             app_origin: environment.APP_NAME,
-            
+
           }
 
           this.areaService.saveDrawedGeometry(drawData, recaptcha)
@@ -2239,7 +2247,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
             lang: this.localizationService.currentLang()
           }
 
-          this.areaService.saveDrawedGeometry(drawData,recaptcha)
+          this.areaService.saveDrawedGeometry(drawData, recaptcha)
             .subscribe(data => {
               this.job.token = data.token;
               this.job.area = data.area;

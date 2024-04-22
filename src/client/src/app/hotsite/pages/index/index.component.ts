@@ -2,12 +2,9 @@ import { Component, ElementRef, ViewChild, ChangeDetectorRef, AfterViewInit } fr
 import { LocalizationService } from "../../../@core/internationalization/localization.service";
 import { LangChangeEvent } from "@ngx-translate/core";
 import { ContentHub } from '../../services/content-hub.service';
-import { Team } from 'src/app/@core/interfaces/team';
 import { Highlight } from 'src/app/@core/interfaces/highlights';
 import { environment } from 'src/environments/environment';
 import { News } from 'src/app/@core/interfaces/news';
-
-declare var $;
 
 @Component({
   selector: 'app-index',

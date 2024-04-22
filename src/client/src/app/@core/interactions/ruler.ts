@@ -9,7 +9,6 @@ import { DecimalPipe } from '@angular/common';
 import {calculateGeodesicArea, formatGeodesicArea} from "./calculateArea";
 
 abstract class RulerControl {
-
     private measureTooltipElement: Element;
 
     private measureTooltip: Overlay;
@@ -19,13 +18,14 @@ abstract class RulerControl {
     // @ts-ignore
     private sketch: Feature;
 
-    protected constructor(protected component: Ruler, private type: string) {
+    protected constructor(protected component: Ruler, private type) {
       this.decimalPipe = new DecimalPipe('pt-BR');
     }
 
     getDraw(): Draw {
         const draw = new Draw({
             source: this.component.getSource(),
+            // TODO: This can be broken.
             type: this.type,
             style: new Style({
               fill: new Fill({
