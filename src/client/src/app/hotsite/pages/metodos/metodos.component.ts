@@ -30,6 +30,9 @@ export class MetodosComponent implements OnInit {
     });
   }
 
+  /**
+   * Recupera os elementos do *Methodologies*.
+   */
   private fetchMethodologies(): void {
     this.contentHub.getMethodologies().subscribe(values => {
       this.methodologies = [];

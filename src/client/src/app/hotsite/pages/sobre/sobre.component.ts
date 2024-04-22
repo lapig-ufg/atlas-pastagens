@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LangChangeEvent } from '@ngx-translate/core';
-import { Team } from 'src/app/@core/interfaces/team';
+import { Team } from 'src/app/@core/interfaces';
 import { ContentHub } from '../../services/content-hub.service';
 import { environment } from 'src/environments/environment';
 import { LocalizationService } from 'src/app/@core/internationalization/localization.service';
@@ -25,6 +25,9 @@ export class SobreComponent implements OnInit {
     });
   }
 
+  /**
+   * Recupera os elementos do *Team*.
+   */
   private fetchTeam(): void {
     this.contentHub.getTeam().subscribe(values => {
       this.team = [];

@@ -2,9 +2,10 @@ import { Component, ElementRef, ViewChild, ChangeDetectorRef, AfterViewInit } fr
 import { LocalizationService } from "../../../@core/internationalization/localization.service";
 import { LangChangeEvent } from "@ngx-translate/core";
 import { ContentHub } from '../../services/content-hub.service';
-import { Highlight } from 'src/app/@core/interfaces/highlights';
+
 import { environment } from 'src/environments/environment';
-import { News } from 'src/app/@core/interfaces/news';
+
+import { Highlight, News } from 'src/app/@core/interfaces';
 
 @Component({
   selector: 'app-index',
@@ -16,7 +17,6 @@ export class IndexComponent implements AfterViewInit {
   public news: News[];
   public highlights: Highlight[];
 
-  public video: any;
   public player: any;
   public year = (new Date()).getFullYear();
   public reframed: Boolean = false;
@@ -37,10 +37,10 @@ export class IndexComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.localizationService.translateService.onLangChange.subscribe((langChangeEvent: LangChangeEvent) => {
+      this.lang = langChangeEvent.lang;
+
       this.fetchNews();
       this.fetchHighlight();
-
-      this.lang = langChangeEvent.lang;
     });
 
     const currentTheme = localStorage.getItem('theme');
@@ -51,8 +51,6 @@ export class IndexComponent implements AfterViewInit {
         this.checked = true;
       }
     }
-
-    this.video = 'ZZnHtkblmro';
 
     const firstScriptTag = document.getElementsByTagName('script')[0];
 
@@ -67,6 +65,9 @@ export class IndexComponent implements AfterViewInit {
     this.cdr.detectChanges();
   }
 
+  /**
+   * Recupera os elementos do *News*.
+   */
   private fetchNews(): void {
     this.contentHub.getNews().subscribe(values => {
       this.news = [];
@@ -83,8 +84,11 @@ export class IndexComponent implements AfterViewInit {
     })
   }
 
+  /**
+   * Recupera os elementos do *Highlitght*.
+   */
   private fetchHighlight(): void {
-    this.contentHub.getHighlights().subscribe(values => {
+    this.contentHub.getHighlights().subscribe((values: Map<String, any>) => {
       this.highlights = [];
 
       values.forEach(element => {
