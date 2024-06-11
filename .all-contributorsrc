@@ -38,6 +38,18 @@
         "review",
         "code"
       ]
+    },
+    {
+      "login": "telesnathalia",
+      "name": "Nathália Teles",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67981646?v=4",
+      "profile": "https://github.com/telesnathalia",
+      "contributions": [
+        "maintenance",
+        "review",
+        "doc",
+        "ideas"
+      ]
     }
   ]
 }
