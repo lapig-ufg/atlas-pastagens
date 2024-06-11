@@ -20,7 +20,11 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/7321240?v=4",
       "profile": "http://jairomr.com.br",
       "contributions": [
-        "doc"
+        "doc",
+        "maintenance",
+        "review",
+        "infra",
+        "code"
       ]
     },
     {
@@ -29,8 +33,27 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/26191865?v=4",
       "profile": "https://www.linkedin.com/in/tharles-andrade-07228316a/",
       "contributions": [
+<<<<<<< all-contributors/add-tharlestsa
         "code",
         "design"
+=======
+        "doc",
+        "maintenance",
+        "review",
+        "code"
+>>>>>>> main
+      ]
+    },
+    {
+      "login": "telesnathalia",
+      "name": "Nathália Teles",
+      "avatar_url": "https://avatars.githubusercontent.com/u/67981646?v=4",
+      "profile": "https://github.com/telesnathalia",
+      "contributions": [
+        "maintenance",
+        "review",
+        "doc",
+        "ideas"
       ]
     }
   ]
