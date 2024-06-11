@@ -51,6 +51,17 @@
         "doc",
         "ideas"
       ]
+    },
+    {
+      "login": "James-jamames",
+      "name": "Tiago_Gonçalves",
+      "avatar_url": "https://avatars.githubusercontent.com/u/89362354?v=4",
+      "profile": "https://github.com/James-jamames",
+      "contributions": [
+        "code",
+        "doc",
+        "design"
+      ]
     }
   ]
 }
