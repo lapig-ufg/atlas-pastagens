@@ -1,0 +1,15 @@
+{
+  "files": [
+    "AUTHORS.md",
+    "README.md"
+  ],
+  "imageSize": 100,
+  "contributorsPerLine": 7,
+  "contributorsSortAlphabetically": true,
+  "commit": false,
+  "skipCi": true,
+  "projectName": "https://atlasdaspastagens.ufg.br/",
+  "projectOwner": "lapig-ufg",
+  "repoType": "github",
+  "repoHost": "https://github.com/lapig-ufg/atlas-pastagens"
+}
