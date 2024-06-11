@@ -7,8 +7,21 @@
   "contributorsSortAlphabetically": true,
   "commit": false,
   "skipCi": true,
-  "projectName": "https://atlasdaspastagens.ufg.br/",
+  "projectName": "atlas-pastagens",
   "projectOwner": "lapig-ufg",
   "repoType": "github",
-  "repoHost": "https://github.com/lapig-ufg/atlas-pastagens"
+  "repoHost": "https://github.com/lapig-ufg/atlas-pastagens",
+  "commitType": "docs",
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "jairomr",
+      "name": "Jairo Matos Da Rocha",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7321240?v=4",
+      "profile": "http://jairomr.com.br",
+      "contributions": [
+        "doc"
+      ]
+    }
+  ]
 }

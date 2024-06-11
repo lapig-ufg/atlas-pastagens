@@ -7,6 +7,13 @@ O Atlas das Pastagens, público e gratuito, foi desenvolvido pelo Laboratório d
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
 <!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="http://jairomr.com.br"><img src="https://avatars.githubusercontent.com/u/7321240?v=4?s=100" width="100px;" alt="Jairo Matos Da Rocha"/><br /><sub><b>Jairo Matos Da Rocha</b></sub></a><br /><a href="https://github.com/lapig-ufg/atlas-pastagens/lapig-ufg/atlas-pastagens/commits?author=jairomr" title="Documentation">📖</a></td>
+    </tr>
+  </tbody>
+</table>
 
 <!-- markdownlint-restore -->
 <!-- prettier-ignore-end -->
