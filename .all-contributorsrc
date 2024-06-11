@@ -33,15 +33,11 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/26191865?v=4",
       "profile": "https://www.linkedin.com/in/tharles-andrade-07228316a/",
       "contributions": [
-<<<<<<< all-contributors/add-tharlestsa
         "code",
-        "design"
-=======
+        "design",
         "doc",
         "maintenance",
-        "review",
-        "code"
->>>>>>> main
+        "review"
       ]
     },
     {
