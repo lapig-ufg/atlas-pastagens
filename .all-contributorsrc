@@ -20,7 +20,11 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/7321240?v=4",
       "profile": "http://jairomr.com.br",
       "contributions": [
-        "doc"
+        "doc",
+        "maintenance",
+        "review",
+        "infra",
+        "code"
       ]
     },
     {
