@@ -59,11 +59,11 @@ try{
   const config = require('../../../../version.json');
   console.log("%c"+text_logo,
  "font-size: 14px;");
-  console.log(config)
+  console.log('homol '+config)
   commitId = config.commitId
 }catch{
   console.log("%c"+text_logo, "font-size: 12px;");
-  console.log('Not version')
+  console.log('homol Not version')
 }
 
 export const environment = {
