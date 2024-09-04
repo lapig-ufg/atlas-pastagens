@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
+
+      APPLICATION_NAME: ${{ steps.creat_env.outputs.APPLICATION_NAME }}
+      DOCKER_PATH: ${{ steps.creat_env.outputs.DOCKER_PATH }}
+
       START_TIME: ${{ steps.creat_env.outputs.START_TIME }}
       LAST_COMMIT_HASH: ${{ steps.creat_env.outputs.LAST_COMMIT_HASH }}
 
@@ -39,7 +43,7 @@ jobs:
           echo "Nome do repositório: $repo_name"
 
           echo "application_name=app_atlas" >> $GITHUB_ENV
-          echo "application_name=app_atlas" >> $GITHUB_OUTPUT
+          echo "APPLICATION_NAME=app_atlas" >> $GITHUB_OUTPUT
 
           echo "LAST_COMMIT_HASH=$(git log --pretty=format:%h -n 1)" >> $GITHUB_ENV
           
@@ -94,7 +98,7 @@ jobs:
      steps:
       - name: Load env
         run: |
-          echo "application_name=${{needs.build.outputs.application_name}}" >> $GITHUB_ENV
+          echo "application_name=${{needs.build.outputs.APPLICATION_NAME}}" >> $GITHUB_ENV
           echo "DOCKER_PATH=${{needs.build.outputs.DOCKER_PATH}}" >> $GITHUB_ENV
 
 
@@ -108,7 +112,7 @@ jobs:
         id: delete_container
         continue-on-error: true
         run: |
-          delete_status=$(curl -v -X DELETE -w "%{http_code}"  http://$DOCKER_SERVER/containers/$application_name?force=true  2>/dev/null)  
+          delete_status=$(curl -v -X DELETE -w "%{http_code}"  http://${{ secrets.DOCKER_SERVER}}/containers/$application_name?force=true  2>/dev/null)  
           case $delete_status in
             204) delete_status_text="OK";;
             *) delete_status_text="ERROR";;
@@ -120,7 +124,7 @@ jobs:
       - name: Deploy Container
         id: deploy_container
         run: |
-          create_status=$(curl -v -X POST -H 'Content-Type: application/json' -d @/compose/$application_name.json -s -o /dev/null -w "%{http_code}"  http://$DOCKER_SERVER/containers/create?name=$application_name  2>/dev/null)  
+          create_status=$(curl -v -X POST -H 'Content-Type: application/json' -d @/compose/$application_name.json -s -o /dev/null -w "%{http_code}"  http://${{ secrets.DOCKER_SERVER}}/containers/create?name=$application_name  2>/dev/null)  
           
           case $create_status in
             201) create_status_text="OK";;
@@ -132,7 +136,7 @@ jobs:
       - name: Start Container
         id: start_container
         run: |
-          start_status=$(curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://$DOCKER_SERVER/containers/$application_name/start  2>/dev/null) 
+          start_status=$(curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://${{ secrets.DOCKER_SERVER}}/containers/$application_name/start  2>/dev/null) 
           case $start_status in
             204) start_status_text="OK";;
             *) start_status_text="ERROR";;
