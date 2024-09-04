@@ -90,7 +90,8 @@ jobs:
           docker rmi lapig/$application_name:${DOCKER_PATH}_latest
 
   deploy:
-     runs-on: [self-hosted]
+     needs: build
+     runs-on: self-hosted
      steps:
       - name: Pull Image on Server
         run: |
