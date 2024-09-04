@@ -33,11 +33,13 @@ jobs:
         run: |
           echo "START_TIME=$(date -u +%s)" >> "$GITHUB_OUTPUT"
           echo "DOCKER_PATH=homol" >> $GITHUB_ENV
+          echo "DOCKER_PATH=homol" >> $GITHUB_OUTPUT
           repo_full_name=$GITHUB_REPOSITORY
           repo_name=${repo_full_name##*/}
           echo "Nome do repositório: $repo_name"
 
           echo "application_name=app_atlas" >> $GITHUB_ENV
+          echo "application_name=app_atlas" >> $GITHUB_OUTPUT
 
           echo "LAST_COMMIT_HASH=$(git log --pretty=format:%h -n 1)" >> $GITHUB_ENV
           
@@ -90,6 +92,12 @@ jobs:
      runs-on: self-hosted
      
      steps:
+      - name: Load env
+        run: |
+          echo "application_name=${{needs.build.outputs.application_name}}" >> $GITHUB_ENV
+          echo "DOCKER_PATH=${{needs.build.outputs.DOCKER_PATH}}" >> $GITHUB_ENV
+
+
       - name: Pull Image on Server
         run: |
           echo "lapig/$application_name:${DOCKER_PATH}_latest"
