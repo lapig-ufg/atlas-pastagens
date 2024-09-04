@@ -8,10 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      DOCKER_PATH: "homol"
-      
-
     outputs:
       START_TIME: ${{ steps.creat_env.outputs.START_TIME }}
       LAST_COMMIT_HASH: ${{ steps.creat_env.outputs.LAST_COMMIT_HASH }}
@@ -36,7 +32,7 @@ jobs:
         id: creat_env
         run: |
           echo "START_TIME=$(date -u +%s)" >> "$GITHUB_OUTPUT"
-          
+          echo "DOCKER_PATH=homol" >> $GITHUB_ENV
           repo_full_name=$GITHUB_REPOSITORY
           repo_name=${repo_full_name##*/}
           echo "Nome do repositório: $repo_name"
@@ -92,6 +88,7 @@ jobs:
   deploy:
      needs: build
      runs-on: self-hosted
+     
      steps:
       - name: Pull Image on Server
         run: |
