@@ -6,8 +6,8 @@ on:
       - dockerhub-main
 
 jobs:
-  build-and-deploy:
-    runs-on: [self-hosted]
+  build:
+    runs-on: ubuntu-latest
     env:
       DOCKER_PATH: "homol"
       
@@ -89,7 +89,9 @@ jobs:
           docker rmi lapig/$application_name:${DOCKER_PATH}_${LAST_COMMIT_HASH}
           docker rmi lapig/$application_name:${DOCKER_PATH}_latest
 
-      
+  deploy:
+     runs-on: [self-hosted]
+     steps:
       - name: Pull Image on Server
         run: |
           docker pull lapig/$application_name:${DOCKER_PATH}_latest"
@@ -135,28 +137,28 @@ jobs:
 
   post-deploy:
     runs-on: ubuntu-latest
-    needs: build-and-deploy
-    if: ${{ always() || needs.build-and-deploy.result == 'failure' }}
+    needs: deploy
+    if: ${{ always() || needs.build.result == 'failure' ||needs.deploy.result == 'failure'  }}
     steps:
       - name: Load env
         run: |
-          echo "LAST_COMMIT_HASH=${{needs.build-and-deploy.outputs.LAST_COMMIT_HASH}}" >> $GITHUB_ENV
+          echo "LAST_COMMIT_HASH=${{needs.build.outputs.LAST_COMMIT_HASH}}" >> $GITHUB_ENV
           
-          echo "LAPIG_AUTHOR_NAME=${{needs.build-and-deploy.outputs.LAPIG_AUTHOR_NAME}}" >> $GITHUB_ENV
-          echo "LAPIG_AUTHOR_EMAIL=${{needs.build-and-deploy.outputs.LAPIG_AUTHOR_EMAIL}}" >> $GITHUB_ENV
-          echo "LAPIG_AUTHOR_DATE=${{needs.build-and-deploy.outputs.LAPIG_AUTHOR_DATE}}" >> $GITHUB_ENV
-          echo "LAPIG_PROJECT_NAME=${{needs.build-and-deploy.outputs.LAPIG_PROJECT_NAME}}" >> $GITHUB_ENV
-          echo "LAPIG_COMMIT_DATE=${{needs.build-and-deploy.outputs.LAPIG_COMMIT_DATE}}" >> $GITHUB_ENV
-          echo "CREATE_STATUS=${{needs.build-and-deploy.outputs.CREATE_STATUS}}" >> $GITHUB_ENV
-          echo "DELETE_STATUS=${{needs.build-and-deploy.outputs.DELETE_STATUS}}" >> $GITHUB_ENV
-          echo "START_STATUS=${{needs.build-and-deploy.outputs.START_STATUS}}" >> $GITHUB_ENV
+          echo "LAPIG_AUTHOR_NAME=${{needs.build.outputs.LAPIG_AUTHOR_NAME}}" >> $GITHUB_ENV
+          echo "LAPIG_AUTHOR_EMAIL=${{needs.build.outputs.LAPIG_AUTHOR_EMAIL}}" >> $GITHUB_ENV
+          echo "LAPIG_AUTHOR_DATE=${{needs.build.outputs.LAPIG_AUTHOR_DATE}}" >> $GITHUB_ENV
+          echo "LAPIG_PROJECT_NAME=${{needs.build.outputs.LAPIG_PROJECT_NAME}}" >> $GITHUB_ENV
+          echo "LAPIG_COMMIT_DATE=${{needs.build.outputs.LAPIG_COMMIT_DATE}}" >> $GITHUB_ENV
+          echo "CREATE_STATUS=${{needs.deploy.outputs.CREATE_STATUS}}" >> $GITHUB_ENV
+          echo "DELETE_STATUS=${{needs.deploy.outputs.DELETE_STATUS}}" >> $GITHUB_ENV
+          echo "START_STATUS=${{needs.deploy.outputs.START_STATUS}}" >> $GITHUB_ENV
 
       - name: Send message to Telegram
         run: |
           end_time=$(date -u +%s)
           echo "LAPIG_DURATION=$((end_time - $START_TIME))" >> $GITHUB_ENV
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_API_KEY }}/sendMessage" -d "chat_id=${{ secrets.CHAT_ID }}" -d "parse_mode=markdown" -d "text=*Project*: *${LAPIG_PROJECT_NAME}*\
-          *Status:*${{ needs.build-and-deploy.result }}\
+          *Status:*${{ needs.deploy.result }}\
           *Branch*: ${LAPIG_BRANCH_NAME}\
           *Author*: *${LAPIG_AUTHOR_NAME}*\
           *Author_Email*: *${LAPIG_AUTHOR_EMAIL}*\
@@ -166,7 +168,7 @@ jobs:
 
       - name: creat message to Discord
         run: |
-          if [[ "${{ needs.build-and-deploy.result }}" == "success" && "$START_STATUS" == "OK" && "$DELETE_STATUS" == "OK" && "$CREATE_STATUS" == "OK"  ]]; then
+          if [[ "${{ needs.deploy.result }}" == "success" && "$START_STATUS" == "OK" && "$DELETE_STATUS" == "OK" && "$CREATE_STATUS" == "OK"  ]]; then
             echo "avatar_url=${{vars.LAPIG_SUCCESS}}" >> $GITHUB_ENV
             status_geral="Sucesso"
           else
