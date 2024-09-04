@@ -101,6 +101,10 @@ jobs:
           echo "application_name=${{needs.build.outputs.APPLICATION_NAME}}" >> $GITHUB_ENV
           echo "DOCKER_PATH=${{needs.build.outputs.DOCKER_PATH}}" >> $GITHUB_ENV
 
+      - name: Pull Image on Server
+        run: |
+          docker pull lapig/$application_name:${DOCKER_PATH}_latest
+
       - name: Delete Container
         id: delete_container
         continue-on-error: true
