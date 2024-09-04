@@ -7,11 +7,8 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted]
     env:
-      SERVER_KNOWN: ${{secrets.SERVER_LAMCAD_KNOWN}}
-      DOCKER_SERVER: ${{secrets.DOCKER_LAMCAD}}
-      SSH_SERVER: ${{secrets.SERVER_LAMCAD_SSH}}
       DOCKER_PATH: "homol"
       
 
@@ -75,11 +72,9 @@ jobs:
           npm install -g @angular/cli@12.2.16
           cd ${{ github.workspace }}/src/client && ng build --configuration=homolog --stats-json --source-map=false --no-progress
 
-
       - name: Build Docker
         run: |
           docker build -t lapig/$application_name:${DOCKER_PATH}_${LAST_COMMIT_HASH} -t lapig/$application_name:${DOCKER_PATH}_latest  -f docker/$DOCKER_PATH/Dockerfile . --no-cache
-
 
       - name: Login to Docker Registry
         run: echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "lapig" --password-stdin
@@ -94,25 +89,17 @@ jobs:
           docker rmi lapig/$application_name:${DOCKER_PATH}_${LAST_COMMIT_HASH}
           docker rmi lapig/$application_name:${DOCKER_PATH}_latest
 
-
-      - name: Add SSH key to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -t rsa $SERVER_KNOWN >> ~/.ssh/known_hosts  2>/dev/null 
-          chmod 644 ~/.ssh/known_hosts
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa 
-          chmod 600 ~/.ssh/id_rsa
-
+      
       - name: Pull Image on Server
         run: |
-          ssh $SSH_SERVER "docker pull lapig/$application_name:${DOCKER_PATH}_latest"
+          docker pull lapig/$application_name:${DOCKER_PATH}_latest"
 
 
       - name: Delete Container
         id: delete_container
         continue-on-error: true
         run: |
-          delete_status=$(ssh $SSH_SERVER "curl -v -X DELETE -w "%{http_code}"  http://$DOCKER_SERVER/containers/$application_name?force=true  2>/dev/null")  
+          delete_status=$(curl -v -X DELETE -w "%{http_code}"  http://$DOCKER_SERVER/containers/$application_name?force=true  2>/dev/null)  
           case $delete_status in
             204) delete_status_text="OK";;
             *) delete_status_text="ERROR";;
@@ -124,7 +111,7 @@ jobs:
       - name: Deploy Container
         id: deploy_container
         run: |
-          create_status=$(ssh $SSH_SERVER "curl -v -X POST -H 'Content-Type: application/json' -d @${{secrets.LAMCAD_FILES}}$application_name.json -s -o /dev/null -w "%{http_code}"  http://$DOCKER_SERVER/containers/create?name=$application_name  2>/dev/null")  
+          create_status=$(curl -v -X POST -H 'Content-Type: application/json' -d @/compose/$application_name.json -s -o /dev/null -w "%{http_code}"  http://$DOCKER_SERVER/containers/create?name=$application_name  2>/dev/null)  
           
           case $create_status in
             201) create_status_text="OK";;
@@ -136,7 +123,7 @@ jobs:
       - name: Start Container
         id: start_container
         run: |
-          start_status=$(ssh $SSH_SERVER "curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://$DOCKER_SERVER/containers/$application_name/start  2>/dev/null") 
+          start_status=$(curl -v -X POST -s -o /dev/null -w "%{http_code}"   http://$DOCKER_SERVER/containers/$application_name/start  2>/dev/null) 
           case $start_status in
             204) start_status_text="OK";;
             *) start_status_text="ERROR";;
