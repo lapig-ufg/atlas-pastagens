@@ -92,6 +92,7 @@ jobs:
      steps:
       - name: Pull Image on Server
         run: |
+          echo "lapig/$application_name:${DOCKER_PATH}_latest"
           docker pull lapig/$application_name:${DOCKER_PATH}_latest
 
 
