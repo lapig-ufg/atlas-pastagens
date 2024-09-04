@@ -92,7 +92,7 @@ jobs:
      steps:
       - name: Pull Image on Server
         run: |
-          docker pull lapig/$application_name:${DOCKER_PATH}_latest"
+          docker pull lapig/$application_name:${DOCKER_PATH}_latest
 
 
       - name: Delete Container
