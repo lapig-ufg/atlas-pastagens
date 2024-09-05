@@ -1,4 +1,4 @@
-FROM registry.lapig.iesa.ufg.br/lapig-images-homol/app_atlas:base
+FROM lapig/app_atlas:base
 
 # Clone app and npm install on server
 ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
