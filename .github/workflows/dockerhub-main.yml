@@ -36,8 +36,8 @@ jobs:
         id: creat_env
         run: |
           echo "START_TIME=$(date -u +%s)" >> "$GITHUB_OUTPUT"
-          echo "DOCKER_PATH=homol" >> $GITHUB_ENV
-          echo "DOCKER_PATH=homol" >> $GITHUB_OUTPUT
+          echo "DOCKER_PATH=prod" >> $GITHUB_ENV
+          echo "DOCKER_PATH=prod" >> $GITHUB_OUTPUT
           repo_full_name=$GITHUB_REPOSITORY
           repo_name=${repo_full_name##*/}
           echo "Nome do repositório: $repo_name"
@@ -72,7 +72,7 @@ jobs:
           cd ${{ github.workspace }}/src/server && npm install
           cd ${{ github.workspace }}/src/client && npm install
           npm install -g @angular/cli@12.2.16
-          cd ${{ github.workspace }}/src/client && ng build --configuration=homolog --stats-json --source-map=false --no-progress
+          cd ${{ github.workspace }}/src/client && ng build --configuration=prod --stats-json --source-map=false --no-progress
 
       - name: Build Docker
         run: |
