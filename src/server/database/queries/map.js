@@ -10,22 +10,22 @@ module.exports = function (app) {
 
     Query.extent = function (params) {
         return [{
-            source: 'general',
+            source: 'lapig',
             id: 'extent',
-            sql: "SELECT geom_json as geojson FROM regions_geom WHERE type=${type} AND unaccent(value) ilike unaccent(${key}) LIMIT 1",
+            sql: "SELECT geom_json as geojson FROM generic.regions_geom WHERE type=${type} AND unaccent(value) ilike unaccent(${key}) LIMIT 1",
             mantain: true
         }]
     }
 
     Query.search = function () {
         return [{
-            source: 'general',
+            source: 'lapig',
             id: 'search',
             sql: "With priority_search AS ("
-                + " SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 1 AS priority FROM regions_geom "
+                + " SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 1 AS priority FROM generic.regions_geom "
                 + "WHERE unaccent(text) ILIKE unaccent(${key})  AND type NOT in ('country') "
                 + "UNION ALL "
-                + "SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 2 AS priority FROM regions_geom "
+                + "SELECT distinct concat_ws(' - ', text , uf) as text, value, type, 2 AS priority FROM generic.regions_geom "
                 + "WHERE unaccent(text) ILIKE unaccent(${key}%) AND type NOT in ('country') ) "
                 + "select * from priority_search order by priority asc limit 10",
             mantain: true
@@ -35,9 +35,9 @@ module.exports = function (app) {
 
     Query.searchregion = function () {
         return [{
-            source: 'general',
+            source: 'lapig',
             id: 'search',
-            sql: "SELECT text, value, type FROM regions_geom WHERE unaccent(value) ILIKE unaccent(${key}) AND type = (${type}) LIMIT 10",
+            sql: "SELECT text, value, type FROM generic.regions_geom WHERE unaccent(value) ILIKE unaccent(${key}) AND type = (${type}) LIMIT 10",
             mantain: true
         }]
     }

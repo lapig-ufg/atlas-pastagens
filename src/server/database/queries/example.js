@@ -22,9 +22,9 @@ module.exports = function(app) {
                 mantain: true
             },
             {
-                source: 'general',
+                source: 'lapig',
                 id: 'teste',
-                sql: "SELECT * from regions_geom  LIMIT ${amount}",
+                sql: "SELECT * from generic.regions_geom  LIMIT ${amount}",
                 mantain: true
             }
         ]

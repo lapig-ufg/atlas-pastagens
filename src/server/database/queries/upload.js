@@ -7,9 +7,9 @@ module.exports = function (app) {
 
         return [
             {
-                source: 'general',
+                source: 'lapig',
                 id: 'regions_pershape',
-                sql: "select s.text, s.type, s.value, s.uf from regions_geom s INNER JOIN upload_shapes up on ST_Intersects(up.geom, s.geom) where s.type not in ('fronteira', 'biome') AND up.token= ${token} order by 1 asc",
+                sql: "select s.text, s.type, s.value, s.uf from generic.regions_geom s INNER JOIN upload_shapes up on ST_Intersects(up.geom, s.geom) where s.type not in ('fronteira', 'biome') AND up.token= ${token} order by 1 asc",
                 mantain: true
             },
             {
