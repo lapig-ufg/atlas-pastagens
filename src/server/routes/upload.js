@@ -9,7 +9,7 @@ module.exports = function (app) {
 	app.get('/service/upload/areainfo', dataInjector, uploader.areainfo);
 	app.get('/service/upload/analysisarea', dataInjector, uploader.analysisarea);
 	app.get('/service/upload/findgeojsonbytoken', dataInjector, uploader.findGeoJsonByToken);
-	//app.post('/service/upload/savegeom', reCaptcha, uploader.saveDrawedGeom);
+	app.post('/service/upload/savegeom', uploader.saveDrawedGeom);
 	app.get('/service/upload/getanalysis', dataInjector, uploader.getAnalysis);
 	app.post('/service/upload/saveanalysis', dataInjector, uploader.saveAnalysis);
 	app.get('/service/upload/pasture', dataInjector, uploader.pasture);
