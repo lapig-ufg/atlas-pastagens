@@ -567,7 +567,6 @@ export class AreaComponent implements OnInit {
     this.job.token = data.token;
     this.job.area = data.area;
     this.areaService.saveJob(this.job).subscribe(result => {
-      //console.log(result)
       this.displayFormJob = false;
       if (data.features.length > 1) {
         this.layerFromUpload.loading = false;
