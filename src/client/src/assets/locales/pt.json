@@ -39,6 +39,7 @@
     }
   },
   "left_sidebar": {
+    "warning": "A ferramenta está desabilitada. Novidades em breve...",
     "title": "Menu",
     "opacity": "Opacidade",
     "tutorial_title": "Tutorial das Análises de Áreas",

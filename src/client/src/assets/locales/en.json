@@ -39,6 +39,7 @@
     }
   },
   "left_sidebar": {
+    "warning": "The tool is disabled. Updates coming soon...",
     "title": "Menu",
     "opacity": "Opacity",
     "tutorial_title": "Tutorial Of Analysis Area",

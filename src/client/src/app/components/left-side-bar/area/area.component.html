@@ -1,5 +1,7 @@
 <section #area id="area">
-  <mat-tab-group [(selectedIndex)]="selectedIndexUpload" class="layersConteudo container-upload" mat-stretch-tabs dynamicHeight>
+  <i class="pi pi-exclamation-triangle" style="display: block; font-size: 6rem; color: grey;"></i>
+  {{ 'left_sidebar.warning' | translate}}
+  <!--<mat-tab-group [(selectedIndex)]="selectedIndexUpload" class="layersConteudo container-upload" mat-stretch-tabs dynamicHeight>
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>search</mat-icon>
@@ -11,7 +13,7 @@
       <mat-form-field class="example-full-width">
         <mat-label>{{'area.upload_token' | translate}}</mat-label>
         <input type="number" min="0" matInput [(ngModel)]="layerFromConsulta.token" (input)="changeTextUpload($event)">
-        <!-- <input id="input" type="text" pInputText [(ngModel)]="layerFromConsulta.token" appOnlynumber> &nbsp; -->
+        
       </mat-form-field>
       <i *ngIf="!isMobile" pTooltip="{{'left_sidebar.tutorial_title' | translate}}" class='bx bxs-info-circle btn-help'
          (click)="openTutorial()"></i>
@@ -52,11 +54,6 @@
           {{'area.analyzed_area_title' | translate | uppercase}}</h5>
         <div class="card-upload-analysed-content">
           <div class="upload-token">
-            <!--            <button (click)="printAnalyzedAreaReport(true)" class="btn-print" mat-icon-button>-->
-            <!--              <mat-icon>print</mat-icon>-->
-            <!--              <mat-spinner [strokeWidth]="2" [diameter]="18" *ngIf="loadingPrintReport" color="primary"-->
-            <!--                mode="indeterminate" style="margin: 0 auto;"></mat-spinner>-->
-            <!--            </button>-->
             {{'area.analyzed_area_total_area' | translate }}
             <strong>
               {{layerFromConsulta.analyzedArea.shape_upload.area_upload | number:'1.2-2' }}
@@ -248,5 +245,5 @@
                [options]="objectFullScreenChart.options">
       </p-chart>
     </div>
-  </p-dialog>
+  </p-dialog>-->
 </section>
