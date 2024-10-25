@@ -129,7 +129,7 @@ export class RightSideBarComponent implements OnInit {
 
     this.layersForStatistics = {
       pasture: { year: "year=2023", switch: true, valueType: "pasture_col9_s100" },
-      pasture_quality: { year: "year=0", switch: false, valueType: "pasture_vigor_col8_s100" },
+      pasture_quality: { year: "year=0", switch: false, valueType: "pasture_vigor_col9_s100" },
       carbono: { year: "year=0", switch: false, valueType: "pa_br_somsc_2022" },
     }
 

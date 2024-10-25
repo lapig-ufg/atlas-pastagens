@@ -17,9 +17,9 @@
                 "idLayer": "pasture_quality",
                 "labelLayer": "translate",
                 "visible": false,
-                "selectedType": "pasture_vigor_col8_s100",
+                "selectedType": "pasture_vigor_col9_s100",
                 "types": [
-                    "pasture_vigor_col8_s100"
+                    "pasture_vigor_col9_s100"
                 ]
             }
         ]
