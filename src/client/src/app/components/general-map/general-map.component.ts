@@ -1167,7 +1167,7 @@ export class GeneralMapComponent implements OnInit, Ruler, AfterContentChecked {
 
     const name = this.getFileName(parameters);
 
-    const zipCsvLayers = ['pasture_vigor_col8_s100', 'pasture_col8_s100'];
+    const zipCsvLayers = ['pasture_vigor_col9_s100', 'pasture_col9_s100'];
 
     const extension = (zipCsvLayers.includes(layer.valueType) && !(parameters.region.type === 'city')) ? '.zip' : '.csv';
 
