@@ -1,0 +1,130 @@
+{
+    "pylint.args": ["--disable=C0303,C0304", "--max-line-length=120"],
+    "todo-tree.regex.regex": "(--|//|#|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS)",
+    "todo-tree.highlights.customHighlight": {
+      
+        "REF": {
+            "foreground": "#000",
+            "background": "#cecece",
+            "iconColour": "#cecece",
+            "icon": "link",
+            "type": "tag"
+        },
+        "ASAP": {
+            "foreground": "#fff",
+            "background": "#fd00a9",
+            "iconColour": "#fd00a9",
+            "icon": "flame"
+        },
+        "REMOVE":{
+            "foreground": "#000",
+            "background": "#cecece",
+            "iconColour": "#cecece",
+            "icon": "trash"
+        },
+        "REVIEW": {
+            "foreground": "#000",
+            "background": "#00FFFF",
+            "iconColour": "#ADD8E6",
+            "icon": "eye"
+        },
+        "HACK": {
+            "foreground": "#000",
+            "background": "#FFA500",
+            "iconColour": "#FFA500",
+            "icon": "alert"
+        },
+        "ISSUE": {
+          "foreground": "#000",
+          "background": "#FFA500",
+          "iconColour": "#FFA500",
+          "icon": "question"
+      },
+        "NOTE": {
+            "foreground": "#FFFF",
+            "background": "#FFA500",
+            "iconColour": "#FFA500",
+            "icon": "file"
+          },
+          "TODO": {
+            "foreground": "#000",
+            "background": "#FFD703",
+            "iconColour": "#FFD703",
+            "icon": "square"
+          },
+          "FIXME": {
+            "foreground": "#000",
+            "background": "#a201ff",
+            "iconColour": "#a201ff",
+            "icon": "bug"
+          },
+          "MARK": {
+            "foreground": "#000",
+            "background": "#157EFB",
+            "iconColour": "#157EFB",
+            "icon": "tag"
+          },
+          "[ ]": {
+            "foreground": "#000",
+            "background": "#ff000080",
+            "iconColour": "#ff000080",
+            "icon": "square"
+          },
+          "[x]": {
+            "foreground": "#000",
+            "background": "#00ff0080",
+            "iconColour": "#00ff0080",
+            "icon": "square-fill"
+          },
+          "DONE": {
+            "foreground": "#000",
+            "background": "#00ff0080",
+            "iconColour": "#00ff0080",
+            "icon": "square-fill"
+          },
+          "WTF": {
+            "foreground": "#000",
+            "background": "#da7f18d7",
+            "iconColour": "#da7f18d7",
+            "icon": "report"
+          },
+          "BROKEN": {
+            "foreground": "#000",
+            "background": "#ffee00",
+            "iconColour": "#ffee00",
+            "icon": "circle-slash"
+          },
+          "ERROR": {
+            "foreground": "#000",
+            "background": "#ff0404",
+            "iconColour": "#ff0404",
+            "icon": "x"
+          },
+          "BUG": {
+            "foreground": "#fff",
+            "background": "#755000",
+            "iconColour": "#755000",
+            "icon": "bug"
+          }
+    },
+    "todo-tree.general.tags": [
+        "ERROR",
+        "WTF",
+        "BROKEN",
+        "ISSUE",
+        "ASAP", 
+        "BUG",
+        "REMOVE",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+        "DONE",
+        "NOTE",
+        "MARK",
+        "REVIEW",
+        "REF"
+    ]
+}

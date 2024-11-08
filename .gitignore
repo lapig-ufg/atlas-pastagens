@@ -38,7 +38,7 @@ src/client/node_modules/
 *.sublime-workspace
 *.pyc
 .idea
-.vscode
+
 *~
 *#
 *.pyc
