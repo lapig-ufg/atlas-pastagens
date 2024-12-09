@@ -1,0 +1,31 @@
+<p-dialog
+  header="{{ 'dialogs.user_info.title' | translate }}" appendTo="body"
+  [modal]="true" [(visible)]="isActive" [draggable]="false"
+  [resizable]="false" [style]="{ width: '30vw' }" (onHide)="reset()"
+>
+  <div class="form-container">
+    <span class="p-float-label">
+      <input [class]="!isNameValid && userName !== '' ? 'ng-invalid ng-dirty' : ''" pInputText id="name" [(ngModel)]="userName" type="text" (input)="validateName()"/>
+      <label for="name">{{ "dialogs.user_info.input_name" | translate }}</label>
+    </span>
+    <span class="p-float-label">
+      <input [class]="!isEmailValid && userEmail !== '' ? 'ng-invalid ng-dirty' : ''" pInputText id="email" [(ngModel)]="userEmail" type="email" (input)="validateEmail()"/>
+      <label for="email">{{ "dialogs.user_info.input_email" | translate }}</label>
+    </span>
+
+    <span class="terms">
+      <p-checkbox [(ngModel)]="isTermsAccepted" [binary]="true" inputId="binary" />
+      <small class="">
+        {{ "dialogs.user_info.accept_terms" | translate }}
+        <div class="clickable"> {{ "dialogs.user_info.accept_terms_clickable" | translate}} </div>
+      </small>
+    </span>
+
+    <div class="action-container">
+      <p class="clickable" (click)="cancel()">{{ 'dialogs.user_info.cancel' | translate }}</p>
+      <p-button (click)="next()" label="{{ 'dialogs.user_info.next' | translate }}"
+        styleClass="p-button-success" [disabled]="!isNameValid || !isEmailValid || !isTermsAccepted"
+      ></p-button>
+    </div>
+  </div>
+</p-dialog>

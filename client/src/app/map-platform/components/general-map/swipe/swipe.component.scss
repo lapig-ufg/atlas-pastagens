@@ -1,0 +1,74 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+:host ::ng-deep{
+  .ol-swipe:before {
+    background: $primary !important;
+  }
+
+  p-dropdown {
+    width: 100%;
+    text-align: left;
+  }
+
+  .p-dropdown {
+    width: 100%;
+    text-align: left;
+  }
+
+  .swipe-body {
+    width: 100%;
+  }
+
+  .container{
+    width: 100%;
+
+    .card{
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      width: 100%;
+      padding: 4px 4px;
+
+      .title {
+        width: 100%;
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+        background: #e6deb2;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+      }
+
+      p-autocomplete {
+        width: 100%;
+      }
+
+      .p-autocomplete {
+        width: 100%;
+
+        &-input {
+          width: 100%;
+        }
+      }
+
+      .p-float-label {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 8px 0 4px;
+      }
+
+      h2 {
+        font-size: 1rem;
+      }
+
+      i {
+        cursor: pointer;
+        font-size: 1.5rem;
+        margin: 0 12px;
+      }
+    }
+  }
+}
+

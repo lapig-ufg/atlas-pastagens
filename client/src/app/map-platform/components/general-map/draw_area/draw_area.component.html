@@ -1,0 +1,32 @@
+<!-- TODO: Quando tiver mais de uma geometria devera ser selecionada quanl será analisada. -->
+<div class="controls-details-card-title"> {{ "controls.draw_area.title" | translate }} </div>
+<div class="controls-details-card-body">
+  <div class="features grid" *ngIf="features.length != 0">
+    <div class="card-feature col-fixed"
+      *ngFor="let feat of features; let i = index"
+      (mouseenter)="onHoverFeature(feat)"
+      (mouseleave)="onHoverFeature(feat, true)"
+    >
+      <div class="card-feature-title">
+        <span translate="controls.draw_area.feature.polygon"></span>
+      </div>
+      <div class="card-feature-actions">
+        <i
+          class="bx bx-trash remove"
+          pTooltip="{{'controls.draw_area.feature.remove_feature' | translate}}"
+          (click)="onRemoveFeature(i, feat)"
+        ></i>
+      </div>
+    </div>
+  </div>
+  <div class="features-actions">
+    <p-button icon="pi pi-save" label="{{ 'controls.draw_area.save' | translate }}" (onClick)="onSave()" [disabled]="features.length <= 0"></p-button>
+    <p-button icon="pi pi-plus" label="{{ 'controls.draw_area.new' | translate }}" (onClick)="draw()" [disabled]="features.length > 0"></p-button>
+  </div>
+</div>
+
+<p-dialog header="{{ 'dialogs.submition.success' | translate}}" [modal]="true" [(visible)]="dialogVisible" [style]="{ width: '25rem' }" [draggable]="false" [resizable]="false">
+  {{ 'dialogs.submition.content' | translate }}
+</p-dialog>
+
+<app-user-info-dialog/>

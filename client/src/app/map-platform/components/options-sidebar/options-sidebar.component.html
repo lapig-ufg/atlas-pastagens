@@ -1,0 +1,59 @@
+<h4 class="sidebar-title">{{ "menu.options" | translate }}</h4>
+
+<!-- Layer Sidebar Content -->
+<p-accordion [multiple]="true" [activeIndex]="accordionTabExpanded"
+(onOpen)="onAccordionTabOpen($event)" (onClose)="onAccordionTabClose($event)"
+>
+  <p-accordionTab header="{{ 'options.limits' | translate }}">
+    <div *ngIf="limits.length != 0; else loading">
+      <div *ngFor="let limit of limits">
+        <div class="content-card">
+          <p-inputSwitch
+            styleClass="inputSwitchClass"
+            (onChange)="onChangeLimit(limit, $event)"
+            [(ngModel)]="limit.checked"
+          ></p-inputSwitch>
+          <p class="inlineSwitchButton">
+            {{ limit.label }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+  <p-accordionTab header="{{ 'options.basemaps' | translate }}">
+    <div *ngIf="bmaps.length != 0; else loading">
+      <div *ngFor="let bmap of bmaps">
+        <div class="content-card">
+          <p-inputSwitch
+            styleClass="inputSwitchClass"
+            (onChange)="onChangeBmap(bmap, $event)"
+            [(ngModel)]="bmap.checked"
+          ></p-inputSwitch>
+          <p class="inlineSwitchButton">
+            {{ bmap.label }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+  <p-accordionTab header="{{ 'options.options' | translate }}">
+    <div *ngIf="options.length != 0; else loading">
+      <div *ngFor="let option of options">
+        <div class="content-card">
+          <p-inputSwitch
+            styleClass="inputSwitchClass"
+            (onChange)="onChangeOption(option.key, $event)"
+            [(ngModel)]="option.checked"
+          ></p-inputSwitch>
+          <p class="inlineSwitchButton">
+            {{ "options." + option.key | translate }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </p-accordionTab>
+</p-accordion>
+
+<ng-template #loading>
+  <app-loading-spinner />
+</ng-template>

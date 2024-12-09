@@ -1,0 +1,66 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+:host ::ng-deep {
+    p-selectbutton {
+        align-items: center;
+    }
+
+    p-autocomplete {
+        width: 100%;
+    }
+
+    .p-selectbutton {
+        .p-button {
+            &.p-highlight {
+                background-color: lighten($primary, 40%);
+                border-color: lighten($primary, 40%);
+                color: white;
+            }
+
+            &:hover {
+                background-color: lighten($primary, 40%);
+                color: white;
+            }
+        }
+    }
+
+    .p-autocomplete {
+        width: 100%;
+
+        &-input {
+            width: 100%;
+        }
+    }
+
+    .search-options {
+        display: flex;
+        justify-content: center;
+        margin: 8px 0;
+    }
+
+  .controls-details-card-title {
+    font-size: 14px;
+    text-align: center;
+    padding: 8px;
+    display: flex;
+    justify-content: center;
+    background: lighten($primary, 60%);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  .input-text {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 8px 8px;
+    margin: 4px 0;
+
+    i {
+        cursor: pointer;
+        margin: 0 8px;
+        font-size: 1.5rem;
+    }
+  }
+}

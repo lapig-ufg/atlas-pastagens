@@ -1,0 +1,70 @@
+:host ::ng-deep {
+  .p-carousel {
+    width: 100%;
+    height: 100%;
+    padding-top: 8px;
+  }
+
+  .chart-item {
+    .p-carousel-content {
+      height: 100px;
+    }
+
+    .p-carousel-container {
+      height: 100px;
+    }
+
+    .p-carousel-item {
+      width: 100%;
+      height: 100px;
+    }
+
+    .chart-item-content {
+      border: 1px solid var(--surface-d);
+      border-radius: 3px;
+      margin: 0.3rem;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .chart-image {
+      width: 50%;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+  }
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 50vh 50vh;
+  grid-template-columns: 50vw 50vw;
+
+  .analysis-map {
+    width: 100%;
+    height: 100%;
+  }
+
+  .p-carousel {
+    width: 100vw;
+    height: 60vh;
+  }
+
+  .chart {
+    width: 43vw;
+    height: 100%;
+    margin: 8px;
+    padding: 0 0;
+  }
+
+  .chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+
+  .chart-title {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+}

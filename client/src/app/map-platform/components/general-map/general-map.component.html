@@ -1,0 +1,349 @@
+<!-- TODO: A função de coloar pontos no mapa deve ter a opção de inserir por coordenadas -->
+
+<section *ngIf="true; else loadingSpinner" class="open map-container">
+  <div [class]="classes">
+    <app-ol-map>
+      <div *ngIf="this.layersLegend.length > 0" [class]="legendExpanded ? 'legends' : 'legends legends-expanded'">
+        <div class="legends-container">
+          <div class="legends-header">
+            <h5>{{ "legend.title" | translate }}</h5>
+            <i
+              [pTooltip]="
+                legendExpanded
+                  ? ('minimize' | translate)
+                  : ('maximize' | translate)
+              "
+              (click)="legendExpanded = !legendExpanded"
+              [class]="legendExpanded ? 'bx bx-collapse' : 'bx bx-expand'"
+            ></i>
+          </div>
+          <div
+            class="legends-body"
+            cdkDropList
+            (cdkDropListDropped)="updateLayersOrder($event)"
+          >
+            <div
+              *ngFor="let legend of layersLegend"
+              cdkDrag
+              [class]="
+                legend.expanded
+                  ? 'legend-card legend-card-active'
+                  : 'legend-card'
+              "
+            >
+              <div class="legend-card-content">
+                <div class="abstract">
+                  <span>
+                    <i
+                      class="bx bx-move"
+                      tooltipPosition="left"
+                      pTooltip="{{ 'legend.move' | translate }}"
+                    ></i>
+                    <div
+                      class="legend-label"
+                      tooltipPosition="left"
+                      pTooltip="{{
+                        legend.key === 'planet'
+                          ? ('planet' | translate)
+                          : legend.label
+                      }}"
+                    >
+                      {{
+                        legend.key === "planet"
+                          ? ("planet" | translate)
+                          : legend.label
+                      }}
+                    </div>
+                    <div class="legend-tools">
+                      <i
+                        class="bx bxs-download"
+                        tooltipPosition="left"
+                        [pTooltip]="'sld.title' | translate"
+                        (click)="downloadSLD(legend.key)"
+                      ></i>
+                      <!-- TODO:  -->
+                      <i
+                        tooltipPosition="left"
+                        (click)="toggleLayerLegend(legend)"
+                        [pTooltip]="
+                          legend.expanded
+                            ? ('minimize' | translate)
+                            : ('maximize' | translate)
+                        "
+                        [class]="
+                          legend.expanded
+                            ? 'bx bxs-up-arrow-circle'
+                            : 'bx bxs-down-arrow-circle'
+                        "
+                      ></i>
+                    </div>
+                  </span>
+                </div>
+                <div class="details">
+                  <div
+                    *ngIf="legend.filterHandler === 'layername'; else noFilters"
+                    class="details-inner"
+                  >
+                    <img
+                      src="{{
+                        env.OWS
+                      }}/ows?EXCEPTIONS=application%2Fvnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetLegendGraphic&layer={{
+                        legend.filter
+                      }}&format=image%2Fpng"
+                      alt="{{ legend.key }}"
+                    />
+                  </div>
+                  <ng-template #noFilters>
+                    <div class="details-inner">
+                      <img
+                        src="{{
+                          env.OWS
+                        }}/ows?EXCEPTIONS=application%2Fvnd.ogc.se_xml&TRANSPARENT=TRUE&VERSION=1.1.1&SERVICE=WMS&REQUEST=GetLegendGraphic&layer={{
+                          legend.key
+                        }}&format=image%2Fpng"
+                        alt="{{ legend.key }}"
+                      />
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls mobileHide">
+        <div class="controls-container">
+          <i *ngFor="let key of controlKeys"
+            [class]="controlObjs[key].icon + (controlObjs[key].active ? ' control-active' : '')"
+            pRipple [pTooltip]="'controls.' + key | translate" (click)="controlObjs[key].onClick()">
+          </i>
+          <!-- Quando clicado deve resetar a região default do brasil -->
+          <i class="bx bx-x" pRipple
+            [pTooltip]="'controls.reset_zoom' | translate"
+            (click)="onResetZoom()"
+          ></i>
+          <i class="bx bxs-trash" pRipple
+            [pTooltip]="'controls.clear' | translate"
+            (click)="onClearGeometries()"
+          ></i>
+        </div>
+      </div>
+
+      <!-- Controll Dialog -->
+      <div *ngIf="controlOptions" class="controls-details">
+        <div class="controls-details-header">
+          <h5>{{ "controls.details.title" | translate }}</h5>
+          <i (click)="closeDetailsWindow()" class="bx bx-x-circle"></i>
+        </div>
+        <div class="controls-details-body">
+          <div *ngIf="controlObjs['filter'].active" class="controls-details-card">
+            <app-filter/>
+          </div>
+          <div *ngIf="controlObjs['swipe'].active" class="controls-details-card">
+            <app-swipe (handleLayersLegend)="handleLayerSelected($event)" />
+          </div>
+          <div *ngIf="controlObjs['drawArea'].active" class="controls-details-card">
+            <app-draw-area/>
+          </div>
+        </div>
+      </div>
+
+      <div
+        [hidden]="popupRegion.coordinate.length == 0"
+        #wfsCard
+        id="popup"
+        class="ol-popup"
+      >
+        <div class="popup-header">
+          <h5>{{ "popup-info.title" | translate | uppercase }}</h5>
+          <i
+            id="popup-closer"
+            pTooltip="{{ 'popup-info.close' | translate }}"
+            (click)="closePopup()"
+            class="bx bx-x bx-lg"
+          ></i>
+        </div>
+        <div class="popup-body" *ngIf="featureCollections.length > 0">
+          <div
+            *ngFor="let featureCollection of featureCollections"
+            [class]="
+              featureCollection.expanded
+                ? 'legend-card legend-card-active'
+                : 'legend-card'
+            "
+          >
+            <div class="legend-card-content">
+              <div
+                (click)="
+                  featureCollection.expanded = !featureCollection.expanded;
+                  $event.stopPropagation()
+                "
+                class="abstract"
+              >
+                <span>
+                  <div class="legend-label">
+                    {{ featureCollection.layerType.viewValueType }}
+                  </div>
+                  <i
+                    tooltipPosition="left"
+                    [pTooltip]="
+                      featureCollection.expanded
+                        ? ('minimize' | translate)
+                        : ('maximize' | translate)
+                    "
+                    [class]="
+                      featureCollection.expanded
+                        ? 'bx bxs-up-arrow-circle'
+                        : 'bx bxs-down-arrow-circle'
+                    "
+                  ></i>
+                </span>
+              </div>
+              <div class="details">
+                <div class="details-inner">
+                  <div
+                    class="details-row"
+                    *ngFor="
+                      let attribute of featureCollection.layerType.wfsMapCard
+                        .attributes
+                    "
+                  >
+                    <div class="details-row-header">{{ attribute.label }}:</div>
+                    <div class="details-row-content">
+                      {{
+                        getAttributeValue(
+                          attribute,
+                          featureCollection.features[0].properties[
+                            attribute.column
+                          ]
+                        )
+                      }}
+                    </div>
+                  </div>
+                  <div *ngIf="gallery.length! > 0" class="gallery-btn">
+                    <button
+                      (click)="displayGallery = !displayGallery"
+                      pButton
+                      pRipple
+                      type="button"
+                      label="{{ 'gallery.btn' | translate }}"
+                      class="p-button-raised p-button-text p-button-plain"
+                    >
+                      <i class="bx bx-photo-album"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="popupRegion.coordinate.length > 0" class="popup-footer">
+          <span *ngFor="let attribute of popupRegion.attributes">
+            {{ attribute.label }}:
+            <strong>{{
+              getAttributeValue(
+                attribute.columnType,
+                popupRegion.properties[attribute.column]
+              )
+            }}</strong>
+          </span>
+          <span
+            >{{ "popup-info.lat" | translate }}:
+            <strong>{{
+              popupRegion.coordinate[1] | number : "1.0-4" : "en-US"
+            }}</strong></span
+          >
+          <span
+            >{{ "popup-info.lon" | translate }}:
+            <strong>{{
+              popupRegion.coordinate[0] | number : "1.0-4" : "en-US"
+            }}</strong></span
+          >
+        </div>
+      </div>
+    </app-ol-map>
+  </div>
+  <p-toast></p-toast>
+
+  <!-- TODO: Fix it -->
+  <p-dialog
+    header="{{ 'atlasinformation.title' | translate }}"
+    [maximizable]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [appendTo]="'body'"
+    [modal]="true"
+    [style]="{ width: isMobile ? '98vw' : '45vw' }"
+    [visible]="false"
+  >
+    <div class="message-content">
+      <p [innerHTML]="'atlasinformation.text' | translate"></p>
+    </div>
+  </p-dialog>
+</section>
+
+<p-dialog
+  header="{{ 'gallery.dialog_title' | translate }}"
+  [maximizable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [appendTo]="'body'"
+  [modal]="true"
+  [style]="{ width: isMobile ? '98vw' : '45vw' }"
+  [(visible)]="displayGallery"
+>
+  <p-tabView *ngIf="gallery.length! > 0">
+    <p-tabPanel
+      header="{{ galeria.title }}"
+      *ngFor="let galeria of gallery; let i = index"
+      [selected]="i == 0"
+      [disabled]="!galeria.show"
+      [headerStyle]="{ 'font-size': 'small' }"
+    >
+      <div *ngIf="galeria.items.length > 0">
+        <p-galleria
+          [value]="galeria.items"
+          [(activeIndex)]="galeria.activeIndex"
+          [responsiveOptions]="galleryResponsiveOptions"
+          [showItemNavigators]="galeria.items.length > 1"
+          [showThumbnails]="galeria.key !== 'videos_drone'"
+          [containerStyle]="{ 'max-width': '100%' }"
+          [numVisible]="5"
+          (activeIndexChange)="loadVideo(galeria.key)"
+        >
+          <ng-template pTemplate="item" let-item>
+            <img
+              *ngIf="item.type === 'image'"
+              [src]="item.url"
+              style="width: 100%"
+            />
+            <video
+              #video
+              *ngIf="item.type === 'video'"
+              controls
+              style="width: 100%"
+            >
+              <source [src]="item.url" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </ng-template>
+          <ng-template pTemplate="thumbnail" let-item>
+            <div
+              *ngIf="item.type === 'image'"
+              class="p-grid p-nogutter p-justify-center"
+            >
+              <img [src]="item.url" style="width: 60px; height: 60px" />
+            </div>
+          </ng-template>
+        </p-galleria>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+</p-dialog>
+
+<ng-template #loadingSpinner>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
+
+<app-user-info-dialog/>

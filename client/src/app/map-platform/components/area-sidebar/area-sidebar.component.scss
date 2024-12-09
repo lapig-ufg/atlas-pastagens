@@ -1,0 +1,241 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+h4.sidebar-title {
+  padding: 8px 0;
+  font-size: 16px;
+  margin: 5px;
+  color: white;
+  background: $primary;
+  border-radius: 5px;
+  text-align: center;
+}
+
+#area {
+  .container {
+    margin: 8px;
+    padding: 4px 4px;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 1px rgb(0 0 0 / 10%);
+    background: white;
+  }
+
+  .container-input {
+    margin: 8px 0;
+
+    .clear-btn {
+      color: rgba(120, 120, 120);
+    }
+
+    .clear-btn:hover {
+      color: rgba(50, 50, 50);
+      cursor: pointer;
+    }
+  }
+
+  .card-checkbox-upload {
+    margin: 10px;
+    font-size: 20px;
+    padding-top: 23px;
+    cursor: pointer;
+    padding: 0px !important;
+    position: relative;
+  }
+
+  .card-checkbox-upload.mat-card-content > :last-child:not(.mat-card-footer),
+  .mat-card > :last-child:not(.mat-card-footer) {
+    padding-top: 32px;
+    padding-left: 20px;
+  }
+
+  .upload-token {
+    padding-bottom: 10px;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .card-upload-analysed {
+    margin: 10px;
+    border-radius: 4px;
+    color: $primary;
+    font-weight: 500;
+    
+    .title-file-card {
+      padding: 9px;
+      font-size: 13px;
+    }
+
+    .btn-print {
+      color: $primary !important;
+    }
+
+    &-table {
+      //margin-bottom: 15px;
+      //margin-top: 15px;
+      text-align: center;
+
+      .ui-table .ui-table-tbody > tr:nth-child(even).ui-state-highlight {
+        background-color: $primary !important;
+        color: #ffffff !important;
+      }
+
+      .ui-table .ui-table-tbody > tr.ui-state-highlight {
+        background-color: $primary !important;
+        color: #ffffff !important;
+      }
+
+      &-title {
+        text-align: center;
+        font-weight: bold;
+      }
+    }
+
+    &-content {
+      font-size: 14px;
+      margin: 10px;
+      padding-top: 32px;
+
+      .card {
+        margin: 15px;
+        color: $primary;
+        cursor: pointer;
+        transition: 0.5s;
+        font-size: 13px;
+        padding: 14px;
+        border-radius: 6px;
+
+        &:hover {
+          background-color: $primary !important;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .btn-analyze {
+    display: block !important;
+  }
+
+  .btn-print-token {
+    margin-left: 8px !important;
+    color: $primary !important;
+  }
+
+  .buttons-analyze {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 15px;
+    margin-top: 20px;
+
+    .clear {
+      background-color: rgb(112, 112, 112);
+    }
+  }
+
+  .progress-analyse-up {
+    margin: -10px;
+    margin-bottom: 5px;
+  }
+
+  .progress-analyse {
+    margin: 10px;
+    margin-left: -3px;
+  }
+
+  .title-file-card {
+    position: absolute;
+    font-size: 11px;
+    font-weight: bolder;
+    text-align: center;
+    width: 100%;
+    padding: 7px;
+    color: white;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    background-color: $primary;
+  }
+
+  .title-file-card-search {
+    position: absolute;
+    font-size: 11px;
+    font-weight: bolder;
+    text-align: center;
+    width: 94%;
+    padding: 7px;
+    color: white;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    background-color: $primary;
+  }
+
+  .map-snack-bar {
+    text-align: center;
+    font-weight: 800;
+  }
+
+  .colorPicker {
+    margin: 8px;
+    z-index: 1000000000;
+  }
+
+  .info-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 50%;
+    font-size: 24px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background-color: #8080802e;
+    text-align: left;
+  }
+
+  .info-error {
+    font-size: 14px;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 6px;
+    background-color: rgba(128, 83, 58, 0.18);
+    text-align: justify;
+    border-left: 5px solid $primary;
+  }
+
+  .btn-languages {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 15px;
+
+    button {
+      color: white !important;
+    }
+  }
+
+  .color-buttons {
+    background-color: #707070;
+    font-weight: 900;
+  }
+
+  .btn-help {
+    position: absolute;
+    font-size: 25px;
+    right: 16px;
+    top: 9px;
+    color: white;
+  }
+
+  .btn-help:hover {
+    cursor: pointer;
+    color: lighten($primary, 40%);
+  }
+}
+
+.card-header-chart-area {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+
+  h4 {
+    font-size: 13px;
+    text-align: justify;
+  }
+}

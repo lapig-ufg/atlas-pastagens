@@ -1,0 +1,50 @@
+<div class="container">
+  <!--<p-messages [(value)]="msg" *ngIf="chartsArea == null"/>-->
+
+  <div id="analysis-map" class="analysis-map"></div>
+
+  <div class="chart" *ngIf="transitionChart != null">
+    <div class="chart-header">
+      <h4 class="chart-title">{{ transitionChart.text }}</h4>
+    </div>
+    <p-chart type="line" [data]="transitionChart.data" [options]="transitionChart.options" height="45vh" width="100%"></p-chart>
+  </div>
+
+  <div *ngIf="pastureCharts != null; else loading">
+    <p-carousel
+      [value]="pastureCharts"
+      [numVisible]="1"
+      [numScroll]="2"
+    >
+      <ng-template let-chart pTemplate="item">
+        <div class="chart">
+          <div class="chart-header">
+            <h4 class="chart-title">{{ chart.text }}</h4>
+          </div>
+          <p-chart type="line" [data]="chart.data" [options]="chart.options" height="37.5vh"></p-chart>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <div *ngIf="indexesCharts != null; else loading">
+    <p-carousel
+      [value]="indexesCharts"
+      [numVisible]="1"
+      [numScroll]="1"
+    >
+      <ng-template let-chart pTemplate="item">
+        <div class="chart">
+          <div class="chart-header">
+            <h4 class="chart-title">{{ chart.text }}</h4>
+          </div>
+          <p-chart type="line" [data]="chart.data" [options]="chart.options" height="37.5vh"></p-chart>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+</div>
+
+<ng-template #loading style="display: flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
+  <app-loading-spinner/>
+</ng-template>

@@ -1,0 +1,37 @@
+[
+  {
+    "idGroup": "campo_general",
+    "labelGroup": "translate",
+    "groupExpanded": false,
+    "layers": [
+      {
+        "idLayer": "pontos_campo_goias_2022",
+        "labelLayer": "translate",
+        "visible": false,
+        "selectedType": "pontos_campo_goias_2022",
+        "types": ["pontos_campo_goias_2022"]
+      },
+      {
+        "idLayer": "pontos_campo_portal_amazonia_2022",
+        "labelLayer": "translate",
+        "visible": false,
+        "selectedType": "pontos_campo_portal_amazonia_2022",
+        "types": ["pontos_campo_portal_amazonia_2022"]
+      },
+      {
+        "idLayer": "pontos_campo_brasil",
+        "labelLayer": "translate",
+        "visible": false,
+        "selectedType": "pontos_campo_mato_grosso_2022",
+        "types": ["pontos_campo_mato_grosso_2022"]
+      },
+      {
+        "idLayer": "pontos_campo",
+        "labelLayer": "translate",
+        "visible": false,
+        "selectedType": "pontos_campo_parada",
+        "types": ["pontos_campo_parada", "pontos_campo_sem_parada"]
+      }
+    ]
+  }
+]

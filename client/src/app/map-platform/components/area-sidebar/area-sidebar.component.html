@@ -1,0 +1,61 @@
+<section #area id="area">
+  <h4 class="sidebar-title">
+    {{ "menu.area_upload" | translate }}
+    <i
+      *ngIf="!isMobile"
+      pTooltip="{{ 'left_sidebar.tutorial_title' | translate }}"
+      class="bx bxs-info-circle btn-help"
+      (click)="openTutorial()"
+    ></i>
+  </h4>
+
+  <div class="container">
+    <app-file-upload />
+  </div>
+
+  <h4 class="sidebar-title">{{ "menu.area_retrival" | translate }} </h4>
+
+  <div class="container">
+    <div class="container-input">
+      <span class="p-float-label p-input-icon-right">
+        <i
+          class="pi pi-times clear-btn"
+          *ngIf="userInput != ''"
+          (click)="clearInput()"
+        ></i>
+        <input pInputText id="username" [(ngModel)]="userInput" />
+        <label htmlFor="username">{{ "area.upload_token" | translate }}</label>
+      </span>
+    </div>
+
+    <div class="buttons-analyze">
+      <p-button
+        [label]="'area.btn_analyze' | translate | uppercase"
+        icon="pi pi-search"
+        [disabled]="userInput === ''"
+        (click)="onAnalyseClicked()"
+      >
+      </p-button>
+    </div>
+
+    <!-- TODO: Usar o MessageDialog para informar: sucesso, warning e error -->
+  </div>
+</section>
+
+<p-dialog
+  header="{{ 'left_sidebar.tutorial_title' | translate }}"
+  [maximizable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [appendTo]="isMobile ? area : 'body'"
+  [modal]="true"
+  [style]="{ width: '80%', height: '90%' }"
+  [(visible)]="displayTutorial"
+>
+  <iframe
+    [src]="tutorialUrl"
+    type="application/pdf"
+    width="100%"
+    height="100%"
+  ></iframe>
+</p-dialog>

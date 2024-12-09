@@ -1,0 +1,26 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+
+.content-card {
+    display: flex;
+    margin: 8px 4px;
+    padding: 0 8px;
+    align-items: center;
+    justify-content: left;
+    border-radius: 5px;
+    box-shadow: 0 1px 2px 1px rgb(0 0 0 / 10%);
+}
+
+.content-card p {
+    margin-left: 8px;
+}
+
+h4.sidebar-title {
+    padding: 8px 0;
+    font-size: 16px;
+    margin: 5px;
+    color: white;
+    background: $primary;
+    border-radius: 5px;
+    text-align: center;
+}

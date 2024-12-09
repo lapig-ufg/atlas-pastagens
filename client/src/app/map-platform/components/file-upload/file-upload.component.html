@@ -1,0 +1,19 @@
+<!-- TODO: Tooltip "'area.upload_tooltip' | translate"-->
+ <!-- TODO: MaxAreaMsg "'area.upload_max_size_msg' | translate"-->
+
+<div id="upload">
+  <div class="upload-input" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+    <i class="pi pi-download upload-button" (click)="fileUpload.click()" type="button"></i>
+    <p><strong class="upload-button" (click)="fileUpload.click()" type="button">{{ 'area.upload_choose' | translate }}</strong> {{ 'area.upload_drop' | translate }}</p>
+  </div>
+
+  <input #fileUpload id="fileUpload"
+    type="file" accept=".kmz, .zip"
+    name="shapefile" [multiple]="true"
+    (input)="onInputChange($event)"
+    accept=".zip, .kmz"
+    style="display: none;"
+  />
+</div>
+
+<app-user-info-dialog/>

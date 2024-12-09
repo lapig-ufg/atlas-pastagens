@@ -1,0 +1,72 @@
+<app-site-base>
+  <!-- inner banner -->
+  <section class="inner-banner">
+    <div class="w3l-breadcrumb py-5">
+      <div class="container py-xl-5 py-md-4 mt-5">
+        <h4 class="inner-text-title font-weight-bold mb-sm-2">{{'hotsite.about.page_title' | translate}}</h4>
+        <ul class="breadcrumbs-custom-path">
+          <li><a href="/">Home</a></li>
+          <li class="active"><i class='bx bx-chevron-right'></i> {{'hotsite.base.header.menu.about' | translate}}</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+  <!-- //inner banner -->
+
+  <!-- single post -->
+  <section class="blog-post-main">
+    <div class="blog-content-inf py-5">
+      <div class="container py-md-5 py-4">
+        <div class="blog-posthny-info mx-auto" style="max-width:800px">
+          <div class="style-title position-relative">
+            <h3 class="title-style mb-sm-3 mb-2">{{'hotsite.about.abstract.title' | translate}}</h3>
+          </div>
+          <div class="single-post-image mb-4">
+            <img src="../../../../assets/hotsite/images/sobre2.jpg" class="img-fluid img-responsive"
+              alt="Sobre Atlas das Pastagens" />
+          </div>
+
+          <div class="single-post-content">
+            <p class="mb-4">
+              {{'hotsite.about.abstract.p1' | translate }}
+            </p>
+            <p class="mb-4">
+              {{'hotsite.about.abstract.p2' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- //single post -->
+
+  <!-- testimonials section -->
+  <div class="service-section" id="testimonials">
+    <div class="container py-md-5 py-4">
+      <div class="row align-items-center mb-5">
+        <div class="col-md-6 section-heading">
+          <h3 class="title-style-2">{{'hotsite.about.team.title' | translate }} </h3>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center" style="width: 75%; margin: auto;">
+      <div *ngFor="let person of team" class="col-lg-3 col-md-3 item">
+        <div class="card">
+          <a target="_blank" [href]="person.lattes" class="service-heading">
+            <div class="card-header p-0 position-relative border-0">
+              <img class="d-block img-responsive" [src]="person.image" [alt]="person.name">
+            </div>
+            <div class="card-body service-details">
+              <div class="card-title"> {{ person.name }}</div>
+              <div>
+                {{ person.role }}
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //testimonials section -->
+
+</app-site-base>

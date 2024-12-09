@@ -1,0 +1,93 @@
+<div class="swipe-body">
+  <div class="container">
+    <div class="card">
+      <h2 class="title">Left Side</h2>
+      <span class="p-float-label">
+        <p-autoComplete
+          [placeholder]="'controls.details.swipe_placeholder' | translate"
+          [appendTo]="'body'"
+          (onClear)="onCleanInput(false)"
+          [(ngModel)]="inputLeft"
+          [suggestions]="suggestions"
+          (onSelect)="onSelectedLayer($event, false)"
+          (completeMethod)="search($event)"
+          field="name"
+        >
+          <ng-template let-layer pTemplate="item">
+            {{ layer.name }}
+          </ng-template>
+        </p-autoComplete>
+        <i
+          *ngIf="inputLeft != ''"
+          [pTooltip]="'controls.details.clear' | translate"
+          class="bx bx-trash"
+          (click)="onCleanInput(false)"
+        ></i>
+      </span>
+      <div class="layer-card-body" *ngIf="leftLayerDescriptor">
+        <div class="layer-card-content">
+          <span class="p-float-label">
+            <p-dropdown
+              id="type-filters-{{ leftLayerDescriptor.filters }}"
+              *ngIf="leftLayerDescriptor.filters"
+              [options]="leftLayerDescriptor.filters"
+              [(ngModel)]="leftLayerDescriptor.filterSelected"
+              (onChange)="changeDate($event, false)"
+              optionLabel="viewValueFilter"
+              optionValue="valueFilter"
+              appendTo="body"
+            ></p-dropdown>
+            <label for="type-filters-{{ leftLayerDescriptor.filterSelected }}"
+              >{{ leftLayerDescriptor.filterLabel }}
+            </label>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2 class="title">Right Side</h2>
+      <span class="p-float-label">
+        <p-autoComplete
+          [placeholder]="'controls.details.swipe_placeholder' | translate"
+          (onClear)="onCleanInput(true)"
+          [appendTo]="'body'"
+          [(ngModel)]="inputRight"
+          [suggestions]="suggestions"
+          (onSelect)="onSelectedLayer($event, true)"
+          (completeMethod)="search($event)"
+          field="name"
+        >
+          <ng-template let-layer pTemplate="item">
+            {{ layer.name }}
+          </ng-template>
+        </p-autoComplete>
+        <i
+          *ngIf="inputRight != ''"
+          [pTooltip]="'controls.details.clear' | translate"
+          class="bx bx-trash"
+          (click)="onCleanInput(true)"
+        ></i>
+      </span>
+      <div class="layer-card-body" *ngIf="rightLayerDescriptor">
+        <div class="layer-card-content">
+          <span *ngIf="true" class="p-float-label">
+            <p-dropdown
+              id="type-filters-{{ rightLayerDescriptor.filterSelected }}"
+              *ngIf="rightLayerDescriptor.filters"
+              [options]="rightLayerDescriptor.filters"
+              [(ngModel)]="rightLayerDescriptor.filterSelected"
+              (onChange)="changeDate($event, true)"
+              optionLabel="viewValueFilter"
+              optionValue="valueFilter"
+              appendTo="body"
+            ></p-dropdown>
+            <label for="type-filters-{{ rightLayerDescriptor.filterSelected }}"
+              >{{ rightLayerDescriptor.filterLabel }}
+            </label>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<!-- Layer Sidebar Content -->
+<h4 class="sidebar-title">{{ "menu.layers" | translate }}</h4>
+
+<p-toast></p-toast>
+
+<div *ngIf="descriptor != null; else loading">
+  <p-accordion
+    [multiple]="true"
+    [activeIndex]="accordionTabExpanded"
+    (onOpen)="onAccordionTabOpen($event)"
+    (onClose)="onAccordionTabClose($event)"
+  >
+      <p-accordionTab [header]="group.labelGroup" *ngFor="let group of descriptor!.groups">
+        <div class="details">
+          <div class="details-inner">
+            <div *ngFor="let layer of group.layers" class="layer-card">
+              <div pTooltip="{{ layer.labelLayer }}" class="layer-card-header">
+                <p-inputSwitch [ngModel]="layer.visible" (onChange)="onChangeVisibility(layer.idLayer, $event)"/>
+                <h5>{{ layer.labelLayer }}</h5>
+                <i *ngIf="layer.visible"
+                  pTooltip="{{ 'left_sidebar.layer.metadata' | translate }}"
+                  class="bx bxs-info-circle" (click)="showMetadata(layer)">
+                </i>
+              </div>
+
+              <div class="layer-card-body" *ngIf="layer.visible">
+                  <div class="layer-alert" *ngIf="layer.selectedTypeObject?.alertMessage">
+                    <span>{{ layer.selectedTypeObject?.alertMessage }}</span>
+                  </div>
+                  <span class="p-float-label" *ngIf="layer.types.length > 1">
+                    <p-dropdown appendTo="body" id="types-{{ layer.selectedType }}"
+                      [options]="layer.types" [(ngModel)]="layer.selectedType"
+                      optionLabel="viewValueType" optionValue="valueType"
+                      (onChange)="onChangeType(layer.idLayer, $event)"
+                    ></p-dropdown>
+                    <label for="types-{{ layer.selectedType }}">
+                      {{ layer.selectedTypeObject!.typeLabel }}
+                    </label>
+                  </span>
+                  <span class="p-float-label" *ngIf="layer.selectedTypeObject!.filters">
+                    <p-dropdown appendTo="body" id="type-filters-{{layer.selectedTypeObject!.filterSelected}}"
+                      [options]="layer.selectedTypeObject!.filters" [(ngModel)]="layer.selectedTypeObject!.filterSelected"
+                      optionLabel="viewValueFilter" optionValue="valueFilter"
+                      (onChange)="onChangeFilter(layer.idLayer, $event)"
+                    ></p-dropdown>
+                    <label for="type-filters-{{ layer.selectedTypeObject!.filterSelected }}">
+                      {{ layer.selectedTypeObject!.filterLabel }}
+                    </label>
+                  </span>
+                  <div class="layer-transparency">
+                    <p-slider (onChange)="onChangeTransparency(layer.idLayer, $event)"/>
+                    <span>{{ "left_sidebar.opacity" | translate }}</span>
+                  </div>
+                  <div class="layer-exports">
+                    <ng-container *ngFor="let download of downloadFormats">
+                      <ng-container *ngIf="layer.selectedTypeObject!.download[download] && !layer.selectedTypeObject!.download.loading">
+                      <button 
+                        class="p-button-raised p-button-text" pButton pRipple type="button"
+                        pTooltip="{{ 'left_sidebar.layer.down_' + download | translate }}"
+                        icon="pi pi-download" [label]="downloadFormatsLabels[download]"
+                        (click)="onDownload(download, layer.selectedTypeObject!)"
+                      ></button>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </p-accordionTab>
+  </p-accordion>
+</div>
+
+<p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false"
+  [resizable]="false" [appendTo]="'body'" [modal]="true"
+  header="Metadata - {{ selectedLayerTitle }}"
+  [(visible)]="selectedLayerToggle" [style]="{ width: '50vw' }"
+>
+  <table>
+    <tbody>
+      <tr class="table-row" *ngFor="let metadata of selectedLayerMetadata">
+        <td class="title-row">
+          <b>{{ metadata.title }}</b>
+        </td>
+        <td
+          *ngIf="metadata.title != 'URL'; else linkDetails"
+          class="content-row"
+        >
+          {{ metadata.description }}
+        </td>
+        <ng-template #linkDetails>
+          <td class="content-row" [innerHTML]="metadata.description"></td>
+        </ng-template>
+      </tr>
+    </tbody>
+  </table>
+</p-dialog>
+
+<ng-template #loading>
+  <app-loading-spinner />
+</ng-template>

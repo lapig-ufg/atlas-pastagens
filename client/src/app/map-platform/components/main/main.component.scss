@@ -1,0 +1,274 @@
+@import "src/app/@core/styles/default_theme";
+@import "src/app/@core/styles/reponsive";
+@import "node_modules/ol/ol.css";
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+:host ::ng-deep {
+  .p-accordion-header-text {
+      font-size: 14px;
+      font-family: Montserrat, sans-serif;
+      font-weight: 400;
+  }
+}
+
+@mixin center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@include media(">=phone", "<=tablet") {
+  .desktop {
+    display: none;
+  }
+}
+
+@include media(">=tablet", "<=desktop") {
+  .mobile {
+    display: none;
+  }
+}
+
+@include media(">=desktop") {
+  
+
+  .mobile {
+    display: none;
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    app-general-map {
+      width: 100%;
+    }
+
+    app-general-map.right-sidebar-open {
+      margin-right: 320px;
+    }
+
+    app-general-map.left-sidebar-open {
+      margin-left: 320px;
+    }
+  }
+
+  .main-layout {
+    height: $height;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: Montserrat, sans-serif;
+
+    .menu-sidebar {
+      height: 100%;
+      position: relative;
+      background: $primary;
+      padding: 6px 6px;
+      z-index: 99;
+      transition: all 0.5s ease;
+
+      .logo {
+        &-menu-header {
+          width: 100%;
+          display: flex;
+          aspect-ratio: 3 / 2;
+          align-items: center;
+          justify-content: center;
+
+          img {
+            width: 4em;
+          }
+        }
+      }
+
+      .nav-list {
+        width: 80px;
+        padding: 0px;
+        margin-top: 4px;
+        align-items: center;
+
+        .nav-list-element {
+          color: #fff;
+          margin-bottom: 8px;
+          padding: 8px 8px;
+          border-radius: 12px;
+          background: lighten($primary, 10%);
+
+          &-active {
+            color: $primary;
+            background: #fff;
+          }
+
+          &:hover {
+            cursor: pointer;
+            color: $primary;
+            background-color: #fff;
+
+            .tooltip {
+              opacity: 1;
+              pointer-events: auto;
+              transition: all 0.4s ease;
+              top: 50%;
+              transform: translateY(-50%);
+            }
+
+            .links-name,
+            i {
+              color: $primary;
+            }
+
+            .lng_name,
+            i {
+              color: $primary;
+            }
+          }
+
+          i {
+            line-height: 36px;
+            font-size: 2em;
+          }
+
+          .links-name {
+            font-size: 100%;
+            font-weight: 400;
+            white-space: nowrap;
+          }
+
+          .lng_name {
+            font-size: 12px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 1;
+            pointer-events: none;
+            transition: all 0.5s ease;
+          }
+
+          .tooltip {
+            position: absolute;
+            top: -20px;
+            left: calc(100% + 15px);
+            z-index: 3;
+            background: #fff;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 400;
+            opacity: 0;
+            white-space: nowrap;
+            pointer-events: none;
+            transition: all 0.5s ease;
+          }
+        }
+      }
+
+      .footer {
+        width: calc(100% - 12px);
+        height: 6rem;
+        bottom: 0px;
+        position: absolute;
+
+        li {
+          height: 35px;
+          margin: 8px 0;
+
+          .lng {
+            padding: 10px 0;
+            border-radius: 12px;
+            
+            color: white;
+            background: lighten($primary, 10%);
+
+            &-active {
+              color: $primary;
+              background: white;
+            }
+
+            &:hover {
+              cursor: pointer;
+              color: $primary;
+              background: white;
+            }
+          }
+        }
+      }
+
+      .partners {
+        img {
+          margin-top: 2px;
+          margin-bottom: -15px;
+          padding: 2px;
+          max-width: 80%;
+        }
+      }
+
+      .build_version {
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        font-weight: 800;
+      }
+    }
+
+    .title {
+      padding-bottom: 8px;
+      padding-top: 8px;
+      transition: 0.6s ease all;
+      color: white;
+      margin: 5px;
+      text-align: center;
+      background: $primary;
+      border-radius: 5px;
+    }
+
+    .content {
+      overflow-y: auto;
+      box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
+        0 1px 5px 0 rgb(0 0 0 / 12%);
+
+      .options {
+        .details-inner {
+          padding: 18px 8px 0px 8px;
+        }
+      }
+    }
+  }
+
+  ::ng-deep .p-sidebar {
+    width: 20rem;
+    background: lighten($primary, 75%) !important;
+
+    &-left {
+      left: 93px;
+    }
+
+    .p-sidebar-header {
+      z-index: 1;
+      height: 3.5rem;
+      padding: 0px;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 40%);
+
+      .p-sidebar-close {
+        width: 64px;
+        background: transparent;
+      }
+
+      .logo {
+        width: 50%;
+        padding-left: 8px;
+      }
+    }
+
+    .p-sidebar-footer {
+      z-index: 1;
+      height: 10%;
+      padding: 0px;
+      box-shadow: 0 -1px 4px rgb(0 0 0 / 20%);
+    }
+  }
+}

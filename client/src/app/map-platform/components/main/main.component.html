@@ -1,0 +1,81 @@
+<section id="main" class="container">
+  <section class="main-layout desktop">
+    <div class="menu-sidebar">
+      <div class="logo-menu-header">
+        <a class="nav-link" href="/">
+          <img src="../../../assets/logos/atlas_icon.png" />
+        </a>
+      </div>
+
+      <ul #leftSidebar class="nav-list">
+        <li *ngFor="let menu of menus">
+          <div pRipple [class]="menu.show ? ' nav-list-element nav-list-element-active' : 'nav-list-element'" (click)="onMenuClick(menu)">
+            <i [class]="menu.icon"></i>
+            <div class="links-name">{{ "menu." + menu.key | translate }}</div>
+          </div>
+        </li>
+      </ul>
+
+      <ul class="nav-list footer">
+          <li (click)="changeLanguage('pt')">
+            <div [class]="lang == 'pt' ? 'lng lng-active' : 'lng'">
+              <span class="lng-name"> PT </span>
+            </div>
+          </li>
+          <li (click)="changeLanguage('en')">
+            <div [class]="lang == 'en' ? 'lng lng-active' : 'lng'">
+              <span class="lng-name"> EN </span>
+            </div>
+          </li>
+      </ul>
+    </div>
+  </section>
+
+  <p-sidebar
+    [appendTo]="leftSidebar"
+    [modal]="false"
+    (onHide)="onLeftSidebarClose()"
+    [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
+    [visible]="menus[0].show || menus[2].show || menus[3].show"
+  >
+    <ng-template pTemplate="header">
+      <img class="logo" src="../../../assets/logos/atlas_logo_01.png" />
+    </ng-template>
+
+    <div *ngFor="let menu of menus">
+      <div *ngIf="menu.key !== 'statistics' && menu.show">
+        <app-layers-sidebar
+          *ngIf="menu.key == 'layers' && menu.show"
+        ></app-layers-sidebar>
+        <app-options-sidebar
+          *ngIf="menu.key == 'options' && menu.show"
+        ></app-options-sidebar>
+        <app-area-sidebar
+          *ngIf="menu.key == 'area' && menu.show"
+        ></app-area-sidebar>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+      <div class="partners">
+        <img src="assets/logos/marcas.png" alt="" />
+      </div>
+      <div class="build_version">
+        <p>{{ COMMIT_ID }}</p>
+      </div>
+    </ng-template>
+  </p-sidebar>
+
+  <!-- Right Sidebar-->
+  <p-sidebar
+    position="right"
+    [modal]="false"
+    [visible]="isRightSidebarToggle()"
+    (onHide)="onRightSidebarClose()"
+    [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
+  >
+    <app-statistics-sidebar></app-statistics-sidebar>
+  </p-sidebar>
+
+  <app-general-map class='{{ (menus[0].show || menus[2].show || menus[3].show ? "left-sidebar-open " : "" ) + (menus[1].show ? "right-sidebar-open" : "") }}'></app-general-map>
+</section>

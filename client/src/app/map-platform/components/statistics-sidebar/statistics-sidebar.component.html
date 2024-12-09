@@ -1,0 +1,165 @@
+<h4 class="title">{{ "right_sidebar.title" | translate }}</h4>
+
+<p-accordion [multiple]="true" [activeIndex]="accordionTabExpanded"
+  (onOpen)="onAccordionTabOpen($event)" (onClose)="onAccordionTabClose($event)"
+>
+  <!-- Summary Tab -->
+  <p-accordionTab header="{{ 'right_sidebar.cards_titles.resumoTitle' | translate }}">
+      <div *ngIf="summaryData.size; else loadingSpinner">
+        <div class="resumo-card">
+          <div class="resumo-card-title">{{'right_sidebar.region_types.' + regionFilter.type | translate}}</div>
+          <div class="resumo-card-content"> {{ regionFilter.text }} </div>
+        </div>
+        <div class="resumo-card" *ngIf="summaryData.get('region')">
+          <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_region' | translate}}</div>
+          <div class="resumo-card-content">{{summaryData.get('region').data.area | number:'1.2-3' }} ha</div>
+        </div>
+        
+        <!-- Pasture Area -->
+        <div class="resumo-card" *ngIf="layersForStatistics.pasture.switch && summaryData.get('pasture')">
+          <div class="resumo-card-title">{{'right_sidebar.resumo_card.area_pastagem' | translate}}
+            ({{summaryData.get('pasture').year}})</div>
+          <div class="resumo-card-content">{{summaryData.get('pasture').data.area | number:'1.2-3' }} ha
+            ({{summaryData.get('pasture').data.percentOfRegionArea}}
+            {{'right_sidebar.resumo_card.complement_text' | translate}} {{regionFilter.text}})</div>
+        </div>
+  
+        <!-- Carbon -->
+        <div class="resumo-card" *ngIf="layersForStatistics.carbono.switch && summaryData.get('carbono')">
+          <div class="resumo-card-title">{{'right_sidebar.resumo_card.carbono.title' | translate}}
+            ({{summaryData.get('carbono').year}})</div>
+          <div class="resumo-card-content">
+            {{'right_sidebar.resumo_card.carbono.total' | translate}}
+            {{summaryData.get('carbono').data.total | number:'1.2-3'}} 
+            (MgC) {{'right_sidebar.resumo_card.carbono.mean' | translate}}
+            {{summaryData.get('carbono').data.mean | number:'1.2-3'}} (MgC.ha)
+            ({{'right_sidebar.resumo_card.complement_text' | translate}} {{regionFilter.text}})
+          </div>
+        </div>
+        
+        <!-- Pasture Quality -->
+        <div class="resumo-card"
+          *ngIf="layersForStatistics.pasture_quality.switch && summaryData.get('pasture_quality')">
+          <div class="resumo-card-title">{{'right_sidebar.resumo_card.pasture_quality_title' | translate}}
+            ({{summaryData.get('pasture_quality').year}})</div>
+          <div class="resumo-card-content">
+            <div class="resumo-card-content" *ngFor="let cl of summaryData.get('pasture_quality').data"
+              [style]="'border-radius: 5px; margin: 5px; background: ' + cl.color">
+              <div class="resumo-card-title-content">{{cl.classe}}</div>
+              <div class="resumo-card-content">{{cl.value | number:'1.2-3'}} ha ({{cl.percentAreaPasture}}
+                {{'right_sidebar.resumo_card.complement_text_pasture_quality' | translate}} e
+                {{cl.percentOfRegionArea}} {{'right_sidebar.resumo_card.complement_text' | translate}}
+                {{regionFilter.text}})</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Comments -->
+        <div class="resumo-card">
+          <div class="resumo-card-title">Obs. </div>
+          <div class="resumo-card-content obs" [innerHTML]="'right_sidebar.resumo_card.obs_text' | translate">
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+
+    <!-- Graphs Tab -->
+    <p-accordionTab header="{{'right_sidebar.cards_titles.pastureGraphTitle' | translate}}">
+      <div *ngIf="graphsData.length; else loadingSpinner">
+        <div class="details">
+          <div class="details-inner">
+              <div class="time-series-card-margin" *ngFor="let graph of graphsData">
+                <p-card *ngIf="layersForStatistics[graph.id].switch">
+                  <ng-template pTemplate="title">
+                    {{graph.title}}
+                    <button class="matButton" color="primary" (click)="onFullscreenMode(graph)" mat-icon-button>
+                      <mat-icon>aspect_ratio</mat-icon>
+                    </button>
+                  </ng-template>
+                  <div class="margin">
+                    <h4 class="graphicTitle"> {{graph.text}} </h4>
+                  </div>
+                  <p-chart #chartU [type]="graph.type" [responsive]="true" [data]="graph.data" height="150px">
+                  </p-chart>
+                </p-card>
+              </div>
+            </div>
+          </div>
+        </div>
+    </p-accordionTab>
+
+    <!-- Ranking Tab -->
+    <p-accordionTab header="{{ 'right_sidebar.cards_titles.areaTableTitle' | translate }}">
+        <div *ngIf="rankingData.length; else loadingSpinner">
+          <p-tabView>
+            <p-tabPanel header="{{ table.title }}" *ngFor="let table of rankingData ; let i = index"
+              [selected]="i == 0" [disabled]="!table.show" [headerStyle]="{'font-size': 'small'}">
+              <div *ngIf="table.show">
+                <p-table #dt [columns]="table.exportCols" styleClass="p-datatable-sm" [value]="table.data"
+                  (sortFunction)="sortRankingTable($event)" [customSort]="true" [paginator]="true" [rows]="10"
+                  [showCurrentPageReport]="true" responsiveLayout="scroll" [autoLayout]="true"
+                  currentPageReportTemplate="{{'right_sidebar.area_table_card_auxiliar.showing' | translate}} {first} {{'right_sidebar.area_table_card_auxiliar.to' | translate}} {last} {{'right_sidebar.area_table_card_auxiliar.of' | translate}} {totalRecords} {{'right_sidebar.area_table_card_auxiliar.entries' | translate}}"
+                  [rowsPerPageOptions]="[10,25,50]">
+                  <ng-template pTemplate="caption">
+                    <div class="p-d-flex btn-exports">
+                      <button type="button" pButton pRipple icon="pi pi-file-o" (click)="onExportCSV(table)"
+                        class="p-button-success" pTooltip="CSV" tooltipPosition="bottom"></button>
+                      <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="onExportPDF(table)"
+                        class="p-button-warning" pTooltip="PDF" tooltipPosition="bottom"></button>
+                    </div>
+                  </ng-template>
+                  <ng-template pTemplate="header" let-columns>
+                    <tr>
+                      <th *ngFor="let col of columns" [pSortableColumn]="col.dataKey">
+                        <div class="sorted-columns">
+                          <p>{{col.header}}</p>
+                          <p-sortIcon [field]="col.dataKey"></p-sortIcon>
+                        </div>
+                      </th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr [pSelectableRow]="rowData">
+                      <td *ngFor="let col of columns" align="center">
+                        {{rowData[col.dataKey]}}
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                  </ng-template>
+                  <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                  </ng-template>
+                </p-table>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+    </p-accordionTab>
+</p-accordion>
+
+<p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
+  [visible]="dialogData != null" [style]="{width: '50vw'}">
+  <!-- TODO: Fix header -->
+  <ng-template [ngIf]="dialogData != null">
+    <ng-template pTemplate="header">
+      {{ dialogData.title }}
+    </ng-template>
+    <p>
+      {{ dialogData.text }}
+    </p>
+    <div class="chart">
+      <p-chart *ngIf="dialogData.type" [responsive]="true" [type]="dialogData.type"
+        [data]="dialogData.data" [options]="dialogData.options">
+      </p-chart>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<ng-template #loadingSpinner>
+  <app-loading-spinner></app-loading-spinner>
+</ng-template>
+      
+      
+      

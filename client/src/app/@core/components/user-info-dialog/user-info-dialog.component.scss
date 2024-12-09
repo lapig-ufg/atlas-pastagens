@@ -1,0 +1,43 @@
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  span {
+    width: 100%;
+    height: 42px;
+    margin: 8px 0;
+  }
+
+  input {
+    width: 100%;
+  }
+
+  .p-button {
+    width: 180px;
+  }
+
+  .terms {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    padding-left: 8px;
+
+    small {
+      margin-left: 8px;
+    }
+  }
+
+  .action-container {
+    display: flex;
+    width: 90%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .clickable {
+    color: #1E90FF;
+    cursor: pointer;
+  }
+}

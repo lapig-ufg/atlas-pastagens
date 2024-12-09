@@ -1,0 +1,32 @@
+@import 'primeng/resources/themes/saga-blue/theme.css';
+@import 'primeng/resources/primeng.min.css';
+
+.form-control {
+    background: #86868628 !important;
+}
+
+.w3l-contact-info-main .form-group input {
+    background-color: #86868628 !important;
+}
+
+.btn-style {
+    padding: 13px 30px;
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    border-radius: 30px;
+    border: none;
+    transition: all .25s ease-in-out;
+
+    &:hover{
+        background: #ffc745b7 !important;
+    }
+}
+
+.contact-error {
+    margin-bottom: 6px !important; 
+}
+
+.form-group textarea {
+    min-height: 280px !important;
+}

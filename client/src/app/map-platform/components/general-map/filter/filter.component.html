@@ -1,0 +1,42 @@
+<div class="controls-details-card-title"> {{ "controls.search" | translate }} </div>
+
+<div class="controls-details-card-body">
+  <div id="search-options" class="search-options">
+    <p-selectButton
+      [options]="selectOptions"
+      [(ngModel)]="selectValue"
+      optionValue="value"
+      (onChange)="onChangeSearchOption()"
+    >
+      <ng-template let-option pTemplate="item">
+        <mat-icon>{{ option.icon }}</mat-icon>
+        {{ option.label | translate }}
+      </ng-template>
+    </p-selectButton>
+  </div>
+  <div class="input-text">
+    <p-autoComplete
+      [(ngModel)]="autoCompleteValue"
+      [appendTo]="'body'"
+      [placeholder]="textsComponentesFilters.placeholder | translate"
+      [emptyMessage]="textsComponentesFilters.emptyMessage | translate"
+      [suggestions]="listForAutoComplete"
+      [showEmptyMessage]="true"
+      (completeMethod)="filterSearch($event)"
+      (onSelect)="onSelectFilter($event)"
+      (onClear)="onClearFilter()"
+      field="text"
+      styleClass="wid100"
+    >
+      <ng-template let-result pTemplate="item">
+        <div>{{ result.text }}</div>
+      </ng-template>
+    </p-autoComplete>
+    <i
+      *ngIf="autoCompleteValue?.text"
+      class="close bx bx-x-circle"
+      [pTooltip]="'controls.details.clear' | translate"
+      (click)="onClearFilter()"
+    ></i>
+  </div>
+</div>
