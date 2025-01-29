@@ -59,7 +59,11 @@ export class FileUploadComponent {
     if (input.files === null || input.files.length <= 0) return;
 
     this.userInfo.getUserInfo().subscribe({
-      next: (userInfo: UserInfo) => this.uploadFile(input.files![0], userInfo),
+      next: (userInfo: UserInfo) => {
+        this.uploadFile(input.files![0], userInfo);
+
+        this.reset(input)
+      },
     });
   }
 
@@ -86,9 +90,14 @@ export class FileUploadComponent {
       .subscribe((recaptcha: string) => {
         this.analysisService
           .saveFile(file, user, recaptcha).subscribe((response) => {
-            // TODO: Avisar ao usuário que o token foi enviado para o e-mail.
+            console.log(response)
           });
       });
+  }
+
+  private reset(input) {
+    input.value = '';
+    input.files = null;
   }
 }
 

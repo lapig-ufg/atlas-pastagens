@@ -30,7 +30,6 @@ export class AnalysisService {
     return this.httpClient
       .get<any>(`${environment.TASK_API}/result/${token}`)
       .pipe(map((response) => response))
-      .pipe(catchError(this.errorHandler));
   }
 
   // TODO: Verificação do recaptcha.
@@ -60,43 +59,25 @@ export class AnalysisService {
         map((response: any) => {
           if (response == null) throw new Error('Erro');
 
+          console.log(response);
+
           return response;
         })
-      )
-      .pipe(catchError(this.errorHandler));
+      );
   }
 
   // TODO: Verificação do recaptcha.
-  public saveFile(file, user: UserInfo, recaptcha) {
+  public saveFile(file, user: UserInfo, recaptcha: string) {
     const formData = new FormData();
 
     formData.append('files', file, file.name);
     formData.append('name', encodeURIComponent(user.name));
     formData.append('email', encodeURIComponent(user.email));
 
-    return this.httpClient.post<any>(
-      `${this.apiURL}/savefile`,
-      formData
-    )
-      .pipe(
-        map((response: any) => {
-          // TODO: Retornar response_code e msg para o cliente.
-        })
-      )
-      .pipe(catchError(this.errorHandler));
-  }
-
-  errorHandler(error: any) {
-    let errorMessage = '';
-
-    if (error.error instanceof ErrorEvent) {
-      errorMessage = error.error.message;
-    } else if (typeof error.error == 'string') {
-      errorMessage = error.error;
-    } else {
-      errorMessage = `Message: ${error.message}`;
-    }
-
-    return throwError(errorMessage);
+    return this.httpClient.post<any>(`${this.apiURL}/savefile`, formData).pipe(
+      map((response: any) => {
+        console.log(response);
+      })
+    );
   }
 }
