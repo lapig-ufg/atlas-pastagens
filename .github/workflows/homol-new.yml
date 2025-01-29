@@ -1,0 +1,80 @@
+name: Build and Deploy in Server atlas
+
+on:
+  push:
+    branches:
+      - update/atlas_1.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      APPLICATION_NAME: ${{ steps.creat_env.outputs.APPLICATION_NAME }}
+      DOCKER_PATH: ${{ steps.creat_env.outputs.DOCKER_PATH }}
+      LAST_COMMIT_HASH: ${{ steps.creat_env.outputs.LAST_COMMIT_HASH }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Define environment variables
+        id: creat_env
+        run: |
+          # Função para definir variáveis no GITHUB_ENV e GITHUB_OUTPUT
+          set_var() {
+            echo "$1=$2" >> $GITHUB_ENV
+            echo "$1=$2" >> $GITHUB_OUTPUT
+          }
+          # Defina as variáveis
+          set_var "DOCKER_PATH" "homol-new"
+          set_var "APPLICATION_NAME" "app_atlas_new"
+          set_var "LAST_COMMIT_HASH" "$(git log --pretty=format:%h -n 1)"
+        
+      - name: Create version.json
+        run: echo "{\"commitId\":\"$LAST_COMMIT_HASH\"}" > version.json
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.8.0'
+
+      - name: Build Server and client
+        run: |
+          npm set progress=false
+          cd ${{ github.workspace }}/server && npm install
+          cd ${{ github.workspace }}/client && npm install
+          npm install -g @angular/cli@16.2.14
+          cd ${{ github.workspace }}/client && ng build --stats-json --source-map=false --no-progress
+
+      - name: Build Docker
+        run: |
+          docker build -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH} -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest  -f docker/$DOCKER_PATH/Dockerfile . --no-cache
+
+      - name: Login to Docker Registry
+        run: echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "lapig" --password-stdin
+
+      - name: Push Image to Registry
+        run: |
+          docker push lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH}
+          docker push lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest
+
+      - name: Remove image locally
+        run: |
+          docker rmi lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH}
+          docker rmi lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+     
+    steps:
+      - name: Pull Image on Server
+        run: |
+          docker pull lapig/${{ needs.build.outputs.APPLICATION_NAME }}:${{ needs.build.outputs.DOCKER_PATH }}_latest
+
+      - name: Restart Application
+        run: |
+          /compose/resetapp.sh --title "Atlas das Pastagens New" \
+          --github "https://github.com/${{ github.repository }}" \
+          --commit "${{ needs.build.outputs.LAST_COMMIT_HASH }}" \
+          ${{ needs.build.outputs.APPLICATION_NAME }}
