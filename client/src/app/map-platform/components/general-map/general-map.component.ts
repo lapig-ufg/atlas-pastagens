@@ -3,7 +3,7 @@
 /**
  * Angular imports.
  */
-import { ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { OnDestroy } from '@angular/core';
 import { ElementRef, HostListener } from '@angular/core';
 import { OnInit, ViewChild, Component } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
@@ -25,14 +25,11 @@ import CircleStyle from 'ol/style/Circle';
 import VectorSource from 'ol/source/Vector';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import * as Proj from 'ol/proj';
-import { Feature, MapEvent, Overlay } from 'ol';
-import { Draw, Interaction, Modify, Snap } from 'ol/interaction';
+import { MapEvent, Overlay } from 'ol';
+import { Interaction, Modify, Snap } from 'ol/interaction';
 import { BingMaps, XYZ } from 'ol/source';
 import { GeoJSON } from 'ol/format';
 import { Fill, Stroke, Style } from 'ol/style';
-import { LinearRing, LineString } from 'ol/geom';
-import { MultiLineString, MultiPoint, MultiPolygon } from 'ol/geom';
-import { Point, Polygon } from 'ol/geom';
 import { transform, transformExtent } from 'ol/proj';
 import { Pixel } from 'ol/pixel';
 import * as OlExtent from 'ol/extent.js';
@@ -46,7 +43,7 @@ import { RulerAreaCtrl, RulerCtrl } from '@core/interactions/ruler';
 /**
  * Interfaces imports.
  */
-import { Ruler, TextFilter, Job, RegionFilter } from '@core/interfaces';
+import { Ruler, Job, RegionFilter } from '@core/interfaces';
 import { DirtyType, LayerLegend } from '@core/interfaces';
 import { Control, Descriptor, DescriptorType } from '@core/interfaces';
 import { DescriptorGroup, DescriptorLayer } from '@core/interfaces';
@@ -56,7 +53,6 @@ import { DescriptorGroup, DescriptorLayer } from '@core/interfaces';
  */
 import {
   DownloadService,
-  AnalysisService,
   MapAPIService,
   GalleryService,
 } from '../../../@core/services';
@@ -91,18 +87,15 @@ import { environment } from '../../../../environments/environment';
 /**
  * RXJS imports.
  */
-import { Subject, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 /**
  * NgRecaptcha imports.
  */
-import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { OlMapComponent } from '@core/components/ol-map/ol-map.component';
-import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 import { LayerService } from '@core/services/layer.service';
 import BaseLayer from 'ol/layer/Base';
 import { UserInfoComponent } from '@core/components/user-info-dialog/user-info-dialog.component';
-import { UserInfo } from '@core/interfaces/user_info';
 import { SwipeComponent } from './swipe/swipe.component';
 import { DrawAreaComponent } from './draw_area/draw_area.component';
 

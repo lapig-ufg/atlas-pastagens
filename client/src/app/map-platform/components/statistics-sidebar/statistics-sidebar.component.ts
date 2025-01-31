@@ -70,7 +70,14 @@ class StatisticsSidebarComponent implements OnDestroy {
   public summaryData: Map<string, any> = new Map<string, any>();
   public graphsData: Array<any> = [];
   public rankingData: Array<any> = [];
-  public dialogData: any | null;
+  public dialogData = {
+    title: '',
+    text: '',
+    type: '',
+    data: '',
+    options: '',
+    visible: false,
+  };
 
   // TODO: Estatisticas foram setadas para 1 ano antes do correto. DB não esta retornando dados para o ano certo.
   public layersForStatistics: any = {
@@ -240,7 +247,18 @@ class StatisticsSidebarComponent implements OnDestroy {
       type: graph.type,
       data: graph.data,
       options: graph.options,
-      fullScreen: true,
+      visible: true,
+    };
+  }
+
+  public closeFullscreenMode() {
+    this.dialogData = {
+      title: '',
+      text: '',
+      type: '',
+      data: '',
+      options: '',
+      visible: false,
     };
   }
 

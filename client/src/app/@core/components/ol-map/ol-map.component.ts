@@ -27,39 +27,36 @@ export const DEFAULT_LON = -49.4443537;
 export const ZOOM_LEVEL = 4.6;
 
 @Component({
+  standalone: true,
   selector: 'app-ol-map',
   templateUrl: './ol-map.component.html',
   styleUrls: ['./ol-map.component.scss'],
 })
 export class OlMapComponent implements AfterViewInit {
-  public map!: Map;
-
   private layersToFilter: string[] = ['layertype', 'swipe-layer'];
 
   constructor(
     private mapService: MapService,
     private elementRef: ElementRef,
     private cdRef: ChangeDetectorRef
-  ) {
-    this.map = this.mapService.map;
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     const self = this;
 
     this.setSize();
 
-    this.map.setTarget('map')
+    this.mapService.map.setTarget('map')
 
     this.setControlls();
   }
 
   private setControlls(): void {
-    this.map.addControl(
+    this.mapService.map.addControl(
       new FullScreen({ source: 'main' })
     );
 
-    this.map.addControl(
+    this.mapService.map.addControl(
       new ScaleLine({
         units: 'metric',
         bar: true,
@@ -67,14 +64,15 @@ export class OlMapComponent implements AfterViewInit {
         minWidth: 100,
       })
     );
-    this.map.addControl(new Zoom());
+
+    this.mapService.map.addControl(new Zoom());
   }
 
   private setOnMoveEvent(): void {
     const self = this;
 
-    this.map.on('moveend', function (event: MapEvent) {
-      self.map.getLayers().forEach((layer: any) => {
+    this.mapService.map.on('moveend', function (event: MapEvent) {
+      self.mapService.map.getLayers().forEach((layer: any) => {
         let descriptorType = layer.getProperties().descriptorType;
 
         if (descriptorType === null) return;
@@ -128,12 +126,12 @@ export class OlMapComponent implements AfterViewInit {
   public updateLayer(): void {}
 
   public setMarker(vector: any) {
-    this.map.addLayer(vector);
+    this.mapService.map.addLayer(vector);
     this.cdRef.detectChanges();
   }
 
   public setControl(control: any) {
-    this.map.addControl(control);
+    this.mapService.map.addControl(control);
   }
 
   private formataCoordenada: (coordinate: Coordinate) => string =

@@ -52,6 +52,8 @@ class MapService {
   }
 
   public addLayer(layer: BaseLayer): void {
+    if (!this._map.getLayers().getArray().every(element => element.get('key') != layer.get('key'))) return;
+
     this._map.addLayer(layer);
   }
 

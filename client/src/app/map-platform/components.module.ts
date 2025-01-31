@@ -30,8 +30,7 @@ import { LayersSidebarComponent } from './components/layers-sidebar/layers-sideb
 import { DrawAreaComponent } from './components/general-map/draw_area/draw_area.component';
 import { SwipeComponent } from './components/general-map/swipe/swipe.component';
 import { DialogMessageComponent } from '@core/components/dialog-message/dialog-message.component';
-
-import { OlMapsModule } from '../@core/ol-maps/ol-maps.module';
+import { OlMapComponent } from '@core/components/ol-map/ol-map.component';
 import { GeneralMapComponent } from './components/general-map/general-map.component';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { GoogleAnalyticsService } from '../@core/services';
@@ -97,6 +96,7 @@ registerLocaleData(localePt);
     DrawAreaComponent
   ],
   imports: [
+    OlMapComponent,
     DialogMessageComponent,
     UserInfoComponent,
     SliderModule,
@@ -147,7 +147,6 @@ registerLocaleData(localePt);
     RippleModule,
     TableModule,
     GalleriaModule,
-    OlMapsModule,
     ComponentsRoutingModule,
   ],
   exports: [],

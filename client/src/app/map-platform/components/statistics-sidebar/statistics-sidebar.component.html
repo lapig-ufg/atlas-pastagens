@@ -140,9 +140,7 @@
 </p-accordion>
 
 <p-dialog [maximizable]="true" [baseZIndex]="10000" [draggable]="false" [resizable]="false" [modal]="true"
-  [visible]="dialogData != null" [style]="{width: '50vw'}">
-  <!-- TODO: Fix header -->
-  <ng-template [ngIf]="dialogData != null">
+  [visible]="dialogData.visible" [style]="{width: '50vw'}" (visibleChange)="closeFullscreenMode()">
     <ng-template pTemplate="header">
       {{ dialogData.title }}
     </ng-template>
@@ -154,7 +152,6 @@
         [data]="dialogData.data" [options]="dialogData.options">
       </p-chart>
     </div>
-  </ng-template>
 </p-dialog>
 
 <ng-template #loadingSpinner>
