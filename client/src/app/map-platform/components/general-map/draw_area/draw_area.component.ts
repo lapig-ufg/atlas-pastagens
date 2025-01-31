@@ -32,6 +32,7 @@ import { Interaction, Modify, Snap } from 'ol/interaction';
 import { UserInfoComponent } from '@core/components/user-info-dialog/user-info-dialog.component';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { Feature, Overlay } from 'ol';
+import { DialogMessageComponent } from '@core/components/dialog-message/dialog-message.component';
 
 const PRIMARY_COLOR = window
   .getComputedStyle(document.body)
@@ -47,8 +48,7 @@ const PRIMARY_COLOR = window
 })
 export class DrawAreaComponent implements OnInit, OnDestroy {
   @ViewChild(UserInfoComponent) userInfo!: UserInfoComponent;
-
-  public dialogVisible: boolean = false;
+  @ViewChild(DialogMessageComponent) dialog!: DialogMessageComponent;
 
   private interaction!: Interaction;
   private vector: VectorLayer<any> = new VectorLayer();
@@ -241,9 +241,8 @@ export class DrawAreaComponent implements OnInit, OnDestroy {
         this.analysisService
           .saveGeojson(userInfo, geoJson, recaptcha)
           .subscribe({
-            next: (data) => {
-              // TODO: Avisar pro usuário que o token dele chegara pelo e-mail.
-              this.dialogVisible = true;
+            next: (response) => {
+              this.dialog.message(response.status)
             },
           });
       });

@@ -29,6 +29,7 @@ import { ComponentsRoutingModule } from './components-routing.module';
 import { LayersSidebarComponent } from './components/layers-sidebar/layers-sidebar.component';
 import { DrawAreaComponent } from './components/general-map/draw_area/draw_area.component';
 import { SwipeComponent } from './components/general-map/swipe/swipe.component';
+import { DialogMessageComponent } from '@core/components/dialog-message/dialog-message.component';
 
 import { OlMapsModule } from '../@core/ol-maps/ol-maps.module';
 import { GeneralMapComponent } from './components/general-map/general-map.component';
@@ -96,6 +97,7 @@ registerLocaleData(localePt);
     DrawAreaComponent
   ],
   imports: [
+    DialogMessageComponent,
     UserInfoComponent,
     SliderModule,
     LoadingSpinnerComponent,

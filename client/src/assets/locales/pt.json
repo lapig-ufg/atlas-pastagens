@@ -10,8 +10,14 @@
       "cancel": "cancelar"
     },
     "submition": {
-      "success": "Sucesso no envio",
-      "content": "O token e o link de acesso serão enviados para o seu e-mail assim que o processamento for concluído."
+      "success": {
+        "title": "Análise enviada com sucesso",
+        "message": "Sua análise foi submetida com sucesso e está sendo processada. Você receberá um e-mail com um token de acesso assim que o processo for concluído."
+      },
+      "error": {
+        "title": "Erro ao Processar a Análise",
+        "message": "Não foi possível processar a análise submetida. Por favor, verifique os dados e tente novamente."
+      }
     }
   },
   "controls": {

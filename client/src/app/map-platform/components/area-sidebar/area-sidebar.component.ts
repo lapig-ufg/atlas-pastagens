@@ -73,7 +73,7 @@ class AreaSidebarComponent {
   }
 
   public onAnalyseClicked() {
-    this.router.navigate([`/analysis/${this.userInput}`])
+    this.router.navigate([`/results/${this.userInput}`])
   }
 
   private validationMobile() {

@@ -1,14 +1,13 @@
-import { Component, Input, Output } from '@angular/core';
-import { EventEmitter, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
+import { ViewChild } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
 import { animate, transition } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
-import { Subscription, of } from 'rxjs';
 import { LocalizationService } from '@core/internationalization/localization.service';
 import { AnalysisService } from '../../../@core/services';
 import { ReCaptchaV3Service } from 'ng-recaptcha';
 import { UserInfoComponent } from '@core/components/user-info-dialog/user-info-dialog.component';
 import { UserInfo } from '@core/interfaces/user_info';
+import { DialogMessageComponent } from '@core/components/dialog-message/dialog-message.component';
 
 @Component({
   selector: 'app-file-upload',
@@ -23,33 +22,21 @@ import { UserInfo } from '@core/interfaces/user_info';
 })
 export class FileUploadComponent {
   @ViewChild(UserInfoComponent) userInfo!: UserInfoComponent;
+  @ViewChild(DialogMessageComponent) dialog!: DialogMessageComponent;
 
   @ViewChild('fileUpload') fileUpload!: HTMLInputElement;
 
   public maxSize: number = 15;
 
-  private userData: any = {};
-
   public MAX_FILE_SIZE = 5 * 1024 * 1024;
 
   public files: Array<FileUploadModel> = [];
-
-  private lang: string;
 
   constructor(
     private analysisService: AnalysisService,
     private recaptchaV3Service: ReCaptchaV3Service,
     private localizationService: LocalizationService
   ) {
-    this.lang = localizationService.currentLang();
-
-    // TODO: Se não tirar subscrição pode afetar performance.
-    localizationService.translateService.onLangChange.subscribe({
-      next: (lang: string) => {
-        this.lang = lang;
-      },
-    });
-
     this.maxSize = this.maxSize * 1024 * 1024;
   }
 
@@ -90,7 +77,7 @@ export class FileUploadComponent {
       .subscribe((recaptcha: string) => {
         this.analysisService
           .saveFile(file, user, recaptcha).subscribe((response) => {
-            console.log(response)
+            this.dialog.message(response.status)
           });
       });
   }

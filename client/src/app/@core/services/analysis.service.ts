@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class AnalysisService {
   public getAnalysisByToken(token: any): Observable<any> {
     return this.httpClient
       .get<any>(`${environment.TASK_API}/result/${token}`)
-      .pipe(map((response) => response))
+      .pipe(map((response) => response));
   }
 
   // TODO: Verificação do recaptcha.
@@ -74,10 +74,20 @@ export class AnalysisService {
     formData.append('name', encodeURIComponent(user.name));
     formData.append('email', encodeURIComponent(user.email));
 
-    return this.httpClient.post<any>(`${this.apiURL}/savefile`, formData).pipe(
-      map((response: any) => {
-        console.log(response);
-      })
-    );
+    return this.httpClient
+      .post<any>(`${this.apiURL}/savefile`, formData)
+      .pipe(
+        map((response: any) => {
+          return {
+            status: 200,
+            token: response.token,
+          };
+        })
+      )
+      .pipe(
+        catchError((response) => {
+          return of({ status: response.error.message.status });
+        })
+      );
   }
 }

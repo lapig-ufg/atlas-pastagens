@@ -13,7 +13,7 @@ const routes: Routes = [
       .then(module => module.ComponentsModule),
   },
   {
-    path: 'analysis',
+    path: 'results',
     loadChildren: () => import('./analysis/analysis.module')
       .then(module => module.AnalysisModule),
   }
