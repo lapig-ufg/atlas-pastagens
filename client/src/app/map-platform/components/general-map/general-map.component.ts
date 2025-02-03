@@ -23,7 +23,6 @@ import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import CircleStyle from 'ol/style/Circle';
 import VectorSource from 'ol/source/Vector';
-import TileGrid from 'ol/tilegrid/TileGrid';
 import * as Proj from 'ol/proj';
 import { MapEvent, Overlay } from 'ol';
 import { Interaction, Modify, Snap } from 'ol/interaction';
@@ -279,8 +278,6 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     'measureArea',
   ];
 
-  // TODO: Ferramenta de desenhar pontos.
-  // TODO: Ferramentas de desenhar poderiam estar dentro da ferramenta de análise.
   public controlObjs: { [key: string]: Control } = {
     filter: {
       icon: 'fg-map-search',
@@ -320,8 +317,6 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     geojson: {},
   };
 
-  public tileGrid: TileGrid;
-
   public year: any;
   public isShowIformats: boolean = true;
 
@@ -332,6 +327,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
   private draw: any;
   private snap: any;
   public defaultStyle: Style;
+
   public geoJsonStyles: any = {
     Point: new Style({
       image: new CircleStyle({
@@ -480,11 +476,6 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
       this.isMobile = false;
     }
 
-    this.tileGrid = new TileGrid({
-      extent: PROJECTION!.getExtent(),
-      resolutions: this.getResolutions(PROJECTION),
-      tileSize: 512,
-    });
 
     this.defaultStyle = new Style({
       fill: new Fill({
@@ -508,6 +499,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     this.mapService.addEvent('moveend', (event: MapEvent) =>
       this.onZoom(event)
     );
+
     this.mapService.addEvent('singleclick', (event: MapEvent) =>
       this.onDisplayFeatureInfo(event)
     );
@@ -1540,7 +1532,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     this.mapService.resetZoom();
   }
 
-  closeDetailsWindow() {
+  public closeDetailsWindow() {
     Object.keys(this.controlObjs).forEach((key) => {
       this.controlObjs[key].active = false;
     });

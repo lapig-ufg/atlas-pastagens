@@ -32,12 +32,10 @@ export class OlMapComponent implements AfterViewInit {
   ) {}
 
   ngAfterViewInit(): void {
-    const self = this;
-
     this.setSize();
 
-    console.log(this.mapService.map)
-
+    // Primeiro resetar o tager para quando aplicado o 'map' ele reconhecer a alteração.
+    this.mapService.map.setTarget('')
     this.mapService.map.setTarget('map')
 
     this.setControlls();
