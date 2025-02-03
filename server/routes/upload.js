@@ -4,8 +4,8 @@ module.exports = function (app) {
 
 	const controller = app.controllers.upload;
 	const keyclock = app.middleware.keyclock;
-	//const reCaptcha = app.middleware.reCaptcha;
+	const reCaptcha = app.middleware.reCaptcha;
 	
-	app.post('/service/upload/savegeom', keyclock, controller.saveDrawedGeom);
-	app.post('/service/upload/savefile', upload.single('files'), keyclock, controller.saveUploadedFile);
+	app.post('/service/upload/savegeom', reCaptcha, keyclock, controller.saveDrawedGeom);
+	app.post('/service/upload/savefile', upload.single('files'), reCaptcha, keyclock, controller.saveUploadedFile);
 }

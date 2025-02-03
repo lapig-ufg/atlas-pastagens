@@ -25,7 +25,6 @@ import * as Proj from 'ol/proj';
 })
 export class AnalysisComponent implements OnInit, AfterViewInit {
   private map: OlMap = new OlMap({
-    target: 'map',
     layers: [
       new TileLayer({
         source: new OSM(),

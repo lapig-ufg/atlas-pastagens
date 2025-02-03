@@ -9,7 +9,7 @@ import { Team } from '@core/interfaces';
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css'],
+  styleUrls: ['./about.component.scss'],
 })
 export class AboutCompenent implements OnInit {
   public team: Team[] = [];

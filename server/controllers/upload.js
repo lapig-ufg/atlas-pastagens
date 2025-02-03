@@ -82,20 +82,12 @@ module.exports = function (app) {
         }
       )
       .then((taskResponse) => {
-        if (taskResponse.status === 200) {
-          fs.unlinkSync(request.file.path);
-
-          response.status(201).send({ token: taskResponse.data.task_id });
-        } else {
-          console.error("Falha ao enviar o GeoJSON.", taskResponse);
-        }
+        response.status(200).send({ token: taskResponse.data.task_id });
       })
       .catch((error) => {
-        console.error(error);
-
+        response.status(error.repsonse.data.status_code).send({ message: error });
+      }).finally(() => {
         fs.unlinkSync(request.file.path);
-
-        response.status(500).send({ message: error });
       });
   };
 

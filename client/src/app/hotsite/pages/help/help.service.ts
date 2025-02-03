@@ -26,7 +26,7 @@ export class AjudaService {
 
   constructor(private httpClient: HttpClient) { }
 
-  saveContact(contact: Contact, recaptcha: string): Observable<any> {
+  public saveContact(contact: Contact, recaptcha: string): Observable<any> {
     return this.httpClient.post<any>(this.apiURL + `/create`, {contact},
       {
           headers: new HttpHeaders({

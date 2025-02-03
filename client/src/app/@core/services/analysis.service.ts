@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -34,8 +34,8 @@ export class AnalysisService {
 
   // TODO: Verificação do recaptcha.
   public saveGeojson(
-    user: UserInfo,
     geoJson: any,
+    user: UserInfo,
     recaptcha: string
   ): Observable<any> {
     return this.httpClient
@@ -59,15 +59,15 @@ export class AnalysisService {
         map((response: any) => {
           if (response == null) throw new Error('Erro');
 
-          console.log(response);
-
-          return response;
+          return {
+            status: 200,
+          };
         })
       );
   }
 
   // TODO: Verificação do recaptcha.
-  public saveFile(file, user: UserInfo, recaptcha: string) {
+  public saveFile(file: File, user: UserInfo, recaptcha: string) {
     const formData = new FormData();
 
     formData.append('files', file, file.name);
@@ -75,7 +75,11 @@ export class AnalysisService {
     formData.append('email', encodeURIComponent(user.email));
 
     return this.httpClient
-      .post<any>(`${this.apiURL}/savefile`, formData)
+      .post<any>(`${this.apiURL}/savefile`, formData, {
+        headers: new HttpHeaders({
+          'Recaptcha-Token': recaptcha,
+        }),
+      })
       .pipe(
         map((response: any) => {
           return {

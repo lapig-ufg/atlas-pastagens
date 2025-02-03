@@ -21,8 +21,6 @@ export { MapService, ZOOM_LIMIT }
   providedIn: 'root',
 })
 class MapService {
-  private highResolution: boolean = false;
-
   private _map: OlMap = new OlMap({
     view: new View({
       center: Proj.fromLonLat([DEFAULT_LON, DEFAULT_LAT]),
@@ -147,8 +145,4 @@ class MapService {
       self._map.getTargetElement().classList.remove('spinner');
     });
   }
-}
-
-interface LayerStorage {
-
 }

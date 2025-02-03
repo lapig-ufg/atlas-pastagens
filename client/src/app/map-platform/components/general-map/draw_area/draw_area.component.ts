@@ -239,7 +239,7 @@ export class DrawAreaComponent implements OnInit, OnDestroy {
         geoJson.features[0].properties = { id: 0 };
 
         this.analysisService
-          .saveGeojson(userInfo, geoJson, recaptcha)
+          .saveGeojson(geoJson, userInfo, recaptcha)
           .subscribe({
             next: (response) => {
               this.dialog.message(response.status)
