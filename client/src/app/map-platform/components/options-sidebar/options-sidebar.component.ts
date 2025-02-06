@@ -12,7 +12,7 @@ import { LocalizationService } from '@core/internationalization/localization.ser
  * Interfaces imports.
  */
 import { Descriptor, DescriptorLayer } from '@core/interfaces';
-import { DescriptorType  } from '@core/interfaces';
+import { DescriptorType } from '@core/interfaces';
 
 /**
  * Services imports.
@@ -21,7 +21,9 @@ import { DescriptorService } from '../../../@core/services';
 import { Subscription } from 'rxjs';
 
 import { InputSwitchOnChangeEvent } from 'primeng/inputswitch';
-import { AccordionTabCloseEvent, AccordionTabOpenEvent } from 'primeng/accordion';
+import {AccordionTabCloseEvent, AccordionTabOpenEvent} from 'primeng/accordion';
+
+const bmapKeys: string[] = ['mapbox', 'mapbox-dark', 'google', 'google-hybrid'];
 
 @Component({
   selector: 'app-options-sidebar',
@@ -72,7 +74,10 @@ class OptionsSidebarComponent {
   }
 
   public onAccordionTabClose(event: AccordionTabCloseEvent): void {
-    OptionsSidebarComponent._accordionTabExpanded = OptionsSidebarComponent._accordionTabExpanded.filter(element => element !== event.index);
+    OptionsSidebarComponent._accordionTabExpanded =
+      OptionsSidebarComponent._accordionTabExpanded.filter(
+        (element) => element !== event.index
+      );
   }
 
   /**
@@ -100,13 +105,6 @@ class OptionsSidebarComponent {
   private setBasemaps(descriptor: Descriptor): void {
     if (this.bmaps.length != 0) return;
 
-    const bmapKeys: string[] = [
-      'mapbox',
-      'mapbox-dark',
-      'google',
-      'google-hybrid',
-    ];
-
     descriptor.basemaps.forEach((bmap: DescriptorLayer) => {
       bmap.types.forEach((type: DescriptorType) => {
         if (bmapKeys.includes(type.valueType)) {
@@ -129,6 +127,7 @@ class OptionsSidebarComponent {
   public onChangeLimit(limit: any, event: InputSwitchOnChangeEvent): void {
     this.limits.forEach((element: any) => {
       if (element.key === limit.key) return;
+
       element.checked = false;
     });
 
@@ -144,6 +143,7 @@ class OptionsSidebarComponent {
   public onChangeBmap(bmap: any, event: InputSwitchOnChangeEvent): void {
     this.bmaps.forEach((element: any) => {
       if (element.key === bmap.key) return;
+
       element.checked = false;
     });
 
@@ -159,6 +159,7 @@ class OptionsSidebarComponent {
   public onChangeOption(key: string, event: InputSwitchOnChangeEvent): void {
     this.options.forEach((option: any) => {
       if (option.key === key) return;
+
       option.checked = false;
     });
   }

@@ -95,7 +95,7 @@ import { OlMapComponent } from '@core/components/ol-map/ol-map.component';
 import { LayerService } from '@core/services/layer.service';
 import BaseLayer from 'ol/layer/Base';
 import { UserInfoComponent } from '@core/components/user-info-dialog/user-info-dialog.component';
-import { SwipeComponent } from './swipe/swipe.component';
+import { SwipeToolComponent } from './swipe-tool/swipe-tool.component';
 import { DrawAreaComponent } from './draw_area/draw_area.component';
 
 //pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -128,7 +128,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
   @ViewChild('wfsCard') wfsCard!: ElementRef;
 
   @ViewChild(OlMapComponent) olMap!: OlMapComponent;
-  @ViewChild(SwipeComponent) swipeComponent!: SwipeComponent;
+  @ViewChild(SwipeToolComponent) swipeComponent!: SwipeToolComponent;
   @ViewChild(DrawAreaComponent) drawAreaComponent!: DrawAreaComponent;
 
   public features: any[] = [];

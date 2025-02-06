@@ -40,10 +40,10 @@ import { LayerService } from '@core/services';
 
 @Component({
   selector: 'app-swipe',
-  templateUrl: './swipe.component.html',
-  styleUrls: ['./swipe.component.scss'],
+  templateUrl: './swipe-tool.component.html',
+  styleUrls: ['./swipe-tool.component.scss'],
 })
-export class SwipeComponent implements OnInit, OnDestroy {
+export class SwipeToolComponent implements OnInit, OnDestroy {
   @Output() handleLayersLegend: EventEmitter<any> = new EventEmitter();
 
   private desciptorSubscription: Subscription = new Subscription();

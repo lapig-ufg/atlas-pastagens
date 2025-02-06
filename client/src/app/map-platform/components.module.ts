@@ -28,7 +28,7 @@ import { MainComponent } from './components/main/main.component';
 import { ComponentsRoutingModule } from './components-routing.module';
 import { LayersSidebarComponent } from './components/layers-sidebar/layers-sidebar.component';
 import { DrawAreaComponent } from './components/general-map/draw_area/draw_area.component';
-import { SwipeComponent } from './components/general-map/swipe/swipe.component';
+import { SwipeToolComponent } from './components/general-map/swipe-tool/swipe-tool.component';
 import { DialogMessageComponent } from '@core/components/dialog-message/dialog-message.component';
 import { OlMapComponent } from '@core/components/ol-map/ol-map.component';
 import { GeneralMapComponent } from './components/general-map/general-map.component';
@@ -91,7 +91,7 @@ registerLocaleData(localePt);
     AreaSidebarComponent,
     GeneralMapComponent,
     FileUploadComponent,
-    SwipeComponent,
+    SwipeToolComponent,
     FilterComponent,
     DrawAreaComponent
   ],
