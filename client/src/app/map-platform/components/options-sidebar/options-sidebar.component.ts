@@ -22,6 +22,7 @@ import { Subscription } from 'rxjs';
 
 import { InputSwitchOnChangeEvent } from 'primeng/inputswitch';
 import {AccordionTabCloseEvent, AccordionTabOpenEvent} from 'primeng/accordion';
+import { MapService } from '@core/services/map.service';
 
 const bmapKeys: string[] = ['mapbox', 'mapbox-dark', 'google', 'google-hybrid'];
 
@@ -41,10 +42,12 @@ class OptionsSidebarComponent {
     {
       key: 'graticule',
       checked: false,
+      onChange: (checked: boolean) => this.onChangeGraticule(checked)
     },
   ];
 
   constructor(
+    private mapService: MapService,
     private descriptorService: DescriptorService,
     public localizationService: LocalizationService
   ) {
@@ -158,10 +161,20 @@ class OptionsSidebarComponent {
    */
   public onChangeOption(key: string, event: InputSwitchOnChangeEvent): void {
     this.options.forEach((option: any) => {
-      if (option.key === key) return;
+      if (option.key === key) {
+        option.onChange(event.checked);
+      }
 
       option.checked = false;
     });
+
+    console.log(event);
+
+    //this.mapService.updateGraticule(this.options.checked)
+  }
+
+  public onChangeGraticule(checked: boolean) {
+    this.mapService.updateGraticule(checked);
   }
 }
 

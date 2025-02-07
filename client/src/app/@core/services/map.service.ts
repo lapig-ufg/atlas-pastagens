@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 import OlMap from 'ol/Map';
-import { MapEvent, View } from 'ol';
+import { Graticule, MapEvent, View } from 'ol';
 import * as Proj from 'ol/proj';
 import { defaults as defaultInteractions, Interaction } from 'ol/interaction';
 import { Control, defaults as defaultControls } from 'ol/control';
@@ -15,6 +14,13 @@ const ZOOM_DEFAULT: number = 4.6;
 const DEFAULT_LAT = -16.6958288;
 const DEFAULT_LON = -49.4443537;
 
+const GRATICULE = new Graticule({
+  visible: false,
+  zIndex: 100,
+  wrapX: false,
+  showLabels: true
+});
+
 export { MapService, ZOOM_LIMIT }
 
 @Injectable({
@@ -22,6 +28,7 @@ export { MapService, ZOOM_LIMIT }
 })
 class MapService {
   private _map: OlMap = new OlMap({
+    layers: [ GRATICULE ],
     view: new View({
       center: Proj.fromLonLat([DEFAULT_LON, DEFAULT_LAT]),
       zoom: ZOOM_DEFAULT,
@@ -33,10 +40,6 @@ class MapService {
     controls: defaultControls({ attribution: false, zoom: false }).extend([]),
   });
 
-  private _activeLayers: Array<BaseLayer> = [];
-
-  private $activeLayers = new BehaviorSubject<Array<BaseLayer>>(this._activeLayers);
-
   constructor() {
     this.setEvents();
   }
@@ -45,19 +48,19 @@ class MapService {
 
   get layers() { return this._map.getLayers().getArray(); }
 
-  public getActiveLayers(): Observable<BaseLayer[]> {
-    return this.$activeLayers;
+  public updateGraticule(visible: boolean) {
+    this.layers[0].setVisible(visible);
   }
 
   public addLayer(layer: BaseLayer): void {
-    if (!this._map.getLayers().getArray().every(element => element.get('key') != layer.get('key'))) return;
+    if (!this.layers.every(element => element.get('key') != layer.get('key'))) return;
 
     this._map.addLayer(layer);
   }
 
   public addLayers(layers: Array<BaseLayer>): void {
-    layers.forEach((layer) => {
-      this._map.addLayer(layer);
+    layers.forEach((layer: BaseLayer) => {
+      this.addLayer(layer);
     })
   }
 
