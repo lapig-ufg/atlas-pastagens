@@ -51,7 +51,11 @@ export class DrawAreaComponent implements OnInit, OnDestroy {
   @ViewChild(DialogMessageComponent) dialog!: DialogMessageComponent;
 
   private interaction!: Interaction;
-  private vector: VectorLayer<any> = new VectorLayer();
+  private vector: VectorLayer<any> = new VectorLayer(
+    {properties: {
+      key: 'draw'
+    }}
+  );
   private modify!: Modify;
   private snap: any;
 

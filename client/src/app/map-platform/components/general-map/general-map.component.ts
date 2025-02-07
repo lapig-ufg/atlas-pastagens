@@ -640,13 +640,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
   private refreshLayersSource(): void {
     this.mapService.layers.forEach((layer: BaseLayer) => {
       if (layer.get('type') === 'layertype')
-        this.mapService.updateLayerSource(
-          layer.get('key'),
-          this.layerService.parseURLs(
-            layer.get('descriptorType'),
-            this.isLayerHighResolution
-          )
-        );
+        this.mapService.updateLayerSource(layer.get('key'), this.layerService.parseURLs(layer.get('descriptorType'), this.isLayerHighResolution));
     });
   }
 

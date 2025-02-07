@@ -53,9 +53,7 @@ class MapService {
   }
 
   public addLayer(layer: BaseLayer): void {
-    if (!this.layers.every(element => element.get('key') != layer.get('key'))) return;
-
-    console.log('adicionaou')
+    if ((layer.get('key') != undefined) && !this.layers.every(element => element.get('key') != layer.get('key'))) return;
 
     this._map.addLayer(layer);
   }
