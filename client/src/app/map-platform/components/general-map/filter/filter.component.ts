@@ -14,7 +14,6 @@ import { TextFilter } from '@core/interfaces';
 import {
   RegionFilterService,
   DEFAULT_REGION,
-  DescriptorService,
   MapAPIService,
 } from '@core/services';
 import { MapService } from '@core/services/map.service';
@@ -22,7 +21,6 @@ import { MapService } from '@core/services/map.service';
 /**
  * PrimeNg imports.
  */
-import { MessageService, SelectItem } from 'primeng/api';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
 
 /**
@@ -91,7 +89,6 @@ export class FilterComponent implements OnInit, OnDestroy {
 
   public otherLayerFromFilters: any = {
     layer: null,
-    strokeColor: '#363230',
   };
 
   private source: VectorSource<any> = new VectorSource();
@@ -106,9 +103,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   constructor(
     private mapService: MapService,
     private regionFilterService: RegionFilterService,
-    private descriptorService: DescriptorService,
     private mapAPIService: MapAPIService,
-    private messageService: MessageService
   ) {}
 
   public ngOnInit(): void {
@@ -137,7 +132,7 @@ export class FilterComponent implements OnInit, OnDestroy {
     this.onChangeSearchOption();
   }
 
-  ngOnDestroy(): void {}
+  public ngOnDestroy(): void {}
 
   public onClearFilter() {
     this.updateRegion(DEFAULT_REGION);
@@ -158,7 +153,7 @@ export class FilterComponent implements OnInit, OnDestroy {
   public filterSearch(event: AutoCompleteCompleteEvent): void {
     let query: string = event.query;
 
-    switch (this.selectedSearchOption.toLowerCase()) {
+    switch (this.selectValue.toLowerCase()) {
       case 'region':
         this.mapAPIService.getRegions(query).subscribe((result) => {
           this.listForAutoComplete = result.search;
@@ -250,14 +245,12 @@ export class FilterComponent implements OnInit, OnDestroy {
     });
   }
 
-  private async updateAreaOnMap(event: any) {
+  private updateAreaOnMap(event: any) {
     if (this.selectRegion != DEFAULT_REGION) {
-      await this.clearAreaBeforeSearch();
+      this.onClearFilter()
     }
 
-    let map = this.mapService.map;
-
-    map.removeLayer(this.otherLayerFromFilters.layer);
+    this.mapService.removeLayer(this.otherLayerFromFilters.layer);
 
     this.autoCompleteValue = event;
 
@@ -269,18 +262,22 @@ export class FilterComponent implements OnInit, OnDestroy {
     });
 
     this.otherLayerFromFilters.layer = new VectorLayer({
-      zIndex: 10000000,
+      zIndex: 99,
       source: vectorSource,
+      properties: {
+        key: 'filter',
+        type: 'filter',
+      },
       style: [
         new Style({
           stroke: new Stroke({
-            color: this.otherLayerFromFilters.strokeColor,
+            color: '#363230',
             width: 4,
           }),
         }),
         new Style({
           stroke: new Stroke({
-            color: this.otherLayerFromFilters.strokeColor,
+            color: '#363230',
             width: 4,
             lineCap: 'round',
           }),
@@ -289,12 +286,9 @@ export class FilterComponent implements OnInit, OnDestroy {
     });
 
     this.mapService.addLayer(this.otherLayerFromFilters.layer);
+
     let extent = this.otherLayerFromFilters.layer.getSource().getExtent();
     
-    map.getView().fit(extent, { duration: 1800 });
-  }
-
-  private async clearAreaBeforeSearch() {
-    await this.updateRegion(DEFAULT_REGION);
+    this.mapService.map.getView().fit(extent, { duration: 1800 });
   }
 }
