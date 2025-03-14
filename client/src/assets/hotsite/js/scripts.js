@@ -8,7 +8,6 @@ function topFunction() {
   document.documentElement.scrollTo({top: 0, behavior: 'smooth'});
 }
 
-<!-- owl carousel -->
 $(document).ready(function () {
   $('.popup-with-zoom-anim').magnificPopup({
     type: 'inline',

@@ -2,7 +2,6 @@
  * Angular imports.
  */
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { AfterContentChecked } from '@angular/core';
 
 import { LocalizationService } from '../../../@core/internationalization/localization.service';
 import { Menu } from '@core/interfaces';
@@ -13,7 +12,9 @@ import { environment } from 'src/environments/environment';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements AfterContentChecked {
+export class MainComponent {
+  public COMMIT_ID = `Build: ${environment.COMMIT_ID}`;
+
   public lang: string = 'pt';
 
   public menus: Array<Menu> = [
@@ -39,16 +40,10 @@ export class MainComponent implements AfterContentChecked {
     },
   ];
 
-  public COMMIT_ID = `Build: ${environment.COMMIT_ID}`;
-
   constructor(
     private localizationService: LocalizationService,
     private cdRef: ChangeDetectorRef
   ) {}
-
-  ngAfterContentChecked(): void {
-    this.cdRef.detectChanges();
-  }
 
   public onMenuClick(menu: Menu): void {
     menu.show = !menu.show;
@@ -66,6 +61,10 @@ export class MainComponent implements AfterContentChecked {
     this.menus[1].show = false;
   }
 
+  /**
+   * Executado quando a barra lateral esquerda é fechado. Reponsável por
+   * fechar todos os menus alocados na barra lateral esquerda.
+   */
   public onLeftSidebarClose(): void {
     this.menus[0].show = false;
     this.menus[2].show = false;
@@ -85,6 +84,11 @@ export class MainComponent implements AfterContentChecked {
     })!.show;
   }
 
+  /**
+   * Executado na iteração com os controladores de idioma. 
+   * 
+   * @param lang - String representando o idioma.
+   */
   public changeLanguage(lang: string): void {
     this.lang = lang;
 

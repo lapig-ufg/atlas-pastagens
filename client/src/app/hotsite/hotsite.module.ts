@@ -1,5 +1,5 @@
 import { LOCALE_ID, NgModule } from "@angular/core";
-import {CommonModule, DatePipe, DecimalPipe} from '@angular/common';
+import {CommonModule} from '@angular/common';
 
 import { TranslateModule } from "@ngx-translate/core";
 
