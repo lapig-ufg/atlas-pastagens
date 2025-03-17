@@ -42,6 +42,10 @@ module.exports = function (app) {
     Query.resumo = function (params) {
         var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
         var yearFilter = params['year'] ? Internal.getYearFilter(params['year']) : Internal.getYearFilter(2020);
+
+        console.log('##########################################################################################################')
+        console.log(yearFilter)
+
         return [
             {
                 source: 'lapig',
@@ -88,10 +92,10 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture_carbon_somsc_mean',
-                sql: " select avg(value_mean) as value"
-                +  " from pasture_carbon_somsc_statistic_2022 "
-                +  " WHERE  " + regionFilter
-                +  " AND " + yearFilter,
+                sql: `select avg(value_mean) as value
+                    from pasture_carbon_somsc_statistic_2022
+                    WHERE  ${regionFilter}
+                    AND ${yearFilter}`,
                 mantain: true
 
             }

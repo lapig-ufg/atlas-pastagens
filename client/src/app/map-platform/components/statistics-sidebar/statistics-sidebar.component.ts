@@ -8,23 +8,13 @@ import { Component, OnDestroy } from '@angular/core';
 /**
  * Services imports.
  */
-import {
-  ChartService,
-  DEFAULT_REGION,
-  DescriptorService,
-  RegionFilterService,
-} from '../../../@core/services';
+import { DescriptorService, DEFAULT_REGION } from '../../../@core/services';
+import { ChartService, RegionFilterService } from '../../../@core/services';
 
 /**
  * Interfaces imports.
  */
-import {
-  Descriptor,
-  DescriptorGroup,
-  DescriptorLayer,
-  DescriptorType,
-  DirtyType,
-} from '@core/interfaces';
+import { Descriptor, DirtyType } from '@core/interfaces';
 import { RegionFilter } from '@core/interfaces';
 
 /**
@@ -70,6 +60,7 @@ class StatisticsSidebarComponent implements OnDestroy {
   public summaryData: Map<string, any> = new Map<string, any>();
   public graphsData: Array<any> = [];
   public rankingData: Array<any> = [];
+
   public dialogData = {
     title: '',
     text: '',
@@ -84,13 +75,13 @@ class StatisticsSidebarComponent implements OnDestroy {
     pasture: {
       layer: 'pasture',
       group: 'pasture_general',
-      year: 2022,
+      year: 2023,
       switch: true,
     },
     pasture_quality: {
       layer: 'pasture_quality',
       group: 'pasture_general',
-      year: 2022,
+      year: 2023,
       switch: false,
     },
     carbono: {
@@ -164,9 +155,7 @@ class StatisticsSidebarComponent implements OnDestroy {
           this.layersForStatistics[summaryKey].switch = descriptorLayer.visible;
           break;
         case DirtyType.SOURCE:
-          let year = parseInt(
-            descriptorLayer.selectedTypeObject?.filterSelected?.split('=')[1]!
-          );
+          let year = parseInt(descriptorLayer.selectedTypeObject?.filterSelected?.split('=')[1]!);
 
           this.layersForStatistics[summaryKey].year = year;
 
@@ -186,13 +175,19 @@ class StatisticsSidebarComponent implements OnDestroy {
   private getLayerSummaryData(summaryKey: string): void {
     let year: string = '2022';
 
+    console.log(summaryKey)
+
     if (summaryKey !== 'region')
       year = this.layersForStatistics[summaryKey].year;
+
+    console.log(year)
 
     this.chartService
       .getSummary(summaryKey, this.regionFilter, year)
       .subscribe({
         next: (summary: any) => {
+          console.log(summaryKey)
+
           this.summaryData.set(summaryKey, {
             data: summary,
             year: year,

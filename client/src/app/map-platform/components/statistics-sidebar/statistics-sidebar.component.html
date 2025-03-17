@@ -6,6 +6,8 @@
   <!-- Summary Tab -->
   <p-accordionTab header="{{ 'right_sidebar.cards_titles.resumoTitle' | translate }}">
       <div *ngIf="summaryData.size; else loadingSpinner">
+        
+        <!-- Summary -->
         <div class="resumo-card">
           <div class="resumo-card-title">{{'right_sidebar.region_types.' + regionFilter.type | translate}}</div>
           <div class="resumo-card-content"> {{ regionFilter.text }} </div>

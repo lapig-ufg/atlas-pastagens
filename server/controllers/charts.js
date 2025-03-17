@@ -136,6 +136,9 @@ module.exports = function (app) {
 
         var result;
 
+        console.log('#############################################################################')
+        console.log(request.queryResult['pasture_carbon_somsc'])
+
         switch (card_resume) {
             case 'region':
                 result = {
