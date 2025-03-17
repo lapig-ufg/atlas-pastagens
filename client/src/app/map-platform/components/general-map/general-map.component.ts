@@ -112,6 +112,12 @@ const PRIMARY_COLOR = window
   .getPropertyValue('--primary')
   .trim();
 
+
+/**
+ * Componente responsável por gerenciar e manipular o WebMap por meio do framework OpenLayers.
+ * 
+ * @component
+ */
 @Component({
   selector: 'app-general-map',
   templateUrl: './general-map.component.html',
