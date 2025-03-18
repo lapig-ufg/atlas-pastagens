@@ -15,7 +15,6 @@ module.exports = function (app) {
     }
 
     self.requestFileFromMapServer = function (url, pathFile, layerName, type, response) {
-        console.log('URL', url)
         let file = fs.createWriteStream(pathFile + ".zip");
 
         const downloadPromise = new Promise((resolve, reject) => {

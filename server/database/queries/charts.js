@@ -26,6 +26,7 @@ module.exports = function (app) {
                 } else if (keyLowerCase === 'arcodesmat') {
                     return "arcodesmat = 1";
                 }
+                break;
             default:
                 break;
         }
@@ -42,9 +43,6 @@ module.exports = function (app) {
     Query.resumo = function (params) {
         var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
         var yearFilter = params['year'] ? Internal.getYearFilter(params['year']) : Internal.getYearFilter(2020);
-
-        console.log('##########################################################################################################')
-        console.log(yearFilter)
 
         return [
             {
@@ -87,7 +85,6 @@ module.exports = function (app) {
                 WHERE ${regionFilter}
                 AND ${yearFilter}`,
                 mantain: true
-
             },
             {
                 source: 'lapig',
@@ -97,7 +94,6 @@ module.exports = function (app) {
                     WHERE  ${regionFilter}
                     AND ${yearFilter}`,
                 mantain: true
-
             }
         ]
     }
@@ -109,40 +105,39 @@ module.exports = function (app) {
             {
                 source: 'lapig',
                 id: 'pasture',
-                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, "
-                    + "(SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE " + regionFilter + ") as area_mun "
-                    + " FROM pasture_col9 a " + "INNER JOIN graphic_colors b on b.table_rel = 'pasture' "
-                    + " WHERE " + regionFilter
-                    // " AND " + yearFilter +
-                    + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
+                sql: `SELECT  a.year::int as label, b.color, b.name as classe, sum(a.st_area_ha) as value, 
+                    (SELECT CAST(SUM(pol_ha) as double precision) FROM new_regions WHERE ${regionFilter}) as area_mun 
+                    FROM pasture_col9 a INNER JOIN graphic_colors b on b.table_rel = 'pasture' 
+                    WHERE ${regionFilter} 
+                    GROUP BY 1,2,3 ORDER BY 1 ASC;`,
                 mantain: true
             },
             {
                 source: 'lapig',
                 id: 'lotacao_bovina_regions',
-                sql: " SELECT  a.year::int as label, b.color, b.name as classe, sum(a.ua) as value,  (SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
-                    " FROM lotacao_bovina_regions a " + "INNER JOIN graphic_colors as b on b.table_rel = 'rebanho_bovino' " +
-                    "WHERE " + regionFilter +
-                    // " AND " + yearFilter +
-                    " GROUP BY 1,2,3 ORDER BY 1 ASC;",
+                sql: `SELECT  a.year::int as label, b.color, b.name as classe, sum(a.ua) as value,
+                    (SELECT CAST(SUM(pol_ha) as double precision) FROM regions WHERE ${regionFilter}) as area_mun
+                    FROM lotacao_bovina_regions a INNER JOIN graphic_colors as b on b.table_rel = 'rebanho_bovino'
+                    WHERE ${regionFilter}
+                    GROUP BY 1,2,3 ORDER BY 1 ASC;`,
                 mantain: true
             },
             {
                 source: 'lapig',
                 id: 'pasture_quality',
-                sql: " SELECT a.year::int as label,b.color, b.name as classe, sum(a.st_area_ha) as value, (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE " + regionFilter + ") as area_mun " +
-                    " FROM pasture_vigor_col9 a " + "INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'" +
-                    "WHERE " + regionFilter +
-                    // " AND " + yearFilter +
-                    " GROUP BY 1,2,3 ORDER BY 1 ASC;",
+                sql: `SELECT a.year::int as label,b.color, b.name as classe, sum(a.st_area_ha) as value,
+                    (SELECT CAST(SUM(pol_ha) / 1000 as double precision) FROM regions WHERE ${regionFilter}) as area_mun
+                    FROM pasture_vigor_col9 a INNER JOIN graphic_colors as b on cast(a.classe as varchar) = b.class_number AND b.table_rel = 'pasture_quality'
+                    WHERE ${regionFilter} 
+                    GROUP BY 1,2,3 ORDER BY 1 ASC;`,
                 mantain: true
             },
             {
                 source: 'lapig',
                 id: 'pasture_carbon',
-                sql: " SELECT a.year::int as label, b.color, b.name as classe, sum(value_sum) as value" +
-                " FROM pasture_carbon_somsc_statistic_2022 a " + "INNER JOIN graphic_colors as b on b.table_rel = 'pasture_carbon'" +
-                "WHERE " + regionFilter + " GROUP BY 1,2,3 ORDER BY 1 ASC;",
+                sql: `SELECT a.year::int as label, b.color, b.name as classe, sum(value_sum) as value
+                    FROM pasture_carbon_somsc_statistic_2022 a INNER JOIN graphic_colors as b on b.table_rel = 'pasture_carbon'
+                    WHERE ${regionFilter} GROUP BY 1,2,3 ORDER BY 1 ASC;`,
             }
         ]
     }

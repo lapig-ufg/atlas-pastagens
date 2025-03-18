@@ -49,8 +49,6 @@ class StatisticsService {
       `&card_resume=${chart}` +
       `&year=${year}`;
 
-      console.log(params)
-
     return this.httpClient
       .get<any>(`${this.apiURL}/resumo?${params}`, this.httpOptions)
       .pipe(map((response) => response))

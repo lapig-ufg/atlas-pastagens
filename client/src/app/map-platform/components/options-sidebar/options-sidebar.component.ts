@@ -168,8 +168,6 @@ class OptionsSidebarComponent {
       option.checked = false;
     });
 
-    console.log(event);
-
     //this.mapService.updateGraticule(this.options.checked)
   }
 

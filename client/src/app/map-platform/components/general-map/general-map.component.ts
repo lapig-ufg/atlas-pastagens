@@ -736,8 +736,6 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
       descriptorGroup.layers.forEach((descriptorLayer: DescriptorLayer) => {
         descriptorLayer.types.forEach((descriptorType: DescriptorType) => {
           if (!descriptorType.visible) return;
-
-          console.log(descriptorType)
           
           this.selectedLayers.push(descriptorType.valueType);
 

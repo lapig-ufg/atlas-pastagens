@@ -44,11 +44,17 @@ module.exports = function (app) {
                     }
                     else {
                         for (const [keyLabelQuery, valueLabelQuery] of Object.entries(query.labelOfQuery)) {
+                            let keyLabel = {
+                                'class_1': 'Ausente',
+                                'class_2': 'Intermediário',
+                                'class_3': 'Severa'
+                            }[keyLabelQuery]
+
                             arrayData.push({
                                 label: valueLabelQuery,
-                                data: [...queryInd.filter(ob => ob.classe == keyLabelQuery).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
+                                data: [...queryInd.filter(ob => ob.classe == keyLabel).map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                                 fill: false,
-                                borderColor: [...new Set(queryInd.filter(a => a.classe == keyLabelQuery).map(ob => ob.color))],
+                                borderColor: [...new Set(queryInd.filter(a => a.classe == keyLabel).map(ob => ob.color))],
                                 tension: .4
                             })
                         }
@@ -136,9 +142,6 @@ module.exports = function (app) {
 
         var result;
 
-        console.log('#############################################################################')
-        console.log(request.queryResult['pasture_carbon_somsc'])
-
         switch (card_resume) {
             case 'region':
                 result = {
@@ -163,6 +166,7 @@ module.exports = function (app) {
                     route: 'carbono',
                     data: request.queryResult['pasture_carbon_somsc'][0]
                 };
+                break;
             case 'pasture_quality':
                 result = {
                     route: 'pasture_vigor',
@@ -258,6 +262,7 @@ module.exports = function (app) {
 
         for (let chart of chartResult) {
             chart['data'] = Internal.buildGraphResult(request.queryResult, chart)
+
             chart['show'] = false
 
             if (chart['data']) {

@@ -173,21 +173,15 @@ class StatisticsSidebarComponent implements OnDestroy {
   }
 
   private getLayerSummaryData(summaryKey: string): void {
-    let year: string = '2022';
-
-    console.log(summaryKey)
+    let year: string = '2023';
 
     if (summaryKey !== 'region')
       year = this.layersForStatistics[summaryKey].year;
-
-    console.log(year)
 
     this.chartService
       .getSummary(summaryKey, this.regionFilter, year)
       .subscribe({
         next: (summary: any) => {
-          console.log(summaryKey)
-
           this.summaryData.set(summaryKey, {
             data: summary,
             year: year,
@@ -202,6 +196,7 @@ class StatisticsSidebarComponent implements OnDestroy {
   private getGraphsData(): void {
     this.chartService.getPastureGraph(this.regionFilter).subscribe({
       next: (graphsData: Array<any>) => {
+        console.log('Data: ', graphsData)
         this.graphsData = graphsData;
       },
       error: (error) => {

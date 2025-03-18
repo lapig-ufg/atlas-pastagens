@@ -188,8 +188,6 @@ export class FilterComponent implements OnInit, OnDestroy {
   }
 
   private updateRegion(region: any = DEFAULT_REGION) {
-    console.log(region)
-
     this.selectRegion = region;
 
     this.mapService.removeLayer(this.otherLayerFromFilters.layer);
