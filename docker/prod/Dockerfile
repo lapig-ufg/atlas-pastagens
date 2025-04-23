@@ -1,18 +1,10 @@
-FROM lapig/app_atlas:base
+FROM lapig/app_atlas_new:base
 
-# Clone app and npm install on server
-ENV URL_TO_APPLICATION_GITHUB="https://github.com/lapig-ufg/atlas-pastagens.git"
-ENV BRANCH="main"
+LABEL maintainer="Tiago Gonçalves <tiagogoncalves@discente.ufg.br>"
 
-LABEL maintainer="Renato Gomes <renatogomessilverio@gmail.com> Rocha Jairo <devjairomr.gmail.com.br>"
+ADD . /APP/atlas-pastagens
+COPY ./version.jso* /APP/atlas-pastagens/client/dist/atlas-pastagens/assets/
 
-RUN if [ -d "/APP/atlas-pastagens" ]; then rm -Rf /APP/atlas-pastagens; fi  && \
-    cd /APP && git clone -b ${BRANCH} ${URL_TO_APPLICATION_GITHUB}
-    
-ADD ./src/server/node_modules /APP/atlas-pastagens/src/server/node_modules  
-ADD ./src/client/dist/client /APP/atlas-pastagens/src/client/dist/client
-COPY ./version.jso* /APP/atlas-pastagens/src/client/dist/client/assets/
-
-CMD [ "/bin/bash", "-c", "/APP/src/server/prod-start.sh; tail -f /dev/null"]
+CMD [ "/bin/bash", "-c", "/APP/server/start.sh; tail -f /dev/null"]
 
 ENTRYPOINT [ "/APP/Monitora.sh"]

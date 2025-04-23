@@ -1,9 +1,9 @@
-name: Build and Deploy in Server atlas
+name: Build and Deploy in Server Atlas Development
 
 on:
   push:
     branches:
-      - update/atlas_1.0
+      - develop
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
             echo "$1=$2" >> $GITHUB_OUTPUT
           }
           # Defina as variáveis
-          set_var "DOCKER_PATH" "homol-new"
+          set_var "DOCKER_PATH" "prod"
           set_var "APPLICATION_NAME" "app_atlas_new"
           set_var "LAST_COMMIT_HASH" "$(git log --pretty=format:%h -n 1)"
         
@@ -74,7 +74,7 @@ jobs:
 
       - name: Restart Application
         run: |
-          /compose/resetapp.sh --title "Atlas das Pastagens New" \
+          /compose/resetapp.sh --title "Atlas das Pastagens Desenvolvimento" \
           --github "https://github.com/${{ github.repository }}" \
           --commit "${{ needs.build.outputs.LAST_COMMIT_HASH }}" \
           ${{ needs.build.outputs.APPLICATION_NAME }}
