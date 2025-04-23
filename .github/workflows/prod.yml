@@ -3,7 +3,7 @@ name: Build and Deploy in Server atlas
 on:
   push:
     branches:
-      - update/atlas_1.0
+      - main
 
 jobs:
   build:
