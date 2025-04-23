@@ -91,7 +91,7 @@ export class BaseComponent implements AfterViewInit {
     });
   }
 
-  scrollFunction() {
+  public scrollFunction() {
     if (
       document.body.scrollTop > 20 ||
       document.documentElement.scrollTop > 20
@@ -102,6 +102,11 @@ export class BaseComponent implements AfterViewInit {
       // @ts-ignore
       document.getElementById('movetop').style.display = 'none';
     }
+  }
+
+  topFunction() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }
 }
 

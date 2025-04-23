@@ -30,3 +30,19 @@
 .form-group textarea {
     min-height: 280px !important;
 }
+
+:host ::ng-deep {
+    .p-accordion {
+        margin: 0px 8px 8px;
+      
+        &-header {
+          &-link {
+            padding: 16px;
+          }
+        }
+      
+        &-content {
+          padding: 2%;
+        }
+      }
+}

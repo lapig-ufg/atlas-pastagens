@@ -30,12 +30,9 @@
               *ngFor="let itemMenu of menu"
               [class]="itemMenu.selected ? 'nav-item active' : 'nav-item'"
             >
-              <a class="nav-link" href="{{ itemMenu.href }}"
-                >{{ itemMenu.title }}
-                <span *ngIf="itemMenu.selected" class="sr-only"
-                  >(current)</span
-                ></a
-              >
+              <a class="nav-link" href="{{ itemMenu.href }}"> {{ itemMenu.title }}
+                <span *ngIf="itemMenu.selected" class="sr-only">(current)</span>
+              </a>
             </li>
           </ul>
         </div>
@@ -113,7 +110,7 @@
   </footer>
   <!-- //footer -->
 
-  <button onclick="topFunction()" id="movetop" title="Go to top">
+  <button (click)="topFunction()" id="movetop" title="Go to top">
     <i class="bx bx-up-arrow-alt"></i>
     <!--  <span class="fas fa-arrow-up" aria-hidden="true"></span>-->
   </button>
