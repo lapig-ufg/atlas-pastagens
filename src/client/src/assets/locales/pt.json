@@ -563,8 +563,8 @@
       },
       "differential": {
         "title": "Diferencial",
-        "p1": "Na plataforma, o usuário pode visualizar de forma geograficamente espacializada, as áreas ocupadas por pastagens no período entre 1985 e 2020, e observar graficamente a evolução das pastagens (~121 milhões de hectares em 1985 para ~161 milhões em 2020) e do rebanho bovino (~98 milhões de unidades animais em 1985 para ~158 milhões em 2019).",
-        "p2": "Para os anos de 2000 e 2020, o usuário pode visualizar e comparar a qualidade das pastagens brasileiras, que foram classificadas em três classes de acordo com sua condição nos respectivos anos: (a) degradação severa; (b) degradação intermediária; e (c) degradação ausente ou pastagens em boa condição.",
+        "p1": "Na plataforma, o usuário pode visualizar de forma geograficamente espacializada, as áreas ocupadas por pastagens no período entre 1985 e 2023, e observar graficamente a evolução das pastagens e do rebanho bovino.",
+        "p2": "Para os anos de 2000 e 2023, o usuário pode visualizar e comparar a qualidade das pastagens brasileiras, que foram classificadas em três classes de acordo com sua condição nos respectivos anos: (a) degradação severa; (b) degradação intermediária; e (c) degradação ausente ou pastagens em boa condição.",
         "p3": "Além da visualização de todas as bases de dados disponíveis na plataforma, os dados estão disponíveis para download em formato geo-espacializado (shapefile) ou tabela (csv), sendo os dados abertos um dos diferenciais da plataforma."
       }
     },
