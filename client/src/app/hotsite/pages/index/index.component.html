@@ -5,10 +5,9 @@
       <div class="main-content-top">
         <div class="container">
           <div class="main-content abstract">
-            <img src="../../../../assets/hotsite/images/logos/logo_cor.svg" alt="Atlas das Pastagens"
-              title="Atlas das Pastagens Brasileiras" />
-            <p class="mt-3 ">{{'hotsite.home.banner.text' | translate}}</p>
-            <a href="/map" class="btn btn-style mt-md-5 mt-4">{{'hotsite.home.banner.btn' | translate}}</a>
+            <img src="../../../../assets/hotsite/images/logos/logo_cor.svg" alt="Atlas das Pastagens" title="Atlas das Pastagens Brasileiras" />
+            <p class="mt-3">{{'hotsite.home.banner.text' | translate}}</p>
+            <p-button label="{{'hotsite.home.banner.btn' | translate}}" />
           </div>
         </div>
       </div>
@@ -34,39 +33,6 @@
     </div>
   </div>
   <!-- //about section -->
-
-  <!-- news section -->
-  <div *ngIf="news.length != 0">
-    <div class="service-section">
-      <div class="container py-md-5 py-4">
-        <div class="row align-items-center mb-5">
-          <div class="col-md-6 section-heading">
-            <h3 class="title-style-2">
-              {{'hotsite.home.news.title' | translate}}
-            </h3>
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <div *ngFor="let element of news" class="col-lg-4 col-md-6 item">
-            <div class="card">
-              <a target="_blank" [href]="element.url" class="service-heading">
-                <div class="card-header p-0 position-relative border-0">
-                  <img class="d-block img-responsive" [src]="element.image" [alt]="element.title">
-                </div>
-                <div class="card-body service-details">
-                  <div class="card-title"> {{ element.title }}</div>
-                  <p>
-                    {{ element.description }}
-                  </p>
-                </div>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- //news section -->
 
   <!-- services section -->
   <ng-template *ngIf="highlights.length > 0">

@@ -61,10 +61,10 @@ class StatisticsSidebarComponent implements OnDestroy {
   public graphsData: Array<any> = [];
   public rankingData: Array<any> = [];
 
-  public dialogData = {
+  public dialogData: dialogData = {
     title: '',
     text: '',
-    type: '',
+    type: undefined,
     data: '',
     options: '',
     visible: false,
@@ -245,7 +245,7 @@ class StatisticsSidebarComponent implements OnDestroy {
     this.dialogData = {
       title: '',
       text: '',
-      type: '',
+      type: undefined,
       data: '',
       options: '',
       visible: false,
@@ -352,3 +352,12 @@ class StatisticsSidebarComponent implements OnDestroy {
 }
 
 export { StatisticsSidebarComponent };
+
+interface dialogData {
+    title: string;
+    text: string;
+    type: 'bar' | 'line' | 'scatter' | 'bubble' | 'pie' | 'doughnut' | 'polarArea' | 'radar' | undefined;
+    data: any,
+    options: any,
+    visible: boolean,
+}

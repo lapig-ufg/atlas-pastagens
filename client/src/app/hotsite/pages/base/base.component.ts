@@ -12,11 +12,13 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./base.component.scss'],
 })
 export class BaseComponent implements AfterViewInit {
-  public year = new Date().getFullYear();
   public theme = 'light';
   public checked = false;
   public menu: Menu[] = [];
+  
   public lang: string = '';
+
+  public year = new Date().getFullYear();
   public COMMIT_ID = `Build: ${environment.COMMIT_ID}`;
 
   constructor(

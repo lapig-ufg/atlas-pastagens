@@ -251,12 +251,13 @@ $primary_hotiste: #ffc845;
   }
 
   button {
-    border-radius: 0;
-  }
-
-  button:focus {
-    outline: 1px dotted;
-    outline: 5px auto -webkit-focus-ring-color;
+    background: $primary_hotiste;
+    border: $primary_hotiste;
+    
+    &:hover {
+      background: darken($primary_hotiste, 10%);
+      border: darken($primary_hotiste, 10%);
+    }
   }
 
   input,
@@ -282,13 +283,6 @@ $primary_hotiste: #ffc845;
 
   select {
     word-wrap: normal;
-  }
-
-  button,
-  [type="button"],
-  [type="reset"],
-  [type="submit"] {
-    -webkit-appearance: button;
   }
 
   button:not(:disabled),
@@ -11114,8 +11108,8 @@ $primary_hotiste: #ffc845;
   button,
   button:hover {
     text-decoration: none;
-    transition: .5s all;
-    -moz-transition: .5s all;
+    transition: .2s all;
+    -moz-transition: .2s all;
   }
 
   iframe {
@@ -14947,7 +14941,7 @@ $primary_hotiste: #ffc845;
   p{
     text-align: justify;
     text-indent: 50px;
-    font-size: 14px;
+    font-size: 18px;
   }
 
   ::-webkit-scrollbar {

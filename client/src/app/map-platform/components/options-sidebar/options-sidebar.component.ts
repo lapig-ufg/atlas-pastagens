@@ -20,7 +20,7 @@ import { DescriptorType } from '@core/interfaces';
 import { DescriptorService } from '../../../@core/services';
 import { Subscription } from 'rxjs';
 
-import { InputSwitchOnChangeEvent } from 'primeng/inputswitch';
+import { InputSwitchChangeEvent } from 'primeng/inputswitch';
 import {AccordionTabCloseEvent, AccordionTabOpenEvent} from 'primeng/accordion';
 import { MapService } from '@core/services/map.service';
 
@@ -127,7 +127,7 @@ class OptionsSidebarComponent {
    * @param key
    * @param event
    */
-  public onChangeLimit(limit: any, event: InputSwitchOnChangeEvent): void {
+  public onChangeLimit(limit: any, event: InputSwitchChangeEvent): void {
     this.limits.forEach((element: any) => {
       if (element.key === limit.key) return;
 
@@ -143,7 +143,7 @@ class OptionsSidebarComponent {
    * @param bmap
    * @param event
    */
-  public onChangeBmap(bmap: any, event: InputSwitchOnChangeEvent): void {
+  public onChangeBmap(bmap: any, event: InputSwitchChangeEvent): void {
     this.bmaps.forEach((element: any) => {
       if (element.key === bmap.key) return;
 
@@ -159,7 +159,7 @@ class OptionsSidebarComponent {
    * @param key
    * @param event
    */
-  public onChangeOption(key: string, event: InputSwitchOnChangeEvent): void {
+  public onChangeOption(key: string, event: InputSwitchChangeEvent): void {
     this.options.forEach((option: any) => {
       if (option.key === key) {
         option.onChange(event.checked);
