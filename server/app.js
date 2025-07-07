@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express'),
     load = require('express-load'),
     util = require('util'),
@@ -17,7 +19,6 @@ load('config.js', { 'verbose': false })
     .then('database')
     .then('middleware')
     .into(app);
-
 
 app.database.client.init(function () {
     app.use(cookie);
