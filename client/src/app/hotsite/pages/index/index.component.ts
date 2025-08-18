@@ -1,10 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  ViewChild,
-  ChangeDetectorRef,
-  AfterViewInit,
-} from '@angular/core';
+import { Component } from '@angular/core';
+import { ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import { LocalizationService } from '../../../@core/internationalization/localization.service';
 import { LangChangeEvent } from '@ngx-translate/core';
 import { ContentHub } from '../../services/content-hub.service';
@@ -12,7 +7,7 @@ import { ContentHub } from '../../services/content-hub.service';
 import { environment } from 'src/environments/environment';
 
 import { Highlight, News } from '@core/interfaces';
-import { catchError, ObservableInput } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -32,6 +27,7 @@ export class IndexComponent implements AfterViewInit {
   lang: string;
 
   constructor(
+    private router: Router,
     private cdr: ChangeDetectorRef,
     private localizationService: LocalizationService,
     private contentService: ContentHub
@@ -72,6 +68,13 @@ export class IndexComponent implements AfterViewInit {
     }
 
     this.cdr.detectChanges();
+  }
+
+  /**
+   * Redireciona o usuário para a plataforma.
+   */
+  public redirectToPlatform(): void {
+    this.router.navigate([`/map`])
   }
 
   /**

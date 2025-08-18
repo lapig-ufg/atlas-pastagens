@@ -196,7 +196,6 @@ class StatisticsSidebarComponent implements OnDestroy {
   private getGraphsData(): void {
     this.chartService.getPastureGraph(this.regionFilter).subscribe({
       next: (graphsData: Array<any>) => {
-        console.log('Data: ', graphsData)
         this.graphsData = graphsData;
       },
       error: (error) => {
