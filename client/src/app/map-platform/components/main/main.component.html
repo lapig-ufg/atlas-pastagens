@@ -36,7 +36,7 @@
     [modal]="false"
     (onHide)="onLeftSidebarClose()"
     [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
-    [visible]="menus[0].show || menus[2].show || menus[3].show"
+    [(visible)]="leftSidebarVisible"
   >
     <ng-template pTemplate="header">
       <img class="logo" src="../../../assets/logos/atlas_logo_01.png" />
@@ -70,12 +70,12 @@
   <p-sidebar
     position="right"
     [modal]="false"
-    [visible]="isRightSidebarToggle()"
     (onHide)="onRightSidebarClose()"
     [transitionOptions]="'2ms cubic-bezier(0, 0, 0.2, 1)'"
+    [(visible)]="rightSidebarVisible"
   >
     <app-statistics-sidebar></app-statistics-sidebar>
   </p-sidebar>
 
-  <app-general-map class='{{ (menus[0].show || menus[2].show || menus[3].show ? "left-sidebar-open " : "" ) + (menus[1].show ? "right-sidebar-open" : "") }}'></app-general-map>
+  <app-general-map class='{{ (leftSidebarVisible ? "left-sidebar-open " : "" ) + (rightSidebarVisible ? "right-sidebar-open" : "") }}'></app-general-map>
 </section>

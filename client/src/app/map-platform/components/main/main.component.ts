@@ -40,15 +40,22 @@ export class MainComponent {
     },
   ];
 
+  public leftSidebarVisible: boolean = false;
+  public rightSidebarVisible: boolean = false;
+
   constructor(
-    private localizationService: LocalizationService,
-    private cdRef: ChangeDetectorRef
+    private localizationService: LocalizationService
   ) {}
 
   public onMenuClick(menu: Menu): void {
     menu.show = !menu.show;
 
-    if (menu.key === 'statistics') return;
+    if (menu.key === 'statistics') {
+      this.rightSidebarVisible = menu.show;
+      return;
+    }
+
+    this.leftSidebarVisible = menu.show;
 
     this.menus.forEach((element: Menu) => {
       if (element.key === 'statistics') return;
@@ -61,10 +68,6 @@ export class MainComponent {
     this.menus[1].show = false;
   }
 
-  /**
-   * Executado quando a barra lateral esquerda é fechado. Reponsável por
-   * fechar todos os menus alocados na barra lateral esquerda.
-   */
   public onLeftSidebarClose(): void {
     this.menus[0].show = false;
     this.menus[2].show = false;

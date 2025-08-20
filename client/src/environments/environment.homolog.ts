@@ -1,13 +1,12 @@
 let commitId = ''
 
-// TODO: Create LAPIG logo and version information.
-/*try{
+try{
   const config = require('../../../../version.json');
   console.log(config)
   commitId = config.commitId
 }catch{
   console.log('Not version')
-}*/
+}
 
 export const environment = {
   APP_NAME: 'Atlas das Pastagens',
