@@ -72,26 +72,6 @@ class StatisticsService {
       .pipe(catchError(this.errorHandler));
   }
 
-  /**
-   * Get ranking tables.
-   * @param regionFilter
-   * @param year
-   * @returns
-   */
-  public getRankingTables(regionFilter: RegionFilter, year: string): Observable<any> {
-    let params =
-      `lang=${this.localizationService.currentLang()}` +
-      `&typeRegion=${regionFilter.type}` +
-      `&valueRegion=${regionFilter.value}` +
-      `&textRegion=${regionFilter.text}` +
-      `&year=${year}`;
-
-    return this.httpClient
-      .get<any>(`${this.apiURL}/areatable?${params}`, this.httpOptions)
-      .pipe(map((response) => response))
-      .pipe(catchError(this.errorHandler));
-  }
-
   private errorHandler(error: any) {
     let errorMessage = '';
     if (error.error instanceof ErrorEvent) {

@@ -19,16 +19,23 @@ module.exports = function(app) {
 
     return function(request, response, next) {
         var hasController = (request.route.stack.length > 1)
+
         var pathParts = request.path.split('/')
+
         var controller = pathParts[2]
         var method = pathParts[3]
 
         if (controller in queries && method in queries[controller]) {
             var queriesOfController = queries[controller]
+
             var params = Internal.parseParams(request, queriesOfController)
+
             var methodQueries = queriesOfController[method](params)
 
+            console.log(methodQueries)
+
             if (typeof methodQueries == "string") {
+                console.error("ERROR")
                 methodQueries = [{
                     id: method,
                     sql: methodQueries
@@ -45,11 +52,6 @@ module.exports = function(app) {
             };
 
             var onComplete = function(err) {
-                var keys = Object.keys(result)
-
-                if (keys.length == 1 && !methodQueries[0].mantain) {
-                    result = result[keys[0]]
-                }
                 request.queryResult = result
 
                 if (hasController) {

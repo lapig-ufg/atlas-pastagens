@@ -52,8 +52,6 @@ class StatisticsSidebarComponent implements OnDestroy {
 
   public summaryKeys: string[] = [
     'region',
-    'pasture',
-    'pasture_quality',
     'carbono',
   ];
 
@@ -72,23 +70,11 @@ class StatisticsSidebarComponent implements OnDestroy {
 
   // TODO: Estatisticas foram setadas para 1 ano antes do correto. DB não esta retornando dados para o ano certo.
   public layersForStatistics: any = {
-    pasture: {
-      layer: 'pasture',
-      group: 'pasture_general',
-      year: 2023,
-      switch: true,
-    },
-    pasture_quality: {
-      layer: 'pasture_quality',
-      group: 'pasture_general',
-      year: 2023,
-      switch: false,
-    },
     carbono: {
       layer: 'biomassa',
       group: 'pasture_carbon_general',
       year: 2020,
-      switch: false,
+      switch: true,
     },
   };
 
@@ -106,7 +92,6 @@ class StatisticsSidebarComponent implements OnDestroy {
 
           this.getAllSummaryData();
           this.getGraphsData();
-          this.getRanking();
         },
       })
     );
@@ -160,7 +145,6 @@ class StatisticsSidebarComponent implements OnDestroy {
           this.layersForStatistics[summaryKey].year = year;
 
           this.getLayerSummaryData(summaryKey);
-          this.getRanking();
           break;
       }
     });
@@ -196,32 +180,8 @@ class StatisticsSidebarComponent implements OnDestroy {
   private getGraphsData(): void {
     this.chartService.getPastureGraph(this.regionFilter).subscribe({
       next: (graphsData: Array<any>) => {
+        console.log(graphsData)
         this.graphsData = graphsData;
-      },
-      error: (error) => {
-        console.error(error);
-      },
-    });
-  }
-
-  private getRanking(): void {
-    this.chartService.getRankingTables(this.regionFilter, '2022').subscribe({
-      next: (rankingTables) => {
-        for (let element of rankingTables) {
-          let rows_labels: Array<string> = element.rows_labels.split('?');
-          let columnsTitle: Array<string> = element.columnsTitle.split('?');
-
-          element.exportCols = [];
-
-          for (let i = 0; i < rows_labels.length; i++) {
-            element.exportCols.push({
-              dataKey: rows_labels[i],
-              header: columnsTitle[i],
-            });
-          }
-        }
-
-        this.rankingData = rankingTables;
       },
       error: (error) => {
         console.error(error);
@@ -310,43 +270,6 @@ class StatisticsSidebarComponent implements OnDestroy {
     });
 
     doc.save(table.title + '.pdf');
-  }
-
-  /**
-   * Custom sort for p-table.
-   */
-  public sortRankingTable(event: SortEvent): void {
-    event.data?.sort((value1: any, value2: any) => {
-      let result: number;
-
-      switch (event.field) {
-        case 'index':
-          let indexA: number = parseInt(
-            value1[event.field ? event.field : ''].replace('º', '')
-          );
-          let indexB: number = parseInt(
-            value2[event.field ? event.field : ''].replace('º', '')
-          );
-
-          result = indexA < indexB ? -1 : indexA > indexB ? 1 : 0;
-
-          return Number(event.order) * result;
-        case 'value':
-          let valueA: number = value1['originalValue'];
-          let valueB: number = value2['originalValue'];
-
-          result = valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
-
-          return Number(event.order) * result;
-        default:
-          let stringA: string = value1[event.field ? event.field : ''];
-          let stringB: string = value2[event.field ? event.field : ''];
-
-          result = stringA.localeCompare(stringB);
-
-          return Number(event.order) * result;
-      }
-    });
   }
 }
 

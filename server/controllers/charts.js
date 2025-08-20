@@ -27,18 +27,19 @@ module.exports = function (app) {
             let arrayData = []
 
             for (let query of chartDescription.idsOfQueriesExecuted) {
+                // TODO: allQueriesResult should be an object with query.idOfQuery as key.
+                // but instead it is undefined.
                 let queryInd = allQueriesResult[query.idOfQuery]
                 let colors = [...new Set(queryInd.map(a => a.color))]
 
                 arrayLabels.push(...queryInd.map(a => (typeof a.label == 'number' ? Number(a.label) : String(a.label))))
-
                 if (chartDescription.type == 'line') {
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
                             data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
                             fill: false,
-                            borderColor: [...new Set(queryInd.map(a => a.color))],
+                            borderColor: colors,
                             tension: .4
                         })
                     }
@@ -77,14 +78,13 @@ module.exports = function (app) {
                             hoverBackgroundColor: [...new Set(queryInd.map(element => element.color))],
                         })
                     }
-
                 }
                 else if (chartDescription.type == 'bar' || chartDescription.type == 'horizontalBar') {
                     if (typeof query.labelOfQuery === 'string') {
                         arrayData.push({
                             label: query.labelOfQuery,
                             data: [...queryInd.map(a => (typeof a.value === 'string' || a.value instanceof String ? parseFloat(a.value) : Number(a.value)))],
-                            backgroundColor: [...new Set(queryInd.map(a => a.color))],
+                            backgroundColor: colors,
                         })
                     }
                     else {
@@ -150,32 +150,11 @@ module.exports = function (app) {
                     }
                 }
                 break;
-            case 'pasture':
-                result = {
-                    route: 'pasture',
-                    data: {
-                        area: request.queryResult['pasture'][0].value,
-                        percentOfRegionArea: Internal.numberFormat(
-                            (request.queryResult['pasture'][0].value / request.queryResult['region'][0].area_region) * 100) + "%"
-                    }
-                }
-                break;
             case 'carbono':
                 result = {
                     route: 'carbono',
                     data: request.queryResult['pasture_carbon_somsc'][0]
                 };
-                break;
-            case 'pasture_quality':
-                result = {
-                    route: 'pasture_vigor',
-                    data: request.queryResult['pasture_quality'].map(ob => {
-                        ob.percentAreaPasture = Internal.numberFormat((ob.value / request.queryResult['pasture'][0].value) * 100) + "%"
-                        ob.percentOfRegionArea = Internal.numberFormat((ob.value / request.queryResult['region'][0].area_region) * 100) + "%"
-                        ob.classe = ob.classe
-                        return ob;
-                    })
-                }
                 break;
             default:
                 result = {data: 'Invalid argument'};
@@ -202,42 +181,6 @@ module.exports = function (app) {
         };
 
         const chartResult = [
-            {
-                "id": "pasture",
-                "idsOfQueriesExecuted": [
-                    { idOfQuery: 'pasture', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['pasture'] },
-                    { idOfQuery: 'lotacao_bovina_regions', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].labelOfQuery['lotacao_bovina_regions'] },
-                ],
-                "title": Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].title,
-                "getText": function (chart) {
-                    const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["pastureAndLotacaoBovina"].text, replacements)
-                    return text
-                },
-                "type": 'line',
-                "options": {
-                    legend: {
-                        display: false
-                    }
-                }
-            },
-            {
-                "id": "pasture_quality",
-                "idsOfQueriesExecuted": [
-                    { idOfQuery: 'pasture_quality', labelOfQuery: Internal.languageOb["pastureGraph_card"]["pastureQuality"].labelOfQuery['pasture_quality'] },
-                ],
-                "title": Internal.languageOb["pastureGraph_card"]["pastureQuality"].title,
-                "getText": function (queriesResult, query) {
-
-                    const text = Internal.replacementStrings(Internal.languageOb["pastureGraph_card"]["pastureQuality"].text, replacements)
-                    return text
-                },
-                "type": 'line',
-                "options": {
-                    legend: {
-                        display: false
-                    }
-                }
-            },
             {
                 "id": "carbono",
                 "idsOfQueriesExecuted": [
@@ -278,82 +221,6 @@ module.exports = function (app) {
 
         response.send(chartFinal)
         response.end();
-    };
-
-    Controller.handleTableRankings = function (request, response) {
-        const { lang, typeRegion, valueRegion, textRegion } = request.query;
-        const language = lang;
-
-        Internal.languageOb = UtilsLang().getLang(language).right_sidebar;
-
-        let replacements = {
-            typeRegionTranslate: Internal.languageOb.region_types[typeRegion],
-            textRegionTranslate: textRegion,
-        };
-
-        const tablesDescriptor = [
-            {
-                "id": "pastureRankingsCities",
-                "idsOfQueriesExecuted": [
-                    { idOfQuery: 'municipios', labelOfQuery: Internal.languageOb["area_table_card"]["pastureRankingsCities"].labelOfQuery['municipios'] },
-                ],
-                "title": Internal.languageOb["area_table_card"]["pastureRankingsCities"].title,
-                "columnsTitle": Internal.languageOb["area_table_card"]["pastureRankingsCities"].columnsTitle,
-                "getText": function (chart) {
-                    const text = Internal.replacementStrings(Internal.languageOb["area_table_card"]["pastureRankingsCities"].text, replacements)
-                    return text
-                },
-                "rows_labels": "index?city?uf?value",
-            },
-            {
-                "id": "pastureRankingsStates",
-                "idsOfQueriesExecuted": [
-                    { idOfQuery: 'estados', labelOfQuery: Internal.languageOb["area_table_card"]["pastureRankingsStates"].labelOfQuery['estados'] },
-                ],
-                "title": Internal.languageOb["area_table_card"]["pastureRankingsStates"].title,
-                "columnsTitle": Internal.languageOb["area_table_card"]["pastureRankingsStates"].columnsTitle,
-                "getText": function (chart) {
-                    const text = Internal.replacementStrings(Internal.languageOb["area_table_card"]["pastureRankingsStates"].text, replacements)
-                    return text
-                },
-                "rows_labels": "index?uf?value",
-            },
-            {
-                "id": "pastureRankingsBiomes",
-                "idsOfQueriesExecuted": [
-                    { idOfQuery: 'biomas', labelOfQuery: Internal.languageOb["area_table_card"]["pastureRankingsBiomes"].labelOfQuery['biomas'] },
-                ],
-                "title": Internal.languageOb["area_table_card"]["pastureRankingsBiomes"].title,
-                "columnsTitle": Internal.languageOb["area_table_card"]["pastureRankingsBiomes"].columnsTitle,
-                "getText": function (chart) {
-                    const text = Internal.replacementStrings(Internal.languageOb["area_table_card"]["pastureRankingsBiomes"].text, replacements)
-                    return text
-                },
-                "rows_labels": "index?biome?value",
-            }
-        ]
-
-
-        let resultFinal = []
-        for (let res of tablesDescriptor) {
-
-            res['data'] = Internal.buildTableData(request.queryResult, res)
-            res['show'] = false
-
-            if (res['data']) {
-                res['show'] = true
-                res['text'] = res.getText(request.queryResult, res.idsOfQueriesExecuted)
-            } else {
-                res['data'] = {};
-                res['show'] = false;
-                res['text'] = "erro."
-            }
-
-            resultFinal.push(res);
-        }
-
-        response.send(resultFinal)
-        response.end()
     };
 
     return Controller;

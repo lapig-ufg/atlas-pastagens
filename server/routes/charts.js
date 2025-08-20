@@ -5,5 +5,4 @@ module.exports = function (app) {
 
     app.get('/service/charts/resumo', dataInjector, charts.handleResumo);
     app.get('/service/charts/pastureGraph', dataInjector, charts.handlePastureGraphData);
-    app.get('/service/charts/areatable', dataInjector, charts.handleTableRankings);
 }

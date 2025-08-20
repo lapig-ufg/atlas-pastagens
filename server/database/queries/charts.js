@@ -33,9 +33,7 @@ module.exports = function (app) {
     }
 
     Internal.getYearFilter = function (year) {
-        if (year) {
-            year = "year = " + (year)
-        }
+        if (year) year = "year = " + (year);
         
         return year;
     }
@@ -82,41 +80,6 @@ module.exports = function (app) {
                 sql: `SELECT a.year::int as label, b.color, b.name as classe, sum(value_sum) as value
                     FROM pasture_carbon_somsc_statistic_2022 a INNER JOIN graphic_colors as b on b.table_rel = 'pasture_carbon'
                     WHERE ${regionFilter} GROUP BY 1,2,3 ORDER BY 1 ASC;`,
-            }
-        ]
-    }
-
-    Query.areatable = function (params) {
-        var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
-        var yearFilter = params['year'] ? Internal.getYearFilter(params['year']) : Internal.getYearFilter(2020);
-
-        return [
-            {
-                source: 'lapig',
-                id: 'municipios',
-                sql: "SELECT p.municipio as city, p.cd_geocmu as cityCode, UPPER(p.uf) as uf, SUM(p.st_area_ha) as value  FROM pasture_col9 p "
-                    + " WHERE " + regionFilter
-                    + " AND " + yearFilter
-                    + " GROUP BY 1, 2, 3 ORDER BY value DESC;",
-                mantain: true
-            },
-            {
-                source: 'lapig',
-                id: 'estados',
-                sql: " SELECT UPPER(p.uf) AS uf, SUM(p.st_area_ha) as value  FROM pasture_col9 p "
-                    + "WHERE " + regionFilter
-                    + " AND " + yearFilter
-                    + " GROUP BY 1  ORDER BY 2 DESC;",
-                mantain: true
-            },
-            {
-                source: 'lapig',
-                id: 'biomas',
-                sql: " SELECT p.bioma AS biome,  SUM(p.st_area_ha) as value  FROM pasture_col9 p "
-                    + "WHERE " + regionFilter
-                    + " AND " + yearFilter
-                    + " GROUP BY 1 ORDER BY 2 DESC;",
-                mantain: true
             }
         ]
     }
