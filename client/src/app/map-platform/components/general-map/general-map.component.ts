@@ -780,10 +780,6 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     this.updateZIndex();
   }
 
-  public toggleLayerLegend(legend: LayerLegend): void {
-    legend.expanded = !legend.expanded;
-  }
-
   private updateZIndex() {
     this.selectedLayers.forEach((valueType: string, index: number) => {
       this.mapService.updateLayerZIndex(valueType, index + 1);
@@ -802,6 +798,11 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     this.updateZIndex();
   }
 
+  public toggleLayerLegend(legend: LayerLegend): void {
+    legend.expanded = !legend.expanded;
+  }
+
+  // TODO: Test if this is working. If not, fix it.
   downloadSLD(valueType: string) {
     const layerType = this.descriptorService.getType(valueType);
 
@@ -1020,6 +1021,7 @@ export class GeneralMapComponent implements OnInit, OnDestroy, Ruler {
     map.getView().fit([], { duration: 900 });
   }
 
+  // TODO: Fix it.
   printRegionsIdentification(token: any) {
     let dd = {
       pageSize: { width: 400, height: 400 },

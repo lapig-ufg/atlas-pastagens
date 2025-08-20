@@ -7,7 +7,7 @@
           {
               "idLayer": "biomassa",
               "labelLayer": "translate",
-              "visible": false,
+              "visible": true,
               "selectedType": "pa_br_somsc_2022",
               "types": [
                   "pa_br_somsc_2022"

@@ -73,7 +73,6 @@ module.exports = function (app) {
 
 
     Controller.host = function (request, response) {
-
         var baseUrls = config.ows_domains.split(",");
 
         for (let i = 0; i < baseUrls.length; i++) {
