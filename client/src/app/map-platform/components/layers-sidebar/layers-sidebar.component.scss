@@ -2,6 +2,12 @@
 @import "src/app/@core/styles/reponsive";
 
 :host ::ng-deep {
+  .p-panel {
+    &-header{
+      padding: 8px;
+    }
+  }
+
     .p-dropdown {
         width: 100%;
         text-align: left;

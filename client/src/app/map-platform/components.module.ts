@@ -38,6 +38,7 @@ import { GoogleAnalyticsService } from '../@core/services';
 /**
  * PrimeNg imports.
  */
+import { PanelModule } from 'primeng/panel';
 import { SliderModule } from 'primeng/slider';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { SidebarModule } from 'primeng/sidebar';
@@ -134,6 +135,7 @@ registerLocaleData(localePt);
     TranslateModule,
     TooltipModule,
     AccordionModule,
+    PanelModule,
     ScrollPanelModule,
     InputNumberModule,
     ImageModule,
