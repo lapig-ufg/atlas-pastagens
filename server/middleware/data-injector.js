@@ -25,6 +25,8 @@ module.exports = function(app) {
         var controller = pathParts[2]
         var method = pathParts[3]
 
+        console.debug("\x1b[34m%s\x1b[0m", `Controller: ${controller}, Method: ${method}, Method Queries:`);
+
         if (controller in queries && method in queries[controller]) {
             var queriesOfController = queries[controller]
 
@@ -32,7 +34,7 @@ module.exports = function(app) {
 
             var methodQueries = queriesOfController[method](params)
 
-            console.log(methodQueries)
+            console.debug(methodQueries);
 
             if (typeof methodQueries == "string") {
                 console.error("ERROR")
@@ -45,6 +47,7 @@ module.exports = function(app) {
             var result = {};
             
             var onEach = function(query, nextQuery) {
+                // Esta preenchendo os parametros na query.
                 client.query(query, params, function(queryResult) {
                     result[query.id] = queryResult.rows
                     nextQuery()

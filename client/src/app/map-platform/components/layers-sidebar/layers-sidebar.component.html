@@ -4,12 +4,14 @@
 <p-toast></p-toast>
 
 <div *ngIf="descriptor != null; else loading">
-  <p-panel header="Aviso de descontinuidade">
+  <div class="alert-message-container">
+    <i class="pi pi-exclamation-triangle"></i>
     <p>
-      A menssagem de descontinuidade ficara aqui.
-      Agora sera fornecida pelo <a href="https://plataforma.brasil.mapbiomas.org/coverage/coverage_lclu?t[regionKey]=brazil&t[ids][]=1-1-1&t[divisionCategoryId]=4&tl[id]=13&tl[themeKey]=coverage&tl[subthemeKey]=coverage_lclu&tl[pixelValues][]=27&tl[pixelValues][]=15&tl[legendKey]=default&tl[year]=2024" target="_blank">MapBiomas</a>.
+      <!-- TODO: Mudar a menssagem de descontinuidade para a correta. -->
+      A menssagem de descontinuidade ficara aqui. Agora sera fornecida pelo
+      <a href="https://shorturl.at/7S1g2" target="_blank">MapBiomas</a>.
     </p>
-  </p-panel>
+  </div>
 
   <p-accordion
     [multiple]="true"

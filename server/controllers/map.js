@@ -43,9 +43,12 @@ module.exports = function (app) {
     };
 
     Controller.extent = function (request, response) {
+        console.debug("")
         const queryResult = request.queryResult['extent']
+
         const result = {
             type: 'Feature',
+            // FIX: queryResult should not be an empty array.
             geometry: JSON.parse(queryResult[0].geojson)
         }
 

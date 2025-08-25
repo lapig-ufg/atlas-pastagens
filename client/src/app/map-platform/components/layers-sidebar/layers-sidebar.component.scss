@@ -2,20 +2,38 @@
 @import "src/app/@core/styles/reponsive";
 
 :host ::ng-deep {
+  p {
+    margin: 8px;
+  }
+
+  .alert-message-container {
+    display: flex;
+    margin: 16px 8px;
+    text-align: left;
+
+    .pi-exclamation-triangle {
+      margin: 8px;
+      color: $primary;
+      font-size: 3rem;
+    }
+  }
+
   .p-panel {
     &-header{
       padding: 8px;
     }
   }
 
-    .p-dropdown {
-        width: 100%;
-        text-align: left;
-    }
+  .p-dropdown {
+      width: 100%;
+      text-align: left;
+  }
 
-    .p-float-label {
-        width: 100%;
-    }
+  .p-float-label {
+      width: 100%;
+  }
+  
+  
 }
 
 .layer-transparency {
