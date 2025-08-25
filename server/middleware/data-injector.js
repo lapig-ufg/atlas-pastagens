@@ -49,6 +49,7 @@ module.exports = function(app) {
             var onEach = function(query, nextQuery) {
                 // Esta preenchendo os parametros na query.
                 client.query(query, params, function(queryResult) {
+                    console.log(query, params)
                     result[query.id] = queryResult.rows
                     nextQuery()
                 })

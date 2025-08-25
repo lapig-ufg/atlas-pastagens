@@ -175,7 +175,9 @@ export class FilterComponent implements OnInit, OnDestroy {
   public onSelectFilter(event: any) {
     switch (this.selectValue) {
       case 'region':
-        this.updateRegion(event);
+        console.log("Mudando filtro")
+
+        this.updateRegion(event.value);
 
         this.zoomExtent();
 

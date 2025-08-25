@@ -43,7 +43,6 @@ module.exports = function (app) {
     };
 
     Controller.extent = function (request, response) {
-        console.debug("")
         const queryResult = request.queryResult['extent']
 
         const result = {
