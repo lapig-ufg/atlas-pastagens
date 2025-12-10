@@ -1,56 +1,63 @@
-const fs = require("fs");
 const path = require("path");
-const lang = require("./language");
+
+const fs = require("fs");
 const Group = require("../models/group");
 const Layer = require("../models/layer");
-const got = require("got");
 
 module.exports = function (app) {
-  var Controller = {};
   var Internal = {};
+  var Controller = {};
 
-  Controller.getLayers = function (language, layertypes) {
-    var folder_path = "./descriptor/groups";
+  Controller.buildOwn = function (blob, type, lang) {
+    const path = `./descriptor/${type}`
+    const filesInDir = fs.readdirSync(path)
+    const jsonsInDir = filesInDir.filter((file) => path.extname(file) === ".json");
 
-    const jsonsInDir = fs
-      .readdirSync(folder_path)
-      .filter((file) => path.extname(file) === ".json");
+    var result = [];
 
-    var groups = [];
-    var order = Internal.getGroupsOrder();
+    jsonsInDir.forEach((file) => {
+      try {
+        const data = fs.readFileSync(path.join(path, file), "utf8");
+        const json = JSON.parse(data.toString());
 
-    order.forEach((element) => {
-      jsonsInDir.forEach((file) => {
-        if (
-          new String(file)
-            .toLowerCase()
-            .includes(new String(element).toLowerCase())
-        ) {
-          try {
-            const fileData = fs.readFileSync(
-              path.join(folder_path, file),
-              "utf8"
-            );
+        json.forEach((item) => {
+          var group = new Group(lang, item, blob).getGroupInstance();
+          result.push(group);
+        });
 
-            const json = JSON.parse(fileData.toString());
-
-            json.forEach(function (item, index) {
-              var group = new Group(
-                language,
-                item,
-                layertypes
-              ).getGroupInstance();
-
-              groups.push(group);
-            });
-          } catch (e) {
-            console.error("[DESCRIPTOR] Error while fetching layers.\n\n", e);
-          }
-        }
-      });
+      } catch (e) {
+        console.error("[DESCRIPTOR] Error while fetching layers.\n\n", e);
+      }
     });
 
-    return groups;
+    return result;
+  };
+
+  Controller.getLayers = function (language, layertypes) {
+    const jsonsInDir = fs
+      .readdirSync("./descriptor/groups")
+      .filter((file) => path.extname(file) === ".json");
+
+    var data = [];
+
+    jsonsInDir.forEach((groupFile) => {
+      try {
+        const data = fs.readFileSync(path.join(folder_path, groupFile), "utf8");
+        const json = JSON.parse(data.toString());
+
+        json.forEach(function (item, index) {
+          var group = new Group(
+            language, item, layertypes
+          ).getGroupInstance();
+
+          data.push(group);
+        });
+      } catch (e) {
+        console.error("[DESCRIPTOR] Error while fetching layers.\n\n", e);
+      }
+    });
+
+    return data;
   };
 
   Controller.getBasemaps = function (language, layertypes) {
@@ -63,8 +70,8 @@ module.exports = function (app) {
 
     jsonsInDir.forEach((file) => {
       try {
-        const fileData = fs.readFileSync(path.join(folder_path, file), "utf8");
-        const json = JSON.parse(fileData.toString());
+        const data = fs.readFileSync(path.join(folder_path, file), "utf8");
+        const json = JSON.parse(data.toString());
 
         json.forEach(function (item, index) {
           const layer = new Layer(language, item, null, layertypes);
@@ -88,8 +95,8 @@ module.exports = function (app) {
 
     jsonsInDir.forEach((file) => {
       try {
-        const fileData = fs.readFileSync(path.join(folder_path, file), "utf8");
-        const json = JSON.parse(fileData.toString());
+        const data = fs.readFileSync(path.join(folder_path, file), "utf8");
+        const json = JSON.parse(data.toString());
 
         json.forEach(function (item, index) {
           const layer = new Layer(language, item, null, layertypes);
@@ -101,19 +108,6 @@ module.exports = function (app) {
     });
 
     return limits;
-  };
-
-  Internal.getGroupsOrder = function () {
-    return [
-      "pasture",
-      "campo",
-      "inspecao_visual",
-      "agropecuaria",
-      "areas_declaradas",
-      "infraestrutura",
-      "areas_especiais",
-      "imagens",
-    ];
   };
 
   return Controller;

@@ -1,5 +1,5 @@
 const lang = require('../utils/language');
-const Auxiliar = require('../utils/auxiliar')
+const Auxiliar = require('../utils/auxiliar');
 
 module.exports = class Layer {
 
@@ -95,6 +95,7 @@ module.exports = class Layer {
             "selectedType": this.selectedType,
             "types": this.layerTypes
         }
+        
         return ob;
     }
 

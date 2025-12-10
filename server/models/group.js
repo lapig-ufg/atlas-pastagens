@@ -44,7 +44,6 @@ module.exports = class Group {
         return arr;
     }
 
-
     getGroupInstance() {
         var ob = {
             "idGroup": this.idGroup,

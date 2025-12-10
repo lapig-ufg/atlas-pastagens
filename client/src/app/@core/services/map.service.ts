@@ -42,6 +42,13 @@ class MapService {
 
   constructor() {
     this.setEvents();
+
+    const layer = new ol.layer.Tile({
+      source: new ol.source.XYZ({
+        url: 'https://earthengine.googleapis.com/v1/projects/earthengine-legacy/maps/2e5ec0311fd3a74f27769f080dfdf59f-63603cd9b1ac217b18c0b3d73af3af9e/tiles/{z}/{x}/{y}',
+        crossOrigin: 'anonymous'
+      })
+    });
   }
 
   get map() { return this._map; }

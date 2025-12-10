@@ -11,8 +11,6 @@ export { GalleryService };
   providedIn: 'root'
 })
 class GalleryService {
-
-
   private apiURL = '/service/gallery';
 
   static PARAMS = new HttpParams({

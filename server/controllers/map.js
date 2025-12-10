@@ -6,48 +6,74 @@ module.exports = function (app) {
 
     const Controller = {}
 
-    const fetchLayerTypes = async function (language, type = 'layers') {
-        let data = {}
-        let url = String(process.env.OWS_API + "/map/" + type + "?lang=" + language)
-        
+    Controller.own_layers = async function(request, response) {
+        const { lang } = request.query;
+
+        let url = String(`${process.env.OWS_API}/map/layers?lang=${language}`)
+
         try {
             const response = await got(url);
             
-            data = JSON.parse(response.body)
+            let json = JSON.parse(response.body)
 
-            return data;
-        } catch (error) {
-            console.error('[DESCRIPTOR] Error while fetching descriptor.\n\n', error);
-        }
-    }
+            let result = DescriptorBuilder().getLayers(lang, json)
 
-    Controller.descriptor = async function (request, response) {
-        const { lang } = request.query;
-        
-        try {
-            let layertypes = await fetchLayerTypes(lang, 'layers')
-            let basemapsTypes = await fetchLayerTypes(lang, 'basemaps')
-            let limitsTypes = await fetchLayerTypes(lang, 'limits')
-
-            const result = {
-                groups: DescriptorBuilder().getLayers(lang, layertypes),
-                basemaps: DescriptorBuilder().getBasemaps(lang, basemapsTypes),
-                limits: DescriptorBuilder().getLimits(lang, limitsTypes),
-            }
-            
             response.send(result);
             response.end();
         } catch (error) {
-            console.error('[DESCRIPTOR] Error while fetching descriptor.\n\n', error)
+            console.error('[DESCRIPTOR] Error while fetching own layers.\n\n', error);
         }
-    };
+    }
+
+    Controller.mapbiomas_layers = async function(request, response) {}
+
+    Controller.own_limits = async function(request, response) {
+        const { lang } = request.query;
+
+        let url = String(`${process.env.OWS_API}/map/limits?lang=${language}`)
+
+        try {
+            const response = await got(url);
+            
+            let json = JSON.parse(response.body)
+
+            let result = DescriptorBuilder().getLimits(lang, json)
+
+            response.send(result);
+            response.end();
+        } catch (error) {
+            console.error('[DESCRIPTOR] Error while fetching own layers.\n\n', error);
+        }
+    }
+
+    Controller.own_basemaps = async function(request, response) {
+        const { lang } = request.query;
+
+        let url = String(`${process.env.OWS_API}/map/basemaps?lang=${language}`)
+
+        try {
+            const response = await got(url);
+            
+            let json = JSON.parse(response.body)
+
+            let result = DescriptorBuilder().getBasemaps(lang, json)
+
+            response.send(result);
+            response.end();
+        } catch (error) {
+            console.error('[DESCRIPTOR] Error while fetching own layers.\n\n', error);
+        }
+    }
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
+// ---------------------------------------------------------------------------------------------------------------------------
 
     Controller.extent = function (request, response) {
         const queryResult = request.queryResult['extent']
 
         const result = {
             type: 'Feature',
-            // FIX: queryResult should not be an empty array.
             geometry: JSON.parse(queryResult[0].geojson)
         }
 

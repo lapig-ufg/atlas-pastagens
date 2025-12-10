@@ -15,7 +15,7 @@ import { DescriptorType } from '@core/interfaces';
 import { WMTS, XYZ } from 'ol/source';
 import TileLayer from 'ol/layer/Tile';
 
-import { MapService, ZOOM_LIMIT } from './map.service';
+import { MapService } from './map.service';
 import { environment } from 'src/environments/environment';
 import { Options, optionsFromCapabilities } from 'ol/source/WMTS';
 
