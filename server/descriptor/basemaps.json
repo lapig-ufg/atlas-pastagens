@@ -1,0 +1,42 @@
+{
+    "basemaps": {
+        "layers": [
+            {
+                "id": "mapbox",
+                "types": [
+                    "mapbox"
+                ]
+            },
+            {
+                "id": "mapbox-dark",
+                "types": [
+                    "mapbox-dark"
+                ]
+            },
+            {
+                "id": "google",
+                "types": [
+                    "google"
+                ]
+            },
+            {
+                "id": "google-hybrid",
+                "types": [
+                    "google-hybrid"
+                ]
+            },
+            {
+                "id": "roads",
+                "types": [
+                    "roads"
+                ]
+            },
+            {
+                "id": "bing",
+                "types": [
+                    "bing"
+                ]
+            }
+        ]
+    }
+}

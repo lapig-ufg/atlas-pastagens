@@ -1,5 +1,6 @@
 const got = require('got');
 const DescriptorBuilder = require('../utils/descriptorBuilder');
+const Group = require('../models/Group');
 
 module.exports = function (app) {
     const config = app.config;
@@ -9,14 +10,20 @@ module.exports = function (app) {
     Controller.own_layers = async function(request, response) {
         const { lang } = request.query;
 
-        let url = String(`${process.env.OWS_API}/map/layers?lang=${language}`)
+        const url = String(`${process.env.OWS_API}/map/layers?lang=${language}`)
+
+        const result = []
 
         try {
-            const response = await got(url);
-            
-            let json = JSON.parse(response.body)
+            const allResponse = await got(url);
+            const allJson = JSON.parse(allResponse.body)
 
-            let result = DescriptorBuilder().getLayers(lang, json)
+            const layersFile = fs.readFileSync("./descriptor/layers.json", 'utf8');
+            const layersJson = JSON.parse(layersFile);
+
+            Object.keys(layersJson).forEach(key => {
+                result.push(Group.buildOwn(layersJson[key], allJson[key], lang))
+            });
 
             response.send(result);
             response.end();
@@ -30,38 +37,50 @@ module.exports = function (app) {
     Controller.own_limits = async function(request, response) {
         const { lang } = request.query;
 
-        let url = String(`${process.env.OWS_API}/map/limits?lang=${language}`)
+        const url = String(`${process.env.OWS_API}/map/layers?lang=${language}`)
+
+        const result = []
 
         try {
-            const response = await got(url);
-            
-            let json = JSON.parse(response.body)
+            const allResponse = await got(url);
+            const allJson = JSON.parse(allResponse.body)
 
-            let result = DescriptorBuilder().getLimits(lang, json)
+            const layersFile = fs.readFileSync("./descriptor/limits.json", 'utf8');
+            const layersJson = JSON.parse(layersFile);
+
+            Object.keys(layersJson).forEach(key => {
+                result.push(Group.buildOwn(layersJson[key], allJson[key], lang))
+            });
 
             response.send(result);
             response.end();
         } catch (error) {
-            console.error('[DESCRIPTOR] Error while fetching own layers.\n\n', error);
+            console.error('[DESCRIPTOR] Error while fetching own limits.\n\n', error);
         }
     }
 
     Controller.own_basemaps = async function(request, response) {
         const { lang } = request.query;
 
-        let url = String(`${process.env.OWS_API}/map/basemaps?lang=${language}`)
+        const url = String(`${process.env.OWS_API}/map/layers?lang=${language}`)
+
+        const result = []
 
         try {
-            const response = await got(url);
-            
-            let json = JSON.parse(response.body)
+            const allResponse = await got(url);
+            const allJson = JSON.parse(allResponse.body)
 
-            let result = DescriptorBuilder().getBasemaps(lang, json)
+            const layersFile = fs.readFileSync("./descriptor/basemaps.json", 'utf8');
+            const layersJson = JSON.parse(layersFile);
+
+            Object.keys(layersJson).forEach(key => {
+                result.push(Group.buildOwn(layersJson[key], allJson[key], lang))
+            });
 
             response.send(result);
             response.end();
         } catch (error) {
-            console.error('[DESCRIPTOR] Error while fetching own layers.\n\n', error);
+            console.error('[DESCRIPTOR] Error while fetching own basemaps.\n\n', error);
         }
     }
 

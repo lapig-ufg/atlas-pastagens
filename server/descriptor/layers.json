@@ -1,0 +1,175 @@
+{
+    "agropecuaria": {
+        "layers": [
+            {
+                "id": "pecuaria_censitaria",
+                "types": [
+                    "lotacao_bovina_regions",
+                    "n_kbcs_regions"
+                ]
+            },
+            {
+                "id": "floresta_plantada",
+                "types": [
+                    "floresta_plantada_mapbiomas"
+                ]
+            },
+            {
+                "id": "lavoura_mapbiomas",
+                "types": [
+                    "lavoura_perene_mapbiomas",
+                    "lavoura_temporaria_mapbiomas"
+                ]
+            }
+        ]
+    },
+    "areas_declaradas": {
+        "layers": [
+            {
+                "id": "propriedades_rurais",
+                "types": [
+                    "geo_car_imovel"
+                ]
+            },
+            {
+                "id": "reserva_legal_br_layer",
+                "types": [
+                    "reserva_legal_br"
+                ]
+            },
+            {
+                "id": "planejamento_hidrico",
+                "types": [
+                    "unidades_planejamento_hidrico"
+                ]
+            }
+        ]
+    },
+    "areas_especiais": {
+        "layers": [
+            {
+                "id": "terras_indigenas_layer",
+                "types": [
+                    "limites_terras_indigenas"
+                ]
+            },
+            {
+                "id": "assentamentos_layer",
+                "types": [
+                    "assentamentos"
+                ]
+            },
+            {
+                "id": "quilombolas_layer",
+                "types": [
+                    "areas_quilombolas"
+                ]
+            },
+            {
+                "id": "ucs_layer",
+                "types": [
+                    "pa_br_unidades_conservacao_PI",
+                    "pa_br_unidades_conservacao_US"
+                ]
+            },
+            {
+                "id": "areas_militares_br_layer",
+                "types": [
+                    "areas_militares_br"
+                ]
+            },
+            {
+                "id": "areas_publicas_nao_destinadas_br_layer",
+                "types": [
+                    "areas_publicas_nao_destinadas_br"
+                ]
+            }
+        ]
+    },
+    "campo_general": {
+        "layers": [
+            {
+                "id": "pontos_campo_goias_2022",
+                "types": ["pontos_campo_goias_2022"]
+            },
+            {
+                "id": "pontos_campo_portal_amazonia_2022",
+                "types": ["pontos_campo_portal_amazonia_2022"]
+            },
+            {
+                "id": "pontos_campo_brasil",
+                "types": ["pontos_campo_mato_grosso_2022"]
+            },
+            {
+                "id": "pontos_campo",
+                "types": ["pontos_campo_parada", "pontos_campo_sem_parada"]
+            }
+        ]
+    },
+    "imagens": {
+        "layers": [
+            {
+                "id": "satelite",
+                "types": [
+                    "planet",
+                    "sentinel"
+                ]
+            }
+        ]
+    },
+    "infraestrutura": {
+        "layers": [
+            {
+                "id": "malha_viaria_layer",
+                "types": [
+                    "pa_br_rodovias_dnit",
+                    "pa_br_estradas_osm"
+                ]
+            },
+            {
+                "id": "armazens_layer",
+                "types": [
+                    "armazens_conab_br"
+                ]
+            },
+            {
+                "id": "frigorificos_layer",
+                "types": [
+                    "limites_frigorificos_2021"
+                ]
+            }
+        ]
+    },
+    "inspecao_visual_general": {
+        "layers": [
+            {
+                "id": "mapbiomas_1985_2017",
+                "types": [
+                    "v_union_tvi_validacao_1985_2017"
+                ]
+            },
+            {
+                "id": "mapbiomas_pontos_classes_raras_85k",
+                "types": [
+                    "pontos_classes_raras_85k_mapbiomas"
+                ]
+            },
+            {
+                "id": "mapbiomas_col6_2020",
+                "types": [
+                    "pontos_validacao_pastagem_mapbiomas_col6"
+                ]
+            }
+        ]
+    },
+    "pasture_carbon_general": {
+        "layers": [
+            {
+                "id": "biomassa",
+                "types": [
+                    "pa_br_somsc_2022"
+                ]
+            }
+        ]
+    }
+}

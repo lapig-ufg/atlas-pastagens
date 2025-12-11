@@ -1,60 +1,47 @@
+const Layer = require('./Layer')
+
 const lang = require('../utils/language');
-const Layer = require('./layer')
 const Auxiliar = require('../utils/auxiliar')
 
 module.exports = class Group {
 
-    languageOb;
-    idGroup;
-    labelGroup;
-    groupExpanded;
+    id;
+    label;
     layers;
 
-    constructor(language, params, layertypes) {
-        this.languageOb = lang().getLang(language);
-
-        try {   
-            this.idGroup = params.idGroup ? params.idGroup : null
-
-            this.labelGroup = params.labelGroup == "translate" ? this.languageOb.descriptor_labels.groups[this.idGroup].labelGroup : params.labelGroup;
-
-            this.groupExpanded = params.hasOwnProperty('groupExpanded') ? params.groupExpanded : false;
-
-            if (params.hasOwnProperty('layers')) {
-                this.layers = this.getLayersArray(language, params.layers, layertypes);
-            }
-        } catch (error) {
-            console.error("ERRO no IDGROUP: ", this.idGroup)
-        }
+    constructor(id, label, layers) {
+        this.id = id;
+        this.label = label;
+        this.layers = layers;
     }
 
-    getLayersArray(language, layers, layertypes) {
-        var arr = [];
-        var temp_id = this.idGroup
+    static buildOwn(key, json, data, lang) {
+        const langObj = lang().getLang(language);
 
         try {
-            for (const [key, layer] of Object.entries(layers)) {
-                let layerInstance = new Layer(language, layer, temp_id, layertypes);
-                arr.push(layerInstance.getLayerInstance());
-            }
-        } catch (error) {
-            console.error('[GROUP] Error while creating group object.\n\n', error);
-        }
+            if (!json.hasOwnProperty('layers')) throw new Error("Objeto não possui a propriedade 'layers'");
 
-        return arr;
+            const label = langObj.descriptor_labels.groups[key].labelGroup;
+
+            const layers = json['layers'].map(layer => {
+                return new Layer.buildOwn(layer, data, lang)
+            });
+
+            return new Group(key, label, layers)
+        } catch (error) {
+            console.error("[GROUP] Erro while building group object.", error)
+        }
     }
+
+    static fromMapbiomas() {}
 
     getGroupInstance() {
-        var ob = {
-            "idGroup": this.idGroup,
-            "labelGroup": this.labelGroup,
-            "groupExpanded": this.groupExpanded,
-            "layers": this.layers
+        const obj = {
+            "id": this.id,
+            "label": this.label,
+            "layers": this.layers.map(layer => layer.getGroupInstance)
         }
 
-        ob = Auxiliar.removeNullProperties(ob)
-
-        return ob;
+        return obj;
     }
-
 }

@@ -1,0 +1,30 @@
+{
+    "limits": {
+        "types": [
+            {
+                "id": "estados",
+                "types": [
+                    "estados"
+                ]
+            },
+            {
+                "id": "municipios",
+                "types": [
+                    "municipios"
+                ]
+            },
+            {
+                "id": "biomas",
+                "types": [
+                    "biomas"
+                ]
+            },
+            {
+                "id": "limites_cartas_ibge",
+                "types": [
+                    "limites_cartas_ibge"
+                ]
+            }
+        ]
+    }
+}
