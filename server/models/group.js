@@ -1,7 +1,6 @@
 const Layer = require('./Layer')
 
 const lang = require('../utils/language');
-const Auxiliar = require('../utils/auxiliar')
 
 module.exports = class Group {
 
