@@ -1,5 +1,9 @@
 const fs = require('fs');
 
+// TODO: As traduções deveriam ser carregadas direto na env
+// ao inves de ter que ser carregada todas vez. Isso provavelmente esta gerando
+// delay na chamada de apis que precisam do arquivo.
+
 module.exports = function (app) {
     let Language = {}
 
