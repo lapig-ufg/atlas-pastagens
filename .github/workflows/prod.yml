@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,20 +24,28 @@ jobs:
             echo "$1=$2" >> $GITHUB_ENV
             echo "$1=$2" >> $GITHUB_OUTPUT
           }
+          REPO_NAME="${{ github.event.repository.name }}"
           # Defina as variáveis
           set_var "DOCKER_PATH" "prod"
-          set_var "APPLICATION_NAME" "app_atlas_new"
+          set_var "APPLICATION_NAME" "$REPO_NAME"
           set_var "LAST_COMMIT_HASH" "$(git log --pretty=format:%h -n 1)"
-        
-      - name: Create version.json
-        run: echo "{\"commitId\":\"$LAST_COMMIT_HASH\"}" > version.json
 
-      - name: Configurar Node.js
+          # Log para debug
+          echo "Repository: $REPO_NAME"
+          echo "Docker Path: prod"
+          echo "Commit Hash: $(git log --pretty=format:%h -n 1)"
+
+      - name: Create version.json
+        run: |
+          echo "{\"commitId\":\"$LAST_COMMIT_HASH\",\"repository\":\"$APPLICATION_NAME\",\"dockerPath\":\"$DOCKER_PATH\"}" > version.json
+          cat version.json
+
+      - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '22.8.0'
 
-      - name: Build Server and client
+      - name: Build Server and Client
         run: |
           npm set progress=false
           cd ${{ github.workspace }}/server && npm install
@@ -46,9 +53,14 @@ jobs:
           npm install -g @angular/cli@16.2.14
           cd ${{ github.workspace }}/client && ng build --stats-json --source-map=false --no-progress
 
-      - name: Build Docker
+      - name: Build Docker image
         run: |
-          docker build -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH} -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest  -f docker/$DOCKER_PATH/Dockerfile . --no-cache
+          docker build \
+            --build-arg GIT_COMMIT=${LAST_COMMIT_HASH} \
+            --build-arg BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ) \
+            -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH} \
+            -t lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest \
+            -f docker/$DOCKER_PATH/Dockerfile . --no-cache
 
       - name: Login to Docker Registry
         run: echo "${{ secrets.DOCKERHUB_PASS }}" | docker login -u "lapig" --password-stdin
@@ -58,23 +70,20 @@ jobs:
           docker push lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH}
           docker push lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest
 
-      - name: Remove image locally
-        run: |
-          docker rmi lapig/$APPLICATION_NAME:${DOCKER_PATH}_${LAST_COMMIT_HASH}
-          docker rmi lapig/$APPLICATION_NAME:${DOCKER_PATH}_latest
-
   deploy:
     needs: build
-    runs-on: self-hosted
-     
-    steps:
-      - name: Pull Image on Server
-        run: |
-          docker pull lapig/${{ needs.build.outputs.APPLICATION_NAME }}:${{ needs.build.outputs.DOCKER_PATH }}_latest
+    runs-on: vm1
 
+    steps:
       - name: Restart Application
         run: |
-          /compose/resetapp.sh --title "Atlas das Pastagens Produção" \
-          --github "https://github.com/${{ github.repository }}" \
-          --commit "${{ needs.build.outputs.LAST_COMMIT_HASH }}" \
-          ${{ needs.build.outputs.APPLICATION_NAME }}
+          zelador ${{ needs.build.outputs.APPLICATION_NAME }}  ${{ needs.build.outputs.DOCKER_PATH }} \
+            --title="Atlas das Pastagens"   \
+           --commit=${{ needs.build.outputs.LAST_COMMIT_HASH }} \
+           --repo=${{ github.repository }}                                              
+
+      - name: Verify deployment
+        run: |
+          echo "Deployment completed successfully"
+          echo "Application: ${{ needs.build.outputs.APPLICATION_NAME }}"
+          echo "Version: ${{ needs.build.outputs.DOCKER_PATH }}_${{ needs.build.outputs.LAST_COMMIT_HASH }}"
