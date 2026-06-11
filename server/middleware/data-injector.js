@@ -23,10 +23,15 @@ module.exports = function(app) {
         var controller = pathParts[2]
         var method = pathParts[3]
 
+        console.log(`${controller}/${method}`)
+
         if (controller in queries && method in queries[controller]) {
             var queriesOfController = queries[controller]
             var params = Internal.parseParams(request, queriesOfController)
             var methodQueries = queriesOfController[method](params)
+
+            console.log(queriesOfController)
+            console.log(methodQueries)
 
             if (typeof methodQueries == "string") {
                 methodQueries = [{

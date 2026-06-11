@@ -101,8 +101,6 @@ module.exports = function (app) {
     Query.pastureGraph = function (params) {
         var regionFilter = Internal.getRegionFilter(params['typeRegion'], params['valueRegion']);
 
-        console.log(regionFilter)
-
         return [
             {
                 source: 'lapig',
