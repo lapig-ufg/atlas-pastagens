@@ -10,9 +10,8 @@ module.exports = function (app) {
 
     const config = app.config;
 
-    if (!fs.existsSync(config.downloadDir)) {
-        fs.mkdirSync(config.downloadDir);
-    }
+    // { recursive: true } cria a pasta se não existir e ignora silenciosamente se já existir, evitando erro em restarts do container
+    fs.mkdirSync(config.downloadDir, { recursive: true });
 
     self.requestFileFromMapServer = function (url, pathFile, layerName, type, response) {
         let file = fs.createWriteStream(pathFile + ".zip");

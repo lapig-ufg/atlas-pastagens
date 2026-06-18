@@ -4,9 +4,8 @@ module.exports = function (app) {
     const multer = require('multer')
     const config = app.config;
 
-    if (!fs.existsSync(config.uploadDir)) {
-        fs.mkdirSync(config.uploadDir);
-    }
+    // { recursive: true } cria a pasta se não existir e ignora silenciosamente se já existir, evitando erro em restarts do container
+    fs.mkdirSync(config.uploadDir, { recursive: true });
 
     const upload = multer({
         dest: config.uploadDir,

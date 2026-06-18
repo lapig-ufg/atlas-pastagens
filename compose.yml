@@ -1,0 +1,22 @@
+services:
+  app:
+    #builda a imagem do docker a partir do Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    #Monta a pasta do servidor na máquina local dentro do container para refletir alterações em tempo real, e protege o node_modules do container
+    volumes:
+      - ./server:/app/server # bind mount do código
+      - /app/server/node_modules # protege o node_modules
+
+    #mapeia as portas do container para a máquina local
+    ports:
+      - "3000:3000"
+
+    #Define as variáveis de ambiente para o serviço
+    env_file:
+      - server/.env
+
+    #Reinicia o container automaticamente em caso de falha
+    restart: on-failure
