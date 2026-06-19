@@ -34,20 +34,6 @@ module.exports = function(app) {
         })
     };
 
-    Client.init_general = function(callback) {
-
-        Internal['pool-general'].connect((err, client, release) => {
-            if (err)
-                return console.error('Error acquiring client', err.stack)
-
-            Internal['client-general'] = client
-            Internal['release-general'] = release
-
-            callback()
-
-        })
-    };
-
     Client.query = function(queryObj, params, callback) {
         const start = Date.now()
 
@@ -63,7 +49,7 @@ module.exports = function(app) {
             return Internal['pool-lapig'].query(query, (err, result) => {
 
                 if (err !== null){
-                   // console.error(err)
+                   console.error('[pg_lapig] query error:', err.message)
                 }
                 else if (config['pg_lapig']['debug']) {
                     const duration = Date.now() - start
@@ -72,10 +58,10 @@ module.exports = function(app) {
             })
 
         } else if (!queryObj.hasOwnProperty('source') || queryObj.source == 'general') {
-            return Internal['client-general'].query(query, (err, result) => {
+            return Internal['pool-general'].query(query, (err, result) => {
 
                 if (err !== null) {
-                    // console.error(err)
+                    console.error('[pg_general] query error:', err.message)
                 }
                 else if (config['pg_general']['debug']) {
                     const duration = Date.now() - start

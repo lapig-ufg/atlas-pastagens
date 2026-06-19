@@ -74,9 +74,6 @@ app.database.client.init(function () {
         .into(app);
 
 
-    app.database.client.init_general(function () { });
-
-
     const httpServer = http.listen(app.config.port, function () {
         console.log('%s Server @ [port %s] [pid %s]', app.config.appName, app.config.port, process.pid.toString());
     });
